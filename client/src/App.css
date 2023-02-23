@@ -11,3 +11,45 @@
 .active {
     font-weight: bold;
 }
+
+.y {
+    background-color: green;
+}
+
+.n {
+    background-color: red;
+}
+
+.containter {
+    width: 500px;  
+    background-color: aliceblue;
+    
+}
+.title {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(210, 227, 243);
+    border-radius: 100px;
+    outline: invert;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+:root {
+    background-color: aliceblue;
+}
+
+.content {
+    display:grid;
+    justify-content: center;
+}
+
+.content input{
+    background-color: transparent;
+    user-select: none;
+    color: transparent;
+    outline: none;
+    width: 200px;
+    height: 50px;
+    transform: translateY(-20px);
+    
+    border: 0px;
+}

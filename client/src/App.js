@@ -1,5 +1,5 @@
 import './App.css'
-import {useState, useRef, useEffect} from 'react'
+import {useState, useRef } from 'react'
 import React from 'react'
 import Timer from './components/Timer.js'
 
@@ -14,27 +14,7 @@ function getWordBank ()  {
 
 
 
-function Word(props) {
-  const { text, active, correct } = props
 
-  const rerender = useRef(0)
-
-  useEffect (() => {
-    rerender.current += 1
-  })
-
-  if (correct === true) return <span className="correct">{text} </span>
-  if (correct === false) return <span className ="incorrect">{text} </span>
-  if (active) {
-    return <span style = {{ fontWeight: active ? 'bold' : 'normal'}}> {text} </span>
-  }
-  return <span>{text} </span>
-  
-}
-
-
-// eslint-disable-next-line
-Word = React.memo(Word)
 
 
 
@@ -45,6 +25,8 @@ function App() {
   const [startCounting, setStartCounting] = useState(false)
   const [correctWordArray, setCorrectWordArray] = useState([])
   const [activeWordIndex, setActiveWordIndex] = useState(0)
+  const [charIdx, setCharIdx] = useState(0)
+  const [curChar, setCurChar] = useState('')
   const wordBank = useRef(getWordBank())
 
   function Restart() {
@@ -52,7 +34,19 @@ function App() {
     setActiveWordIndex(0)
     setCorrectWordArray([])
   }
-
+  function getCharClass(i, idx, char) {
+    if (i === activeWordIndex && idx === charIdx - 1 && startCounting) {
+      console.log(char + " " + curChar)
+      if (char === curChar) {
+        console.log("good")
+        return 'y'
+      } else {
+        console.log("bad")
+        return 'n'
+      }
+    } 
+    return
+  }
   function processInput(value) {
     setStartCounting(true)
     if (value.endsWith(' ')) {
@@ -64,7 +58,8 @@ function App() {
         return
       }
       setActiveWordIndex(index => index + 1)
-      setUserInput(' ')
+      setUserInput('')
+      setCharIdx(0)
       
       
       setCorrectWordArray(data => {
@@ -75,31 +70,47 @@ function App() {
               
       })
       
+    } else if (value.endsWith()) {
     } else {
+      setCurChar(value.charAt(value.length - 1))
+      setCharIdx(charIdx => charIdx + 1)
+      
       setUserInput(value)
     }
   }
-
+  
   return (
-    <div>
-      <h1>Hacker Type</h1>
-      <Timer
-        startCounting={startCounting}
-        correctWords={correctWordArray.filter(Boolean).length}
-      />
-      <p>{wordBank.current.map((word, index) => {
-
-        return <Word 
-          text = {word}
-          active={index === activeWordIndex}
-          correct={correctWordArray[index]}
+    <div className='body'>
+      <div className = 'container'>
+        <h1 className = 'title'>Hacker Type</h1>
+        <Timer
+          startCounting={startCounting}
+          correctWords={correctWordArray.filter(Boolean).length}
         />
-      })}</p>
-      <input 
-        type="text" 
-        value={userInput} 
-        onChange ={(e) => processInput(e.target.value)}
-      />
+        <div className = "content">
+          <div>
+            {wordBank.current.map((word, i) => (
+              <>
+                
+                <span key ={i}>
+                  {word.split("").map((char, idx) => (
+                    <span className={getCharClass(i, idx, char)} key = {idx}>{char}</span>
+                  ))}  
+                </span>
+                <span> </span>
+              </>
+            ))}
+          </div>
+          <input 
+          type="text" 
+          value={userInput} 
+          spellCheck="false"
+          
+          onChange ={(e) => processInput(e.target.value)}
+        />
+        </div>
+        
+      </div>
     </div>
   );
 }
