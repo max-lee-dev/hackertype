@@ -5,7 +5,7 @@ import Timer from './components/Timer.js'
 
 
 function getWordBank ()  {
-  return 'pog poggers pogu lol haha xd'.split(' ')
+  return 'pog poggers pogu lol haha'.split(' ')
 }
 
 
@@ -36,17 +36,20 @@ function App() {
   }
   function getCharClass(i, idx, char) {
     if (i === activeWordIndex && idx === charIdx - 1 && startCounting) {
-      console.log(char + " " + curChar)
       if (char === curChar) {
-        console.log("good")
         return 'y'
       } else {
-        console.log("bad")
         return 'n'
       }
     } 
-    return
+    return 'notPressed'
   }
+
+  // function Letter(props) {
+  //   const { i, idx, char} = props
+  //   return <span></span>
+  // }
+
   function processInput(value) {
     setStartCounting(true)
     if (value.endsWith(' ')) {
@@ -79,6 +82,8 @@ function App() {
     }
   }
   
+
+
   return (
     <div className='body'>
       <div className = 'container'>
@@ -88,7 +93,7 @@ function App() {
           correctWords={correctWordArray.filter(Boolean).length}
         />
         <div className = "content">
-          <div>
+          <div className = 'text'>
             {wordBank.current.map((word, i) => (
               <>
                 
