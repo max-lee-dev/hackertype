@@ -1,11 +1,11 @@
 import './App.css'
-import {useState, useRef } from 'react'
+import {useState, useRef, useEffect} from 'react'
 import React from 'react'
 import Timer from './components/Timer.js'
 
 
 function getWordBank ()  {
-  return 'pog poggers pogu lol haha'.split(' ')
+  return 'pog poggers pogu lol haha xd'.split(' ')
 }
 
 
@@ -14,7 +14,27 @@ function getWordBank ()  {
 
 
 
+function Word(props) {
+  const { text, active, correct } = props
 
+  const rerender = useRef(0)
+
+  useEffect (() => {
+    rerender.current += 1
+  })
+
+  if (correct === true) return <span className="correct">{text} </span>
+  if (correct === false) return <span className ="incorrect">{text} </span>
+  if (active) {
+    return <span style = {{ fontWeight: active ? 'bold' : 'lighter'}}> {text} </span>
+  }
+  return <span>{text} </span>
+
+}
+
+
+// eslint-disable-next-line
+Word = React.memo(Word)
 
 
 
@@ -25,94 +45,104 @@ function App() {
   const [startCounting, setStartCounting] = useState(false)
   const [correctWordArray, setCorrectWordArray] = useState([])
   const [activeWordIndex, setActiveWordIndex] = useState(0)
-  const [charIdx, setCharIdx] = useState(0)
-  const [curChar, setCurChar] = useState('')
+  const [curCharIdx, setCurCharIdx] = useState(0)
+  const [isBackSpace, setIsBackSpace] = useState(false)
+  const [userChar, setUserChar] = useState('')
   const wordBank = useRef(getWordBank())
 
   function Restart() {
     setUserInput('')
     setActiveWordIndex(0)
+    setStartCounting(false)
+    setUserChar('')
+    setCurCharIdx(0)
     setCorrectWordArray([])
   }
-  function getCharClass(i, idx, char) {
-    if (i === activeWordIndex && idx === charIdx - 1 && startCounting) {
-      if (char === curChar) {
-        return 'y'
-      } else {
-        return 'n'
-      }
-    } 
-    return 'notPressed'
-  }
 
-  // function Letter(props) {
-  //   const { i, idx, char} = props
-  //   return <span></span>
-  // }
-
-  function processInput(value) {
+  function processInput(e) {
+    
+    setStartCounting(true)
+    setIsBackSpace(false)
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Backspace") setIsBackSpace(true)
+      else setUserChar(event.key)
+      console.log("userchar: " + userChar)
+    });
+    const value = e.target.value;
     setStartCounting(true)
     if (value.endsWith(' ')) {
       if (activeWordIndex === wordBank.current.length - 1) {
         // we're done
         setUserInput('Finished!')
-        setStartCounting(false)
+        
         Restart()
         return
       }
       setActiveWordIndex(index => index + 1)
       setUserInput('')
-      setCharIdx(0)
-      
-      
+      setCurCharIdx(0)
+
       setCorrectWordArray(data => {
         const word = value.trim()
         const newResult = [...data] 
         newResult[activeWordIndex] = word === wordBank.current[activeWordIndex]
         return newResult
-              
-      })
-      
-    } else if (value.endsWith()) {
-    } else {
-      setCurChar(value.charAt(value.length - 1))
-      setCharIdx(charIdx => charIdx + 1)
-      
-      setUserInput(value)
-    }
-  }
-  
 
+      })
+
+    } else {
+      setUserInput(value)
+      if (!isBackSpace) {
+        setCurCharIdx(curCharIdx => curCharIdx + 1)
+      } else {
+        setCurCharIdx(curCharIdx => curCharIdx - 1)
+      }
+      console.log(userChar + " " + wordBank.current[activeWordIndex].charAt(curCharIdx))
+      if ((activeWordIndex !== 0 || curCharIdx !== 0) && userChar !== wordBank.current[activeWordIndex].charAt(curCharIdx)) {
+        setCorrectWordArray(data => {
+          const newResult = [...data] 
+          newResult[activeWordIndex] = false
+          return newResult
+  
+        })
+      } else if (userChar === wordBank.current[activeWordIndex].charAt(curCharIdx)) {
+        console.log("good")
+        
+      }
+    }
+    
+  }
 
   return (
-    <div className='body'>
+    <div className = 'body'>
       <div className = 'container'>
-        <h1 className = 'title'>Hacker Type</h1>
-        <Timer
-          startCounting={startCounting}
-          correctWords={correctWordArray.filter(Boolean).length}
-        />
-        <div className = "content">
+        <div className = 'title'><h1>Hacker Type</h1></div>
+        <div className = 'content'>
+          
+          <div id = 'timer'>
+            <Timer
+              startCounting={startCounting}
+              correctWords={correctWordArray.filter(Boolean).length}
+            />
+          </div>
           <div className = 'text'>
-            {wordBank.current.map((word, i) => (
-              <>
+            <p>{wordBank.current.map((word, index) => {
+
+              return <Word 
+                text = {word}
+                active={index === activeWordIndex}
+                correct={correctWordArray[index]}
                 
-                <span key ={i}>
-                  {word.split("").map((char, idx) => (
-                    <span className={getCharClass(i, idx, char)} key = {idx}>{char}</span>
-                  ))}  
-                </span>
-                <span> </span>
-              </>
-            ))}
+              />
+            })}</p>
+            
           </div>
           <input 
-          type="text" 
-          value={userInput} 
-          spellCheck="false"
-          
-          onChange ={(e) => processInput(e.target.value)}
-        />
+              type="text" 
+              value={userInput} 
+              onChange ={(e) => processInput(e)}
+            />
+          <button onClick={() => Restart()}>Restart Test</button>
         </div>
         
       </div>
