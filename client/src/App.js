@@ -5,7 +5,7 @@ import Timer from './components/Timer.js'
 
 
 function getWordBank ()  {
-  return 'pog poggers pogu lol haha xd'.split(' ')
+  return 'The greatest glory i'.split(' ')
 }
 
 
@@ -49,7 +49,7 @@ function App() {
   const [isBackSpace, setIsBackSpace] = useState(false)
   const [userChar, setUserChar] = useState('')
   const wordBank = useRef(getWordBank())
-
+  const [finished, setFinished] = useState(false)
   function Restart() {
     setUserInput('')
     setActiveWordIndex(0)
@@ -57,7 +57,19 @@ function App() {
     setUserChar('')
     setCurCharIdx(0)
     setCorrectWordArray([])
+    setFinished(false)
+    this.input.focus()
   }
+
+  // automatically select the text box on startCounting
+  const inputElement = useRef(null);
+
+  useEffect(() => {
+    if (inputElement.current) {
+      inputElement.current.focus();
+    }
+  }, [startCounting]);
+  
 
   function processInput(e) {
     
@@ -66,18 +78,11 @@ function App() {
     document.addEventListener("keydown", (event) => {
       if (event.key === "Backspace") setIsBackSpace(true)
       else setUserChar(event.key)
-      console.log("userchar: " + userChar)
     });
     const value = e.target.value;
     setStartCounting(true)
     if (value.endsWith(' ')) {
-      if (activeWordIndex === wordBank.current.length - 1) {
-        // we're done
-        setUserInput('Finished!')
-        
-        Restart()
-        return
-      }
+      
       setActiveWordIndex(index => index + 1)
       setUserInput('')
       setCurCharIdx(0)
@@ -89,7 +94,12 @@ function App() {
         return newResult
 
       })
-
+      if (activeWordIndex === wordBank.current.length - 1) {
+        
+        // we're done        
+        setFinished(true)
+        return
+      }
     } else {
       setUserInput(value)
       if (!isBackSpace) {
@@ -97,7 +107,6 @@ function App() {
       } else {
         setCurCharIdx(curCharIdx => curCharIdx - 1)
       }
-      console.log(userChar + " " + wordBank.current[activeWordIndex].charAt(curCharIdx))
       if ((activeWordIndex !== 0 || curCharIdx !== 0) && userChar !== wordBank.current[activeWordIndex].charAt(curCharIdx)) {
         setCorrectWordArray(data => {
           const newResult = [...data] 
@@ -106,7 +115,6 @@ function App() {
   
         })
       } else if (userChar === wordBank.current[activeWordIndex].charAt(curCharIdx)) {
-        console.log("good")
         
       }
     }
@@ -122,11 +130,16 @@ function App() {
           <div id = 'timer'>
             <Timer
               startCounting={startCounting}
+              pause={finished}
               correctWords={correctWordArray.filter(Boolean).length}
+              totalWords={wordBank.current.length}
             />
+            
+
           </div>
           <div className = 'text'>
-            <p>{wordBank.current.map((word, index) => {
+
+            <p>{!finished && wordBank.current.map((word, index) => {
 
               return <Word 
                 text = {word}
@@ -137,14 +150,19 @@ function App() {
             })}</p>
             
           </div>
-          <input 
+          
+        </div>
+        <div id = "userInput"> 
+          {!finished && <input 
               type="text" 
               value={userInput} 
               onChange ={(e) => processInput(e)}
-            />
+              autoFocus
+              ref = {inputElement}
+            />}
           <button onClick={() => Restart()}>Restart Test</button>
+          <p className = "reminder">Press Tab + Enter to Restart Test</p>
         </div>
-        
       </div>
     </div>
   );

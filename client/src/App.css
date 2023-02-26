@@ -47,7 +47,7 @@
 }
 
 .content {
-    background-color: rgb(231, 244, 244);
+    background-color: rgb(211, 239, 239);
     border-radius: 10px;
     translate: 0 20px;
     width: 100%;
@@ -64,44 +64,58 @@
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-.content input{
+#userInput input{
     background-color: transparent;
     user-select: none;
     outline: none;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
-    width: 100px;
+    width: fit-content;
     height: 25px;
     background-color: rgba(0, 0, 0, 0.04);
     border-radius: 10px;
     border: 0px;
 }
 
-.content input:focus {
+#userInput input:focus {
     background-color: rgba(0, 0, 0, 0.12);
 }
 
-.content button {
+#userInput button {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     width: 100px;
     height: 25px;
-    padding: 0px 2px;
     border: 0px;
     border-radius: 10px;
-    transform: translateY(10px);
     background-color: rgb(247, 247, 227);
     
 }
 
-.content button:hover {
+#userInput button:hover {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     background-color: rgb(225, 225, 199);
     
+}
+
+#userInput {
+    padding-top: 25px;
 }
 
 
 #timer {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 30px;
+}
+
+.reminder {
+    font-style: italic;
+    color:rgba(0, 0, 0, 0.5);
+    font-size: 15px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.wpm {
+    display: flex;
+    justify-content: center;
 }
 
 
