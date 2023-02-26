@@ -5,13 +5,46 @@ import Timer from './components/Timer.js'
 
 
 function getWordBank ()  {
-  return 'The greatest glory i'.split(' ')
+  return `class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+      ListNode dummy = new ListNode(0);
+      ListNode curr = dummy;
+      int carry = 0;
+  
+      while (l1 != null || l2 != null || carry > 0) {
+        if (l1 != null) {
+          carry += l1.val;
+          l1 = l1.next;
+        }
+        if (l2 != null) {
+          carry += l2.val;
+          l2 = l2.next;
+        }
+        curr.next = new ListNode(carry % 10);
+        carry /= 10;
+        curr = curr.next;
+      }
+  
+      return dummy.next;
+    }
+  }`.split(' ')
 }
 
 
 
 
-
+// fetch(`http://localhost:8000/results`)
+//   .then(response => {return response.json()})
+//   .then(data => {
+//     data.forEach(codeInfo => {
+      
+//       codeInfo.forEach(thing => {
+//         console.log(thing.code);
+//         getWordBank(thing.code);
+//       })
+      
+//     })
+//   }).catch(err => console.log(err))
 
 
 function Word(props) {
@@ -67,12 +100,13 @@ function App() {
   useEffect(() => {
     if (inputElement.current) {
       inputElement.current.focus();
+      
     }
   }, [startCounting]);
   
 
   function processInput(e) {
-    
+    console.log(wordBank.current[activeWordIndex])
     setStartCounting(true)
     setIsBackSpace(false)
     document.addEventListener("keydown", (event) => {
@@ -124,7 +158,7 @@ function App() {
   return (
     <div className = 'body'>
       <div className = 'container'>
-        <div className = 'title'><h1>Hacker Type</h1></div>
+        <div className = 'title'><h1> some name </h1></div>
         <div className = 'content'>
           
           <div id = 'timer'>
