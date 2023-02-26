@@ -74,6 +74,7 @@
     background-color: rgba(0, 0, 0, 0.04);
     border-radius: 10px;
     border: 0px;
+    box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.19);
 }
 
 #userInput input:focus {
@@ -87,12 +88,16 @@
     border: 0px;
     border-radius: 10px;
     background-color: rgb(247, 247, 227);
+    background: rgba(255, 255, 255, 0.12);
+
+    box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.19);
+    border-radius: 15px;
     
 }
 
 #userInput button:hover {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background-color: rgb(225, 225, 199);
+    background: rgba(207, 207, 207, 0.12);
     
 }
 

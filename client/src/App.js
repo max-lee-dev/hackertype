@@ -5,29 +5,34 @@ import Timer from './components/Timer.js'
 import javaCode from './components/javaCode.json'
 
 
+
+// figure out how to get new text every reload
+
+// remove comments, when i find a // remopve that ENTIRE line not just thaT word
+
+// figure out how to make the user press return
+
 function getWordBank ()  {
   const codeArray = []
   
-  
-  
-  
-    javaCode.map(code => {
-      code.map(codeInfo => {
-        console.log(codeInfo)
+  javaCode.map(code => {
+    code.map(codeInfo => {
 
-        return (
-          codeArray.push(codeInfo.code)
-        )
-      })
-      return ('')
+      return (
+        codeArray.push(codeInfo.code)
+      )
+    })
+    return ('')
   })
-  const pickedCode = codeArray[0]
+  const randInt = (Math.floor(Math.random() * (codeArray.length)) + 1)
+  const pickedCode = codeArray[randInt]
   const codeWords = pickedCode.split(' ')
   const finalCode = []
   codeWords.map(word => {
-    word = word.replaceAll("\n", "")
-    if (word !== '') finalCode.push(word)
-    if (word.includes("\n")) console.log("huh :" + word)
+    word = word.replaceAll('\n', '')
+    const hasComment = word.includes('//')
+    if (word !== '' && !hasComment) finalCode.push(word)
+    return console.log()
   })
   
   return (
@@ -60,16 +65,17 @@ function Word(props) {
   useEffect (() => {
     rerender.current += 1
   })
-
-
+  const hasReturn = text.includes('\n')
   if (correct === true) return <span className="correct">{text} </span>
   if (correct === false) return <span className ="incorrect">{text} </span>
   if (active) {
     return <span style = {{ fontWeight: active ? 'bold' : 'lighter'}}> {text} </span>
   }
+  if (hasReturn) return <span><br/></span>
   return <span>{text} </span>
 
 }
+
 
 
 
@@ -113,7 +119,6 @@ function App() {
   
 
   function processInput(e) {
-    console.log(wordBank.current[activeWordIndex])
     setStartCounting(true)
     setIsBackSpace(false)
     document.addEventListener("keydown", (event) => {
