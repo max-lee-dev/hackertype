@@ -2,32 +2,37 @@ import './App.css'
 import {useState, useRef, useEffect} from 'react'
 import React from 'react'
 import Timer from './components/Timer.js'
+import javaCode from './components/javaCode.json'
 
 
 function getWordBank ()  {
-  return `class Solution {
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-      ListNode dummy = new ListNode(0);
-      ListNode curr = dummy;
-      int carry = 0;
+  const codeArray = []
   
-      while (l1 != null || l2 != null || carry > 0) {
-        if (l1 != null) {
-          carry += l1.val;
-          l1 = l1.next;
-        }
-        if (l2 != null) {
-          carry += l2.val;
-          l2 = l2.next;
-        }
-        curr.next = new ListNode(carry % 10);
-        carry /= 10;
-        curr = curr.next;
-      }
   
-      return dummy.next;
-    }
-  }`.split(' ')
+  
+  
+    javaCode.map(code => {
+      code.map(codeInfo => {
+        console.log(codeInfo)
+
+        return (
+          codeArray.push(codeInfo.code)
+        )
+      })
+      return ('')
+  })
+  const pickedCode = codeArray[0]
+  const codeWords = pickedCode.split(' ')
+  const finalCode = []
+  codeWords.map(word => {
+    word = word.replaceAll("\n", "")
+    if (word !== '') finalCode.push(word)
+    if (word.includes("\n")) console.log("huh :" + word)
+  })
+  
+  return (
+    finalCode
+  );
 }
 
 
@@ -56,6 +61,7 @@ function Word(props) {
     rerender.current += 1
   })
 
+
   if (correct === true) return <span className="correct">{text} </span>
   if (correct === false) return <span className ="incorrect">{text} </span>
   if (active) {
@@ -64,6 +70,7 @@ function Word(props) {
   return <span>{text} </span>
 
 }
+
 
 
 // eslint-disable-next-line
