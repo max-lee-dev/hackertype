@@ -11,6 +11,9 @@ import javaCode from './components/javaCode.json'
 // remove comments, when i find a // remopve that ENTIRE line not just thaT word
 
 // figure out how to make the user press return
+  // CLIENT SIDE: replace \n with RETURN!!!
+  // SERVER SIDE: 
+  // all of the linews that have \n are at the end. Whenever i press return, just c heck the last two characters and see if theres a
 
 function getWordBank ()  {
   const codeArray = []
@@ -29,9 +32,7 @@ function getWordBank ()  {
   const codeWords = pickedCode.split(' ')
   const finalCode = []
   codeWords.map(word => {
-    word = word.replaceAll('\n', '')
-    const hasComment = word.includes('//')
-    if (word !== '' && !hasComment) finalCode.push(word)
+    if (word !== '') finalCode.push(word)
     return console.log()
   })
   
@@ -59,20 +60,25 @@ function getWordBank ()  {
 
 function Word(props) {
   const { text, active, correct } = props
-
+  let newText = text
   const rerender = useRef(0)
 
   useEffect (() => {
     rerender.current += 1
   })
   const hasReturn = text.includes('\n')
-  if (correct === true) return <span className="correct">{text} </span>
-  if (correct === false) return <span className ="incorrect">{text} </span>
-  if (active) {
-    return <span style = {{ fontWeight: active ? 'bold' : 'lighter'}}> {text} </span>
+  if (hasReturn) {
+    newText = newText.substring(0, newText.length - 1)
+    console.log(newText + " " + newText.includes('\n'))
   }
-  if (hasReturn) return <span><br/></span>
-  return <span>{text} </span>
+  if (correct === true) return <span className="correct">{newText} </span>
+  if (correct === false) return <span className ="incorrect">{newText} </span>
+  if (active) {
+    if (hasReturn)return <span>{newText} <br/></span>
+    return <span style = {{ fontWeight: active ? 'bold' : 'lighter'}}> {newText} </span>
+  }
+  if (hasReturn)return <span>{newText} <br/></span>
+  return <span>{newText} </span>
 
 }
 
@@ -95,6 +101,8 @@ function App() {
   const [isBackSpace, setIsBackSpace] = useState(false)
   const [userChar, setUserChar] = useState('')
   const wordBank = useRef(getWordBank())
+
+  
   const [finished, setFinished] = useState(false)
   function Restart() {
     setUserInput('')
@@ -118,10 +126,26 @@ function App() {
   }, [startCounting]);
   
 
+  
   function processInput(e) {
     setStartCounting(true)
     setIsBackSpace(false)
     document.addEventListener("keydown", (event) => {
+      if (inputElement.current.type === document.activeElement.type && event.key === "Enter") {
+        if (wordBank.current[activeWordIndex].substring(wordBank.current[activeWordIndex].length - 3 === "\n")) {
+          setCorrectWordArray(data => {
+            const newResult = [...data] 
+            newResult[activeWordIndex] = true
+            return newResult
+    
+          })
+        }
+        console.log("watch")
+        setActiveWordIndex(activeWordIndex => activeWordIndex + 1)
+        setUserInput('')
+        setCurCharIdx(0)
+        
+      }
       if (event.key === "Backspace") setIsBackSpace(true)
       else setUserChar(event.key)
     });
@@ -203,6 +227,7 @@ function App() {
               type="text" 
               value={userInput} 
               onChange ={(e) => processInput(e)}
+              
               autoFocus
               ref = {inputElement}
             />}
