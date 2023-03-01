@@ -32,10 +32,10 @@ function Timer (props) {
                         setWordspm((correctWords/(timeElapsed/60) || 0).toFixed(0))
                         setDone(true)
                 }
-                
+                const acc = accuracy.toFixed(0)
                 return (
                         
-                        <p>WPM: {wordspm}<br/>Accuracy: {accuracy}%</p>
+                        <p>WPM: {wordspm}<br/>Accuracy: {acc}%</p>
                 )
         }
         

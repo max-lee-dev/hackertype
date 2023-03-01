@@ -15,31 +15,7 @@ import javaCode from './components/javaCode.json'
   // SERVER SIDE: 
   // all of the linews that have \n are at the end. Whenever i press return, just c heck the last two characters and see if theres a
 
-function getWordBank ()  {
-  const codeArray = []
-  
-  javaCode.map(code => {
-    code.map(codeInfo => {
 
-      return (
-        codeArray.push(codeInfo.code)
-      )
-    })
-    return ('')
-  })
-  const randInt = (Math.floor(Math.random() * (codeArray.length)) + 1)
-  const pickedCode = codeArray[randInt]
-  const codeWords = pickedCode.split(' ')
-  const finalCode = []
-  codeWords.map(word => {
-    if (word !== '') finalCode.push(word)
-    return console.log()
-  })
-  
-  return (
-    finalCode
-  );
-}
 
 
 
@@ -56,29 +32,46 @@ function getWordBank ()  {
       
 //     })
 //   }).catch(err => console.log(err))
-
+function countReturns(text) {
+  let count = 0,
+    i = 0;
+  while (true) {
+    const r = text.indexOf('\n', i);
+    if (r !== -1) [count, i] = [count + 1, r + 1];
+    else return count;
+  }
+}
 
 function Word(props) {
   const { text, active, correct } = props
-  let newText = text
   const rerender = useRef(0)
 
   useEffect (() => {
     rerender.current += 1
   })
   const hasReturn = text.includes('\n')
-  if (hasReturn) {
-    newText = newText.substring(0, newText.length - 1)
-    console.log(newText + " " + newText.includes('\n'))
+  
+  if (correct === true) {
+    if (active) {
+      if (hasReturn) return <span className = 'currentCorrect'> {text} <br/></span>
+      return <span className="currentCorrect">{text} </span>
+    } else {
+      if (hasReturn) return <span className="correct">{text} <br/></span>
+      return <span className="correct">{text} </span>
+    }
   }
-  if (correct === true) return <span className="correct">{newText} </span>
-  if (correct === false) return <span className ="incorrect">{newText} </span>
+  if (correct === false) {
+    if (hasReturn) return <span className="incorrect">{text} <br/></span>
+    return <span className ="incorrect">{text} </span>
+  }
+  
   if (active) {
-    if (hasReturn)return <span>{newText} <br/></span>
-    return <span style = {{ fontWeight: active ? 'bold' : 'lighter'}}> {newText} </span>
+    console.log()
+    if (hasReturn) return <span style = {{ fontWeight: active ? 'bold' : 'lighter'}}> {text} <br/></span>
+    return <span style = {{ fontWeight: active ? 'bold' : 'lighter'}}> {text} </span>
   }
-  if (hasReturn)return <span>{newText} <br/></span>
-  return <span>{newText} </span>
+  if (hasReturn)return <span>{text} <br/></span>
+  return <span>{text} </span>
 
 }
 
@@ -87,36 +80,64 @@ function Word(props) {
 
 // eslint-disable-next-line
 Word = React.memo(Word)
+function randomCode() {
+  const randInt = (Math.floor(Math.random() * (javaCode.length)) + 1)
+  let selectedCode
+  javaCode[randInt].map(code => {
+    selectedCode = code.code
+    
+    return console.log(selectedCode)
+  })
+  return selectedCode
+  
+  
+}
 
-
+function getWordBank ()  {
+  
+  
+  
+  const pickedCode = randomCode()
+  console.log(pickedCode)
+  const codeWords = pickedCode.split(' ')
+  const finalCode = []
+  codeWords.map(word => {
+    if (word !== '') finalCode.push(word)
+    return console.log()
+  })
+  
+  return (
+    finalCode
+  );
+}
 
 
 
 function App() {
+  
+  const inputElement = useRef(null);
   const [userInput, setUserInput] = useState('')
   const [startCounting, setStartCounting] = useState(false)
   const [correctWordArray, setCorrectWordArray] = useState([])
   const [activeWordIndex, setActiveWordIndex] = useState(0)
-  const [curCharIdx, setCurCharIdx] = useState(0)
-  const [isBackSpace, setIsBackSpace] = useState(false)
-  const [userChar, setUserChar] = useState('')
-  const wordBank = useRef(getWordBank())
+  const [newWordBank, setNewWordBank] = useState(getWordBank())
+  
+  const wordBank = useRef(newWordBank)
 
   
   const [finished, setFinished] = useState(false)
+
   function Restart() {
     setUserInput('')
     setActiveWordIndex(0)
     setStartCounting(false)
-    setUserChar('')
-    setCurCharIdx(0)
     setCorrectWordArray([])
     setFinished(false)
-    this.input.focus()
+    setNewWordBank(getWordBank())
   }
 
   // automatically select the text box on startCounting
-  const inputElement = useRef(null);
+  
 
   useEffect(() => {
     if (inputElement.current) {
@@ -124,38 +145,43 @@ function App() {
       
     }
   }, [startCounting]);
-  
+    document.addEventListener("keydown", (event) => {
+    // if (inputElement.current.type === document.activeElement.type && event.key === "Enter") {
+    //   console.log("second: " + activeWordIndex)
+      
+      
+    // }
 
+  });
+
+  function handleKeyDown(e) {
+    if (e.key === 'Enter' && inputElement.current.type === document.activeElement.type) {
+      if (wordBank.current[activeWordIndex].substring(wordBank.current[activeWordIndex].length - 1) === "\n") {
+        console.log("is it ")
+        setCorrectWordArray(data => {
+          const newResult = [...data] 
+          newResult[activeWordIndex] = userInput === wordBank.current[activeWordIndex].substring(0, wordBank.current[activeWordIndex].length - countReturns(wordBank.current[activeWordIndex]))
+          console.log("corr: " + wordBank.current[activeWordIndex])
+          return newResult
+  
+        })
+        
+        setUserInput('')
+        setActiveWordIndex(input => input + 1)
+      }
+    }
+  }
   
   function processInput(e) {
+    console.log(activeWordIndex)
     setStartCounting(true)
-    setIsBackSpace(false)
-    document.addEventListener("keydown", (event) => {
-      if (inputElement.current.type === document.activeElement.type && event.key === "Enter") {
-        if (wordBank.current[activeWordIndex].substring(wordBank.current[activeWordIndex].length - 3 === "\n")) {
-          setCorrectWordArray(data => {
-            const newResult = [...data] 
-            newResult[activeWordIndex] = true
-            return newResult
     
-          })
-        }
-        console.log("watch")
-        setActiveWordIndex(activeWordIndex => activeWordIndex + 1)
-        setUserInput('')
-        setCurCharIdx(0)
-        
-      }
-      if (event.key === "Backspace") setIsBackSpace(true)
-      else setUserChar(event.key)
-    });
     const value = e.target.value;
     setStartCounting(true)
     if (value.endsWith(' ')) {
       
       setActiveWordIndex(index => index + 1)
       setUserInput('')
-      setCurCharIdx(0)
 
       setCorrectWordArray(data => {
         const word = value.trim()
@@ -172,21 +198,19 @@ function App() {
       }
     } else {
       setUserInput(value)
-      if (!isBackSpace) {
-        setCurCharIdx(curCharIdx => curCharIdx + 1)
-      } else {
-        setCurCharIdx(curCharIdx => curCharIdx - 1)
-      }
-      if ((activeWordIndex !== 0 || curCharIdx !== 0) && userChar !== wordBank.current[activeWordIndex].charAt(curCharIdx)) {
-        setCorrectWordArray(data => {
-          const newResult = [...data] 
-          newResult[activeWordIndex] = false
-          return newResult
-  
-        })
-      } else if (userChar === wordBank.current[activeWordIndex].charAt(curCharIdx)) {
-        
-      }
+      
+      // if ((activeWordIndex !== 0 || curCharIdx !== 0) && value !== wordBank.current[activeWordIndex].substring(0, value.length)) {
+       
+      // }
+
+
+      // live feedback
+      setCorrectWordArray(data => {
+        const newResult = [...data]   
+        newResult[activeWordIndex] = value === wordBank.current[activeWordIndex].substring(0, value.length)
+        return newResult
+
+      })
     }
     
   }
@@ -212,6 +236,7 @@ function App() {
             <p>{!finished && wordBank.current.map((word, index) => {
 
               return <Word 
+                key ={index}
                 text = {word}
                 active={index === activeWordIndex}
                 correct={correctWordArray[index]}
@@ -227,7 +252,7 @@ function App() {
               type="text" 
               value={userInput} 
               onChange ={(e) => processInput(e)}
-              
+              onKeyDown={handleKeyDown}
               autoFocus
               ref = {inputElement}
             />}

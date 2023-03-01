@@ -1,6 +1,6 @@
 .correct {
     font-size: bold;
-    color: green;
+    color: rgb(5, 164, 5);
 }
 
 .incorrect {
@@ -12,22 +12,8 @@
     font-weight: bold;
 }
 
-.y {
-    background-color: green;
-}
 
-.n {
-    background-color: red;
-}
 
-.doing {
-    background-color: gray;
-    color: white;
-}
-
-.notPressed {
-    background-color: gray;
-}
 
 .containter {
     width: 500px;  
@@ -121,6 +107,11 @@
 .wpm {
     display: flex;
     justify-content: center;
+}
+
+.currentCorrect {
+    color: rgb(124, 197, 124);
+    font-weight: bold;
 }
 
 
