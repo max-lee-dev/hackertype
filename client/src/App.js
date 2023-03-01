@@ -3,6 +3,7 @@ import {useState, useRef, useEffect} from 'react'
 import React from 'react'
 import Timer from './components/Timer.js'
 import javaCode from './components/javaCode.json'
+import Word from './components/Word.js'
 
 
 
@@ -10,28 +11,6 @@ import javaCode from './components/javaCode.json'
 
 // remove comments, when i find a // remopve that ENTIRE line not just thaT word
 
-// figure out how to make the user press return
-  // CLIENT SIDE: replace \n with RETURN!!!
-  // SERVER SIDE: 
-  // all of the linews that have \n are at the end. Whenever i press return, just c heck the last two characters and see if theres a
-
-
-
-
-
-
-// fetch(`http://localhost:8000/results`)
-//   .then(response => {return response.json()})
-//   .then(data => {
-//     data.forEach(codeInfo => {
-      
-//       codeInfo.forEach(thing => {
-//         console.log(thing.code);
-//         getWordBank(thing.code);
-//       })
-      
-//     })
-//   }).catch(err => console.log(err))
 function countReturns(text) {
   let count = 0,
     i = 0;
@@ -41,74 +20,29 @@ function countReturns(text) {
     else return count;
   }
 }
-
-function Word(props) {
-  const { text, active, correct } = props
-  const rerender = useRef(0)
-
-  useEffect (() => {
-    rerender.current += 1
-  })
-  const hasReturn = text.includes('\n')
-  
-  if (correct === true) {
-    if (active) {
-      if (hasReturn) return <span className = 'currentCorrect'> {text} <br/></span>
-      return <span className="currentCorrect">{text} </span>
-    } else {
-      if (hasReturn) return <span className="correct">{text} <br/></span>
-      return <span className="correct">{text} </span>
-    }
-  }
-  if (correct === false) {
-    if (hasReturn) return <span className="incorrect">{text} <br/></span>
-    return <span className ="incorrect">{text} </span>
-  }
-  
-  if (active) {
-    console.log()
-    if (hasReturn) return <span style = {{ fontWeight: active ? 'bold' : 'lighter'}}> {text} <br/></span>
-    return <span style = {{ fontWeight: active ? 'bold' : 'lighter'}}> {text} </span>
-  }
-  if (hasReturn)return <span>{text} <br/></span>
-  return <span>{text} </span>
-
-}
-
-
-
-
-// eslint-disable-next-line
-Word = React.memo(Word)
 function randomCode() {
   const randInt = (Math.floor(Math.random() * (javaCode.length)) + 1)
   let selectedCode
   javaCode[randInt].map(code => {
     selectedCode = code.code
     
-    return console.log(selectedCode)
+    return ''
   })
-  return selectedCode
-  
-  
+  return selectedCode 
 }
 
-function getWordBank ()  {
-  
-  
-  
-  const pickedCode = randomCode()
-  console.log(pickedCode)
+
+
+
+
+function getWordBank (pickedCode)  {
   const codeWords = pickedCode.split(' ')
   const finalCode = []
   codeWords.map(word => {
     if (word !== '') finalCode.push(word)
     return console.log()
   })
-  
-  return (
-    finalCode
-  );
+  return finalCode
 }
 
 
@@ -120,9 +54,14 @@ function App() {
   const [startCounting, setStartCounting] = useState(false)
   const [correctWordArray, setCorrectWordArray] = useState([])
   const [activeWordIndex, setActiveWordIndex] = useState(0)
-  const [newWordBank, setNewWordBank] = useState(getWordBank())
+  const [curIdx, setCurIdx] = useState(0)
+
+  // -- this is really scuffed but its needed for the indents LMFAO
+  const [rawCode, setRawCode] = useState(randomCode())
+  const [wordBank, setNewWordBank] = useState(getWordBank(rawCode))
+  const [whiteSpace, setWhiteSpace] = useState(calculateWhitespace())
+  // --
   
-  const wordBank = useRef(newWordBank)
 
   
   const [finished, setFinished] = useState(false)
@@ -132,36 +71,75 @@ function App() {
     setActiveWordIndex(0)
     setStartCounting(false)
     setCorrectWordArray([])
+    setCurIdx(0)
     setFinished(false)
-    setNewWordBank(getWordBank())
+    setRawCode(randomCode())
+    setNewWordBank(getWordBank(rawCode))
+    setWhiteSpace(calculateWhitespace())
   }
-
-  // automatically select the text box on startCounting
-  
-
   useEffect(() => {
     if (inputElement.current) {
       inputElement.current.focus();
       
     }
   }, [startCounting]);
-    document.addEventListener("keydown", (event) => {
-    // if (inputElement.current.type === document.activeElement.type && event.key === "Enter") {
-    //   console.log("second: " + activeWordIndex)
-      
-      
-    // }
 
-  });
+  function calculateWhitespace() {
+    // for each word, first identify if it hasIndent
+    
+    const ans = []
+    const map = {}
+    wordBank.map((word, idx) => {
+      
+      if (idx === 0) return ans[idx] = 0
+      if (!wordBank[idx-1].includes('\n')) return ans[idx] = 0
+      
+      // hasIndent
+      
+      if (map[word] !== undefined) {
+        
+        let index = rawCode.indexOf(`  ${word} `) - 1
+        let space = 0
+        
+        while (rawCode.charAt(index) === ' ') {
+          
+          space++
+          index--
+        }
+        if (word === 'carry') console.log(rawCode.substring(index -5, index + 10))
+        map[word] = index + 1
+        ans[idx] = space
+        return ''
+        
+
+      } else {
+        
+        let index = rawCode.indexOf(`  ${word} `, map[word]) - 1
+        let space = 0
+        if (idx === 41) console.log(word)
+        
+        while (rawCode.charAt(index) === ' ') {
+          space++
+          index--
+        }
+        map[word] = index + 1
+        
+        ans[idx] = space
+        return ''
+      }
+
+    })
+    return ans;
+  }
 
   function handleKeyDown(e) {
     if (e.key === 'Enter' && inputElement.current.type === document.activeElement.type) {
-      if (wordBank.current[activeWordIndex].substring(wordBank.current[activeWordIndex].length - 1) === "\n") {
+      if (wordBank[activeWordIndex].substring(wordBank[activeWordIndex].length - 1) === "\n") {
         console.log("is it ")
         setCorrectWordArray(data => {
           const newResult = [...data] 
-          newResult[activeWordIndex] = userInput === wordBank.current[activeWordIndex].substring(0, wordBank.current[activeWordIndex].length - countReturns(wordBank.current[activeWordIndex]))
-          console.log("corr: " + wordBank.current[activeWordIndex])
+          newResult[activeWordIndex] = userInput === wordBank[activeWordIndex].substring(0, wordBank[activeWordIndex].length - countReturns(wordBank[activeWordIndex]))
+          console.log("corr: " + wordBank[activeWordIndex])
           return newResult
   
         })
@@ -173,7 +151,6 @@ function App() {
   }
   
   function processInput(e) {
-    console.log(activeWordIndex)
     setStartCounting(true)
     
     const value = e.target.value;
@@ -182,38 +159,34 @@ function App() {
       
       setActiveWordIndex(index => index + 1)
       setUserInput('')
-
+      setCurIdx(val => val + value.length)
       setCorrectWordArray(data => {
         const word = value.trim()
         const newResult = [...data] 
-        newResult[activeWordIndex] = word === wordBank.current[activeWordIndex]
+        newResult[activeWordIndex] = word === wordBank[activeWordIndex]
         return newResult
 
       })
-      if (activeWordIndex === wordBank.current.length - 1) {
-        
-        // we're done        
+      if (activeWordIndex === wordBank.length - 1) { 
         setFinished(true)
         return
       }
     } else {
       setUserInput(value)
       
-      // if ((activeWordIndex !== 0 || curCharIdx !== 0) && value !== wordBank.current[activeWordIndex].substring(0, value.length)) {
-       
-      // }
-
-
+  
       // live feedback
       setCorrectWordArray(data => {
         const newResult = [...data]   
-        newResult[activeWordIndex] = value === wordBank.current[activeWordIndex].substring(0, value.length)
+        newResult[activeWordIndex] = value === wordBank[activeWordIndex].substring(0, value.length)
         return newResult
 
       })
     }
     
   }
+
+  
 
   return (
     <div className = 'body'>
@@ -226,22 +199,30 @@ function App() {
               startCounting={startCounting}
               pause={finished}
               correctWords={correctWordArray.filter(Boolean).length}
-              totalWords={wordBank.current.length}
+              totalWords={wordBank.length}
             />
             
 
           </div>
           <div className = 'text'>
 
-            <p>{!finished && wordBank.current.map((word, index) => {
-
-              return <Word 
+            <p>{!finished && wordBank.map((word, index) => {
+              let s = ''
+              for (let i = 0; i < whiteSpace[index]; i++) {
+                s += '   '
+              }
+              return <span className = 'displayText'>{s}<Word 
                 key ={index}
                 text = {word}
                 active={index === activeWordIndex}
+                wordBank={wordBank}
+                rawCode={rawCode}
+                myIndex={index}
+                curIdx={curIdx}
                 correct={correctWordArray[index]}
                 
               />
+              </span>
             })}</p>
             
           </div>

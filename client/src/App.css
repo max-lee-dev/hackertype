@@ -12,6 +12,11 @@
     font-weight: bold;
 }
 
+.displayText {
+    white-space: pre;
+    user-select: none;
+}
+
 
 
 
@@ -102,6 +107,7 @@
     color:rgba(0, 0, 0, 0.5);
     font-size: 15px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    user-select: none;
 }
 
 .wpm {
@@ -111,6 +117,11 @@
 
 .currentCorrect {
     color: rgb(124, 197, 124);
+    font-weight: bold;
+}
+
+.currentIncorrect {
+    color: rgb(245, 141, 141);
     font-weight: bold;
 }
 
