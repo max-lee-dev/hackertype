@@ -26,48 +26,6 @@ function countReturns(text) {
   }
 }
 
-function randomCode() {
-  
-
-
-  // java
-  // while (javaCode[randInt] === null) {
-  //   console.log('retrieving new code.')
-  //   randInt = (Math.floor(Math.random() * (javaCode.length)) + 1)
-  // }
-  let randInt = (Math.floor(Math.random() * (testJavaCode.length)) + 1)
-  // while (javaCode[randInt] === null) {
-  //   console.log('retrieving new code.')
-  //   randInt = (Math.floor(Math.random() * (javaCode.length)) + 1)
-  // }
-
-  let selectedCode = testJavaCode[randInt];
-  console.log(selectedCode)
-
-
-
-  // javaCode[randInt].map(code => {
-  //   selectedCode = code.code
-    
-  //   return ''
-  // })
-  return selectedCode 
-
-
-  // python
-  // let randInt = (Math.floor(Math.random() * (pyCode.length)) + 1)
-  // while (pyCode[randInt] === null) {
-  //   console.log('retrieving new code.')
-  //   randInt = (Math.floor(Math.random() * (pyCode.length)) + 1)
-  // }
-  // let selectedCode
-  // pyCode[randInt].map(code => {
-  //   selectedCode = code.code
-    
-  //   return ''
-  // })
-  // return selectedCode 
-}
 
 
 
@@ -92,9 +50,28 @@ function App() {
   const [startCounting, setStartCounting] = useState(false)
   const [correctWordArray, setCorrectWordArray] = useState([])
   const [activeWordIndex, setActiveWordIndex] = useState(0)
+  const [choseWord, setChoseWord] = useState(false)
 
   // -- this is really scuffed but its needed for the indents LMFAO
-  const [rawCode, setRawCode] = useState('s')
+  function randomCode() {
+    console.log(choseWord)
+    
+    setChoseWord(true)
+    let randInt = (Math.floor(Math.random() * (3)))
+    
+    // ["a","b","c","d","e","f"]
+    const arr = ["a","b","c","d","e","f"]
+    console.log(randInt)
+    let selectedCode = arr[randInt]
+    console.log(selectedCode)
+    return selectedCode 
+  }
+  const [rawCode, setRawCode] = useState('das') // useState(randomCode) makes it call on every key press
+
+
+
+  
+  
   const [wordBank, setNewWordBank] = useState(getWordBank(rawCode))
   const [indentChars, setIndentChars] = useState(calculateIndentChars())
   const [whiteSpace, setWhiteSpace] = useState(calculateWhitespace())
@@ -105,12 +82,14 @@ function App() {
   const [finished, setFinished] = useState(false)
 
   function Restart() {
+    
     setUserInput('')
     setActiveWordIndex(0)
     setStartCounting(false)
     setCorrectWordArray([])
     setFinished(false)
-    setRawCode(randomCode())
+    setChoseWord(false)
+    console.log("post: " + rawCode)
     setNewWordBank(getWordBank(rawCode))
     setWhiteSpace(calculateWhitespace())
     setIndentChars(calculateIndentChars())
@@ -123,7 +102,8 @@ function App() {
   }, [startCounting]);
 
   function Word(props) { // if this doesnt work put it back and try using React.memo
-    
+    console.log("pre: " + rawCode)
+    setRawCode(randomCode())
     const { text, active, correct} = props
     const hasReturn = text.includes('\n')
     
@@ -247,6 +227,7 @@ function App() {
   }
   
   function processInput(e) {
+    
     setStartCounting(true)
     
     const value = e.target.value;
@@ -262,6 +243,7 @@ function App() {
 
       })
       if (activeWordIndex === wordBank.length - 1) { 
+        
         setFinished(true)
         return
       }
@@ -319,7 +301,7 @@ function App() {
                 for (let i = 0; i < whiteSpace[index]; i++) {
                   s += '    '
                 }
-                return <span className = 'displayText'>{s}<Word 
+                return <span key={index} className = 'displayText'>{s}<Word 
                   
                   text = {word}
                   active={index === activeWordIndex}
