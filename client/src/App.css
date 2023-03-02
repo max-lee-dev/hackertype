@@ -23,6 +23,7 @@
 .containter {
     width: 500px;  
     background-color: aliceblue;
+    text-align: center;
     
 }
 .title {
@@ -49,34 +50,50 @@
     justify-content: center;
 }
 
+.inputContainer {
+    
+    justify-content: space-between;
+}
+
 .text {
     border-color: black;
     font-size: 150%;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-#userInput input{
+#userInput {
+    text-align: center;
+    
+}
+
+.textInput {
     background-color: transparent;
     user-select: none;
     outline: none;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-    width: fit-content;
-    height: 25px;
-    background-color: rgba(0, 0, 0, 0.04);
+    width: 50%;
+    height: 50px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.02);
+    border-radius: 10px;
+    font-size: 30px;
     border-radius: 10px;
     border: 0px;
-    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.19);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
+.textContainer {
+    text-align: center;
+}
 #userInput input:focus {
     background-color: rgba(0, 0, 0, 0.12);
 }
 
 #userInput button {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    width: 100px;
-    height: 25px;
+    width: 200px;
+    height: 50px;
     border: 0px;
+    font-size: 25px;
     border-radius: 10px;
     background-color: rgb(247, 247, 227);
     background: rgba(255, 255, 255, 0.12);

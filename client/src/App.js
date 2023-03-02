@@ -3,7 +3,6 @@ import {useState, useRef, useEffect} from 'react'
 import React from 'react'
 import Timer from './components/Timer.js'
 import javaCode from './components/javaCode.json'
-import Word from './components/Word.js'
 
 
 
@@ -23,7 +22,7 @@ function countReturns(text) {
 function randomCode() {
   const randInt = (Math.floor(Math.random() * (javaCode.length)) + 1)
   let selectedCode
-  javaCode[randInt].map(code => {
+  javaCode[2].map(code => {
     selectedCode = code.code
     
     return ''
@@ -59,6 +58,7 @@ function App() {
   // -- this is really scuffed but its needed for the indents LMFAO
   const [rawCode, setRawCode] = useState(randomCode())
   const [wordBank, setNewWordBank] = useState(getWordBank(rawCode))
+  const [indentChars, setIndentChars] = useState(calculateIndentChars())
   const [whiteSpace, setWhiteSpace] = useState(calculateWhitespace())
   // --
   
@@ -76,6 +76,7 @@ function App() {
     setRawCode(randomCode())
     setNewWordBank(getWordBank(rawCode))
     setWhiteSpace(calculateWhitespace())
+    setIndentChars(calculateIndentChars())
   }
   useEffect(() => {
     if (inputElement.current) {
@@ -83,6 +84,64 @@ function App() {
       
     }
   }, [startCounting]);
+
+  function Word(props) { // if this doesnt work put it back and try using React.memo
+    const rerender = useRef(0)
+    useEffect (() => {
+      rerender.current += 1
+    })
+    const { text, active, correct} = props
+    const hasReturn = text.includes('\n')
+    
+    if (correct === true) {
+            if (active) {
+                    if (hasReturn) return <span className = 'currentCorrect displayText'>{text} <br/></span>
+                    return <span className="currentCorrect displayText">{text} </span>
+            } else {
+                    if (hasReturn) return <span className="correct displayText">{text} <br/></span>
+                    return <span className="correct displayText">{text} </span>
+            }
+    }
+    if (correct === false) {
+            if (active) {
+                    if (hasReturn) return <span className="currentIncorrect displayText">{text} <br/></span>
+                    return <span className ="currentIncorrect displayText">{text} </span>
+            } else {
+                    if (hasReturn) return <span className="incorrect displayText">{text} <br/></span>
+                    return <span className ="incorrect displayText">{text} </span>
+            }
+            
+    }
+
+    if (active) {
+            if (hasReturn) return <span className = "displayText" style = {{ fontWeight: active ? 'bold' : 'lighter'}}>{text} <br/></span>
+            return <span className = "displayText" style = {{ fontWeight: active ? 'bold' : 'lighter'}}>{text} </span>
+    }
+    if (hasReturn)return <span className = "displayText">{text}<br/></span>
+    return <span className = "displayText">{text} </span>
+  }
+  // eslint-disable-next-line
+  Word = React.memo(Word)
+
+  function calculateIndentChars() {
+    const ans = []
+    const characters = rawCode.split('')
+    let indent = false;
+    characters.map((char, i) => {
+      if (i === 66) console.log(char === '\n')
+      if (char === '\n') {
+        if (i === 66) console.log('wat')
+        indent = true;
+      } else if (indent && (char !== ' ' && char !== '\n')) {
+        indent = false;
+        ans[i] = 1;
+      }
+      console.log(i + " " + char + " " + ans[i])
+      return ''
+    })
+    
+    return ans
+  }
 
   function calculateWhitespace() {
     // for each word, first identify if it hasIndent
@@ -98,7 +157,12 @@ function App() {
       
       if (map[word] !== undefined) {
         
-        let index = rawCode.indexOf(`  ${word} `) - 1
+        let index = rawCode.indexOf(`${word}`)
+        while (indentChars[index] === undefined) {
+          index = rawCode.indexOf(`${word}`, index + 1)
+        }
+        index--;
+
         let space = 0
         
         while (rawCode.charAt(index) === ' ') {
@@ -106,7 +170,6 @@ function App() {
           space++
           index--
         }
-        if (word === 'carry') console.log(rawCode.substring(index -5, index + 10))
         map[word] = index + 1
         ans[idx] = space
         return ''
@@ -114,9 +177,13 @@ function App() {
 
       } else {
         
-        let index = rawCode.indexOf(`  ${word} `, map[word]) - 1
+        let index = rawCode.indexOf(`${word}`)
+        
+        while (indentChars[index] === undefined) {
+          index = rawCode.indexOf(`${word}`, index + 1)
+        }
+        index--;
         let space = 0
-        if (idx === 41) console.log(word)
         
         while (rawCode.charAt(index) === ' ') {
           space++
@@ -135,11 +202,9 @@ function App() {
   function handleKeyDown(e) {
     if (e.key === 'Enter' && inputElement.current.type === document.activeElement.type) {
       if (wordBank[activeWordIndex].substring(wordBank[activeWordIndex].length - 1) === "\n") {
-        console.log("is it ")
         setCorrectWordArray(data => {
           const newResult = [...data] 
           newResult[activeWordIndex] = userInput === wordBank[activeWordIndex].substring(0, wordBank[activeWordIndex].length - countReturns(wordBank[activeWordIndex]))
-          console.log("corr: " + wordBank[activeWordIndex])
           return newResult
   
         })
@@ -194,49 +259,52 @@ function App() {
         <div className = 'title'><h1> some name </h1></div>
         <div className = 'content'>
           
-          <div id = 'timer'>
-            <Timer
-              startCounting={startCounting}
-              pause={finished}
-              correctWords={correctWordArray.filter(Boolean).length}
-              totalWords={wordBank.length}
-            />
-            
-
-          </div>
-          <div className = 'text'>
-
-            <p>{!finished && wordBank.map((word, index) => {
-              let s = ''
-              for (let i = 0; i < whiteSpace[index]; i++) {
-                s += '   '
-              }
-              return <span className = 'displayText'>{s}<Word 
-                key ={index}
-                text = {word}
-                active={index === activeWordIndex}
-                wordBank={wordBank}
-                rawCode={rawCode}
-                myIndex={index}
-                curIdx={curIdx}
-                correct={correctWordArray[index]}
-                
+          <div className = 'inputContainer'>
+            <div id = 'timer'>
+              <Timer
+                startCounting={startCounting}
+                pause={finished}
+                correctWords={correctWordArray.filter(Boolean).length}
+                totalWords={wordBank.length}
               />
-              </span>
-            })}</p>
-            
+              
+
+            </div>
+            <div className = 'textContainer'>
+              <div>
+                {!finished && <input 
+                  className = 'textInput'
+                  type="text" 
+                  value={userInput} 
+                  onChange ={(e) => processInput(e)}
+                  onKeyDown={handleKeyDown}
+                  autoFocus
+                  ref = {inputElement}
+                />}
+              </div>
+            </div>
+            <div className = 'text'>
+
+              <p>{!finished && wordBank.map((word, index) => {
+                let s = ''
+                for (let i = 0; i < whiteSpace[index]; i++) {
+                  s += '    '
+                }
+                return <span className = 'displayText'>{s}<Word 
+                  
+                  text = {word}
+                  active={index === activeWordIndex}
+                  correct={correctWordArray[index]}
+                  
+                />
+                </span>
+              })}</p>
+              
+            </div>
           </div>
-          
         </div>
         <div id = "userInput"> 
-          {!finished && <input 
-              type="text" 
-              value={userInput} 
-              onChange ={(e) => processInput(e)}
-              onKeyDown={handleKeyDown}
-              autoFocus
-              ref = {inputElement}
-            />}
+         
           <button onClick={() => Restart()}>Restart Test</button>
           <p className = "reminder">Press Tab + Enter to Restart Test</p>
         </div>

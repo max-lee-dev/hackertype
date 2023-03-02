@@ -2,19 +2,19 @@
   [
     {
       "id": "1. Two Sum",
-      "code": "class Solution {\n  public int[] twoSum(int[] nums, int target) {\n    Map<Integer, Integer> numToIndex = new HashMap<>();\n\n    for (int i = 0; i < nums.length; ++i) {\n      if (numToIndex.containsKey(target - nums[i]))\n        return new int[] {numToIndex.get(target - nums[i]), i};\n      numToIndex.put(nums[i], i);\n    }\n\n    throw new IllegalArgumentException();\n  }\n}\n"
+      "code": "class Solution {\n  public int[] twoSum(int[] nums, int target) {\n    Map<Integer, Integer> numToIndex = new HashMap<>();\n\n    for (int i = 0; i < nums.length; ++i) {\n      if (numToIndex.containsKey(target - nums[i]))\n        return new int[] {numToIndex.get(target - nums[i]), i};\n      numToIndex.put(nums[i], i);\n    }\n\n    throw new IllegalArgumentException();\n  }\n }\n"
     }
   ],
   [
     {
       "id": "2. Add Two Numbers",
-      "code": "class Solution {\n  public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n    ListNode dummy = new ListNode(0);\n    ListNode curr = dummy;\n    int carry = 0;\n\n    while (l1 != null || l2 != null || carry > 0) {\n      if (l1 != null) {\n        carry += l1.val;\n        l1 = l1.next;\n      }\n      if (l2 != null) {\n        carry += l2.val;\n        l2 = l2.next;\n      }\n      curr.next = new ListNode(carry % 10);\n      carry /= 10;\n      curr = curr.next;\n    }\n\n    return dummy.next;\n  }\n}\n"
+      "code": "class Solution {\n  public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n    ListNode dummy = new ListNode(0);\n    ListNode curr = dummy;\n    int carry = 0;\n\n    while (l1 != null || l2 != null || carry > 0) {\n      if (l1 != null) {\n        carry += l1.val;\n        l1 = l1.next;\n      }\n      if (l2 != null) {\n        carry += l2.val;\n        l2 = l2.next;\n      }\n      curr.next = new ListNode(carry % 10);\n      carry /= 10;\n      curr = curr.next;\n    }\n\n    return dummy.next;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "3. Longest Substring Without Repeating Characters",
-      "code": "class Solution {\n  public int lengthOfLongestSubstring(String s) {\n    int ans = 0;\n    int[] count = new int[128];\n\n    for (int l = 0, r = 0; r < s.length(); ++r) {\n      ++count[s.charAt(r)];\n      while (count[s.charAt(r)] > 1)\n        --count[s.charAt(l++)];\n      ans = Math.max(ans, r - l + 1);\n    }\n\n    return ans;\n  }\n}\n"
+      "code": "class Solution {\n  public int lengthOfLongestSubstring(String s) {\n    int ans = 0;\n    int[] count = new int[128];\n\n    for (int l = 0, r = 0; r < s.length(); ++r) {\n      ++count[s.charAt(r)];\n      while (count[s.charAt(r)] > 1)\n        --count[s.charAt(l++)];\n      ans = Math.max(ans, r - l + 1);\n    }\n\n    return ans;\n  }\n }\n"
     }
   ],
   [
@@ -26,493 +26,493 @@
   [
     {
       "id": "5. Longest Palindromic Substring",
-      "code": "class Solution {\n  public String longestPalindrome(String s) {\n    if (s.isEmpty())\n      return \"\";\n\n    // [start, end] indices of the longest palindrome in s\n    int[] indices = {0, 0};\n\n    for (int i = 0; i < s.length(); ++i) {\n      int[] indices1 = extend(s, i, i);\n      if (indices1[1] - indices1[0] > indices[1] - indices[0])\n        indices = indices1;\n      if (i + 1 < s.length() && s.charAt(i) == s.charAt(i + 1)) {\n        int[] indices2 = extend(s, i, i + 1);\n        if (indices2[1] - indices2[0] > indices[1] - indices[0])\n          indices = indices2;\n      }\n    }\n\n    return s.substring(indices[0], indices[1] + 1);\n  }\n\n  // Returns [start, end] indices of the longest palindrome extended from s[i..j]\n  private int[] extend(final String s, int i, int j) {\n    for (; i >= 0 && j < s.length(); --i, ++j)\n      if (s.charAt(i) != s.charAt(j))\n        break;\n    return new int[] {i + 1, j - 1};\n  }\n}\n"
+      "code": "class Solution {\n  public String longestPalindrome(String s) {\n    if (s.isEmpty())\n      return \"\";\n\n    // [start, end] indices of the longest palindrome in s\n    int[] indices = {0, 0};\n\n    for (int i = 0; i < s.length(); ++i) {\n      int[] indices1 = extend(s, i, i);\n      if (indices1[1] - indices1[0] > indices[1] - indices[0])\n        indices = indices1;\n      if (i + 1 < s.length() && s.charAt(i) == s.charAt(i + 1)) {\n        int[] indices2 = extend(s, i, i + 1);\n        if (indices2[1] - indices2[0] > indices[1] - indices[0])\n          indices = indices2;\n      }\n    }\n\n    return s.substring(indices[0], indices[1] + 1);\n  }\n\n  // Returns [start, end] indices of the longest palindrome extended from s[i..j]\n  private int[] extend(final String s, int i, int j) {\n    for (; i >= 0 && j < s.length(); --i, ++j)\n      if (s.charAt(i) != s.charAt(j))\n        break;\n    return new int[] {i + 1, j - 1};\n  }\n }\n"
     }
   ],
   [
     {
       "id": "6. Zigzag Conversion",
-      "code": "class Solution {\n  public String convert(String s, int numRows) {\n    StringBuilder sb = new StringBuilder();\n    List<Character>[] rows = new List[numRows];\n    int k = 0;\n    int direction = numRows == 1 ? 0 : -1;\n\n    for (int i = 0; i < numRows; ++i)\n      rows[i] = new ArrayList<>();\n\n    for (final char c : s.toCharArray()) {\n      rows[k].add(c);\n      if (k == 0 || k == numRows - 1)\n        direction *= -1;\n      k += direction;\n    }\n\n    for (List<Character> row : rows)\n      for (final char c : row)\n        sb.append(c);\n\n    return sb.toString();\n  }\n}\n"
+      "code": "class Solution {\n  public String convert(String s, int numRows) {\n    StringBuilder sb = new StringBuilder();\n    List<Character>[] rows = new List[numRows];\n    int k = 0;\n    int direction = numRows == 1 ? 0 : -1;\n\n    for (int i = 0; i < numRows; ++i)\n      rows[i] = new ArrayList<>();\n\n    for (final char c : s.toCharArray()) {\n      rows[k].add(c);\n      if (k == 0 || k == numRows - 1)\n        direction *= -1;\n      k += direction;\n    }\n\n    for (List<Character> row : rows)\n      for (final char c : row)\n        sb.append(c);\n\n    return sb.toString();\n  }\n }\n"
     }
   ],
   [
     {
       "id": "7. Reverse Integer",
-      "code": "class Solution {\n  public int reverse(int x) {\n    long ans = 0;\n\n    while (x != 0) {\n      ans = ans * 10 + x % 10;\n      x /= 10;\n    }\n\n    return (ans < Integer.MIN_VALUE || ans > Integer.MAX_VALUE) ? 0 : (int) ans;\n  }\n}\n"
+      "code": "class Solution {\n  public int reverse(int x) {\n    long ans = 0;\n\n    while (x != 0) {\n      ans = ans * 10 + x % 10;\n      x /= 10;\n    }\n\n    return (ans < Integer.MIN_VALUE || ans > Integer.MAX_VALUE) ? 0 : (int) ans;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "8. String to Integer (atoi)",
-      "code": "class Solution {\n  public int myAtoi(String s) {\n    s = s.strip();\n    if (s.isEmpty())\n      return 0;\n\n    final int sign = s.charAt(0) == '-' ? -1 : 1;\n    if (s.charAt(0) == '+' || s.charAt(0) == '-')\n      s = s.substring(1);\n\n    long num = 0;\n\n    for (final char c : s.toCharArray()) {\n      if (!Character.isDigit(c))\n        break;\n      num = num * 10 + (c - '0');\n      if (sign * num <= Integer.MIN_VALUE)\n        return Integer.MIN_VALUE;\n      if (sign * num >= Integer.MAX_VALUE)\n        return Integer.MAX_VALUE;\n    }\n\n    return sign * (int) num;\n  }\n}\n"
+      "code": "class Solution {\n  public int myAtoi(String s) {\n    s = s.strip();\n    if (s.isEmpty())\n      return 0;\n\n    final int sign = s.charAt(0) == '-' ? -1 : 1;\n    if (s.charAt(0) == '+' || s.charAt(0) == '-')\n      s = s.substring(1);\n\n    long num = 0;\n\n    for (final char c : s.toCharArray()) {\n      if (!Character.isDigit(c))\n        break;\n      num = num * 10 + (c - '0');\n      if (sign * num <= Integer.MIN_VALUE)\n        return Integer.MIN_VALUE;\n      if (sign * num >= Integer.MAX_VALUE)\n        return Integer.MAX_VALUE;\n    }\n\n    return sign * (int) num;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "9. Palindrome Number",
-      "code": "class Solution {\n  public boolean isPalindrome(int x) {\n    if (x < 0)\n      return false;\n\n    long reversed = 0;\n    int y = x;\n\n    while (y > 0) {\n      reversed = reversed * 10 + y % 10;\n      y /= 10;\n    }\n\n    return reversed == x;\n  }\n}\n"
+      "code": "class Solution {\n  public boolean isPalindrome(int x) {\n    if (x < 0)\n      return false;\n\n    long reversed = 0;\n    int y = x;\n\n    while (y > 0) {\n      reversed = reversed * 10 + y % 10;\n      y /= 10;\n    }\n\n    return reversed == x;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "10. Regular Expression Matching",
-      "code": "class Solution {\n  public boolean isMatch(String s, String p) {\n    final int m = s.length();\n    final int n = p.length();\n    // dp[i][j] := true if s[0..i) matches p[0..j)\n    boolean[][] dp = new boolean[m + 1][n + 1];\n    dp[0][0] = true;\n\n    for (int j = 0; j < p.length(); ++j)\n      if (p.charAt(j) == '*' && dp[0][j - 1])\n        dp[0][j + 1] = true;\n\n    for (int i = 0; i < m; ++i)\n      for (int j = 0; j < n; ++j)\n        if (p.charAt(j) == '*') {\n          final boolean noRepeat = dp[i + 1][j - 1]; // Min index of '*' is 1\n          final boolean doRepeat = isMatch(s, i, p, j - 1) && dp[i][j + 1];\n          dp[i + 1][j + 1] = noRepeat || doRepeat;\n        } else if (isMatch(s, i, p, j)) {\n          dp[i + 1][j + 1] = dp[i][j];\n        }\n\n    return dp[m][n];\n  }\n\n  private boolean isMatch(final String s, int i, final String p, int j) {\n    return j >= 0 && p.charAt(j) == '.' || s.charAt(i) == p.charAt(j);\n  }\n}\n"
+      "code": "class Solution {\n  public boolean isMatch(String s, String p) {\n    final int m = s.length();\n    final int n = p.length();\n    // dp[i][j] := true if s[0..i) matches p[0..j)\n    boolean[][] dp = new boolean[m + 1][n + 1];\n    dp[0][0] = true;\n\n    for (int j = 0; j < p.length(); ++j)\n      if (p.charAt(j) == '*' && dp[0][j - 1])\n        dp[0][j + 1] = true;\n\n    for (int i = 0; i < m; ++i)\n      for (int j = 0; j < n; ++j)\n        if (p.charAt(j) == '*') {\n          final boolean noRepeat = dp[i + 1][j - 1]; // Min index of '*' is 1\n          final boolean doRepeat = isMatch(s, i, p, j - 1) && dp[i][j + 1];\n          dp[i + 1][j + 1] = noRepeat || doRepeat;\n        } else if (isMatch(s, i, p, j)) {\n          dp[i + 1][j + 1] = dp[i][j];\n        }\n\n    return dp[m][n];\n  }\n\n  private boolean isMatch(final String s, int i, final String p, int j) {\n    return j >= 0 && p.charAt(j) == '.' || s.charAt(i) == p.charAt(j);\n  }\n }\n"
     }
   ],
   [
     {
       "id": "11. Container With Most Water",
-      "code": "class Solution {\n  public int maxArea(int[] height) {\n    int ans = 0;\n    int l = 0;\n    int r = height.length - 1;\n\n    while (l < r) {\n      final int minHeight = Math.min(height[l], height[r]);\n      ans = Math.max(ans, minHeight * (r - l));\n      if (height[l] < height[r])\n        ++l;\n      else\n        --r;\n    }\n\n    return ans;\n  }\n}\n"
+      "code": "class Solution {\n  public int maxArea(int[] height) {\n    int ans = 0;\n    int l = 0;\n    int r = height.length - 1;\n\n    while (l < r) {\n      final int minHeight = Math.min(height[l], height[r]);\n      ans = Math.max(ans, minHeight * (r - l));\n      if (height[l] < height[r])\n        ++l;\n      else\n        --r;\n    }\n\n    return ans;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "12. Integer to Roman",
-      "code": "class Solution {\n  public String intToRoman(int num) {\n    final int[] values = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};\n    final String[] symbols = {\"M\",  \"CM\", \"D\",  \"CD\", \"C\",  \"XC\", \"L\",\n                              \"XL\", \"X\",  \"IX\", \"V\",  \"IV\", \"I\"};\n    StringBuilder sb = new StringBuilder();\n\n    for (int i = 0; i < values.length; ++i) {\n      if (num == 0)\n        break;\n      while (num >= values[i]) {\n        num -= values[i];\n        sb.append(symbols[i]);\n      }\n    }\n\n    return sb.toString();\n  }\n}\n"
+      "code": "class Solution {\n  public String intToRoman(int num) {\n    final int[] values = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};\n    final String[] symbols = {\"M\",  \"CM\", \"D\",  \"CD\", \"C\",  \"XC\", \"L\",\n                              \"XL\", \"X\",  \"IX\", \"V\",  \"IV\", \"I\"};\n    StringBuilder sb = new StringBuilder();\n\n    for (int i = 0; i < values.length; ++i) {\n      if (num == 0)\n        break;\n      while (num >= values[i]) {\n        num -= values[i];\n        sb.append(symbols[i]);\n      }\n    }\n\n    return sb.toString();\n  }\n }\n"
     }
   ],
   [
     {
       "id": "13. Roman to Integer",
-      "code": "class Solution {\n  public int romanToInt(String s) {\n    int ans = 0;\n    int[] roman = new int[128];\n\n    roman['I'] = 1;\n    roman['V'] = 5;\n    roman['X'] = 10;\n    roman['L'] = 50;\n    roman['C'] = 100;\n    roman['D'] = 500;\n    roman['M'] = 1000;\n\n    for (int i = 0; i + 1 < s.length(); ++i)\n      if (roman[s.charAt(i)] < roman[s.charAt(i + 1)])\n        ans -= roman[s.charAt(i)];\n      else\n        ans += roman[s.charAt(i)];\n\n    return ans + roman[s.charAt(s.length() - 1)];\n  }\n}\n"
+      "code": "class Solution {\n  public int romanToInt(String s) {\n    int ans = 0;\n    int[] roman = new int[128];\n\n    roman['I'] = 1;\n    roman['V'] = 5;\n    roman['X'] = 10;\n    roman['L'] = 50;\n    roman['C'] = 100;\n    roman['D'] = 500;\n    roman['M'] = 1000;\n\n    for (int i = 0; i + 1 < s.length(); ++i)\n      if (roman[s.charAt(i)] < roman[s.charAt(i + 1)])\n        ans -= roman[s.charAt(i)];\n      else\n        ans += roman[s.charAt(i)];\n\n    return ans + roman[s.charAt(s.length() - 1)];\n  }\n }\n"
     }
   ],
   [
     {
       "id": "14. Longest Common Prefix",
-      "code": "class Solution {\n  public String longestCommonPrefix(String[] strs) {\n    if (strs.length == 0)\n      return \"\";\n\n    for (int i = 0; i < strs[0].length(); ++i)\n      for (int j = 1; j < strs.length; ++j)\n        if (i == strs[j].length() || strs[j].charAt(i) != strs[0].charAt(i))\n          return strs[0].substring(0, i);\n\n    return strs[0];\n  }\n}\n"
+      "code": "class Solution {\n  public String longestCommonPrefix(String[] strs) {\n    if (strs.length == 0)\n      return \"\";\n\n    for (int i = 0; i < strs[0].length(); ++i)\n      for (int j = 1; j < strs.length; ++j)\n        if (i == strs[j].length() || strs[j].charAt(i) != strs[0].charAt(i))\n          return strs[0].substring(0, i);\n\n    return strs[0];\n  }\n }\n"
     }
   ],
   [
     {
       "id": "15. 3Sum",
-      "code": "class Solution {\n  public List<List<Integer>> threeSum(int[] nums) {\n    if (nums.length < 3)\n      return new ArrayList<>();\n\n    List<List<Integer>> ans = new ArrayList<>();\n\n    Arrays.sort(nums);\n\n    for (int i = 0; i + 2 < nums.length; ++i) {\n      if (i > 0 && nums[i] == nums[i - 1])\n        continue;\n      // Choose nums[i] as the first num in the triplet,\n      // and search the remaining nums in [i + 1, n - 1]\n      int l = i + 1;\n      int r = nums.length - 1;\n      while (l < r) {\n        final int sum = nums[i] + nums[l] + nums[r];\n        if (sum == 0) {\n          ans.add(Arrays.asList(nums[i], nums[l++], nums[r--]));\n          while (l < r && nums[l] == nums[l - 1])\n            ++l;\n          while (l < r && nums[r] == nums[r + 1])\n            --r;\n        } else if (sum < 0) {\n          ++l;\n        } else {\n          --r;\n        }\n      }\n    }\n\n    return ans;\n  }\n}\n"
+      "code": "class Solution {\n  public List<List<Integer>> threeSum(int[] nums) {\n    if (nums.length < 3)\n      return new ArrayList<>();\n\n    List<List<Integer>> ans = new ArrayList<>();\n\n    Arrays.sort(nums);\n\n    for (int i = 0; i + 2 < nums.length; ++i) {\n      if (i > 0 && nums[i] == nums[i - 1])\n        continue;\n      // Choose nums[i] as the first num in the triplet,\n      // and search the remaining nums in [i + 1, n - 1]\n      int l = i + 1;\n      int r = nums.length - 1;\n      while (l < r) {\n        final int sum = nums[i] + nums[l] + nums[r];\n        if (sum == 0) {\n          ans.add(Arrays.asList(nums[i], nums[l++], nums[r--]));\n          while (l < r && nums[l] == nums[l - 1])\n            ++l;\n          while (l < r && nums[r] == nums[r + 1])\n            --r;\n        } else if (sum < 0) {\n          ++l;\n        } else {\n          --r;\n        }\n      }\n    }\n\n    return ans;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "16. 3Sum Closest",
-      "code": "class Solution {\n  public int threeSumClosest(int[] nums, int target) {\n    int ans = nums[0] + nums[1] + nums[2];\n\n    Arrays.sort(nums);\n\n    for (int i = 0; i + 2 < nums.length; ++i) {\n      if (i > 0 && nums[i] == nums[i - 1])\n        continue;\n      // Choose nums[i] as the first num in the triplet,\n      // and search the remaining nums in [i + 1, n - 1]\n      int l = i + 1;\n      int r = nums.length - 1;\n      while (l < r) {\n        final int sum = nums[i] + nums[l] + nums[r];\n        if (sum == target)\n          return sum;\n        if (Math.abs(sum - target) < Math.abs(ans - target))\n          ans = sum;\n        if (sum < target)\n          ++l;\n        else\n          --r;\n      }\n    }\n\n    return ans;\n  }\n}\n"
+      "code": "class Solution {\n  public int threeSumClosest(int[] nums, int target) {\n    int ans = nums[0] + nums[1] + nums[2];\n\n    Arrays.sort(nums);\n\n    for (int i = 0; i + 2 < nums.length; ++i) {\n      if (i > 0 && nums[i] == nums[i - 1])\n        continue;\n      // Choose nums[i] as the first num in the triplet,\n      // and search the remaining nums in [i + 1, n - 1]\n      int l = i + 1;\n      int r = nums.length - 1;\n      while (l < r) {\n        final int sum = nums[i] + nums[l] + nums[r];\n        if (sum == target)\n          return sum;\n        if (Math.abs(sum - target) < Math.abs(ans - target))\n          ans = sum;\n        if (sum < target)\n          ++l;\n        else\n          --r;\n      }\n    }\n\n    return ans;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "17. Letter Combinations of a Phone Number",
-      "code": "class Solution {\n  public List<String> letterCombinations(String digits) {\n    if (digits.isEmpty())\n      return new ArrayList<>();\n\n    List<String> ans = new ArrayList<>();\n\n    dfs(digits, 0, new StringBuilder(), ans);\n    return ans;\n  }\n\n  private static final String[] digitToLetters = {\"\",    \"\",    \"abc\",  \"def\", \"ghi\",\n                                                  \"jkl\", \"mno\", \"pqrs\", \"tuv\", \"wxyz\"};\n\n  private void dfs(String digits, int i, StringBuilder sb, List<String> ans) {\n    if (i == digits.length()) {\n      ans.add(sb.toString());\n      return;\n    }\n\n    for (final char c : digitToLetters[digits.charAt(i) - '0'].toCharArray()) {\n      sb.append(c);\n      dfs(digits, i + 1, sb, ans);\n      sb.deleteCharAt(sb.length() - 1);\n    }\n  }\n}\n"
+      "code": "class Solution {\n  public List<String> letterCombinations(String digits) {\n    if (digits.isEmpty())\n      return new ArrayList<>();\n\n    List<String> ans = new ArrayList<>();\n\n    dfs(digits, 0, new StringBuilder(), ans);\n    return ans;\n  }\n\n  private static final String[] digitToLetters = {\"\",    \"\",    \"abc\",  \"def\", \"ghi\",\n                                                  \"jkl\", \"mno\", \"pqrs\", \"tuv\", \"wxyz\"};\n\n  private void dfs(String digits, int i, StringBuilder sb, List<String> ans) {\n    if (i == digits.length()) {\n      ans.add(sb.toString());\n      return;\n    }\n\n    for (final char c : digitToLetters[digits.charAt(i) - '0'].toCharArray()) {\n      sb.append(c);\n      dfs(digits, i + 1, sb, ans);\n      sb.deleteCharAt(sb.length() - 1);\n    }\n  }\n }\n"
     }
   ],
   [
     {
       "id": "18. 4Sum",
-      "code": "class Solution {\n  public List<List<Integer>> fourSum(int[] nums, int target) {\n    List<List<Integer>> ans = new ArrayList<>();\n\n    Arrays.sort(nums);\n    nSum(nums, 4, target, 0, nums.length - 1, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  // In [l, r], find n numbers add up to the target\n  private void nSum(int[] nums, long n, long target, int l, int r, List<Integer> path,\n                    List<List<Integer>> ans) {\n    if (r - l + 1 < n || target < nums[l] * n || target > nums[r] * n)\n      return;\n    if (n == 2) {\n      // Very simliar to the sub procedure in 15. 3Sum\n      while (l < r) {\n        final int sum = nums[l] + nums[r];\n        if (sum == target) {\n          path.add(nums[l]);\n          path.add(nums[r]);\n          ans.add(new ArrayList<>(path));\n          path.remove(path.size() - 1);\n          path.remove(path.size() - 1);\n          ++l;\n          --r;\n          while (l < r && nums[l] == nums[l - 1])\n            ++l;\n          while (l < r && nums[r] == nums[r + 1])\n            --r;\n        } else if (sum < target) {\n          ++l;\n        } else {\n          --r;\n        }\n      }\n      return;\n    }\n\n    for (int i = l; i <= r; ++i) {\n      if (i > l && nums[i] == nums[i - 1])\n        continue;\n      path.add(nums[i]);\n      nSum(nums, n - 1, target - nums[i], i + 1, r, path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n}\n"
+      "code": "class Solution {\n  public List<List<Integer>> fourSum(int[] nums, int target) {\n    List<List<Integer>> ans = new ArrayList<>();\n\n    Arrays.sort(nums);\n    nSum(nums, 4, target, 0, nums.length - 1, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  // In [l, r], find n numbers add up to the target\n  private void nSum(int[] nums, long n, long target, int l, int r, List<Integer> path,\n                    List<List<Integer>> ans) {\n    if (r - l + 1 < n || target < nums[l] * n || target > nums[r] * n)\n      return;\n    if (n == 2) {\n      // Very simliar to the sub procedure in 15. 3Sum\n      while (l < r) {\n        final int sum = nums[l] + nums[r];\n        if (sum == target) {\n          path.add(nums[l]);\n          path.add(nums[r]);\n          ans.add(new ArrayList<>(path));\n          path.remove(path.size() - 1);\n          path.remove(path.size() - 1);\n          ++l;\n          --r;\n          while (l < r && nums[l] == nums[l - 1])\n            ++l;\n          while (l < r && nums[r] == nums[r + 1])\n            --r;\n        } else if (sum < target) {\n          ++l;\n        } else {\n          --r;\n        }\n      }\n      return;\n    }\n\n    for (int i = l; i <= r; ++i) {\n      if (i > l && nums[i] == nums[i - 1])\n        continue;\n      path.add(nums[i]);\n      nSum(nums, n - 1, target - nums[i], i + 1, r, path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n }\n"
     }
   ],
   [
     {
       "id": "19. Remove Nth Node From End of List",
-      "code": "class Solution {\n  public ListNode removeNthFromEnd(ListNode head, int n) {\n    ListNode slow = head;\n    ListNode fast = head;\n\n    while (n-- > 0)\n      fast = fast.next;\n    if (fast == null)\n      return head.next;\n\n    while (fast.next != null) {\n      slow = slow.next;\n      fast = fast.next;\n    }\n    slow.next = slow.next.next;\n\n    return head;\n  }\n}\n"
+      "code": "class Solution {\n  public ListNode removeNthFromEnd(ListNode head, int n) {\n    ListNode slow = head;\n    ListNode fast = head;\n\n    while (n-- > 0)\n      fast = fast.next;\n    if (fast == null)\n      return head.next;\n\n    while (fast.next != null) {\n      slow = slow.next;\n      fast = fast.next;\n    }\n    slow.next = slow.next.next;\n\n    return head;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "20. Valid Parentheses",
-      "code": "class Solution {\n  public boolean isValid(String s) {\n    Deque<Character> stack = new ArrayDeque<>();\n\n    for (final char c : s.toCharArray())\n      if (c == '(')\n        stack.push(')');\n      else if (c == '{')\n        stack.push('}');\n      else if (c == '[')\n        stack.push(']');\n      else if (stack.isEmpty() || stack.pop() != c)\n        return false;\n\n    return stack.isEmpty();\n  }\n}\n"
+      "code": "class Solution {\n  public boolean isValid(String s) {\n    Deque<Character> stack = new ArrayDeque<>();\n\n    for (final char c : s.toCharArray())\n      if (c == '(')\n        stack.push(')');\n      else if (c == '{')\n        stack.push('}');\n      else if (c == '[')\n        stack.push(']');\n      else if (stack.isEmpty() || stack.pop() != c)\n        return false;\n\n    return stack.isEmpty();\n  }\n }\n"
     }
   ],
   [
     {
       "id": "21. Merge Two Sorted Lists",
-      "code": "class Solution {\n  public ListNode mergeTwoLists(ListNode list1, ListNode list2) {\n    if (list1 == null || list2 == null)\n      return list1 == null ? list2 : list1;\n    if (list1.val > list2.val) {\n      ListNode temp = list1;\n      list1 = list2;\n      list2 = temp;\n    }\n    list1.next = mergeTwoLists(list1.next, list2);\n    return list1;\n  }\n}\n"
+      "code": "class Solution {\n  public ListNode mergeTwoLists(ListNode list1, ListNode list2) {\n    if (list1 == null || list2 == null)\n      return list1 == null ? list2 : list1;\n    if (list1.val > list2.val) {\n      ListNode temp = list1;\n      list1 = list2;\n      list2 = temp;\n    }\n    list1.next = mergeTwoLists(list1.next, list2);\n    return list1;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "22. Generate Parentheses",
-      "code": "class Solution {\n  public List<String> generateParenthesis(int n) {\n    List<String> ans = new ArrayList<>();\n\n    dfs(n, n, new StringBuilder(), ans);\n    return ans;\n  }\n\n  private void dfs(int l, int r, final StringBuilder sb, List<String> ans) {\n    if (l == 0 && r == 0) {\n      ans.add(sb.toString());\n      return;\n    }\n\n    if (l > 0) {\n      sb.append(\"(\");\n      dfs(l - 1, r, sb, ans);\n      sb.deleteCharAt(sb.length() - 1);\n    }\n    if (l < r) {\n      sb.append(\")\");\n      dfs(l, r - 1, sb, ans);\n      sb.deleteCharAt(sb.length() - 1);\n    }\n  }\n}\n"
+      "code": "class Solution {\n  public List<String> generateParenthesis(int n) {\n    List<String> ans = new ArrayList<>();\n\n    dfs(n, n, new StringBuilder(), ans);\n    return ans;\n  }\n\n  private void dfs(int l, int r, final StringBuilder sb, List<String> ans) {\n    if (l == 0 && r == 0) {\n      ans.add(sb.toString());\n      return;\n    }\n\n    if (l > 0) {\n      sb.append(\"(\");\n      dfs(l - 1, r, sb, ans);\n      sb.deleteCharAt(sb.length() - 1);\n    }\n    if (l < r) {\n      sb.append(\")\");\n      dfs(l, r - 1, sb, ans);\n      sb.deleteCharAt(sb.length() - 1);\n    }\n  }\n }\n"
     }
   ],
   [
     {
       "id": "23. Merge k Sorted Lists",
-      "code": "class Solution {\n  public ListNode mergeKLists(ListNode[] lists) {\n    ListNode dummy = new ListNode(0);\n    ListNode curr = dummy;\n    Queue<ListNode> minHeap = new PriorityQueue<>((a, b) -> a.val - b.val);\n\n    for (final ListNode list : lists)\n      if (list != null)\n        minHeap.offer(list);\n\n    while (!minHeap.isEmpty()) {\n      ListNode minNode = minHeap.poll();\n      if (minNode.next != null)\n        minHeap.offer(minNode.next);\n      curr.next = minNode;\n      curr = curr.next;\n    }\n\n    return dummy.next;\n  }\n}\n"
+      "code": "class Solution {\n  public ListNode mergeKLists(ListNode[] lists) {\n    ListNode dummy = new ListNode(0);\n    ListNode curr = dummy;\n    Queue<ListNode> minHeap = new PriorityQueue<>((a, b) -> a.val - b.val);\n\n    for (final ListNode list : lists)\n      if (list != null)\n        minHeap.offer(list);\n\n    while (!minHeap.isEmpty()) {\n      ListNode minNode = minHeap.poll();\n      if (minNode.next != null)\n        minHeap.offer(minNode.next);\n      curr.next = minNode;\n      curr = curr.next;\n    }\n\n    return dummy.next;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "24. Swap Nodes in Pairs",
-      "code": "class Solution {\n  public ListNode swapPairs(ListNode head) {\n    final int length = getLength(head);\n    ListNode dummy = new ListNode(0, head);\n    ListNode prev = dummy;\n    ListNode curr = head;\n\n    for (int i = 0; i < length / 2; ++i) {\n      ListNode next = curr.next;\n      curr.next = next.next;\n      next.next = curr;\n      prev.next = next;\n      prev = curr;\n      curr = curr.next;\n    }\n\n    return dummy.next;\n  }\n\n  private int getLength(ListNode head) {\n    int length = 0;\n    for (ListNode curr = head; curr != null; curr = curr.next)\n      ++length;\n    return length;\n  }\n}\n"
+      "code": "class Solution {\n  public ListNode swapPairs(ListNode head) {\n    final int length = getLength(head);\n    ListNode dummy = new ListNode(0, head);\n    ListNode prev = dummy;\n    ListNode curr = head;\n\n    for (int i = 0; i < length / 2; ++i) {\n      ListNode next = curr.next;\n      curr.next = next.next;\n      next.next = curr;\n      prev.next = next;\n      prev = curr;\n      curr = curr.next;\n    }\n\n    return dummy.next;\n  }\n\n  private int getLength(ListNode head) {\n    int length = 0;\n    for (ListNode curr = head; curr != null; curr = curr.next)\n      ++length;\n    return length;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "25. Reverse Nodes in k-Group",
-      "code": "class Solution {\n  public ListNode reverseKGroup(ListNode head, int k) {\n    if (head == null)\n      return null;\n\n    ListNode tail = head;\n\n    for (int i = 0; i < k; ++i) {\n      if (tail == null) // Less than k nodes, do nothing\n        return head;\n      tail = tail.next;\n    }\n\n    ListNode newHead = reverse(head, tail);\n    head.next = reverseKGroup(tail, k);\n    return newHead;\n  }\n\n  // Reverses [head, tail)\n  private ListNode reverse(ListNode head, ListNode tail) {\n    ListNode prev = null;\n    ListNode curr = head;\n\n    while (curr != tail) {\n      ListNode next = curr.next;\n      curr.next = prev;\n      prev = curr;\n      curr = next;\n    }\n\n    return prev;\n  }\n}\n"
+      "code": "class Solution {\n  public ListNode reverseKGroup(ListNode head, int k) {\n    if (head == null)\n      return null;\n\n    ListNode tail = head;\n\n    for (int i = 0; i < k; ++i) {\n      if (tail == null) // Less than k nodes, do nothing\n        return head;\n      tail = tail.next;\n    }\n\n    ListNode newHead = reverse(head, tail);\n    head.next = reverseKGroup(tail, k);\n    return newHead;\n  }\n\n  // Reverses [head, tail)\n  private ListNode reverse(ListNode head, ListNode tail) {\n    ListNode prev = null;\n    ListNode curr = head;\n\n    while (curr != tail) {\n      ListNode next = curr.next;\n      curr.next = prev;\n      prev = curr;\n      curr = next;\n    }\n\n    return prev;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "26. Remove Duplicates from Sorted Array",
-      "code": "class Solution {\n  public int removeDuplicates(int[] nums) {\n    int i = 0;\n\n    for (final int num : nums)\n      if (i < 1 || num > nums[i - 1])\n        nums[i++] = num;\n\n    return i;\n  }\n}\n"
+      "code": "class Solution {\n  public int removeDuplicates(int[] nums) {\n    int i = 0;\n\n    for (final int num : nums)\n      if (i < 1 || num > nums[i - 1])\n        nums[i++] = num;\n\n    return i;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "27. Remove Element",
-      "code": "class Solution {\n  public int removeElement(int[] nums, int val) {\n    int i = 0;\n\n    for (final int num : nums)\n      if (num != val)\n        nums[i++] = num;\n\n    return i;\n  }\n}\n"
+      "code": "class Solution {\n  public int removeElement(int[] nums, int val) {\n    int i = 0;\n\n    for (final int num : nums)\n      if (num != val)\n        nums[i++] = num;\n\n    return i;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "28. Find the Index of the First Occurrence in a String",
-      "code": "class Solution {\n  public int strStr(String haystack, String needle) {\n    final int m = haystack.length();\n    final int n = needle.length();\n\n    for (int i = 0; i < m - n + 1; ++i)\n      if (haystack.substring(i, i + n).equals(needle))\n        return i;\n\n    return -1;\n  }\n}\n"
+      "code": "class Solution {\n  public int strStr(String haystack, String needle) {\n    final int m = haystack.length();\n    final int n = needle.length();\n\n    for (int i = 0; i < m - n + 1; ++i)\n      if (haystack.substring(i, i + n).equals(needle))\n        return i;\n\n    return -1;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "29. Divide Two Integers",
-      "code": "class Solution {\n  public int divide(long dividend, long divisor) {\n    // -2^{31} / -1 = 2^31 -> overflow so return 2^31 - 1\n    if (dividend == Integer.MIN_VALUE && divisor == -1)\n      return Integer.MAX_VALUE;\n\n    final int sign = dividend > 0 ^ divisor > 0 ? -1 : 1;\n    long ans = 0;\n    long dvd = Math.abs(dividend);\n    long dvs = Math.abs(divisor);\n\n    while (dvd >= dvs) {\n      long k = 1;\n      while (k * 2 * dvs <= dvd)\n        k *= 2;\n      dvd -= k * dvs;\n      ans += k;\n    }\n\n    return sign * (int) ans;\n  }\n}\n"
+      "code": "class Solution {\n  public int divide(long dividend, long divisor) {\n    // -2^{31} / -1 = 2^31 -> overflow so return 2^31 - 1\n    if (dividend == Integer.MIN_VALUE && divisor == -1)\n      return Integer.MAX_VALUE;\n\n    final int sign = dividend > 0 ^ divisor > 0 ? -1 : 1;\n    long ans = 0;\n    long dvd = Math.abs(dividend);\n    long dvs = Math.abs(divisor);\n\n    while (dvd >= dvs) {\n      long k = 1;\n      while (k * 2 * dvs <= dvd)\n        k *= 2;\n      dvd -= k * dvs;\n      ans += k;\n    }\n\n    return sign * (int) ans;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "30. Substring with Concatenation of All Words",
-      "code": "class Solution {\n  public List<Integer> findSubstring(String s, String[] words) {\n    if (s.isEmpty() || words.length == 0)\n      return new ArrayList<>();\n\n    final int k = words.length;\n    final int n = words[0].length();\n    List<Integer> ans = new ArrayList<>();\n    Map<String, Integer> count = new HashMap<>();\n\n    for (final String word : words)\n      count.put(word, count.getOrDefault(word, 0) + 1);\n\n    for (int i = 0; i <= s.length() - k * n; ++i) {\n      Map<String, Integer> seen = new HashMap<>();\n      int j = 0;\n      for (; j < k; ++j) {\n        final String word = s.substring(i + j * n, i + j * n + n);\n        seen.put(word, seen.getOrDefault(word, 0) + 1);\n        if (seen.get(word) > count.getOrDefault(word, 0))\n          break;\n      }\n      if (j == k)\n        ans.add(i);\n    }\n\n    return ans;\n  }\n}\n"
+      "code": "class Solution {\n  public List<Integer> findSubstring(String s, String[] words) {\n    if (s.isEmpty() || words.length == 0)\n      return new ArrayList<>();\n\n    final int k = words.length;\n    final int n = words[0].length();\n    List<Integer> ans = new ArrayList<>();\n    Map<String, Integer> count = new HashMap<>();\n\n    for (final String word : words)\n      count.put(word, count.getOrDefault(word, 0) + 1);\n\n    for (int i = 0; i <= s.length() - k * n; ++i) {\n      Map<String, Integer> seen = new HashMap<>();\n      int j = 0;\n      for (; j < k; ++j) {\n        final String word = s.substring(i + j * n, i + j * n + n);\n        seen.put(word, seen.getOrDefault(word, 0) + 1);\n        if (seen.get(word) > count.getOrDefault(word, 0))\n          break;\n      }\n      if (j == k)\n        ans.add(i);\n    }\n\n    return ans;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "31. Next Permutation",
-      "code": "class Solution {\n  public void nextPermutation(int[] nums) {\n    final int n = nums.length;\n\n    // From back to front, find the first num < nums[i + 1]\n    int i;\n    for (i = n - 2; i >= 0; --i)\n      if (nums[i] < nums[i + 1])\n        break;\n\n    // From back to front, find the first num > nums[i], swap it with nums[i]\n    if (i >= 0)\n      for (int j = n - 1; j > i; --j)\n        if (nums[j] > nums[i]) {\n          swap(nums, i, j);\n          break;\n        }\n\n    // Reverse nums[i + 1..n - 1]\n    reverse(nums, i + 1, n - 1);\n  }\n\n  private void reverse(int[] nums, int l, int r) {\n    while (l < r)\n      swap(nums, l++, r--);\n  }\n\n  private void swap(int[] nums, int i, int j) {\n    final int temp = nums[i];\n    nums[i] = nums[j];\n    nums[j] = temp;\n  }\n}\n"
+      "code": "class Solution {\n  public void nextPermutation(int[] nums) {\n    final int n = nums.length;\n\n    // From back to front, find the first num < nums[i + 1]\n    int i;\n    for (i = n - 2; i >= 0; --i)\n      if (nums[i] < nums[i + 1])\n        break;\n\n    // From back to front, find the first num > nums[i], swap it with nums[i]\n    if (i >= 0)\n      for (int j = n - 1; j > i; --j)\n        if (nums[j] > nums[i]) {\n          swap(nums, i, j);\n          break;\n        }\n\n    // Reverse nums[i + 1..n - 1]\n    reverse(nums, i + 1, n - 1);\n  }\n\n  private void reverse(int[] nums, int l, int r) {\n    while (l < r)\n      swap(nums, l++, r--);\n  }\n\n  private void swap(int[] nums, int i, int j) {\n    final int temp = nums[i];\n    nums[i] = nums[j];\n    nums[j] = temp;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "32. Longest Valid Parentheses",
-      "code": "class Solution {\n  public int longestValidParentheses(String s) {\n    final String s2 = \")\" + s;\n    // dp[i] := Length of longest valid parentheses substring of s2[1..i]\n    int dp[] = new int[s2.length()];\n\n    for (int i = 1; i < s2.length(); ++i)\n      if (s2.charAt(i) == ')' && s2.charAt(i - dp[i - 1] - 1) == '(')\n        dp[i] = dp[i - 1] + dp[i - dp[i - 1] - 2] + 2;\n\n    return Arrays.stream(dp).max().getAsInt();\n  }\n}\n"
+      "code": "class Solution {\n  public int longestValidParentheses(String s) {\n    final String s2 = \")\" + s;\n    // dp[i] := Length of longest valid parentheses substring of s2[1..i]\n    int dp[] = new int[s2.length()];\n\n    for (int i = 1; i < s2.length(); ++i)\n      if (s2.charAt(i) == ')' && s2.charAt(i - dp[i - 1] - 1) == '(')\n        dp[i] = dp[i - 1] + dp[i - dp[i - 1] - 2] + 2;\n\n    return Arrays.stream(dp).max().getAsInt();\n  }\n }\n"
     }
   ],
   [
     {
       "id": "33. Search in Rotated Sorted Array",
-      "code": "class Solution {\n  public int search(int[] nums, int target) {\n    int l = 0;\n    int r = nums.length - 1;\n\n    while (l <= r) {\n      final int m = (l + r) / 2;\n      if (nums[m] == target)\n        return m;\n      if (nums[l] <= nums[m]) { // nums[l..m] are sorted\n        if (nums[l] <= target && target < nums[m])\n          r = m - 1;\n        else\n          l = m + 1;\n      } else { // nums[m..n - 1] are sorted\n        if (nums[m] < target && target <= nums[r])\n          l = m + 1;\n        else\n          r = m - 1;\n      }\n    }\n\n    return -1;\n  }\n}\n"
+      "code": "class Solution {\n  public int search(int[] nums, int target) {\n    int l = 0;\n    int r = nums.length - 1;\n\n    while (l <= r) {\n      final int m = (l + r) / 2;\n      if (nums[m] == target)\n        return m;\n      if (nums[l] <= nums[m]) { // nums[l..m] are sorted\n        if (nums[l] <= target && target < nums[m])\n          r = m - 1;\n        else\n          l = m + 1;\n      } else { // nums[m..n - 1] are sorted\n        if (nums[m] < target && target <= nums[r])\n          l = m + 1;\n        else\n          r = m - 1;\n      }\n    }\n\n    return -1;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "34. Find First and Last Position of Element in Sorted Array",
-      "code": "class Solution {\n  public int[] searchRange(int[] nums, int target) {\n    final int l = firstGreaterEqual(nums, target);\n    if (l == nums.length || nums[l] != target)\n      return new int[] {-1, -1};\n    final int r = firstGreaterEqual(nums, target + 1) - 1;\n    return new int[] {l, r};\n  }\n\n  // Finds the first index l s.t A[l] >= target\n  // Returns A.length if can't find\n  private int firstGreaterEqual(int[] A, int target) {\n    int l = 0;\n    int r = A.length;\n    while (l < r) {\n      final int m = (l + r) / 2;\n      if (A[m] >= target)\n        r = m;\n      else\n        l = m + 1;\n    }\n    return l;\n  }\n}\n"
+      "code": "class Solution {\n  public int[] searchRange(int[] nums, int target) {\n    final int l = firstGreaterEqual(nums, target);\n    if (l == nums.length || nums[l] != target)\n      return new int[] {-1, -1};\n    final int r = firstGreaterEqual(nums, target + 1) - 1;\n    return new int[] {l, r};\n  }\n\n  // Finds the first index l s.t A[l] >= target\n  // Returns A.length if can't find\n  private int firstGreaterEqual(int[] A, int target) {\n    int l = 0;\n    int r = A.length;\n    while (l < r) {\n      final int m = (l + r) / 2;\n      if (A[m] >= target)\n        r = m;\n      else\n        l = m + 1;\n    }\n    return l;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "35. Search Insert Position",
-      "code": "class Solution {\n  public int searchInsert(int[] nums, int target) {\n    int l = 0;\n    int r = nums.length;\n\n    while (l < r) {\n      final int m = (l + r) / 2;\n      if (nums[m] == target)\n        return m;\n      if (nums[m] < target)\n        l = m + 1;\n      else\n        r = m;\n    }\n\n    return l;\n  }\n}\n"
+      "code": "class Solution {\n  public int searchInsert(int[] nums, int target) {\n    int l = 0;\n    int r = nums.length;\n\n    while (l < r) {\n      final int m = (l + r) / 2;\n      if (nums[m] == target)\n        return m;\n      if (nums[m] < target)\n        l = m + 1;\n      else\n        r = m;\n    }\n\n    return l;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "36. Valid Sudoku",
-      "code": "class Solution {\n  public boolean isValidSudoku(char[][] board) {\n    Set<String> seen = new HashSet<>();\n\n    for (int i = 0; i < 9; ++i)\n      for (int j = 0; j < 9; ++j) {\n        if (board[i][j] == '.')\n          continue;\n        final char c = board[i][j];\n        if (!seen.add(c + \"@row\" + i) ||\n            !seen.add(c + \"@col\" + j) ||\n            !seen.add(c + \"@box\" + i / 3 + j / 3))\n          return false;\n      }\n\n    return true;\n  }\n}\n"
+      "code": "class Solution {\n  public boolean isValidSudoku(char[][] board) {\n    Set<String> seen = new HashSet<>();\n\n    for (int i = 0; i < 9; ++i)\n      for (int j = 0; j < 9; ++j) {\n        if (board[i][j] == '.')\n          continue;\n        final char c = board[i][j];\n        if (!seen.add(c + \"@row\" + i) ||\n            !seen.add(c + \"@col\" + j) ||\n            !seen.add(c + \"@box\" + i / 3 + j / 3))\n          return false;\n      }\n\n    return true;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "37. Sudoku Solver",
-      "code": "class Solution {\n  public void solveSudoku(char[][] board) {\n    dfs(board, 0);\n  }\n\n  private boolean dfs(char[][] board, int s) {\n    if (s == 81)\n      return true;\n\n    final int i = s / 9;\n    final int j = s % 9;\n\n    if (board[i][j] != '.')\n      return dfs(board, s + 1);\n\n    for (char c = '1'; c <= '9'; ++c)\n      if (isValid(board, i, j, c)) {\n        board[i][j] = c;\n        if (dfs(board, s + 1))\n          return true;\n        board[i][j] = '.';\n      }\n\n    return false;\n  }\n\n  private boolean isValid(char[][] board, int row, int col, char c) {\n    for (int i = 0; i < 9; ++i)\n      if (board[i][col] == c || board[row][i] == c ||\n          board[3 * (row / 3) + i / 3][3 * (col / 3) + i % 3] == c)\n        return false;\n    return true;\n  }\n}\n"
+      "code": "class Solution {\n  public void solveSudoku(char[][] board) {\n    dfs(board, 0);\n  }\n\n  private boolean dfs(char[][] board, int s) {\n    if (s == 81)\n      return true;\n\n    final int i = s / 9;\n    final int j = s % 9;\n\n    if (board[i][j] != '.')\n      return dfs(board, s + 1);\n\n    for (char c = '1'; c <= '9'; ++c)\n      if (isValid(board, i, j, c)) {\n        board[i][j] = c;\n        if (dfs(board, s + 1))\n          return true;\n        board[i][j] = '.';\n      }\n\n    return false;\n  }\n\n  private boolean isValid(char[][] board, int row, int col, char c) {\n    for (int i = 0; i < 9; ++i)\n      if (board[i][col] == c || board[row][i] == c ||\n          board[3 * (row / 3) + i / 3][3 * (col / 3) + i % 3] == c)\n        return false;\n    return true;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "38. Count and Say",
-      "code": "class Solution {\n  public String countAndSay(int n) {\n    StringBuilder sb = new StringBuilder(\"1\");\n\n    while (--n > 0) {\n      StringBuilder next = new StringBuilder();\n      for (int i = 0; i < sb.length(); ++i) {\n        int count = 1;\n        while (i + 1 < sb.length() && sb.charAt(i) == sb.charAt(i + 1)) {\n          ++count;\n          ++i;\n        }\n        next.append(count).append(sb.charAt(i));\n      }\n      sb = next;\n    }\n\n    return sb.toString();\n  }\n}\n"
+      "code": "class Solution {\n  public String countAndSay(int n) {\n    StringBuilder sb = new StringBuilder(\"1\");\n\n    while (--n > 0) {\n      StringBuilder next = new StringBuilder();\n      for (int i = 0; i < sb.length(); ++i) {\n        int count = 1;\n        while (i + 1 < sb.length() && sb.charAt(i) == sb.charAt(i + 1)) {\n          ++count;\n          ++i;\n        }\n        next.append(count).append(sb.charAt(i));\n      }\n      sb = next;\n    }\n\n    return sb.toString();\n  }\n }\n"
     }
   ],
   [
     {
       "id": "39. Combination Sum",
-      "code": "class Solution {\n  public List<List<Integer>> combinationSum(int[] candidates, int target) {\n    List<List<Integer>> ans = new ArrayList<>();\n\n    Arrays.sort(candidates);\n    dfs(0, candidates, target, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int s, int[] candidates, int target, List<Integer> path,\n                   List<List<Integer>> ans) {\n    if (target < 0)\n      return;\n    if (target == 0) {\n      ans.add(new ArrayList<>(path));\n      return;\n    }\n\n    for (int i = s; i < candidates.length; ++i) {\n      path.add(candidates[i]);\n      dfs(i, candidates, target - candidates[i], path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n}\n"
+      "code": "class Solution {\n  public List<List<Integer>> combinationSum(int[] candidates, int target) {\n    List<List<Integer>> ans = new ArrayList<>();\n\n    Arrays.sort(candidates);\n    dfs(0, candidates, target, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int s, int[] candidates, int target, List<Integer> path,\n                   List<List<Integer>> ans) {\n    if (target < 0)\n      return;\n    if (target == 0) {\n      ans.add(new ArrayList<>(path));\n      return;\n    }\n\n    for (int i = s; i < candidates.length; ++i) {\n      path.add(candidates[i]);\n      dfs(i, candidates, target - candidates[i], path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n }\n"
     }
   ],
   [
     {
       "id": "40. Combination Sum II",
-      "code": "class Solution {\n  public List<List<Integer>> combinationSum2(int[] candidates, int target) {\n    List<List<Integer>> ans = new ArrayList<>();\n\n    Arrays.sort(candidates);\n    dfs(0, candidates, target, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int s, int[] candidates, int target, List<Integer> path,\n                   List<List<Integer>> ans) {\n    if (target < 0)\n      return;\n    if (target == 0) {\n      ans.add(new ArrayList<>(path));\n      return;\n    }\n\n    for (int i = s; i < candidates.length; ++i) {\n      if (i > s && candidates[i] == candidates[i - 1])\n        continue;\n      path.add(candidates[i]);\n      dfs(i + 1, candidates, target - candidates[i], path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n}\n"
+      "code": "class Solution {\n  public List<List<Integer>> combinationSum2(int[] candidates, int target) {\n    List<List<Integer>> ans = new ArrayList<>();\n\n    Arrays.sort(candidates);\n    dfs(0, candidates, target, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int s, int[] candidates, int target, List<Integer> path,\n                   List<List<Integer>> ans) {\n    if (target < 0)\n      return;\n    if (target == 0) {\n      ans.add(new ArrayList<>(path));\n      return;\n    }\n\n    for (int i = s; i < candidates.length; ++i) {\n      if (i > s && candidates[i] == candidates[i - 1])\n        continue;\n      path.add(candidates[i]);\n      dfs(i + 1, candidates, target - candidates[i], path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n }\n"
     }
   ],
   [
     {
       "id": "41. First Missing Positive",
-      "code": "class Solution {\n  public int firstMissingPositive(int[] nums) {\n    final int n = nums.length;\n\n    // Correct slot:\n    // nums[i] = i + 1\n    // nums[i] - 1 = i\n    // nums[nums[i] - 1] = nums[i]\n    for (int i = 0; i < n; ++i)\n      while (nums[i] > 0 && nums[i] <= n && nums[i] != nums[nums[i] - 1])\n        swap(nums, i, nums[i] - 1);\n\n    for (int i = 0; i < n; ++i)\n      if (nums[i] != i + 1)\n        return i + 1;\n\n    return n + 1;\n  }\n\n  private void swap(int[] nums, int i, int j) {\n    final int temp = nums[i];\n    nums[i] = nums[j];\n    nums[j] = temp;\n  }\n}\n"
+      "code": "class Solution {\n  public int firstMissingPositive(int[] nums) {\n    final int n = nums.length;\n\n    // Correct slot:\n    // nums[i] = i + 1\n    // nums[i] - 1 = i\n    // nums[nums[i] - 1] = nums[i]\n    for (int i = 0; i < n; ++i)\n      while (nums[i] > 0 && nums[i] <= n && nums[i] != nums[nums[i] - 1])\n        swap(nums, i, nums[i] - 1);\n\n    for (int i = 0; i < n; ++i)\n      if (nums[i] != i + 1)\n        return i + 1;\n\n    return n + 1;\n  }\n\n  private void swap(int[] nums, int i, int j) {\n    final int temp = nums[i];\n    nums[i] = nums[j];\n    nums[j] = temp;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "42. Trapping Rain Water",
-      "code": "class Solution {\n  public int trap(int[] height) {\n    final int n = height.length;\n    int ans = 0;\n    int[] l = new int[n]; // l[i] := max(height[0..i])\n    int[] r = new int[n]; // r[i] := max(height[i..n))\n\n    for (int i = 0; i < n; ++i)\n      l[i] = i == 0 ? height[i] : Math.max(height[i], l[i - 1]);\n\n    for (int i = n - 1; i >= 0; --i)\n      r[i] = i == n - 1 ? height[i] : Math.max(height[i], r[i + 1]);\n\n    for (int i = 0; i < n; ++i)\n      ans += Math.min(l[i], r[i]) - height[i];\n\n    return ans;\n  }\n}\n"
+      "code": "class Solution {\n  public int trap(int[] height) {\n    final int n = height.length;\n    int ans = 0;\n    int[] l = new int[n]; // l[i] := max(height[0..i])\n    int[] r = new int[n]; // r[i] := max(height[i..n))\n\n    for (int i = 0; i < n; ++i)\n      l[i] = i == 0 ? height[i] : Math.max(height[i], l[i - 1]);\n\n    for (int i = n - 1; i >= 0; --i)\n      r[i] = i == n - 1 ? height[i] : Math.max(height[i], r[i + 1]);\n\n    for (int i = 0; i < n; ++i)\n      ans += Math.min(l[i], r[i]) - height[i];\n\n    return ans;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "43. Multiply Strings",
-      "code": "class Solution {\n  public String multiply(String num1, String num2) {\n    final int m = num1.length();\n    final int n = num2.length();\n\n    StringBuilder sb = new StringBuilder();\n    int[] pos = new int[m + n];\n\n    for (int i = m - 1; i >= 0; --i)\n      for (int j = n - 1; j >= 0; --j) {\n        final int multiply = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');\n        final int sum = multiply + pos[i + j + 1];\n        pos[i + j] += sum / 10;\n        pos[i + j + 1] = sum % 10;\n      }\n\n    for (final int p : pos)\n      if (p > 0 || sb.length() > 0)\n        sb.append(p);\n\n    return sb.length() == 0 ? \"0\" : sb.toString();\n  }\n}\n"
+      "code": "class Solution {\n  public String multiply(String num1, String num2) {\n    final int m = num1.length();\n    final int n = num2.length();\n\n    StringBuilder sb = new StringBuilder();\n    int[] pos = new int[m + n];\n\n    for (int i = m - 1; i >= 0; --i)\n      for (int j = n - 1; j >= 0; --j) {\n        final int multiply = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');\n        final int sum = multiply + pos[i + j + 1];\n        pos[i + j] += sum / 10;\n        pos[i + j + 1] = sum % 10;\n      }\n\n    for (final int p : pos)\n      if (p > 0 || sb.length() > 0)\n        sb.append(p);\n\n    return sb.length() == 0 ? \"0\" : sb.toString();\n  }\n }\n"
     }
   ],
   [
     {
       "id": "44. Wildcard Matching",
-      "code": "class Solution {\n  public boolean isMatch(String s, String p) {\n    final int m = s.length();\n    final int n = p.length();\n    // dp[i][j] := true if s[0..i) matches p[0..j)\n    boolean[][] dp = new boolean[m + 1][n + 1];\n    dp[0][0] = true;\n\n    for (int j = 0; j < p.length(); ++j)\n      if (p.charAt(j) == '*')\n        dp[0][j + 1] = dp[0][j];\n\n    for (int i = 0; i < m; ++i)\n      for (int j = 0; j < n; ++j)\n        if (p.charAt(j) == '*') {\n          final boolean matchEmpty = dp[i + 1][j];\n          final boolean matchSome = dp[i][j + 1];\n          dp[i + 1][j + 1] = matchEmpty || matchSome;\n        } else if (isMatch(s, i, p, j)) {\n          dp[i + 1][j + 1] = dp[i][j];\n        }\n\n    return dp[m][n];\n  }\n\n  private boolean isMatch(final String s, int i, final String p, int j) {\n    return j >= 0 && p.charAt(j) == '?' || s.charAt(i) == p.charAt(j);\n  }\n}\n"
+      "code": "class Solution {\n  public boolean isMatch(String s, String p) {\n    final int m = s.length();\n    final int n = p.length();\n    // dp[i][j] := true if s[0..i) matches p[0..j)\n    boolean[][] dp = new boolean[m + 1][n + 1];\n    dp[0][0] = true;\n\n    for (int j = 0; j < p.length(); ++j)\n      if (p.charAt(j) == '*')\n        dp[0][j + 1] = dp[0][j];\n\n    for (int i = 0; i < m; ++i)\n      for (int j = 0; j < n; ++j)\n        if (p.charAt(j) == '*') {\n          final boolean matchEmpty = dp[i + 1][j];\n          final boolean matchSome = dp[i][j + 1];\n          dp[i + 1][j + 1] = matchEmpty || matchSome;\n        } else if (isMatch(s, i, p, j)) {\n          dp[i + 1][j + 1] = dp[i][j];\n        }\n\n    return dp[m][n];\n  }\n\n  private boolean isMatch(final String s, int i, final String p, int j) {\n    return j >= 0 && p.charAt(j) == '?' || s.charAt(i) == p.charAt(j);\n  }\n }\n"
     }
   ],
   [
     {
       "id": "45. Jump Game II",
-      "code": "class Solution {\n  public int jump(int[] nums) {\n    int ans = 0;\n    int end = 0;\n    int farthest = 0;\n\n    // Implicit BFS\n    for (int i = 0; i < nums.length - 1; ++i) {\n      farthest = Math.max(farthest, i + nums[i]);\n      if (farthest >= nums.length - 1) {\n        ++ans;\n        break;\n      }\n      if (i == end) {   // Visited all the items on the current level\n        ++ans;          // Increment the level\n        end = farthest; // Make the queue size for the next level\n      }\n    }\n\n    return ans;\n  }\n}\n"
+      "code": "class Solution {\n  public int jump(int[] nums) {\n    int ans = 0;\n    int end = 0;\n    int farthest = 0;\n\n    // Implicit BFS\n    for (int i = 0; i < nums.length - 1; ++i) {\n      farthest = Math.max(farthest, i + nums[i]);\n      if (farthest >= nums.length - 1) {\n        ++ans;\n        break;\n      }\n      if (i == end) {   // Visited all the items on the current level\n        ++ans;          // Increment the level\n        end = farthest; // Make the queue size for the next level\n      }\n    }\n\n    return ans;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "46. Permutations",
-      "code": "class Solution {\n  public List<List<Integer>> permute(int[] nums) {\n    List<List<Integer>> ans = new ArrayList<>();\n\n    dfs(nums, new boolean[nums.length], new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int[] nums, boolean[] used, List<Integer> path, List<List<Integer>> ans) {\n    if (path.size() == nums.length) {\n      ans.add(new ArrayList<>(path));\n      return;\n    }\n\n    for (int i = 0; i < nums.length; ++i) {\n      if (used[i])\n        continue;\n      used[i] = true;\n      path.add(nums[i]);\n      dfs(nums, used, path, ans);\n      path.remove(path.size() - 1);\n      used[i] = false;\n    }\n  }\n}\n"
+      "code": "class Solution {\n  public List<List<Integer>> permute(int[] nums) {\n    List<List<Integer>> ans = new ArrayList<>();\n\n    dfs(nums, new boolean[nums.length], new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int[] nums, boolean[] used, List<Integer> path, List<List<Integer>> ans) {\n    if (path.size() == nums.length) {\n      ans.add(new ArrayList<>(path));\n      return;\n    }\n\n    for (int i = 0; i < nums.length; ++i) {\n      if (used[i])\n        continue;\n      used[i] = true;\n      path.add(nums[i]);\n      dfs(nums, used, path, ans);\n      path.remove(path.size() - 1);\n      used[i] = false;\n    }\n  }\n }\n"
     }
   ],
   [
     {
       "id": "47. Permutations II",
-      "code": "class Solution {\n  public List<List<Integer>> permuteUnique(int[] nums) {\n    List<List<Integer>> ans = new ArrayList<>();\n    Arrays.sort(nums);\n    dfs(nums, new boolean[nums.length], new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int[] nums, boolean[] used, List<Integer> path, List<List<Integer>> ans) {\n    if (path.size() == nums.length) {\n      ans.add(new ArrayList<>(path));\n      return;\n    }\n\n    for (int i = 0; i < nums.length; ++i) {\n      if (used[i])\n        continue;\n      if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1])\n        continue;\n      used[i] = true;\n      path.add(nums[i]);\n      dfs(nums, used, path, ans);\n      path.remove(path.size() - 1);\n      used[i] = false;\n    }\n  }\n}\n"
+      "code": "class Solution {\n  public List<List<Integer>> permuteUnique(int[] nums) {\n    List<List<Integer>> ans = new ArrayList<>();\n    Arrays.sort(nums);\n    dfs(nums, new boolean[nums.length], new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int[] nums, boolean[] used, List<Integer> path, List<List<Integer>> ans) {\n    if (path.size() == nums.length) {\n      ans.add(new ArrayList<>(path));\n      return;\n    }\n\n    for (int i = 0; i < nums.length; ++i) {\n      if (used[i])\n        continue;\n      if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1])\n        continue;\n      used[i] = true;\n      path.add(nums[i]);\n      dfs(nums, used, path, ans);\n      path.remove(path.size() - 1);\n      used[i] = false;\n    }\n  }\n }\n"
     }
   ],
   [
     {
       "id": "48. Rotate Image",
-      "code": "class Solution {\n  public void rotate(int[][] matrix) {\n    for (int i = 0, j = matrix.length - 1; i < j; ++i, --j) {\n      int[] temp = matrix[i];\n      matrix[i] = matrix[j];\n      matrix[j] = temp;\n    }\n\n    for (int i = 0; i < matrix.length; ++i)\n      for (int j = i + 1; j < matrix.length; ++j) {\n        final int temp = matrix[i][j];\n        matrix[i][j] = matrix[j][i];\n        matrix[j][i] = temp;\n      }\n  }\n}\n"
+      "code": "class Solution {\n  public void rotate(int[][] matrix) {\n    for (int i = 0, j = matrix.length - 1; i < j; ++i, --j) {\n      int[] temp = matrix[i];\n      matrix[i] = matrix[j];\n      matrix[j] = temp;\n    }\n\n    for (int i = 0; i < matrix.length; ++i)\n      for (int j = i + 1; j < matrix.length; ++j) {\n        final int temp = matrix[i][j];\n        matrix[i][j] = matrix[j][i];\n        matrix[j][i] = temp;\n      }\n  }\n }\n"
     }
   ],
   [
     {
       "id": "49. Group Anagrams",
-      "code": "class Solution {\n  public List<List<String>> groupAnagrams(String[] strs) {\n    Map<String, List<String>> keyToAnagrams = new HashMap<>();\n\n    for (final String str : strs) {\n      char[] chars = str.toCharArray();\n      Arrays.sort(chars);\n      String key = String.valueOf(chars);\n      keyToAnagrams.computeIfAbsent(key, k -> new ArrayList<>()).add(str);\n    }\n\n    return new ArrayList<>(keyToAnagrams.values());\n  }\n}\n"
+      "code": "class Solution {\n  public List<List<String>> groupAnagrams(String[] strs) {\n    Map<String, List<String>> keyToAnagrams = new HashMap<>();\n\n    for (final String str : strs) {\n      char[] chars = str.toCharArray();\n      Arrays.sort(chars);\n      String key = String.valueOf(chars);\n      keyToAnagrams.computeIfAbsent(key, k -> new ArrayList<>()).add(str);\n    }\n\n    return new ArrayList<>(keyToAnagrams.values());\n  }\n }\n"
     }
   ],
   [
     {
       "id": "50. Pow(x, n)",
-      "code": "class Solution {\n  public double myPow(double x, long n) {\n    if (n == 0)\n      return 1;\n    if (n < 0)\n      return 1 / myPow(x, -n);\n    if (n % 2 == 1)\n      return x * myPow(x, n - 1);\n    return myPow(x * x, n / 2);\n  }\n}\n"
+      "code": "class Solution {\n  public double myPow(double x, long n) {\n    if (n == 0)\n      return 1;\n    if (n < 0)\n      return 1 / myPow(x, -n);\n    if (n % 2 == 1)\n      return x * myPow(x, n - 1);\n    return myPow(x * x, n / 2);\n  }\n }\n"
     }
   ],
   [
     {
       "id": "51. N-Queens",
-      "code": "class Solution {\n  public List<List<String>> solveNQueens(int n) {\n    List<List<String>> ans = new ArrayList<>();\n    char[][] board = new char[n][n];\n\n    for (int i = 0; i < n; ++i)\n      Arrays.fill(board[i], '.');\n\n    dfs(n, 0, new boolean[n], new boolean[2 * n - 1], new boolean[2 * n - 1], board, ans);\n    return ans;\n  }\n\n  private void dfs(int n, int i, boolean[] cols, boolean[] diag1, boolean[] diag2, char[][] board,\n                   List<List<String>> ans) {\n    if (i == n) {\n      ans.add(construct(board));\n      return;\n    }\n\n    for (int j = 0; j < cols.length; ++j) {\n      if (cols[j] || diag1[i + j] || diag2[j - i + n - 1])\n        continue;\n      board[i][j] = 'Q';\n      cols[j] = diag1[i + j] = diag2[j - i + n - 1] = true;\n      dfs(n, i + 1, cols, diag1, diag2, board, ans);\n      cols[j] = diag1[i + j] = diag2[j - i + n - 1] = false;\n      board[i][j] = '.';\n    }\n  }\n\n  private List<String> construct(char[][] board) {\n    List<String> listBoard = new ArrayList<>();\n    for (int i = 0; i < board.length; ++i)\n      listBoard.add(String.valueOf(board[i]));\n    return listBoard;\n  }\n}\n"
+      "code": "class Solution {\n  public List<List<String>> solveNQueens(int n) {\n    List<List<String>> ans = new ArrayList<>();\n    char[][] board = new char[n][n];\n\n    for (int i = 0; i < n; ++i)\n      Arrays.fill(board[i], '.');\n\n    dfs(n, 0, new boolean[n], new boolean[2 * n - 1], new boolean[2 * n - 1], board, ans);\n    return ans;\n  }\n\n  private void dfs(int n, int i, boolean[] cols, boolean[] diag1, boolean[] diag2, char[][] board,\n                   List<List<String>> ans) {\n    if (i == n) {\n      ans.add(construct(board));\n      return;\n    }\n\n    for (int j = 0; j < cols.length; ++j) {\n      if (cols[j] || diag1[i + j] || diag2[j - i + n - 1])\n        continue;\n      board[i][j] = 'Q';\n      cols[j] = diag1[i + j] = diag2[j - i + n - 1] = true;\n      dfs(n, i + 1, cols, diag1, diag2, board, ans);\n      cols[j] = diag1[i + j] = diag2[j - i + n - 1] = false;\n      board[i][j] = '.';\n    }\n  }\n\n  private List<String> construct(char[][] board) {\n    List<String> listBoard = new ArrayList<>();\n    for (int i = 0; i < board.length; ++i)\n      listBoard.add(String.valueOf(board[i]));\n    return listBoard;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "52. N-Queens II",
-      "code": "class Solution {\n  public int totalNQueens(int n) {\n    dfs(n, 0, new boolean[n], new boolean[2 * n - 1], new boolean[2 * n - 1]);\n    return ans;\n  }\n\n  private int ans = 0;\n\n  private void dfs(int n, int i, boolean[] cols, boolean[] diag1, boolean[] diag2) {\n    if (i == n) {\n      ++ans;\n      return;\n    }\n\n    for (int j = 0; j < cols.length; ++j) {\n      if (cols[j] || diag1[i + j] || diag2[j - i + n - 1])\n        continue;\n      cols[j] = diag1[i + j] = diag2[j - i + n - 1] = true;\n      dfs(n, i + 1, cols, diag1, diag2);\n      cols[j] = diag1[i + j] = diag2[j - i + n - 1] = false;\n    }\n  }\n}\n"
+      "code": "class Solution {\n  public int totalNQueens(int n) {\n    dfs(n, 0, new boolean[n], new boolean[2 * n - 1], new boolean[2 * n - 1]);\n    return ans;\n  }\n\n  private int ans = 0;\n\n  private void dfs(int n, int i, boolean[] cols, boolean[] diag1, boolean[] diag2) {\n    if (i == n) {\n      ++ans;\n      return;\n    }\n\n    for (int j = 0; j < cols.length; ++j) {\n      if (cols[j] || diag1[i + j] || diag2[j - i + n - 1])\n        continue;\n      cols[j] = diag1[i + j] = diag2[j - i + n - 1] = true;\n      dfs(n, i + 1, cols, diag1, diag2);\n      cols[j] = diag1[i + j] = diag2[j - i + n - 1] = false;\n    }\n  }\n }\n"
     }
   ],
   [
     {
       "id": "53. Maximum Subarray",
-      "code": "class Solution {\n  public int maxSubArray(int[] nums) {\n    // dp[i] := max sum subarray ending w/ i.\n    int[] dp = new int[nums.length];\n\n    dp[0] = nums[0];\n    for (int i = 1; i < nums.length; ++i)\n      dp[i] = Math.max(nums[i], dp[i - 1] + nums[i]);\n\n    return Arrays.stream(dp).max().getAsInt();\n  }\n}\n"
+      "code": "class Solution {\n  public int maxSubArray(int[] nums) {\n    // dp[i] := max sum subarray ending w/ i.\n    int[] dp = new int[nums.length];\n\n    dp[0] = nums[0];\n    for (int i = 1; i < nums.length; ++i)\n      dp[i] = Math.max(nums[i], dp[i - 1] + nums[i]);\n\n    return Arrays.stream(dp).max().getAsInt();\n  }\n }\n"
     }
   ],
   [
     {
       "id": "54. Spiral Matrix",
-      "code": "class Solution {\n  public List<Integer> spiralOrder(int[][] matrix) {\n    if (matrix.length == 0)\n      return new ArrayList<>();\n\n    final int m = matrix.length;\n    final int n = matrix[0].length;\n    List<Integer> ans = new ArrayList<>();\n    int r1 = 0;\n    int c1 = 0;\n    int r2 = m - 1;\n    int c2 = n - 1;\n\n    // Repeatedly add matrix[r1..r2][c1..c2] to ans\n    while (ans.size() < m * n) {\n      for (int j = c1; j <= c2 && ans.size() < m * n; ++j)\n        ans.add(matrix[r1][j]);\n      for (int i = r1 + 1; i <= r2 - 1 && ans.size() < m * n; ++i)\n        ans.add(matrix[i][c2]);\n      for (int j = c2; j >= c1 && ans.size() < m * n; --j)\n        ans.add(matrix[r2][j]);\n      for (int i = r2 - 1; i >= r1 + 1 && ans.size() < m * n; --i)\n        ans.add(matrix[i][c1]);\n      ++r1;\n      ++c1;\n      --r2;\n      --c2;\n    }\n\n    return ans;\n  }\n}\n"
+      "code": "class Solution {\n  public List<Integer> spiralOrder(int[][] matrix) {\n    if (matrix.length == 0)\n      return new ArrayList<>();\n\n    final int m = matrix.length;\n    final int n = matrix[0].length;\n    List<Integer> ans = new ArrayList<>();\n    int r1 = 0;\n    int c1 = 0;\n    int r2 = m - 1;\n    int c2 = n - 1;\n\n    // Repeatedly add matrix[r1..r2][c1..c2] to ans\n    while (ans.size() < m * n) {\n      for (int j = c1; j <= c2 && ans.size() < m * n; ++j)\n        ans.add(matrix[r1][j]);\n      for (int i = r1 + 1; i <= r2 - 1 && ans.size() < m * n; ++i)\n        ans.add(matrix[i][c2]);\n      for (int j = c2; j >= c1 && ans.size() < m * n; --j)\n        ans.add(matrix[r2][j]);\n      for (int i = r2 - 1; i >= r1 + 1 && ans.size() < m * n; --i)\n        ans.add(matrix[i][c1]);\n      ++r1;\n      ++c1;\n      --r2;\n      --c2;\n    }\n\n    return ans;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "55. Jump Game",
-      "code": "class Solution {\n  public boolean canJump(int[] nums) {\n    int i = 0;\n\n    for (int reach = 0; i < nums.length && i <= reach; ++i)\n      reach = Math.max(reach, i + nums[i]);\n\n    return i == nums.length;\n  }\n}\n"
+      "code": "class Solution {\n  public boolean canJump(int[] nums) {\n    int i = 0;\n\n    for (int reach = 0; i < nums.length && i <= reach; ++i)\n      reach = Math.max(reach, i + nums[i]);\n\n    return i == nums.length;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "56. Merge Intervals",
-      "code": "class Solution {\n  public int[][] merge(int[][] intervals) {\n    List<int[]> ans = new ArrayList<>();\n\n    Arrays.sort(intervals, (a, b) -> (a[0] - b[0]));\n\n    for (int[] interval : intervals)\n      if (ans.isEmpty() || ans.get(ans.size() - 1)[1] < interval[0])\n        ans.add(interval);\n      else\n        ans.get(ans.size() - 1)[1] = Math.max(ans.get(ans.size() - 1)[1], interval[1]);\n\n    return ans.stream().toArray(int[][] ::new);\n  }\n}\n"
+      "code": "class Solution {\n  public int[][] merge(int[][] intervals) {\n    List<int[]> ans = new ArrayList<>();\n\n    Arrays.sort(intervals, (a, b) -> (a[0] - b[0]));\n\n    for (int[] interval : intervals)\n      if (ans.isEmpty() || ans.get(ans.size() - 1)[1] < interval[0])\n        ans.add(interval);\n      else\n        ans.get(ans.size() - 1)[1] = Math.max(ans.get(ans.size() - 1)[1], interval[1]);\n\n    return ans.stream().toArray(int[][] ::new);\n  }\n }\n"
     }
   ],
   [
     {
       "id": "57. Insert Interval",
-      "code": "class Solution {\n  public int[][] insert(int[][] intervals, int[] newInterval) {\n    final int n = intervals.length;\n    List<int[]> ans = new ArrayList<>();\n    int i = 0;\n\n    while (i < n && intervals[i][1] < newInterval[0])\n      ans.add(intervals[i++]);\n\n    while (i < n && intervals[i][0] <= newInterval[1]) {\n      newInterval[0] = Math.min(newInterval[0], intervals[i][0]);\n      newInterval[1] = Math.max(newInterval[1], intervals[i][1]);\n      ++i;\n    }\n\n    ans.add(newInterval);\n\n    while (i < n)\n      ans.add(intervals[i++]);\n\n    return ans.stream().toArray(int[][] ::new);\n  }\n}\n"
+      "code": "class Solution {\n  public int[][] insert(int[][] intervals, int[] newInterval) {\n    final int n = intervals.length;\n    List<int[]> ans = new ArrayList<>();\n    int i = 0;\n\n    while (i < n && intervals[i][1] < newInterval[0])\n      ans.add(intervals[i++]);\n\n    while (i < n && intervals[i][0] <= newInterval[1]) {\n      newInterval[0] = Math.min(newInterval[0], intervals[i][0]);\n      newInterval[1] = Math.max(newInterval[1], intervals[i][1]);\n      ++i;\n    }\n\n    ans.add(newInterval);\n\n    while (i < n)\n      ans.add(intervals[i++]);\n\n    return ans.stream().toArray(int[][] ::new);\n  }\n }\n"
     }
   ],
   [
     {
       "id": "58. Length of Last Word",
-      "code": "class Solution {\n  public int lengthOfLastWord(String s) {\n    int i = s.length() - 1;\n\n    while (i >= 0 && s.charAt(i) == ' ')\n      --i;\n    final int lastIndex = i;\n    while (i >= 0 && s.charAt(i) != ' ')\n      --i;\n\n    return lastIndex - i;\n  }\n}\n"
+      "code": "class Solution {\n  public int lengthOfLastWord(String s) {\n    int i = s.length() - 1;\n\n    while (i >= 0 && s.charAt(i) == ' ')\n      --i;\n    final int lastIndex = i;\n    while (i >= 0 && s.charAt(i) != ' ')\n      --i;\n\n    return lastIndex - i;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "59. Spiral Matrix II",
-      "code": "class Solution {\n  public int[][] generateMatrix(int n) {\n    int[][] ans = new int[n][n];\n    int count = 1;\n\n    for (int min = 0; min < n / 2; ++min) {\n      final int max = n - min - 1;\n      for (int i = min; i < max; ++i)\n        ans[min][i] = count++;\n      for (int i = min; i < max; ++i)\n        ans[i][max] = count++;\n      for (int i = max; i > min; --i)\n        ans[max][i] = count++;\n      for (int i = max; i > min; --i)\n        ans[i][min] = count++;\n    }\n\n    if (n % 2 == 1)\n      ans[n / 2][n / 2] = count;\n\n    return ans;\n  }\n}\n"
+      "code": "class Solution {\n  public int[][] generateMatrix(int n) {\n    int[][] ans = new int[n][n];\n    int count = 1;\n\n    for (int min = 0; min < n / 2; ++min) {\n      final int max = n - min - 1;\n      for (int i = min; i < max; ++i)\n        ans[min][i] = count++;\n      for (int i = min; i < max; ++i)\n        ans[i][max] = count++;\n      for (int i = max; i > min; --i)\n        ans[max][i] = count++;\n      for (int i = max; i > min; --i)\n        ans[i][min] = count++;\n    }\n\n    if (n % 2 == 1)\n      ans[n / 2][n / 2] = count;\n\n    return ans;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "60. Permutation Sequence",
-      "code": "class Solution {\n  public String getPermutation(int n, int k) {\n    StringBuilder sb = new StringBuilder();\n    List<Integer> nums = new ArrayList<>();\n    int[] fact = new int[n + 1]; // fact[i] := i!\n\n    for (int i = 1; i <= n; ++i)\n      nums.add(i);\n\n    Arrays.fill(fact, 1);\n    for (int i = 2; i <= n; ++i)\n      fact[i] = fact[i - 1] * i;\n\n    --k; // 0-indexed\n\n    for (int i = n - 1; i >= 0; --i) {\n      final int j = k / fact[i];\n      k %= fact[i];\n      sb.append(nums.get(j));\n      nums.remove(j);\n    }\n\n    return sb.toString();\n  }\n}\n"
+      "code": "class Solution {\n  public String getPermutation(int n, int k) {\n    StringBuilder sb = new StringBuilder();\n    List<Integer> nums = new ArrayList<>();\n    int[] fact = new int[n + 1]; // fact[i] := i!\n\n    for (int i = 1; i <= n; ++i)\n      nums.add(i);\n\n    Arrays.fill(fact, 1);\n    for (int i = 2; i <= n; ++i)\n      fact[i] = fact[i - 1] * i;\n\n    --k; // 0-indexed\n\n    for (int i = n - 1; i >= 0; --i) {\n      final int j = k / fact[i];\n      k %= fact[i];\n      sb.append(nums.get(j));\n      nums.remove(j);\n    }\n\n    return sb.toString();\n  }\n }\n"
     }
   ],
   [
     {
       "id": "61. Rotate List",
-      "code": "class Solution {\n  public ListNode rotateRight(ListNode head, int k) {\n    if (head == null || head.next == null || k == 0)\n      return head;\n\n    int length = 1;\n    ListNode tail = head;\n    for (; tail.next != null; tail = tail.next)\n      ++length;\n    tail.next = head; // Circle the list\n\n    final int t = length - k % length;\n    for (int i = 0; i < t; ++i)\n      tail = tail.next;\n    ListNode newHead = tail.next;\n    tail.next = null;\n\n    return newHead;\n  }\n}\n"
+      "code": "class Solution {\n  public ListNode rotateRight(ListNode head, int k) {\n    if (head == null || head.next == null || k == 0)\n      return head;\n\n    int length = 1;\n    ListNode tail = head;\n    for (; tail.next != null; tail = tail.next)\n      ++length;\n    tail.next = head; // Circle the list\n\n    final int t = length - k % length;\n    for (int i = 0; i < t; ++i)\n      tail = tail.next;\n    ListNode newHead = tail.next;\n    tail.next = null;\n\n    return newHead;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "62. Unique Paths",
-      "code": "class Solution {\n  public int uniquePaths(int m, int n) {\n    // dp[i][j] := unique paths from (0, 0) to (i, j)\n    int[][] dp = new int[m][n];\n    Arrays.stream(dp).forEach(row -> Arrays.fill(row, 1));\n\n    for (int i = 1; i < m; ++i)\n      for (int j = 1; j < n; ++j)\n        dp[i][j] = dp[i - 1][j] + dp[i][j - 1];\n\n    return dp[m - 1][n - 1];\n  }\n}\n"
+      "code": "class Solution {\n  public int uniquePaths(int m, int n) {\n    // dp[i][j] := unique paths from (0, 0) to (i, j)\n    int[][] dp = new int[m][n];\n    Arrays.stream(dp).forEach(row -> Arrays.fill(row, 1));\n\n    for (int i = 1; i < m; ++i)\n      for (int j = 1; j < n; ++j)\n        dp[i][j] = dp[i - 1][j] + dp[i][j - 1];\n\n    return dp[m - 1][n - 1];\n  }\n }\n"
     }
   ],
   [
     {
       "id": "63. Unique Paths II",
-      "code": "class Solution {\n  public int uniquePathsWithObstacles(int[][] obstacleGrid) {\n    final int m = obstacleGrid.length;\n    final int n = obstacleGrid[0].length;\n    // dp[i][j] := unique paths from (0, 0) to (i - 1, j - 1)\n    long[][] dp = new long[m + 1][n + 1];\n    dp[0][1] = 1; // Can also set dp[1][0] = 1\n\n    for (int i = 1; i <= m; ++i)\n      for (int j = 1; j <= n; ++j)\n        if (obstacleGrid[i - 1][j - 1] == 0)\n          dp[i][j] = dp[i - 1][j] + dp[i][j - 1];\n\n    return (int) dp[m][n];\n  }\n}\n"
+      "code": "class Solution {\n  public int uniquePathsWithObstacles(int[][] obstacleGrid) {\n    final int m = obstacleGrid.length;\n    final int n = obstacleGrid[0].length;\n    // dp[i][j] := unique paths from (0, 0) to (i - 1, j - 1)\n    long[][] dp = new long[m + 1][n + 1];\n    dp[0][1] = 1; // Can also set dp[1][0] = 1\n\n    for (int i = 1; i <= m; ++i)\n      for (int j = 1; j <= n; ++j)\n        if (obstacleGrid[i - 1][j - 1] == 0)\n          dp[i][j] = dp[i - 1][j] + dp[i][j - 1];\n\n    return (int) dp[m][n];\n  }\n }\n"
     }
   ],
   [
     {
       "id": "64. Minimum Path Sum",
-      "code": "class Solution {\n  public int minPathSum(int[][] grid) {\n    final int m = grid.length;\n    final int n = grid[0].length;\n\n    for (int i = 0; i < m; ++i)\n      for (int j = 0; j < n; ++j)\n        if (i > 0 && j > 0)\n          grid[i][j] += Math.min(grid[i - 1][j], grid[i][j - 1]);\n        else if (i > 0)\n          grid[i][0] += grid[i - 1][0];\n        else if (j > 0)\n          grid[0][j] += grid[0][j - 1];\n\n    return grid[m - 1][n - 1];\n  }\n}\n"
+      "code": "class Solution {\n  public int minPathSum(int[][] grid) {\n    final int m = grid.length;\n    final int n = grid[0].length;\n\n    for (int i = 0; i < m; ++i)\n      for (int j = 0; j < n; ++j)\n        if (i > 0 && j > 0)\n          grid[i][j] += Math.min(grid[i - 1][j], grid[i][j - 1]);\n        else if (i > 0)\n          grid[i][0] += grid[i - 1][0];\n        else if (j > 0)\n          grid[0][j] += grid[0][j - 1];\n\n    return grid[m - 1][n - 1];\n  }\n }\n"
     }
   ],
   [
     {
       "id": "65. Valid Number",
-      "code": "class Solution {\n  public boolean isNumber(String s) {\n    s = s.trim();\n    if (s.isEmpty())\n      return false;\n\n    boolean seenNum = false;\n    boolean seenDot = false;\n    boolean seenE = false;\n\n    for (int i = 0; i < s.length(); ++i) {\n      switch (s.charAt(i)) {\n        case '.':\n          if (seenDot || seenE)\n            return false;\n          seenDot = true;\n          break;\n        case 'e':\n        case 'E':\n          if (seenE || !seenNum)\n            return false;\n          seenE = true;\n          seenNum = false;\n          break;\n        case '+':\n        case '-':\n          if (i > 0 && s.charAt(i - 1) != 'e')\n            return false;\n          seenNum = false;\n          break;\n        default:\n          if (!Character.isDigit(s.charAt(i)))\n            return false;\n          seenNum = true;\n      }\n    }\n\n    return seenNum;\n  }\n}\n"
+      "code": "class Solution {\n  public boolean isNumber(String s) {\n    s = s.trim();\n    if (s.isEmpty())\n      return false;\n\n    boolean seenNum = false;\n    boolean seenDot = false;\n    boolean seenE = false;\n\n    for (int i = 0; i < s.length(); ++i) {\n      switch (s.charAt(i)) {\n        case '.':\n          if (seenDot || seenE)\n            return false;\n          seenDot = true;\n          break;\n        case 'e':\n        case 'E':\n          if (seenE || !seenNum)\n            return false;\n          seenE = true;\n          seenNum = false;\n          break;\n        case '+':\n        case '-':\n          if (i > 0 && s.charAt(i - 1) != 'e')\n            return false;\n          seenNum = false;\n          break;\n        default:\n          if (!Character.isDigit(s.charAt(i)))\n            return false;\n          seenNum = true;\n      }\n    }\n\n    return seenNum;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "66. Plus One",
-      "code": "class Solution {\n  public int[] plusOne(int[] digits) {\n    for (int i = digits.length - 1; i >= 0; i--) {\n      if (digits[i] < 9) {\n        ++digits[i];\n        return digits;\n      }\n      digits[i] = 0;\n    }\n\n    int[] ans = new int[digits.length + 1];\n    ans[0] = 1;\n    return ans;\n  }\n}\n"
+      "code": "class Solution {\n  public int[] plusOne(int[] digits) {\n    for (int i = digits.length - 1; i >= 0; i--) {\n      if (digits[i] < 9) {\n        ++digits[i];\n        return digits;\n      }\n      digits[i] = 0;\n    }\n\n    int[] ans = new int[digits.length + 1];\n    ans[0] = 1;\n    return ans;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "67. Add Binary",
-      "code": "class Solution {\n  public String addBinary(String a, String b) {\n    StringBuilder sb = new StringBuilder();\n    int carry = 0;\n    int i = a.length() - 1;\n    int j = b.length() - 1;\n\n    while (i >= 0 || j >= 0 || carry == 1) {\n      if (i >= 0)\n        carry += a.charAt(i--) - '0';\n      if (j >= 0)\n        carry += b.charAt(j--) - '0';\n      sb.append(carry % 2);\n      carry /= 2;\n    }\n\n    return sb.reverse().toString();\n  }\n}\n"
+      "code": "class Solution {\n  public String addBinary(String a, String b) {\n    StringBuilder sb = new StringBuilder();\n    int carry = 0;\n    int i = a.length() - 1;\n    int j = b.length() - 1;\n\n    while (i >= 0 || j >= 0 || carry == 1) {\n      if (i >= 0)\n        carry += a.charAt(i--) - '0';\n      if (j >= 0)\n        carry += b.charAt(j--) - '0';\n      sb.append(carry % 2);\n      carry /= 2;\n    }\n\n    return sb.reverse().toString();\n  }\n }\n"
     }
   ],
   [
     {
       "id": "68. Text Justification",
-      "code": "class Solution {\n  public List<String> fullJustify(String[] words, int maxWidth) {\n    List<String> ans = new ArrayList<>();\n    List<StringBuilder> row = new ArrayList<>();\n    int rowLetters = 0;\n\n    for (final String word : words) {\n      if (rowLetters + row.size() + word.length() > maxWidth) {\n        final int spaces = maxWidth - rowLetters;\n        if (row.size() == 1) {\n          for (int i = 0; i < spaces; ++i)\n            row.get(0).append(\" \");\n        } else {\n          for (int i = 0; i < spaces; ++i)\n            row.get(i % (row.size() - 1)).append(\" \");\n        }\n        final String joinedRow =\n            row.stream().map(StringBuilder::toString).collect(Collectors.joining(\"\"));\n        ans.add(joinedRow);\n        row.clear();\n        rowLetters = 0;\n      }\n      row.add(new StringBuilder(word));\n      rowLetters += word.length();\n    }\n\n    final String lastRow =\n        row.stream().map(StringBuilder::toString).collect(Collectors.joining(\" \"));\n    StringBuilder sb = new StringBuilder(lastRow);\n    final int spacesToBeAdded = maxWidth - sb.length();\n    for (int i = 0; i < spacesToBeAdded; ++i)\n      sb.append(\" \");\n\n    ans.add(sb.toString());\n    return ans;\n  }\n}\n"
+      "code": "class Solution {\n  public List<String> fullJustify(String[] words, int maxWidth) {\n    List<String> ans = new ArrayList<>();\n    List<StringBuilder> row = new ArrayList<>();\n    int rowLetters = 0;\n\n    for (final String word : words) {\n      if (rowLetters + row.size() + word.length() > maxWidth) {\n        final int spaces = maxWidth - rowLetters;\n        if (row.size() == 1) {\n          for (int i = 0; i < spaces; ++i)\n            row.get(0).append(\" \");\n        } else {\n          for (int i = 0; i < spaces; ++i)\n            row.get(i % (row.size() - 1)).append(\" \");\n        }\n        final String joinedRow =\n            row.stream().map(StringBuilder::toString).collect(Collectors.joining(\"\"));\n        ans.add(joinedRow);\n        row.clear();\n        rowLetters = 0;\n      }\n      row.add(new StringBuilder(word));\n      rowLetters += word.length();\n    }\n\n    final String lastRow =\n        row.stream().map(StringBuilder::toString).collect(Collectors.joining(\" \"));\n    StringBuilder sb = new StringBuilder(lastRow);\n    final int spacesToBeAdded = maxWidth - sb.length();\n    for (int i = 0; i < spacesToBeAdded; ++i)\n      sb.append(\" \");\n\n    ans.add(sb.toString());\n    return ans;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "69. Sqrt(x)",
-      "code": "class Solution {\n  public int mySqrt(long x) {\n    long l = 1;\n    long r = x + 1;\n\n    while (l < r) {\n      final long m = (l + r) / 2;\n      if (m > x / m)\n        r = m;\n      else\n        l = m + 1;\n    }\n\n    // L: smallest number s.t. l * l > x\n    return (int) l - 1;\n  }\n}\n"
+      "code": "class Solution {\n  public int mySqrt(long x) {\n    long l = 1;\n    long r = x + 1;\n\n    while (l < r) {\n      final long m = (l + r) / 2;\n      if (m > x / m)\n        r = m;\n      else\n        l = m + 1;\n    }\n\n    // L: smallest number s.t. l * l > x\n    return (int) l - 1;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "70. Climbing Stairs",
-      "code": "class Solution {\n  public int climbStairs(int n) {\n    // dp[i] := # of distinct ways to climb to i-th stair\n    int[] dp = new int[n + 1];\n    dp[0] = 1;\n    dp[1] = 1;\n\n    for (int i = 2; i <= n; ++i)\n      dp[i] = dp[i - 1] + dp[i - 2];\n\n    return dp[n];\n  }\n}\n"
+      "code": "class Solution {\n  public int climbStairs(int n) {\n    // dp[i] := # of distinct ways to climb to i-th stair\n    int[] dp = new int[n + 1];\n    dp[0] = 1;\n    dp[1] = 1;\n\n    for (int i = 2; i <= n; ++i)\n      dp[i] = dp[i - 1] + dp[i - 2];\n\n    return dp[n];\n  }\n }\n"
     }
   ],
   [
     {
       "id": "71. Simplify Path",
-      "code": "class Solution {\n  public String simplifyPath(String path) {\n    final String[] dirs = path.split(\"/\");\n    Stack<String> stack = new Stack<>();\n\n    for (final String dir : dirs) {\n      if (dir.isEmpty() || dir.equals(\".\"))\n        continue;\n      if (dir.equals(\"..\")) {\n        if (!stack.isEmpty())\n          stack.pop();\n      } else {\n        stack.push(dir);\n      }\n    }\n\n    return \"/\" + String.join(\"/\", stack);\n  }\n}\n"
+      "code": "class Solution {\n  public String simplifyPath(String path) {\n    final String[] dirs = path.split(\"/\");\n    Stack<String> stack = new Stack<>();\n\n    for (final String dir : dirs) {\n      if (dir.isEmpty() || dir.equals(\".\"))\n        continue;\n      if (dir.equals(\"..\")) {\n        if (!stack.isEmpty())\n          stack.pop();\n      } else {\n        stack.push(dir);\n      }\n    }\n\n    return \"/\" + String.join(\"/\", stack);\n  }\n }\n"
     }
   ],
   [
     {
       "id": "72. Edit Distance",
-      "code": "class Solution {\n  public int minDistance(String word1, String word2) {\n    final int m = word1.length();\n    final int n = word2.length();\n    // dp[i][j] := min # of operations to convert word1[0..i) to word2[0..j)\n    int[][] dp = new int[m + 1][n + 1];\n\n    for (int i = 1; i <= m; ++i)\n      dp[i][0] = i;\n\n    for (int j = 1; j <= n; ++j)\n      dp[0][j] = j;\n\n    for (int i = 1; i <= m; ++i)\n      for (int j = 1; j <= n; ++j)\n        if (word1.charAt(i - 1) == word2.charAt(j - 1))\n          dp[i][j] = dp[i - 1][j - 1];\n        else\n          dp[i][j] = Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1])) + 1;\n\n    return dp[m][n];\n  }\n}\n"
+      "code": "class Solution {\n  public int minDistance(String word1, String word2) {\n    final int m = word1.length();\n    final int n = word2.length();\n    // dp[i][j] := min # of operations to convert word1[0..i) to word2[0..j)\n    int[][] dp = new int[m + 1][n + 1];\n\n    for (int i = 1; i <= m; ++i)\n      dp[i][0] = i;\n\n    for (int j = 1; j <= n; ++j)\n      dp[0][j] = j;\n\n    for (int i = 1; i <= m; ++i)\n      for (int j = 1; j <= n; ++j)\n        if (word1.charAt(i - 1) == word2.charAt(j - 1))\n          dp[i][j] = dp[i - 1][j - 1];\n        else\n          dp[i][j] = Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1])) + 1;\n\n    return dp[m][n];\n  }\n }\n"
     }
   ],
   [
     {
       "id": "73. Set Matrix Zeroes",
-      "code": "class Solution {\n  public void setZeroes(int[][] matrix) {\n    final int m = matrix.length;\n    final int n = matrix[0].length;\n    boolean shouldFillFirstRow = false;\n    boolean shouldFillFirstCol = false;\n\n    for (int j = 0; j < n; ++j)\n      if (matrix[0][j] == 0) {\n        shouldFillFirstRow = true;\n        break;\n      }\n\n    for (int i = 0; i < m; ++i)\n      if (matrix[i][0] == 0) {\n        shouldFillFirstCol = true;\n        break;\n      }\n\n    // Store the information in the 1st row/col\n    for (int i = 1; i < m; ++i)\n      for (int j = 1; j < n; ++j)\n        if (matrix[i][j] == 0) {\n          matrix[i][0] = 0;\n          matrix[0][j] = 0;\n        }\n\n    // Fill 0s for the matrix except the 1st row/col\n    for (int i = 1; i < m; ++i)\n      for (int j = 1; j < n; ++j)\n        if (matrix[i][0] == 0 || matrix[0][j] == 0)\n          matrix[i][j] = 0;\n\n    // Fill 0s for the 1st row if needed\n    if (shouldFillFirstRow)\n      for (int j = 0; j < n; ++j)\n        matrix[0][j] = 0;\n\n    // Fill 0s for the 1st col if needed\n    if (shouldFillFirstCol)\n      for (int i = 0; i < m; ++i)\n        matrix[i][0] = 0;\n  }\n}\n"
+      "code": "class Solution {\n  public void setZeroes(int[][] matrix) {\n    final int m = matrix.length;\n    final int n = matrix[0].length;\n    boolean shouldFillFirstRow = false;\n    boolean shouldFillFirstCol = false;\n\n    for (int j = 0; j < n; ++j)\n      if (matrix[0][j] == 0) {\n        shouldFillFirstRow = true;\n        break;\n      }\n\n    for (int i = 0; i < m; ++i)\n      if (matrix[i][0] == 0) {\n        shouldFillFirstCol = true;\n        break;\n      }\n\n    // Store the information in the 1st row/col\n    for (int i = 1; i < m; ++i)\n      for (int j = 1; j < n; ++j)\n        if (matrix[i][j] == 0) {\n          matrix[i][0] = 0;\n          matrix[0][j] = 0;\n        }\n\n    // Fill 0s for the matrix except the 1st row/col\n    for (int i = 1; i < m; ++i)\n      for (int j = 1; j < n; ++j)\n        if (matrix[i][0] == 0 || matrix[0][j] == 0)\n          matrix[i][j] = 0;\n\n    // Fill 0s for the 1st row if needed\n    if (shouldFillFirstRow)\n      for (int j = 0; j < n; ++j)\n        matrix[0][j] = 0;\n\n    // Fill 0s for the 1st col if needed\n    if (shouldFillFirstCol)\n      for (int i = 0; i < m; ++i)\n        matrix[i][0] = 0;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "74. Search a 2D Matrix",
-      "code": "class Solution {\n  public boolean searchMatrix(int[][] matrix, int target) {\n    if (matrix.length == 0)\n      return false;\n\n    final int m = matrix.length;\n    final int n = matrix[0].length;\n    int l = 0;\n    int r = m * n;\n\n    while (l < r) {\n      final int mid = (l + r) / 2;\n      final int i = mid / n;\n      final int j = mid % n;\n      if (matrix[i][j] == target)\n        return true;\n      if (matrix[i][j] < target)\n        l = mid + 1;\n      else\n        r = mid;\n    }\n\n    return false;\n  }\n}\n"
+      "code": "class Solution {\n  public boolean searchMatrix(int[][] matrix, int target) {\n    if (matrix.length == 0)\n      return false;\n\n    final int m = matrix.length;\n    final int n = matrix[0].length;\n    int l = 0;\n    int r = m * n;\n\n    while (l < r) {\n      final int mid = (l + r) / 2;\n      final int i = mid / n;\n      final int j = mid % n;\n      if (matrix[i][j] == target)\n        return true;\n      if (matrix[i][j] < target)\n        l = mid + 1;\n      else\n        r = mid;\n    }\n\n    return false;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "75. Sort Colors",
-      "code": "class Solution {\n  public void sortColors(int[] nums) {\n    int zero = -1;\n    int one = -1;\n    int two = -1;\n\n    for (final int num : nums)\n      if (num == 0) {\n        nums[++two] = 2;\n        nums[++one] = 1;\n        nums[++zero] = 0;\n      } else if (num == 1) {\n        nums[++two] = 2;\n        nums[++one] = 1;\n      } else {\n        nums[++two] = 2;\n      }\n  }\n}\n"
+      "code": "class Solution {\n  public void sortColors(int[] nums) {\n    int zero = -1;\n    int one = -1;\n    int two = -1;\n\n    for (final int num : nums)\n      if (num == 0) {\n        nums[++two] = 2;\n        nums[++one] = 1;\n        nums[++zero] = 0;\n      } else if (num == 1) {\n        nums[++two] = 2;\n        nums[++one] = 1;\n      } else {\n        nums[++two] = 2;\n      }\n  }\n }\n"
     }
   ],
   [
     {
       "id": "76. Minimum Window Substring",
-      "code": "class Solution {\n  public String minWindow(String s, String t) {\n    int[] count = new int[128];\n    int required = t.length();\n    int bestLeft = -1;\n    int minLength = s.length() + 1;\n\n    for (final char c : t.toCharArray())\n      ++count[c];\n\n    for (int l = 0, r = 0; r < s.length(); ++r) {\n      if (--count[s.charAt(r)] >= 0)\n        --required;\n      while (required == 0) {\n        if (r - l + 1 < minLength) {\n          bestLeft = l;\n          minLength = r - l + 1;\n        }\n        if (++count[s.charAt(l++)] > 0)\n          ++required;\n      }\n    }\n\n    return bestLeft == -1 ? \"\" : s.substring(bestLeft, bestLeft + minLength);\n  }\n}\n"
+      "code": "class Solution {\n  public String minWindow(String s, String t) {\n    int[] count = new int[128];\n    int required = t.length();\n    int bestLeft = -1;\n    int minLength = s.length() + 1;\n\n    for (final char c : t.toCharArray())\n      ++count[c];\n\n    for (int l = 0, r = 0; r < s.length(); ++r) {\n      if (--count[s.charAt(r)] >= 0)\n        --required;\n      while (required == 0) {\n        if (r - l + 1 < minLength) {\n          bestLeft = l;\n          minLength = r - l + 1;\n        }\n        if (++count[s.charAt(l++)] > 0)\n          ++required;\n      }\n    }\n\n    return bestLeft == -1 ? \"\" : s.substring(bestLeft, bestLeft + minLength);\n  }\n }\n"
     }
   ],
   [
     {
       "id": "77. Combinations",
-      "code": "class Solution {\n  public List<List<Integer>> combine(int n, int k) {\n    List<List<Integer>> ans = new ArrayList<>();\n    dfs(n, k, 1, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int n, int k, int s, List<Integer> path, List<List<Integer>> ans) {\n    if (path.size() == k) {\n      ans.add(new ArrayList<>(path));\n      return;\n    }\n\n    for (int i = s; i <= n; ++i) {\n      path.add(i);\n      dfs(n, k, i + 1, path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n}\n"
+      "code": "class Solution {\n  public List<List<Integer>> combine(int n, int k) {\n    List<List<Integer>> ans = new ArrayList<>();\n    dfs(n, k, 1, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int n, int k, int s, List<Integer> path, List<List<Integer>> ans) {\n    if (path.size() == k) {\n      ans.add(new ArrayList<>(path));\n      return;\n    }\n\n    for (int i = s; i <= n; ++i) {\n      path.add(i);\n      dfs(n, k, i + 1, path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n }\n"
     }
   ],
   [
     {
       "id": "78. Subsets",
-      "code": "class Solution {\n  public List<List<Integer>> subsets(int[] nums) {\n    List<List<Integer>> ans = new ArrayList<>();\n    dfs(nums, 0, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int[] nums, int s, List<Integer> path, List<List<Integer>> ans) {\n    ans.add(new ArrayList<>(path));\n\n    for (int i = s; i < nums.length; ++i) {\n      path.add(nums[i]);\n      dfs(nums, i + 1, path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n}\n"
+      "code": "class Solution {\n  public List<List<Integer>> subsets(int[] nums) {\n    List<List<Integer>> ans = new ArrayList<>();\n    dfs(nums, 0, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int[] nums, int s, List<Integer> path, List<List<Integer>> ans) {\n    ans.add(new ArrayList<>(path));\n\n    for (int i = s; i < nums.length; ++i) {\n      path.add(nums[i]);\n      dfs(nums, i + 1, path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n }\n"
     }
   ],
   [
     {
       "id": "79. Word Search",
-      "code": "class Solution {\n  public boolean exist(char[][] board, String word) {\n    for (int i = 0; i < board.length; ++i)\n      for (int j = 0; j < board[0].length; ++j)\n        if (dfs(board, word, i, j, 0))\n          return true;\n    return false;\n  }\n\n  private boolean dfs(char[][] board, String word, int i, int j, int s) {\n    if (i < 0 || i == board.length || j < 0 || j == board[0].length)\n      return false;\n    if (board[i][j] != word.charAt(s) || board[i][j] == '*')\n      return false;\n    if (s == word.length() - 1)\n      return true;\n\n    final char cache = board[i][j];\n    board[i][j] = '*';\n    final boolean isExist = dfs(board, word, i + 1, j, s + 1) ||\n                            dfs(board, word, i - 1, j, s + 1) ||\n                            dfs(board, word, i, j + 1, s + 1) ||\n                            dfs(board, word, i, j - 1, s + 1);\n    board[i][j] = cache;\n\n    return isExist;\n  }\n}\n"
+      "code": "class Solution {\n  public boolean exist(char[][] board, String word) {\n    for (int i = 0; i < board.length; ++i)\n      for (int j = 0; j < board[0].length; ++j)\n        if (dfs(board, word, i, j, 0))\n          return true;\n    return false;\n  }\n\n  private boolean dfs(char[][] board, String word, int i, int j, int s) {\n    if (i < 0 || i == board.length || j < 0 || j == board[0].length)\n      return false;\n    if (board[i][j] != word.charAt(s) || board[i][j] == '*')\n      return false;\n    if (s == word.length() - 1)\n      return true;\n\n    final char cache = board[i][j];\n    board[i][j] = '*';\n    final boolean isExist = dfs(board, word, i + 1, j, s + 1) ||\n                            dfs(board, word, i - 1, j, s + 1) ||\n                            dfs(board, word, i, j + 1, s + 1) ||\n                            dfs(board, word, i, j - 1, s + 1);\n    board[i][j] = cache;\n\n    return isExist;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "80. Remove Duplicates from Sorted Array II",
-      "code": "class Solution {\n  public int removeDuplicates(int[] nums) {\n    int i = 0;\n\n    for (final int num : nums)\n      if (i < 2 || num > nums[i - 2])\n        nums[i++] = num;\n\n    return i;\n  }\n}\n"
+      "code": "class Solution {\n  public int removeDuplicates(int[] nums) {\n    int i = 0;\n\n    for (final int num : nums)\n      if (i < 2 || num > nums[i - 2])\n        nums[i++] = num;\n\n    return i;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "81. Search in Rotated Sorted Array II",
-      "code": "class Solution {\n  public boolean search(int[] nums, int target) {\n    int l = 0;\n    int r = nums.length - 1;\n\n    while (l <= r) {\n      final int m = (l + r) / 2;\n      if (nums[m] == target)\n        return true;\n      if (nums[l] == nums[m] && nums[m] == nums[r]) {\n        ++l;\n        --r;\n      } else if (nums[l] <= nums[m]) { // nums[l..m] are sorted\n        if (nums[l] <= target && target < nums[m])\n          r = m - 1;\n        else\n          l = m + 1;\n      } else { // nums[m..n - 1] are sorted\n        if (nums[m] < target && target <= nums[r])\n          l = m + 1;\n        else\n          r = m - 1;\n      }\n    }\n\n    return false;\n  }\n}\n"
+      "code": "class Solution {\n  public boolean search(int[] nums, int target) {\n    int l = 0;\n    int r = nums.length - 1;\n\n    while (l <= r) {\n      final int m = (l + r) / 2;\n      if (nums[m] == target)\n        return true;\n      if (nums[l] == nums[m] && nums[m] == nums[r]) {\n        ++l;\n        --r;\n      } else if (nums[l] <= nums[m]) { // nums[l..m] are sorted\n        if (nums[l] <= target && target < nums[m])\n          r = m - 1;\n        else\n          l = m + 1;\n      } else { // nums[m..n - 1] are sorted\n        if (nums[m] < target && target <= nums[r])\n          l = m + 1;\n        else\n          r = m - 1;\n      }\n    }\n\n    return false;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "82. Remove Duplicates from Sorted List II",
-      "code": "class Solution {\n  public ListNode deleteDuplicates(ListNode head) {\n    ListNode dummy = new ListNode(0, head);\n    ListNode prev = dummy;\n\n    while (head != null) {\n      while (head.next != null && head.val == head.next.val)\n        head = head.next;\n      if (prev.next == head)\n        prev = prev.next;\n      else\n        prev.next = head.next;\n      head = head.next;\n    }\n\n    return dummy.next;\n  }\n}\n"
+      "code": "class Solution {\n  public ListNode deleteDuplicates(ListNode head) {\n    ListNode dummy = new ListNode(0, head);\n    ListNode prev = dummy;\n\n    while (head != null) {\n      while (head.next != null && head.val == head.next.val)\n        head = head.next;\n      if (prev.next == head)\n        prev = prev.next;\n      else\n        prev.next = head.next;\n      head = head.next;\n    }\n\n    return dummy.next;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "83. Remove Duplicates from Sorted List",
-      "code": "class Solution {\n  public ListNode deleteDuplicates(ListNode head) {\n    ListNode curr = head;\n\n    while (curr != null) {\n      while (curr.next != null && curr.val == curr.next.val)\n        curr.next = curr.next.next;\n      curr = curr.next;\n    }\n\n    return head;\n  }\n}\n"
+      "code": "class Solution {\n  public ListNode deleteDuplicates(ListNode head) {\n    ListNode curr = head;\n\n    while (curr != null) {\n      while (curr.next != null && curr.val == curr.next.val)\n        curr.next = curr.next.next;\n      curr = curr.next;\n    }\n\n    return head;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "84. Largest Rectangle in Histogram",
-      "code": "class Solution {\n  public int largestRectangleArea(int[] heights) {\n    int ans = 0;\n    Deque<Integer> stack = new ArrayDeque<>();\n\n    for (int i = 0; i <= heights.length; ++i) {\n      while (!stack.isEmpty() && (i == heights.length || heights[stack.peek()] > heights[i])) {\n        final int h = heights[stack.pop()];\n        final int w = stack.isEmpty() ? i : i - stack.peek() - 1;\n        ans = Math.max(ans, h * w);\n      }\n      stack.push(i);\n    }\n\n    return ans;\n  }\n}\n"
+      "code": "class Solution {\n  public int largestRectangleArea(int[] heights) {\n    int ans = 0;\n    Deque<Integer> stack = new ArrayDeque<>();\n\n    for (int i = 0; i <= heights.length; ++i) {\n      while (!stack.isEmpty() && (i == heights.length || heights[stack.peek()] > heights[i])) {\n        final int h = heights[stack.pop()];\n        final int w = stack.isEmpty() ? i : i - stack.peek() - 1;\n        ans = Math.max(ans, h * w);\n      }\n      stack.push(i);\n    }\n\n    return ans;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "85. Maximal Rectangle",
-      "code": "class Solution {\n  public int maximalRectangle(char[][] matrix) {\n    if (matrix.length == 0)\n      return 0;\n\n    int ans = 0;\n    int[] hist = new int[matrix[0].length];\n\n    for (char[] row : matrix) {\n      for (int i = 0; i < row.length; ++i)\n        hist[i] = row[i] == '0' ? 0 : hist[i] + 1;\n      ans = Math.max(ans, largestRectangleArea(hist));\n    }\n\n    return ans;\n  }\n\n  private int largestRectangleArea(int[] heights) {\n    int ans = 0;\n    Deque<Integer> stack = new ArrayDeque<>();\n\n    for (int i = 0; i <= heights.length; ++i) {\n      while (!stack.isEmpty() && (i == heights.length || heights[stack.peek()] > heights[i])) {\n        final int h = heights[stack.pop()];\n        final int w = stack.isEmpty() ? i : i - stack.peek() - 1;\n        ans = Math.max(ans, h * w);\n      }\n      stack.push(i);\n    }\n\n    return ans;\n  }\n}\n"
+      "code": "class Solution {\n  public int maximalRectangle(char[][] matrix) {\n    if (matrix.length == 0)\n      return 0;\n\n    int ans = 0;\n    int[] hist = new int[matrix[0].length];\n\n    for (char[] row : matrix) {\n      for (int i = 0; i < row.length; ++i)\n        hist[i] = row[i] == '0' ? 0 : hist[i] + 1;\n      ans = Math.max(ans, largestRectangleArea(hist));\n    }\n\n    return ans;\n  }\n\n  private int largestRectangleArea(int[] heights) {\n    int ans = 0;\n    Deque<Integer> stack = new ArrayDeque<>();\n\n    for (int i = 0; i <= heights.length; ++i) {\n      while (!stack.isEmpty() && (i == heights.length || heights[stack.peek()] > heights[i])) {\n        final int h = heights[stack.pop()];\n        final int w = stack.isEmpty() ? i : i - stack.peek() - 1;\n        ans = Math.max(ans, h * w);\n      }\n      stack.push(i);\n    }\n\n    return ans;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "86. Partition List",
-      "code": "class Solution {\n  public ListNode partition(ListNode head, int x) {\n    ListNode beforeHead = new ListNode(0);\n    ListNode afterHead = new ListNode(0);\n    ListNode before = beforeHead;\n    ListNode after = afterHead;\n\n    for (; head != null; head = head.next)\n      if (head.val < x) {\n        before.next = head;\n        before = head;\n      } else {\n        after.next = head;\n        after = head;\n      }\n\n    after.next = null;\n    before.next = afterHead.next;\n\n    return beforeHead.next;\n  }\n}\n"
+      "code": "class Solution {\n  public ListNode partition(ListNode head, int x) {\n    ListNode beforeHead = new ListNode(0);\n    ListNode afterHead = new ListNode(0);\n    ListNode before = beforeHead;\n    ListNode after = afterHead;\n\n    for (; head != null; head = head.next)\n      if (head.val < x) {\n        before.next = head;\n        before = head;\n      } else {\n        after.next = head;\n        after = head;\n      }\n\n    after.next = null;\n    before.next = afterHead.next;\n\n    return beforeHead.next;\n  }\n }\n"
     }
   ],
   [
@@ -524,73 +524,73 @@
   [
     {
       "id": "88. Merge Sorted Array",
-      "code": "class Solution {\n  public void merge(int[] nums1, int m, int[] nums2, int n) {\n    int i = m - 1;     // nums1's index (actual nums)\n    int j = n - 1;     // nums2's index\n    int k = m + n - 1; // nums1's index (next filled position)\n\n    while (j >= 0)\n      if (i >= 0 && nums1[i] > nums2[j])\n        nums1[k--] = nums1[i--];\n      else\n        nums1[k--] = nums2[j--];\n  }\n}\n"
+      "code": "class Solution {\n  public void merge(int[] nums1, int m, int[] nums2, int n) {\n    int i = m - 1;     // nums1's index (actual nums)\n    int j = n - 1;     // nums2's index\n    int k = m + n - 1; // nums1's index (next filled position)\n\n    while (j >= 0)\n      if (i >= 0 && nums1[i] > nums2[j])\n        nums1[k--] = nums1[i--];\n      else\n        nums1[k--] = nums2[j--];\n  }\n }\n"
     }
   ],
   [
     {
       "id": "89. Gray Code",
-      "code": "class Solution {\n  public List<Integer> grayCode(int n) {\n    List<Integer> ans = new ArrayList<>();\n    ans.add(0);\n\n    for (int i = 0; i < n; ++i)\n      for (int j = ans.size() - 1; j >= 0; --j)\n        ans.add(ans.get(j) | 1 << i);\n\n    return ans;\n  }\n}\n"
+      "code": "class Solution {\n  public List<Integer> grayCode(int n) {\n    List<Integer> ans = new ArrayList<>();\n    ans.add(0);\n\n    for (int i = 0; i < n; ++i)\n      for (int j = ans.size() - 1; j >= 0; --j)\n        ans.add(ans.get(j) | 1 << i);\n\n    return ans;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "90. Subsets II",
-      "code": "class Solution {\n  public List<List<Integer>> subsetsWithDup(int[] nums) {\n    List<List<Integer>> ans = new ArrayList<>();\n    Arrays.sort(nums);\n    dfs(nums, 0, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int[] nums, int s, List<Integer> path, List<List<Integer>> ans) {\n    ans.add(new ArrayList<>(path));\n\n    for (int i = s; i < nums.length; ++i) {\n      if (i > s && nums[i] == nums[i - 1])\n        continue;\n      path.add(nums[i]);\n      dfs(nums, i + 1, path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n}\n"
+      "code": "class Solution {\n  public List<List<Integer>> subsetsWithDup(int[] nums) {\n    List<List<Integer>> ans = new ArrayList<>();\n    Arrays.sort(nums);\n    dfs(nums, 0, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int[] nums, int s, List<Integer> path, List<List<Integer>> ans) {\n    ans.add(new ArrayList<>(path));\n\n    for (int i = s; i < nums.length; ++i) {\n      if (i > s && nums[i] == nums[i - 1])\n        continue;\n      path.add(nums[i]);\n      dfs(nums, i + 1, path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n }\n"
     }
   ],
   [
     {
       "id": "91. Decode Ways",
-      "code": "class Solution {\n  public int numDecodings(String s) {\n    final int n = s.length();\n    // dp[i] := # of ways to decode s[i..n)\n    int[] dp = new int[n + 1];\n    dp[n] = 1; // \"\"\n    dp[n - 1] = isValid(s.charAt(n - 1)) ? 1 : 0;\n\n    for (int i = n - 2; i >= 0; --i) {\n      if (isValid(s.charAt(i)))\n        dp[i] += dp[i + 1];\n      if (isValid(s.charAt(i), s.charAt(i + 1)))\n        dp[i] += dp[i + 2];\n    }\n\n    return dp[0];\n  }\n\n  private boolean isValid(char c) {\n    return c != '0';\n  }\n\n  private boolean isValid(char c1, char c2) {\n    return c1 == '1' || c1 == '2' && c2 < '7';\n  }\n}\n"
+      "code": "class Solution {\n  public int numDecodings(String s) {\n    final int n = s.length();\n    // dp[i] := # of ways to decode s[i..n)\n    int[] dp = new int[n + 1];\n    dp[n] = 1; // \"\"\n    dp[n - 1] = isValid(s.charAt(n - 1)) ? 1 : 0;\n\n    for (int i = n - 2; i >= 0; --i) {\n      if (isValid(s.charAt(i)))\n        dp[i] += dp[i + 1];\n      if (isValid(s.charAt(i), s.charAt(i + 1)))\n        dp[i] += dp[i + 2];\n    }\n\n    return dp[0];\n  }\n\n  private boolean isValid(char c) {\n    return c != '0';\n  }\n\n  private boolean isValid(char c1, char c2) {\n    return c1 == '1' || c1 == '2' && c2 < '7';\n  }\n }\n"
     }
   ],
   [
     {
       "id": "92. Reverse Linked List II",
-      "code": "class Solution {\n  public ListNode reverseBetween(ListNode head, int left, int right) {\n    if (left == 1)\n      return reverseN(head, right);\n\n    head.next = reverseBetween(head.next, left - 1, right - 1);\n\n    return head;\n  }\n\n  private ListNode reverseN(ListNode head, int n) {\n    if (n == 1)\n      return head;\n\n    ListNode newHead = reverseN(head.next, n - 1);\n    ListNode headNext = head.next;\n    head.next = headNext.next;\n    headNext.next = head;\n\n    return newHead;\n  }\n}\n"
+      "code": "class Solution {\n  public ListNode reverseBetween(ListNode head, int left, int right) {\n    if (left == 1)\n      return reverseN(head, right);\n\n    head.next = reverseBetween(head.next, left - 1, right - 1);\n\n    return head;\n  }\n\n  private ListNode reverseN(ListNode head, int n) {\n    if (n == 1)\n      return head;\n\n    ListNode newHead = reverseN(head.next, n - 1);\n    ListNode headNext = head.next;\n    head.next = headNext.next;\n    headNext.next = head;\n\n    return newHead;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "93. Restore IP Addresses",
-      "code": "class Solution {\n  public List<String> restoreIpAddresses(final String s) {\n    List<String> ans = new ArrayList<>();\n    dfs(s, 0, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(final String s, int start, List<String> path, List<String> ans) {\n    if (path.size() == 4 && start == s.length()) {\n      ans.add(String.join(\".\", path));\n      return;\n    }\n    if (path.size() == 4 || start == s.length())\n      return;\n\n    for (int length = 1; length <= 3; ++length) {\n      if (start + length > s.length()) // Out of bound\n        return;\n      if (length > 1 && s.charAt(start) == '0') // Leading '0'\n        return;\n      final String num = s.substring(start, start + length);\n      if (Integer.parseInt(num) > 255)\n        return;\n      path.add(num);\n      dfs(s, start + length, path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n}\n"
+      "code": "class Solution {\n  public List<String> restoreIpAddresses(final String s) {\n    List<String> ans = new ArrayList<>();\n    dfs(s, 0, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(final String s, int start, List<String> path, List<String> ans) {\n    if (path.size() == 4 && start == s.length()) {\n      ans.add(String.join(\".\", path));\n      return;\n    }\n    if (path.size() == 4 || start == s.length())\n      return;\n\n    for (int length = 1; length <= 3; ++length) {\n      if (start + length > s.length()) // Out of bound\n        return;\n      if (length > 1 && s.charAt(start) == '0') // Leading '0'\n        return;\n      final String num = s.substring(start, start + length);\n      if (Integer.parseInt(num) > 255)\n        return;\n      path.add(num);\n      dfs(s, start + length, path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n }\n"
     }
   ],
   [
     {
       "id": "94. Binary Tree Inorder Traversal",
-      "code": "class Solution {\n  public List<Integer> inorderTraversal(TreeNode root) {\n    List<Integer> ans = new ArrayList<>();\n    Deque<TreeNode> stack = new ArrayDeque<>();\n\n    while (root != null || !stack.isEmpty()) {\n      while (root != null) {\n        stack.push(root);\n        root = root.left;\n      }\n      root = stack.pop();\n      ans.add(root.val);\n      root = root.right;\n    }\n\n    return ans;\n  }\n}\n"
+      "code": "class Solution {\n  public List<Integer> inorderTraversal(TreeNode root) {\n    List<Integer> ans = new ArrayList<>();\n    Deque<TreeNode> stack = new ArrayDeque<>();\n\n    while (root != null || !stack.isEmpty()) {\n      while (root != null) {\n        stack.push(root);\n        root = root.left;\n      }\n      root = stack.pop();\n      ans.add(root.val);\n      root = root.right;\n    }\n\n    return ans;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "95. Unique Binary Search Trees II",
-      "code": "class Solution {\n  public List<TreeNode> generateTrees(int n) {\n    if (n == 0)\n      return new ArrayList<>();\n    return generateTrees(1, n);\n  }\n\n  private List<TreeNode> generateTrees(int min, int max) {\n    if (min > max)\n      return Arrays.asList((TreeNode) null);\n\n    List<TreeNode> ans = new ArrayList<>();\n\n    for (int i = min; i <= max; ++i)\n      for (TreeNode left : generateTrees(min, i - 1))\n        for (TreeNode right : generateTrees(i + 1, max)) {\n          ans.add(new TreeNode(i));\n          ans.get(ans.size() - 1).left = left;\n          ans.get(ans.size() - 1).right = right;\n        }\n\n    return ans;\n  }\n}\n"
+      "code": "class Solution {\n  public List<TreeNode> generateTrees(int n) {\n    if (n == 0)\n      return new ArrayList<>();\n    return generateTrees(1, n);\n  }\n\n  private List<TreeNode> generateTrees(int min, int max) {\n    if (min > max)\n      return Arrays.asList((TreeNode) null);\n\n    List<TreeNode> ans = new ArrayList<>();\n\n    for (int i = min; i <= max; ++i)\n      for (TreeNode left : generateTrees(min, i - 1))\n        for (TreeNode right : generateTrees(i + 1, max)) {\n          ans.add(new TreeNode(i));\n          ans.get(ans.size() - 1).left = left;\n          ans.get(ans.size() - 1).right = right;\n        }\n\n    return ans;\n  }\n }\n"
     }
   ],
   [
     {
       "id": "96. Unique Binary Search Trees",
-      "code": "class Solution {\n  public int numTrees(int n) {\n    // G[i] := # of unique BST's that store values 1..i\n    int[] G = new int[n + 1];\n    G[0] = 1;\n    G[1] = 1;\n\n    for (int i = 2; i <= n; ++i)\n   )   for (int j = 0; j < i; ++j\n        G[i] += G[j] * G[i - j - 1];\n\n    return G[n];\n  }\n}\n"
+      "code": "class Solution {\n  public int numTrees(int n) {\n    // G[i] := # of unique BST's that store values 1..i\n    int[] G = new int[n + 1];\n    G[0] = 1;\n    G[1] = 1;\n\n    for (int i = 2; i <= n; ++i)\n   )   for (int j = 0; j < i; ++j\n        G[i] += G[j] * G[i - j - 1];\n\n    return G[n];\n  }\n }\n"
     }
   ],
   [
     {
       "id": "97. Interleaving String",
-      "code": "class Solution {\n  public boolean isInterleave(String s1, String s2, String s3) {\n    final int m = s1.length();\n    final int n = s2.length();\n    if (m + n != s3.length())\n      return false;\n\n    // dp[i][j] := true if s3[0..i + j) is formed by the interleaving of\n    //             s1[0..i) and s2[0..j)\n    boolean[][] dp = new boolean[m + 1][n + 1];\n    dp[0][0] = true;\n\n    for (int i = 1; i <= m; ++i)\n      dp[i][0] = dp[i - 1][0] && s1.charAt(i - 1) == s3.charAt(i - 1);\n\n    for (int j = 1; j <= n; ++j)\n      dp[0][j] = dp[0][j - 1] && s2.charAt(j - 1) == s3.charAt(j - 1);\n\n    for (int i = 1; i <= m; ++i)\n      for (int j = 1; j <= n; ++j)\n        dp[i][j] = dp[i - 1][j] && s1.charAt(i - 1) == s3.charAt(i + j - 1) ||\n                   dp[i][j - 1] && s2.charAt(j - 1) == s3.charAt(i + j - 1);\n\n    return dp[m][n];\n  }\n}\n"
+      "code": "class Solution {\n  public boolean isInterleave(String s1, String s2, String s3) {\n    final int m = s1.length();\n    final int n = s2.length();\n    if (m + n != s3.length())\n      return false;\n\n    // dp[i][j] := true if s3[0..i + j) is formed by the interleaving of\n    //             s1[0..i) and s2[0..j)\n    boolean[][] dp = new boolean[m + 1][n + 1];\n    dp[0][0] = true;\n\n    for (int i = 1; i <= m; ++i)\n      dp[i][0] = dp[i - 1][0] && s1.charAt(i - 1) == s3.charAt(i - 1);\n\n    for (int j = 1; j <= n; ++j)\n      dp[0][j] = dp[0][j - 1] && s2.charAt(j - 1) == s3.charAt(j - 1);\n\n    for (int i = 1; i <= m; ++i)\n      for (int j = 1; j <= n; ++j)\n        dp[i][j] = dp[i - 1][j] && s1.charAt(i - 1) == s3.charAt(i + j - 1) ||\n                   dp[i][j - 1] && s2.charAt(j - 1) == s3.charAt(i + j - 1);\n\n    return dp[m][n];\n  }\n }\n"
     }
   ],
   [
     {
       "id": "98. Validate Binary Search Tree",
-      "code": "class Solution {\n  public boolean isValidBST(TreeNode root) {\n    return isValidBST(root, null, null);\n  }\n\n  private boolean isValidBST(TreeNode root, TreeNode minNode, TreeNode maxNode) {\n    if (root == null)\n      return true;\n    if (minNode != null && root.val <= minNode.val)\n      return false;\n    if (maxNode != null && root.val >= maxNode.val)\n      return false;\n\n    return isValidBST(root.left, minNode, root) &&\n           isValidBST(root.right, root, maxNode);\n  }\n}\n"
+      "code": "class Solution {\n  public boolean isValidBST(TreeNode root) {\n    return isValidBST(root, null, null);\n  }\n\n  private boolean isValidBST(TreeNode root, TreeNode minNode, TreeNode maxNode) {\n    if (root == null)\n      return true;\n    if (minNode != null && root.val <= minNode.val)\n      return false;\n    if (maxNode != null && root.val >= maxNode.val)\n      return false;\n\n    return isValidBST(root.left, minNode, root) &&\n           isValidBST(root.right, root, maxNode);\n  }\n }\n"
     }
   ],
   [
     {
       "id": "99. Recover Binary Search Tree",
-      "code": "class Solution {\n  public void recoverTree(TreeNode root) {\n    inorder(root);\n    swap(x, y);\n  }\n\n  private TreeNode pred = null;\n  private TreeNode x = null;\n  private TreeNode y = null;\n\n  private void inorder(TreeNode root) {\n    if (root == null)\n      return;\n\n    inorder(root.left);\n\n    if (pred != null && root.val < pred.val) {\n      y = root;\n      if (x == null)\n        x = pred;\n      else\n        return;\n    }\n    pred = root;\n\n    inorder(root.right);\n  }\n\n  private void swap(TreeNode x, TreeNode y) {\n    final int temp = x.val;\n    x.val = y.val;\n    y.val = temp;\n  }\n}\n"
+      "code": "class Solution {\n  public void recoverTree(TreeNode root) {\n    inorder(root);\n    swap(x, y);\n  }\n\n  private TreeNode pred = null;\n  private TreeNode x = null;\n  private TreeNode y = null;\n\n  private void inorder(TreeNode root) {\n    if (root == null)\n      return;\n\n    inorder(root.left);\n\n    if (pred != null && root.val < pred.val) {\n      y = root;\n      if (x == null)\n        x = pred;\n      else\n        return;\n    }\n    pred = root;\n\n    inorder(root.right);\n  }\n\n  private void swap(TreeNode x, TreeNode y) {\n    final int temp = x.val;\n    x.val = y.val;\n    y.val = temp;\n  }\n }\n"
     }
   ]
 ]
