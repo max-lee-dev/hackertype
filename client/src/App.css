@@ -79,12 +79,15 @@
     border-radius: 10px;
     border: 0px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    
 }
 
 .textContainer {
     text-align: center;
 }
-
+.textInput input:foc {
+    background-color: rgb(255, 0, 0) !important;
+}
 
 #userInput button {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;

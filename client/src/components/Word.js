@@ -1,7 +1,7 @@
 import React from 'react'
 
-
 export default function Word(props) { // if this doesnt work put it back and try using React.memo
+        
         const { text, active, correct} = props
         const hasReturn = text.includes('\n')
         
@@ -24,14 +24,11 @@ export default function Word(props) { // if this doesnt work put it back and try
                 }
                 
         }
-
+    
         if (active) {
                 if (hasReturn) return <span className = "displayText" style = {{ fontWeight: active ? 'bold' : 'lighter'}}>{text} <br/></span>
                 return <span className = "displayText" style = {{ fontWeight: active ? 'bold' : 'lighter'}}>{text} </span>
         }
-        if (hasReturn)return <span className = "displayText">{text} <br/></span>
+        if (hasReturn)return <span className = "displayText">{text}<br/></span>
         return <span className = "displayText">{text} </span>
 }
-
-
-

@@ -17,7 +17,7 @@ const codeArray = [];
 (async () => {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
-        for (let i = 1; i < 500; i++) {
+        for (let i = 1; i < 10; i++) {
                 console.log(i)
                 let number = i + ""
                 let numberZeros = 4 - number.length;
@@ -29,16 +29,13 @@ const codeArray = [];
                 console.log(number)
                 await page.goto(`https://walkccc.me/LeetCode/problems/${number}/`);
                 
-                const grabCode = await page.evaluate(() => 
-                Array.from(document.querySelectorAll('.md-container'), (e) => ({
-                        id: e.querySelector('h1 a').innerText,
-                        code: e.querySelector('#__code_3 code').innerText,
-                }))
-                ).catch(err => console.log(err));
+                const grabCode = await page.evaluate(() => {
+                        return codeObtained = (document.querySelector('.md-container #__code_2 code').innerText)
+                }).catch(err => console.log(err));
                 console.log(grabCode)
                 codeArray.push(grabCode);
         }
-        fs.writeFile('pyCode.json', JSON.stringify(codeArray), err => {
+        fs.writeFile('testJavaCode.json', JSON.stringify(codeArray), err => {
                 if (err) throw err;
                 console.log('File saved');
         })

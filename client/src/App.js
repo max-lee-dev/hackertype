@@ -3,6 +3,7 @@ import {useState, useRef, useEffect} from 'react'
 import React from 'react'
 import Timer from './components/Timer.js'
 import javaCode from './components/javaCode.json'
+import testJavaCode from './components/testJavaCode.json'
 import pyCode from './components/pyCode.json'
 
 
@@ -14,9 +15,7 @@ import pyCode from './components/pyCode.json'
 
 
 
-function getRandomInt(size) {
-  return (Math.floor(Math.random() * (size)) + 1)
-}
+
 function countReturns(text) {
   let count = 0,
     i = 0;
@@ -26,26 +25,32 @@ function countReturns(text) {
     else return count;
   }
 }
+
 function randomCode() {
   
 
 
   // java
-  let randInt = getRandomInt(javaCode.length)
   // while (javaCode[randInt] === null) {
   //   console.log('retrieving new code.')
   //   randInt = (Math.floor(Math.random() * (javaCode.length)) + 1)
   // }
-  let selectedCode
-  console.log("rand: " + randInt)
+  let randInt = (Math.floor(Math.random() * (testJavaCode.length)) + 1)
+  // while (javaCode[randInt] === null) {
+  //   console.log('retrieving new code.')
+  //   randInt = (Math.floor(Math.random() * (javaCode.length)) + 1)
+  // }
+
+  let selectedCode = testJavaCode[randInt];
+  console.log(selectedCode)
 
 
 
-  javaCode[randInt].map(code => {
-    selectedCode = code.code
+  // javaCode[randInt].map(code => {
+  //   selectedCode = code.code
     
-    return ''
-  })
+  //   return ''
+  // })
   return selectedCode 
 
 
@@ -89,7 +94,7 @@ function App() {
   const [activeWordIndex, setActiveWordIndex] = useState(0)
 
   // -- this is really scuffed but its needed for the indents LMFAO
-  const [rawCode, setRawCode] = useState(randomCode())
+  const [rawCode, setRawCode] = useState('s')
   const [wordBank, setNewWordBank] = useState(getWordBank(rawCode))
   const [indentChars, setIndentChars] = useState(calculateIndentChars())
   const [whiteSpace, setWhiteSpace] = useState(calculateWhitespace())
