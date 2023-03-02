@@ -3,6 +3,7 @@ import {useState, useRef, useEffect} from 'react'
 import React from 'react'
 import Timer from './components/Timer.js'
 import javaCode from './components/javaCode.json'
+import pyCode from './components/pyCode.json'
 
 
 
@@ -10,6 +11,12 @@ import javaCode from './components/javaCode.json'
 
 // remove comments, when i find a // remopve that ENTIRE line not just thaT word
 
+
+
+
+function getRandomInt(size) {
+  return (Math.floor(Math.random() * (size)) + 1)
+}
 function countReturns(text) {
   let count = 0,
     i = 0;
@@ -20,14 +27,41 @@ function countReturns(text) {
   }
 }
 function randomCode() {
-  const randInt = (Math.floor(Math.random() * (javaCode.length)) + 1)
+  
+
+
+  // java
+  let randInt = getRandomInt(javaCode.length)
+  // while (javaCode[randInt] === null) {
+  //   console.log('retrieving new code.')
+  //   randInt = (Math.floor(Math.random() * (javaCode.length)) + 1)
+  // }
   let selectedCode
-  javaCode[2].map(code => {
+  console.log("rand: " + randInt)
+
+
+
+  javaCode[randInt].map(code => {
     selectedCode = code.code
     
     return ''
   })
   return selectedCode 
+
+
+  // python
+  // let randInt = (Math.floor(Math.random() * (pyCode.length)) + 1)
+  // while (pyCode[randInt] === null) {
+  //   console.log('retrieving new code.')
+  //   randInt = (Math.floor(Math.random() * (pyCode.length)) + 1)
+  // }
+  // let selectedCode
+  // pyCode[randInt].map(code => {
+  //   selectedCode = code.code
+    
+  //   return ''
+  // })
+  // return selectedCode 
 }
 
 
@@ -53,7 +87,6 @@ function App() {
   const [startCounting, setStartCounting] = useState(false)
   const [correctWordArray, setCorrectWordArray] = useState([])
   const [activeWordIndex, setActiveWordIndex] = useState(0)
-  const [curIdx, setCurIdx] = useState(0)
 
   // -- this is really scuffed but its needed for the indents LMFAO
   const [rawCode, setRawCode] = useState(randomCode())
@@ -71,7 +104,6 @@ function App() {
     setActiveWordIndex(0)
     setStartCounting(false)
     setCorrectWordArray([])
-    setCurIdx(0)
     setFinished(false)
     setRawCode(randomCode())
     setNewWordBank(getWordBank(rawCode))
@@ -86,10 +118,7 @@ function App() {
   }, [startCounting]);
 
   function Word(props) { // if this doesnt work put it back and try using React.memo
-    const rerender = useRef(0)
-    useEffect (() => {
-      rerender.current += 1
-    })
+    
     const { text, active, correct} = props
     const hasReturn = text.includes('\n')
     
@@ -128,15 +157,12 @@ function App() {
     const characters = rawCode.split('')
     let indent = false;
     characters.map((char, i) => {
-      if (i === 66) console.log(char === '\n')
       if (char === '\n') {
-        if (i === 66) console.log('wat')
         indent = true;
       } else if (indent && (char !== ' ' && char !== '\n')) {
         indent = false;
         ans[i] = 1;
       }
-      console.log(i + " " + char + " " + ans[i])
       return ''
     })
     
@@ -219,12 +245,10 @@ function App() {
     setStartCounting(true)
     
     const value = e.target.value;
-    setStartCounting(true)
     if (value.endsWith(' ')) {
       
       setActiveWordIndex(index => index + 1)
       setUserInput('')
-      setCurIdx(val => val + value.length)
       setCorrectWordArray(data => {
         const word = value.trim()
         const newResult = [...data] 

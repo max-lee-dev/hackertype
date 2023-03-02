@@ -84,9 +84,7 @@
 .textContainer {
     text-align: center;
 }
-#userInput input:focus {
-    background-color: rgba(0, 0, 0, 0.12);
-}
+
 
 #userInput button {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
