@@ -31,15 +31,7 @@ function countReturns(text) {
 
 
 
-function getWordBank (pickedCode)  {
-  const codeWords = pickedCode.split(' ')
-  const finalCode = []
-  codeWords.map(word => {
-    if (word !== '') finalCode.push(word)
-    return console.log()
-  })
-  return finalCode
-}
+
 
 
 
@@ -57,10 +49,11 @@ function App() {
     console.log(choseWord)
     
     setChoseWord(true)
-    let randInt = (Math.floor(Math.random() * (3)))
+    let randInt = 0
     
-    // ["a","b","c","d","e","f"]
-    const arr = ["a","b","c","d","e","f"]
+    // 
+    console.log(testJavaCode)
+    const arr = ['class Solution {\npublic ']
     console.log(randInt)
     let selectedCode = arr[randInt]
     console.log(selectedCode)
@@ -72,7 +65,7 @@ function App() {
 
   
   
-  const [wordBank, setNewWordBank] = useState(getWordBank(rawCode))
+  const [wordBank, setNewWordBank] = useState([])
   const [indentChars, setIndentChars] = useState(calculateIndentChars())
   const [whiteSpace, setWhiteSpace] = useState(calculateWhitespace())
   // --
@@ -80,6 +73,19 @@ function App() {
 
   
   const [finished, setFinished] = useState(false)
+  function getWordBank ()  {
+    const pickedCode = randomCode()
+    setRawCode(pickedCode)
+    
+    const codeWords = pickedCode.split(' ')
+    const finalCode = []
+    codeWords.map(word => {
+      if (word !== '') finalCode.push(word)
+      return console.log()
+    })
+    console.log("picked: " + pickedCode)
+    return finalCode
+  }
 
   function Restart() {
     
@@ -89,11 +95,15 @@ function App() {
     setCorrectWordArray([])
     setFinished(false)
     setChoseWord(false)
+    console.log("pre: " + rawCode)
+    
+    setNewWordBank(getWordBank())
     console.log("post: " + rawCode)
-    setNewWordBank(getWordBank(rawCode))
     setWhiteSpace(calculateWhitespace())
     setIndentChars(calculateIndentChars())
   }
+
+  
   useEffect(() => {
     if (inputElement.current) {
       inputElement.current.focus();
@@ -102,8 +112,7 @@ function App() {
   }, [startCounting]);
 
   function Word(props) { // if this doesnt work put it back and try using React.memo
-    console.log("pre: " + rawCode)
-    setRawCode(randomCode())
+    
     const { text, active, correct} = props
     const hasReturn = text.includes('\n')
     
