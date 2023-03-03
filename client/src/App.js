@@ -42,50 +42,23 @@ function App() {
   const [startCounting, setStartCounting] = useState(false)
   const [correctWordArray, setCorrectWordArray] = useState([])
   const [activeWordIndex, setActiveWordIndex] = useState(0)
-  const [choseWord, setChoseWord] = useState(false)
+  const [leetcodeTitle, setLeetcodeTitle] = useState('')
 
   // -- this is really scuffed but its needed for the indents LMFAO
-  function randomCode() {
-    console.log(choseWord)
-    
-    setChoseWord(true)
-    let randInt = 0
-    
-    // 
-    console.log(testJavaCode)
-    const arr = ['class Solution {\npublic ']
-    console.log(randInt)
-    let selectedCode = arr[randInt]
-    console.log(selectedCode)
-    return selectedCode 
-  }
-  const [rawCode, setRawCode] = useState('das') // useState(randomCode) makes it call on every key press
+  
 
 
 
   
   
   const [wordBank, setNewWordBank] = useState([])
-  const [indentChars, setIndentChars] = useState(calculateIndentChars())
-  const [whiteSpace, setWhiteSpace] = useState(calculateWhitespace())
+  const [whiteSpace, setWhiteSpace] = useState([])
   // --
   
 
   
   const [finished, setFinished] = useState(false)
-  function getWordBank ()  {
-    const pickedCode = randomCode()
-    setRawCode(pickedCode)
-    
-    const codeWords = pickedCode.split(' ')
-    const finalCode = []
-    codeWords.map(word => {
-      if (word !== '') finalCode.push(word)
-      return console.log()
-    })
-    console.log("picked: " + pickedCode)
-    return finalCode
-  }
+  
 
   function Restart() {
     
@@ -94,13 +67,115 @@ function App() {
     setStartCounting(false)
     setCorrectWordArray([])
     setFinished(false)
-    setChoseWord(false)
-    console.log("pre: " + rawCode)
+    //
+    Reset()
+  }
+
+  function randomCode() {
+    const language = javaCode
+    let randInt = (Math.floor(Math.random() * (language.length)))
+    let selectedCode = ''
+    let codeTitle = ''
     
-    setNewWordBank(getWordBank())
-    console.log("post: " + rawCode)
-    setWhiteSpace(calculateWhitespace())
-    setIndentChars(calculateIndentChars())
+    const test = language[randInt]
+    test.map((codeInfo) => {
+      selectedCode = codeInfo.code
+      codeTitle = codeInfo.id
+    })
+    // 
+    setLeetcodeTitle(codeTitle)
+    return selectedCode 
+  }
+
+  function Reset() {
+    let funcRawCode = randomCode()
+    let funcWordBank = []
+    let funcIndentChars = []
+    let funcWhiteSpace = []
+
+    // wordbank
+    const codeWords = funcRawCode.split(' ')
+    const finalCode = []
+    codeWords.map(word => {
+      if (word !== '') finalCode.push(word)
+      return console.log()
+    })
+    funcWordBank = finalCode
+    ///////////////
+
+    // indent chars
+    const ans = []
+    const characters = funcRawCode.split('')
+    let indent = false;
+    characters.map((char, i) => {
+      if (char === '\n') {
+        indent = true;
+      } else if (indent && (char !== ' ' && char !== '\n')) {
+        indent = false;
+        ans[i] = 1;
+      }
+      return ''
+    })
+    
+    funcIndentChars = ans
+    //////////
+
+    // white space
+
+    const whiteSpaceAns = []
+    const map = {}
+    funcWordBank.map((word, idx) => {
+      
+      if (idx === 0) return ans[idx] = 0
+      if (!funcWordBank[idx-1].includes('\n')) return ans[idx] = 0
+      
+      // hasIndent
+      
+      if (map[word] !== undefined) {
+        
+        let index = funcRawCode.indexOf(`${word}`)
+        while (funcIndentChars[index] === undefined) {
+          index = funcRawCode.indexOf(`${word}`, index + 1)
+        }
+        index--;
+
+        let space = 0
+        
+        while (funcRawCode.charAt(index) === ' ') {
+          
+          space++
+          index--
+        }
+        map[word] = index + 1
+        whiteSpaceAns[idx] = space
+        return ''
+        
+
+      } else {
+        
+        let index = funcRawCode.indexOf(`${word}`)
+        while (funcIndentChars[index] === undefined) {
+          index = funcRawCode.indexOf(`${word}`, index + 1)
+        }
+        index--;
+        let space = 0
+        
+        while (funcRawCode.charAt(index) === ' ') {
+          space++
+          index--
+        }
+        map[word] = index + 1
+        
+        whiteSpaceAns[idx] = space
+        return ''
+      }
+
+    })
+    funcWhiteSpace = whiteSpaceAns;
+
+    
+    setNewWordBank(funcWordBank)
+    setWhiteSpace(funcWhiteSpace)
   }
 
   
@@ -146,78 +221,9 @@ function App() {
   // eslint-disable-next-line
   Word = React.memo(Word)
 
-  function calculateIndentChars() {
-    const ans = []
-    const characters = rawCode.split('')
-    let indent = false;
-    characters.map((char, i) => {
-      if (char === '\n') {
-        indent = true;
-      } else if (indent && (char !== ' ' && char !== '\n')) {
-        indent = false;
-        ans[i] = 1;
-      }
-      return ''
-    })
-    
-    return ans
-  }
+  
 
-  function calculateWhitespace() {
-    // for each word, first identify if it hasIndent
-    
-    const ans = []
-    const map = {}
-    wordBank.map((word, idx) => {
-      
-      if (idx === 0) return ans[idx] = 0
-      if (!wordBank[idx-1].includes('\n')) return ans[idx] = 0
-      
-      // hasIndent
-      
-      if (map[word] !== undefined) {
-        
-        let index = rawCode.indexOf(`${word}`)
-        while (indentChars[index] === undefined) {
-          index = rawCode.indexOf(`${word}`, index + 1)
-        }
-        index--;
-
-        let space = 0
-        
-        while (rawCode.charAt(index) === ' ') {
-          
-          space++
-          index--
-        }
-        map[word] = index + 1
-        ans[idx] = space
-        return ''
-        
-
-      } else {
-        
-        let index = rawCode.indexOf(`${word}`)
-        
-        while (indentChars[index] === undefined) {
-          index = rawCode.indexOf(`${word}`, index + 1)
-        }
-        index--;
-        let space = 0
-        
-        while (rawCode.charAt(index) === ' ') {
-          space++
-          index--
-        }
-        map[word] = index + 1
-        
-        ans[idx] = space
-        return ''
-      }
-
-    })
-    return ans;
-  }
+ 
 
   function handleKeyDown(e) {
     if (e.key === 'Enter' && inputElement.current.type === document.activeElement.type) {
@@ -308,6 +314,7 @@ function App() {
               <p>{!finished && wordBank.map((word, index) => {
                 let s = ''
                 for (let i = 0; i < whiteSpace[index]; i++) {
+                  
                   s += '    '
                 }
                 return <span key={index} className = 'displayText'>{s}<Word 
