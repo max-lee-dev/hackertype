@@ -331,7 +331,7 @@ function App() {
                   ref = {inputElement}
                 />}
               </div>
-            </div>
+            </div> 
             <div className = 'text'>
 
               <p>{!finished && wordBank.map((word, index) => {
@@ -347,7 +347,7 @@ function App() {
                   text = {word}
                   active={index === activeWordIndex}
                   correct={correctWordArray[index]}
-                  //a
+                  
                 />
                 </span>
               })}</p>
