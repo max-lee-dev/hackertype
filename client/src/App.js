@@ -5,6 +5,7 @@ import Timer from './components/Timer.js'
 import javaCode from './components/javaCode.json'
 import testJavaCode from './components/testJavaCode.json'
 import pyCode from './components/pyCode.json'
+import cppCode from './components/cppCode.json'
 
 
 
@@ -53,32 +54,40 @@ function App() {
   
   const [wordBank, setNewWordBank] = useState([])
   const [whiteSpace, setWhiteSpace] = useState([])
+  const [language, setLanguage] = useState('javaCode')
+  const [newUser, setNewUser] = useState(true)
   // --
   
 
   
   const [finished, setFinished] = useState(false)
   
-
-  function Restart() {
-    
+  function Restart(codingLanguage) {
+    setLanguage(codingLanguage)
+    setNewUser(false)
     setUserInput('')
     setActiveWordIndex(0)
     setStartCounting(false)
     setCorrectWordArray([])
     setFinished(false)
     //
-    Reset()
+    Reset(codingLanguage)
   }
-
-  function randomCode() {
-    const language = javaCode
-    let randInt = (Math.floor(Math.random() * (language.length)))
+  function randomCode(codingLanguage) {
+    let codeLang
+    if (codingLanguage === 'cpp') codeLang = cppCode // C++ CRASHING RN PROB CAUSE COMMENTS (theyt end in smth sus)
+    else if (codingLanguage === 'java') codeLang = javaCode
+    else if (codingLanguage === 'python') codeLang = pyCode
+    let randInt = (Math.floor(Math.random() * (codeLang.length)))
     let selectedCode = ''
     let codeTitle = ''
     
-    const test = language[randInt]
-    test.map((codeInfo) => {
+    let pulledCode = codeLang[randInt]
+    while (pulledCode === null) {
+      randInt = (Math.floor(Math.random() * (codeLang.length)))
+      pulledCode = codeLang[randInt]
+    }
+    pulledCode.map((codeInfo) => {
       selectedCode = codeInfo.code
       codeTitle = codeInfo.id
     })
@@ -87,8 +96,8 @@ function App() {
     return selectedCode 
   }
 
-  function Reset() {
-    let funcRawCode = randomCode()
+  function Reset(codingLanguage) {
+    let funcRawCode = randomCode(codingLanguage)
     let funcWordBank = []
     let funcIndentChars = []
     let funcWhiteSpace = []
@@ -223,7 +232,6 @@ function App() {
 
   
 
- 
 
   function handleKeyDown(e) {
     if (e.key === 'Enter' && inputElement.current.type === document.activeElement.type) {
@@ -234,9 +242,14 @@ function App() {
           return newResult
   
         })
+        if (activeWordIndex === wordBank.length - 1) { 
         
+          setFinished(true)
+          return
+        }
         setUserInput('')
         setActiveWordIndex(input => input + 1)
+        
       }
     }
   }
@@ -283,11 +296,19 @@ function App() {
     <div className = 'body'>
       <div className = 'container'>
         <div className = 'title'><h1> some name </h1></div>
+        
         <div className = 'content'>
-          
+        <button onClick={() => Restart('cpp')}>C++</button>
+        <button onClick={() => Restart('java')}>Java</button>
+        <button onClick={() => Restart('python')}>Python</button>
           <div className = 'inputContainer'>
+            <div className = 'leetcodeTitle'>
+              {finished && <p>{leetcodeTitle}</p>}
+            </div>
             <div id = 'timer'>
+              
               <Timer
+                codeID={leetcodeTitle}
                 startCounting={startCounting}
                 pause={finished}
                 correctWords={correctWordArray.filter(Boolean).length}
@@ -298,7 +319,7 @@ function App() {
             </div>
             <div className = 'textContainer'>
               <div>
-                {!finished && <input 
+                {!newUser && !finished && <input 
                   className = 'textInput'
                   type="text" 
                   value={userInput} 
@@ -313,9 +334,11 @@ function App() {
 
               <p>{!finished && wordBank.map((word, index) => {
                 let s = ''
-                for (let i = 0; i < whiteSpace[index]; i++) {
-                  
-                  s += '    '
+                if (language === 'python' || index !== word.length) {
+                  for (let i = 0; i < whiteSpace[index]; i++) {
+                    
+                    s += '    '
+                  }
                 }
                 return <span key={index} className = 'displayText'>{s}<Word 
                   
@@ -332,8 +355,9 @@ function App() {
         </div>
         <div id = "userInput"> 
          
-          <button onClick={() => Restart()}>Restart Test</button>
-          <p className = "reminder">Press Tab + Enter to Restart Test</p>
+          {!newUser && <button onClick={() => Restart(language)}>Restart Test</button>}
+          {!newUser && <p className = "reminder">Press Tab + Enter to Restart Test</p>}
+          
         </div>
       </div>
     </div>
