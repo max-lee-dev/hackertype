@@ -14,7 +14,7 @@ TODO:
 - add user-set time limit
 - better UI obviously it looks garbage rn
 - nav bar
-
+- RETRY TEST
 
 
 

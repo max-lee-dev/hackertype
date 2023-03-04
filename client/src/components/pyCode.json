@@ -134,7 +134,7 @@
   [
     {
       "id": "23. Merge k Sorted Lists",
-      "code": "from queue import PriorityQueue\n\n\nclass Solution:\n  def mergeKLists(self, lists: List[ListNode]) -> ListNode:\n    dummy = ListNode(0)\n    curr = dummy\n    pq = PriorityQueue()\n\n    for i, lst in enumerate(lists):\n      if lst:\n        pq.put((lst.val, i, lst))\n\n    while not pq.empty():\n      _, i, minNode = pq.get()\n      if minNode.next:\n        pq.put((minNode.next.val, i, minNode.next))\n      curr.next = minNode\n      curr = curr.next\n\n    return dummy.next\n"
+      "code": "from queue import PriorityQueue\n\n\n class Solution:\n  def mergeKLists(self, lists: List[ListNode]) -> ListNode:\n    dummy = ListNode(0)\n    curr = dummy\n    pq = PriorityQueue()\n\n    for i, lst in enumerate(lists):\n      if lst:\n        pq.put((lst.val, i, lst))\n\n    while not pq.empty():\n      _, i, minNode = pq.get()\n      if minNode.next:\n        pq.put((minNode.next.val, i, minNode.next))\n      curr.next = minNode\n      curr = curr.next\n\n    return dummy.next\n"
     }
   ],
   [
@@ -872,7 +872,7 @@
   [
     {
       "id": "146. LRU Cache",
-      "code": "class Node:\n  def __init__(self, key: int, value: int):\n    self.key = key\n    self.value = value\n    self.prev = None\n    self.next = None\n\n\nclass LRUCache:\n  def __init__(self, capacity: int):\n    self.capacity = capacity\n    self.keyToNode = {}\n    self.head = Node(-1, -1)\n    self.tail = Node(-1, -1)\n    self.join(self.head, self.tail)\n\n  def get(self, key: int) -> int:\n    if key not in self.keyToNode:\n      return -1\n\n    node = self.keyToNode[key]\n    self.remove(node)\n    self.moveToHead(node)\n    return node.value\n\n  def put(self, key: int, value: int) -> None:\n    if key in self.keyToNode:\n      node = self.keyToNode[key]\n      node.value = value\n      self.remove(node)\n      self.moveToHead(node)\n      return\n\n    if len(self.keyToNode) == self.capacity:\n      lastNode = self.tail.prev\n      del self.keyToNode[lastNode.key]\n      self.remove(lastNode)\n\n    self.moveToHead(Node(key, value))\n    self.keyToNode[key] = self.head.next\n\n  def join(self, node1: Node, node2: Node):\n    node1.next = node2\n    node2.prev = node1\n\n  def moveToHead(self, node: Node):\n    self.join(node, self.head.next)\n    self.join(self.head, node)\n\n  def remove(self, node: Node):\n    self.join(node.prev, node.next)\n"
+      "code": "class Node:\n  def __init__(self, key: int, value: int):\n    self.key = key\n    self.value = value\n    self.prev = None\n    self.next = None\n\n\n class LRUCache:\n  def __init__(self, capacity: int):\n    self.capacity = capacity\n    self.keyToNode = {}\n    self.head = Node(-1, -1)\n    self.tail = Node(-1, -1)\n    self.join(self.head, self.tail)\n\n  def get(self, key: int) -> int:\n    if key not in self.keyToNode:\n      return -1\n\n    node = self.keyToNode[key]\n    self.remove(node)\n    self.moveToHead(node)\n    return node.value\n\n  def put(self, key: int, value: int) -> None:\n    if key in self.keyToNode:\n      node = self.keyToNode[key]\n      node.value = value\n      self.remove(node)\n      self.moveToHead(node)\n      return\n\n    if len(self.keyToNode) == self.capacity:\n      lastNode = self.tail.prev\n      del self.keyToNode[lastNode.key]\n      self.remove(lastNode)\n\n    self.moveToHead(Node(key, value))\n    self.keyToNode[key] = self.head.next\n\n  def join(self, node1: Node, node2: Node):\n    node1.next = node2\n    node2.prev = node1\n\n  def moveToHead(self, node: Node):\n    self.join(node, self.head.next)\n    self.join(self.head, node)\n\n  def remove(self, node: Node):\n    self.join(node.prev, node.next)\n"
     }
   ],
   [
@@ -935,18 +935,8 @@
       "code": "class Solution:\n  def upsideDownBinaryTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:\n    if not root or not root.left:\n      return root\n\n    newRoot = self.upsideDownBinaryTree(root.left)\n    root.left.left = root.right  # 2's left = 3 (root's right)\n    root.left.right = root  # 2's right = 1 (root)\n    root.left = None\n    root.right = None\n    return newRoot\n"
     }
   ],
-  [
-    {
-      "id": "157. Read N Characters Given Read4",
-      "code": "\"\"\"\nThe read4 API is already defined for you.\n    def read4(buf4: List[chr]) -> int:\n\n# Below is an example of how the read4 API can be called.\nfile = File(\"abcdefghijk\") # File is \"abcdefghijk\", initially file pointer (fp) points to 'a'\nbuf4 = [' '] * 4 # Create buffer with enough space to store characters\nread4(buf4) # Read4 returns 4. Now buf = ['a','b','c','d'], fp points to 'e'\nread4(buf4) # Read4 returns 4. Now buf = ['e','f','g','h'], fp points to 'i'\nread4(buf4) # Read4 returns 3. Now buf = ['i','j','k',...], fp points to end of file\n\"\"\"\n\n\nclass Solution:\n  def read(self, buf: List[str], n: int) -> int:\n    buf4 = [' '] * 4\n    i4 = 0  # buf4's index\n    n4 = 0  # buf4's size\n    i = 0  # buf's index\n\n    while i < n:\n      if i4 == n4:  # All characters in buf4 are consumed\n        i4 = 0  # Reset buf4's index\n        n4 = read4(buf4)  # Read 4 (or less) chars from file to buf4\n        if n4 == 0:  # Reach the EOF\n          return i\n      buf[i] = buf4[i4]\n      i += 1\n      i4 += 1\n\n    return i\n"
-    }
-  ],
-  [
-    {
-      "id": "158. Read N Characters Given read4 II - Call Multiple Times",
-      "code": "# The read4 API is already defined for you.\n# Def read4(buf4: List[str]) -> int:\n\nclass Solution:\n  def read(self, buf: List[str], n: int) -> int:\n    i = 0  # buf's index\n\n    while i < n:\n      if self.i4 == self.n4:  # All characters in buf4 are consumed\n        self.i4 = 0  # Reset buf4's index\n        self.n4 = read4(self.buf4)  # Read 4 (or less) chars from file to buf4\n        if self.n4 == 0:  # Reach the EOF\n          return i\n      buf[i] = self.buf4[self.i4]\n      i += 1\n      self.i4 += 1\n\n    return i\n\n  buf4 = [' '] * 4\n  i4 = 0  # buf4's index\n  n4 = 0  # buf4's size\n"
-    }
-  ],
+  null,
+  null,
   [
     {
       "id": "159. Longest Substring with At Most Two Distinct Characters",
@@ -980,7 +970,7 @@
   [
     {
       "id": "164. Maximum Gap",
-      "code": "class Bucket:\n  def __init__(self, mini: int, maxi: int):\n    self.mini = mini\n    self.maxi = maxi\n\n\nclass Solution:\n  def maximumGap(self, nums: List[int]) -> int:\n    if len(nums) < 2:\n      return 0\n\n    mini = min(nums)\n    maxi = max(nums)\n    if mini == maxi:\n      return 0\n\n    gap = math.ceil((maxi - mini) / (len(nums) - 1))\n    bucketSize = (maxi - mini) // gap + 1\n    buckets = [Bucket(math.inf, -math.inf) for _ in range(bucketSize)]\n\n    for num in nums:\n      i = (num - mini) // gap\n      buckets[i].mini = min(buckets[i].mini, num)\n      buckets[i].maxi = max(buckets[i].maxi, num)\n\n    ans = 0\n    prevMax = mini\n\n    for bucket in buckets:\n      if bucket.mini == math.inf:\n        continue  # Empty bucket\n      ans = max(ans, bucket.mini - prevMax)\n      prevMax = bucket.maxi\n\n    return ans\n"
+      "code": "class Bucket:\n  def __init__(self, mini: int, maxi: int):\n    self.mini = mini\n    self.maxi = maxi\n\n\n class Solution:\n  def maximumGap(self, nums: List[int]) -> int:\n    if len(nums) < 2:\n      return 0\n\n    mini = min(nums)\n    maxi = max(nums)\n    if mini == maxi:\n      return 0\n\n    gap = math.ceil((maxi - mini) / (len(nums) - 1))\n    bucketSize = (maxi - mini) // gap + 1\n    buckets = [Bucket(math.inf, -math.inf) for _ in range(bucketSize)]\n\n    for num in nums:\n      i = (num - mini) // gap\n      buckets[i].mini = min(buckets[i].mini, num)\n      buckets[i].maxi = max(buckets[i].maxi, num)\n\n    ans = 0\n    prevMax = mini\n\n    for bucket in buckets:\n      if bucket.mini == math.inf:\n        continue  # Empty bucket\n      ans = max(ans, bucket.mini - prevMax)\n      prevMax = bucket.maxi\n\n    return ans\n"
     }
   ],
   [
@@ -1050,7 +1040,7 @@
   [
     {
       "id": "179. Largest Number",
-      "code": "class LargerStrKey(str):\n  def __lt__(x: str, y: str) -> bool:\n    return x + y > y + x\n\n\nclass Solution:\n  def largestNumber(self, nums: List[int]) -> str:\n    return ''.join(sorted(map(str, nums), key=LargerStrKey)).lstrip('0') or '0'\n"
+      "code": "class LargerStrKey(str):\n  def __lt__(x: str, y: str) -> bool:\n    return x + y > y + x\n\n\n class Solution:\n  def largestNumber(self, nums: List[int]) -> str:\n    return ''.join(sorted(map(str, nums), key=LargerStrKey)).lstrip('0') or '0'\n"
     }
   ],
   null,
@@ -1158,13 +1148,13 @@
   [
     {
       "id": "207. Course Schedule",
-      "code": "from enum import Enum\n\n\nclass State(Enum):\n  kInit = 0\n  kVisiting = 1\n  kVisited = 2\n\n\nclass Solution:\n  def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:\n    graph = [[] for _ in range(numCourses)]\n    state = [State.kInit] * numCourses\n\n    for a, b in prerequisites:\n      graph[b].append(a)\n\n    def hasCycle(u: int) -> bool:\n      if state[u] == State.kVisiting:\n        return True\n      if state[u] == State.kVisited:\n        return False\n\n      state[u] = State.kVisiting\n      if any(hasCycle(v) for v in graph[u]):\n        return True\n      state[u] = State.kVisited\n\n      return False\n\n    return not any(hasCycle(i) for i in range(numCourses))\n"
+      "code": "from enum import Enum\n\n\n class State(Enum):\n  kInit = 0\n  kVisiting = 1\n  kVisited = 2\n\n\n class Solution:\n  def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:\n    graph = [[] for _ in range(numCourses)]\n    state = [State.kInit] * numCourses\n\n    for a, b in prerequisites:\n      graph[b].append(a)\n\n    def hasCycle(u: int) -> bool:\n      if state[u] == State.kVisiting:\n        return True\n      if state[u] == State.kVisited:\n        return False\n\n      state[u] = State.kVisiting\n      if any(hasCycle(v) for v in graph[u]):\n        return True\n      state[u] = State.kVisited\n\n      return False\n\n    return not any(hasCycle(i) for i in range(numCourses))\n"
     }
   ],
   [
     {
       "id": "208. Implement Trie (Prefix Tree)",
-      "code": "class TrieNode:\n  def __init__(self):\n    self.children: Dict[str, TrieNode] = collections.defaultdict(TrieNode)\n    self.isWord = False\n\n\nclass Trie:\n  def __init__(self):\n    self.root = TrieNode()\n\n  def insert(self, word: str) -> None:\n    node: TrieNode = self.root\n    for c in word:\n      if c not in node.children:\n        node.children[c] = TrieNode()\n      node = node.children[c]\n    node.isWord = True\n\n  def search(self, word: str) -> bool:\n    node: TrieNode = self._find(word)\n    return node and node.isWord\n\n  def startsWith(self, prefix: str) -> bool:\n    return self._find(prefix)\n\n  def _find(self, prefix: str) -> Optional[TrieNode]:\n    node: TrieNode = self.root\n    for c in prefix:\n      if c not in node.children:\n        return None\n      node = node.children[c]\n    return node\n"
+      "code": "class TrieNode:\n  def __init__(self):\n    self.children: Dict[str, TrieNode] = collections.defaultdict(TrieNode)\n    self.isWord = False\n\n\n class Trie:\n  def __init__(self):\n    self.root = TrieNode()\n\n  def insert(self, word: str) -> None:\n    node: TrieNode = self.root\n    for c in word:\n      if c not in node.children:\n        node.children[c] = TrieNode()\n      node = node.children[c]\n    node.isWord = True\n\n  def search(self, word: str) -> bool:\n    node: TrieNode = self._find(word)\n    return node and node.isWord\n\n  def startsWith(self, prefix: str) -> bool:\n    return self._find(prefix)\n\n  def _find(self, prefix: str) -> Optional[TrieNode]:\n    node: TrieNode = self.root\n    for c in prefix:\n      if c not in node.children:\n        return None\n      node = node.children[c]\n    return node\n"
     }
   ],
   [
@@ -1176,19 +1166,19 @@
   [
     {
       "id": "210. Course Schedule II",
-      "code": "from enum import Enum\n\n\nclass State(Enum):\n  kInit = 0\n  kVisiting = 1\n  kVisited = 2\n\n\nclass Solution:\n  def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:\n    ans = []\n    graph = [[] for _ in range(numCourses)]\n    state = [State.kInit] * numCourses\n\n    for v, u in prerequisites:\n      graph[u].append(v)\n\n    def hasCycle(u: int) -> bool:\n      if state[u] == State.kVisiting:\n        return True\n      if state[u] == State.kVisited:\n        return False\n\n      state[u] = State.kVisiting\n      if any(hasCycle(v) for v in graph[u]):\n        return True\n      state[u] = State.kVisited\n      ans.append(u)\n\n      return False\n\n    if any(hasCycle(i) for i in range(numCourses)):\n      return []\n\n    return ans[::-1]\n"
+      "code": "from enum import Enum\n\n\n class State(Enum):\n  kInit = 0\n  kVisiting = 1\n  kVisited = 2\n\n\n class Solution:\n  def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:\n    ans = []\n    graph = [[] for _ in range(numCourses)]\n    state = [State.kInit] * numCourses\n\n    for v, u in prerequisites:\n      graph[u].append(v)\n\n    def hasCycle(u: int) -> bool:\n      if state[u] == State.kVisiting:\n        return True\n      if state[u] == State.kVisited:\n        return False\n\n      state[u] = State.kVisiting\n      if any(hasCycle(v) for v in graph[u]):\n        return True\n      state[u] = State.kVisited\n      ans.append(u)\n\n      return False\n\n    if any(hasCycle(i) for i in range(numCourses)):\n      return []\n\n    return ans[::-1]\n"
     }
   ],
   [
     {
       "id": "211. Design Add and Search Words Data Structure",
-      "code": "class TrieNode:\n  def __init__(self):\n    self.children: Dict[str, TrieNode] = collections.defaultdict(TrieNode)\n    self.isWord = False\n\n\nclass WordDictionary:\n  def __init__(self):\n    self.root = TrieNode()\n\n  def addWord(self, word: str) -> None:\n    node: TrieNode = self.root\n    for c in word:\n      if c not in node.children:\n        node.children[c] = TrieNode()\n      node = node.children[c]\n    node.isWord = True\n\n  def search(self, word: str) -> bool:\n    return self._dfs(word, 0, self.root)\n\n  def _dfs(self, word: str, s: int, node: TrieNode) -> bool:\n    if s == len(word):\n      return node.isWord\n    if word[s] != '.':\n      next: TrieNode = node.children[word[s]]\n      return self._dfs(word, s + 1, next) if next else False\n\n    for c in string.ascii_lowercase:\n      if c in node.children and self._dfs(word, s + 1, node.children[c]):\n        return True\n\n    return False\n"
+      "code": "class TrieNode:\n  def __init__(self):\n    self.children: Dict[str, TrieNode] = collections.defaultdict(TrieNode)\n    self.isWord = False\n\n\n class WordDictionary:\n  def __init__(self):\n    self.root = TrieNode()\n\n  def addWord(self, word: str) -> None:\n    node: TrieNode = self.root\n    for c in word:\n      if c not in node.children:\n        node.children[c] = TrieNode()\n      node = node.children[c]\n    node.isWord = True\n\n  def search(self, word: str) -> bool:\n    return self._dfs(word, 0, self.root)\n\n  def _dfs(self, word: str, s: int, node: TrieNode) -> bool:\n    if s == len(word):\n      return node.isWord\n    if word[s] != '.':\n      next: TrieNode = node.children[word[s]]\n      return self._dfs(word, s + 1, next) if next else False\n\n    for c in string.ascii_lowercase:\n      if c in node.children and self._dfs(word, s + 1, node.children[c]):\n        return True\n\n    return False\n"
     }
   ],
   [
     {
       "id": "212. Word Search II",
-      "code": "class TrieNode:\n  def __init__(self):\n    self.children: Dict[str, TrieNode] = collections.defaultdict(TrieNode)\n    self.word: Optional[str] = None\n\n\nclass Solution:\n  def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:\n    m = len(board)\n    n = len(board[0])\n    ans = []\n    root = TrieNode()\n\n    def insert(word: str) -> None:\n      node = root\n      for c in word:\n        if c not in node.children:\n          node.children[c] = TrieNode()\n        node = node.children[c]\n      node.word = word\n\n    for word in words:\n      insert(word)\n\n    def dfs(i: int, j: int, node: TrieNode) -> None:\n      if i < 0 or i == m or j < 0 or j == n:\n        return\n      if board[i][j] == '*':\n        return\n\n      c = board[i][j]\n      if c not in node.children:\n        return\n\n      child = node.children[c]\n      if child.word:\n        ans.append(child.word)\n        child.word = None\n\n      board[i][j] = '*'\n      dfs(i + 1, j, child)\n      dfs(i - 1, j, child)\n      dfs(i, j + 1, child)\n      dfs(i, j - 1, child)\n      board[i][j] = c\n\n    for i in range(m):\n      for j in range(n):\n        dfs(i, j, root)\n\n    return ans\n"
+      "code": "class TrieNode:\n  def __init__(self):\n    self.children: Dict[str, TrieNode] = collections.defaultdict(TrieNode)\n    self.word: Optional[str] = None\n\n\n class Solution:\n  def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:\n    m = len(board)\n    n = len(board[0])\n    ans = []\n    root = TrieNode()\n\n    def insert(word: str) -> None:\n      node = root\n      for c in word:\n        if c not in node.children:\n          node.children[c] = TrieNode()\n        node = node.children[c]\n      node.word = word\n\n    for word in words:\n      insert(word)\n\n    def dfs(i: int, j: int, node: TrieNode) -> None:\n      if i < 0 or i == m or j < 0 or j == n:\n        return\n      if board[i][j] == '*':\n        return\n\n      c = board[i][j]\n      if c not in node.children:\n        return\n\n      child = node.children[c]\n      if child.word:\n        ans.append(child.word)\n        child.word = None\n\n      board[i][j] = '*'\n      dfs(i + 1, j, child)\n      dfs(i - 1, j, child)\n      dfs(i, j + 1, child)\n      dfs(i, j - 1, child)\n      board[i][j] = c\n\n    for i in range(m):\n      for j in range(n):\n        dfs(i, j, root)\n\n    return ans\n"
     }
   ],
   [
@@ -1565,12 +1555,7 @@
       "code": "class Solution:\n  def numWays(self, n: int, k: int) -> int:\n    if n == 0:\n      return 0\n    if n == 1:\n      return k\n    if n == 2:\n      return k * k\n\n    # dp[i] := # Of ways to pan posts with k colors\n    dp = [0] * (n + 1)\n    dp[0] = 0\n    dp[1] = k\n    dp[2] = k * k\n\n    for i in range(3, n + 1):\n      dp[i] = (dp[i - 1] + dp[i - 2]) * (k - 1)\n\n    return dp[n]\n"
     }
   ],
-  [
-    {
-      "id": "277. Find the Celebrity",
-      "code": "# The knows API is already defined for you.\n# Returns a bool, whether a knows b\n# Def knows(a: int, b: int) -> bool:\n\n\nclass Solution:\n  def findCelebrity(self, n: int) -> int:\n    candidate = 0\n\n    # Everyone knows the celebrity\n    for i in range(1, n):\n      if knows(candidate, i):\n        candidate = i\n\n    # Candidate knows nobody and everyone knows the celebrity\n    for i in range(n):\n      if i < candidate and knows(candidate, i) or not knows(i, candidate):\n        return -1\n      if i > candidate and not knows(i, candidate):\n        return -1\n\n    return candidate\n"
-    }
-  ],
+  null,
   [
     {
       "id": "278. First Bad Version",
@@ -1736,7 +1721,7 @@
   [
     {
       "id": "305. Number of Islands II",
-      "code": "class UnionFind:\n  def __init__(self, n: int):\n    self.id = [-1] * n\n    self.rank = [0] * n\n\n  def unionByRank(self, u: int, v: int) -> None:\n    i = self.find(u)\n    j = self.find(v)\n    if i == j:\n      return\n    if self.rank[i] < self.rank[j]:\n      self.id[i] = self.id[j]\n    elif self.rank[i] > self.rank[j]:\n      self.id[j] = self.id[i]\n    else:\n      self.id[i] = self.id[j]\n      self.rank[j] += 1\n\n  def find(self, u: int) -> int:\n    if self.id[u] != u:\n      self.id[u] = self.find(self.id[u])\n    return self.id[u]\n\n\nclass Solution:\n  def numIslands2(self, m: int, n: int, positions: List[List[int]]) -> List[int]:\n    dirs = [0, 1, 0, -1, 0]\n    ans = []\n    seen = [[False] * n for _ in range(m)]\n    uf = UnionFind(m * n)\n    count = 0\n\n    def getId(i: int, j: int, n: int) -> int:\n      return i * n + j\n\n    for i, j in positions:\n      if seen[i][j]:\n        ans.append(count)\n        continue\n      seen[i][j] = True\n      id = getId(i, j, n)\n      uf.id[id] = id\n      count += 1\n      for k in range(4):\n        x = i + dirs[k]\n        y = j + dirs[k + 1]\n        if x < 0 or x == m or y < 0 or y == n:\n          continue\n        neighborId = getId(x, y, n)\n        if uf.id[neighborId] == -1:  # Water\n          continue\n        currentParent = uf.find(id)\n        neighborParent = uf.find(neighborId)\n        if currentParent != neighborParent:\n          uf.unionByRank(currentParent, neighborParent)\n          count -= 1\n      ans.append(count)\n\n    return ans\n"
+      "code": "class UnionFind:\n  def __init__(self, n: int):\n    self.id = [-1] * n\n    self.rank = [0] * n\n\n  def unionByRank(self, u: int, v: int) -> None:\n    i = self.find(u)\n    j = self.find(v)\n    if i == j:\n      return\n    if self.rank[i] < self.rank[j]:\n      self.id[i] = self.id[j]\n    elif self.rank[i] > self.rank[j]:\n      self.id[j] = self.id[i]\n    else:\n      self.id[i] = self.id[j]\n      self.rank[j] += 1\n\n  def find(self, u: int) -> int:\n    if self.id[u] != u:\n      self.id[u] = self.find(self.id[u])\n    return self.id[u]\n\n\n class Solution:\n  def numIslands2(self, m: int, n: int, positions: List[List[int]]) -> List[int]:\n    dirs = [0, 1, 0, -1, 0]\n    ans = []\n    seen = [[False] * n for _ in range(m)]\n    uf = UnionFind(m * n)\n    count = 0\n\n    def getId(i: int, j: int, n: int) -> int:\n      return i * n + j\n\n    for i, j in positions:\n      if seen[i][j]:\n        ans.append(count)\n        continue\n      seen[i][j] = True\n      id = getId(i, j, n)\n      uf.id[id] = id\n      count += 1\n      for k in range(4):\n        x = i + dirs[k]\n        y = j + dirs[k + 1]\n        if x < 0 or x == m or y < 0 or y == n:\n          continue\n        neighborId = getId(x, y, n)\n        if uf.id[neighborId] == -1:  # Water\n          continue\n        currentParent = uf.find(id)\n        neighborParent = uf.find(neighborId)\n        if currentParent != neighborParent:\n          uf.unionByRank(currentParent, neighborParent)\n          count -= 1\n      ans.append(count)\n\n    return ans\n"
     }
   ],
   [
@@ -1748,13 +1733,13 @@
   [
     {
       "id": "307. Range Sum Query - Mutable",
-      "code": "class FenwickTree:\n  def __init__(self, n: int):\n    self.sums = [0] * (n + 1)\n\n  def update(self, i: int, delta: int) -> None:\n    while i < len(self.sums):\n      self.sums[i] += delta\n      i += FenwickTree.lowbit(i)\n\n  def get(self, i: int) -> int:\n    summ = 0\n    while i > 0:\n      summ += self.sums[i]\n      i -= FenwickTree.lowbit(i)\n    return summ\n\n  @staticmethod\n  def lowbit(i: int) -> int:\n    return i & -i\n\n\nclass NumArray:\n  def __init__(self, nums: List[int]):\n    self.nums = nums\n    self.tree = FenwickTree(len(nums))\n    for i, num in enumerate(nums):\n      self.tree.update(i + 1, num)\n\n  def update(self, index: int, val: int) -> None:\n    self.tree.update(index + 1, val - self.nums[index])\n    self.nums[index] = val\n\n  def sumRange(self, left: int, right: int) -> int:\n    return self.tree.get(right + 1) - self.tree.get(left)\n"
+      "code": "class FenwickTree:\n  def __init__(self, n: int):\n    self.sums = [0] * (n + 1)\n\n  def update(self, i: int, delta: int) -> None:\n    while i < len(self.sums):\n      self.sums[i] += delta\n      i += FenwickTree.lowbit(i)\n\n  def get(self, i: int) -> int:\n    summ = 0\n    while i > 0:\n      summ += self.sums[i]\n      i -= FenwickTree.lowbit(i)\n    return summ\n\n  @staticmethod\n  def lowbit(i: int) -> int:\n    return i & -i\n\n\n class NumArray:\n  def __init__(self, nums: List[int]):\n    self.nums = nums\n    self.tree = FenwickTree(len(nums))\n    for i, num in enumerate(nums):\n      self.tree.update(i + 1, num)\n\n  def update(self, index: int, val: int) -> None:\n    self.tree.update(index + 1, val - self.nums[index])\n    self.nums[index] = val\n\n  def sumRange(self, left: int, right: int) -> int:\n    return self.tree.get(right + 1) - self.tree.get(left)\n"
     }
   ],
   [
     {
       "id": "308. Range Sum Query 2D - Mutable",
-      "code": "class FenwickTree:\n  def __init__(self, m: int, n: int):\n    self.sums = [[0] * (n + 1) for _ in range(m + 1)]\n\n  def update(self, row: int, col: int, delta: int) -> None:\n    i = row\n    while i < len(self.sums):\n      j = col\n      while j < len(self.sums[0]):\n        self.sums[i][j] += delta\n        j += j & -j\n      i += FenwickTree.lowbit(i)\n\n  def get(self, row: int, col: int) -> int:\n    summ = 0\n    i = row\n    while i > 0:\n      j = col\n      while j > 0:\n        summ += self.sums[i][j]\n        j -= j & -j\n      i -= FenwickTree.lowbit(i)\n    return summ\n\n  @staticmethod\n  def lowbit(i: int) -> int:\n    return i & -i\n\n\nclass NumMatrix:\n  def __init__(self, matrix: List[List[int]]):\n    self.matrix = matrix\n    self.tree = FenwickTree(len(matrix), len(matrix[0]))\n\n    for i in range(len(matrix)):\n      for j, val in enumerate(matrix[i]):\n        self.tree.update(i + 1, j + 1, val)\n\n  def update(self, row: int, col: int, val: int) -> None:\n    self.tree.update(row + 1, col + 1, val - self.matrix[row][col])\n    self.matrix[row][col] = val\n\n  def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:\n    return self.tree.get(row2 + 1, col2 + 1) - self.tree.get(row1, col2 + 1) - \\\n        self.tree.get(row2 + 1, col1) + self.tree.get(row1, col1)\n"
+      "code": "class FenwickTree:\n  def __init__(self, m: int, n: int):\n    self.sums = [[0] * (n + 1) for _ in range(m + 1)]\n\n  def update(self, row: int, col: int, delta: int) -> None:\n    i = row\n    while i < len(self.sums):\n      j = col\n      while j < len(self.sums[0]):\n        self.sums[i][j] += delta\n        j += j & -j\n      i += FenwickTree.lowbit(i)\n\n  def get(self, row: int, col: int) -> int:\n    summ = 0\n    i = row\n    while i > 0:\n      j = col\n      while j > 0:\n        summ += self.sums[i][j]\n        j -= j & -j\n      i -= FenwickTree.lowbit(i)\n    return summ\n\n  @staticmethod\n  def lowbit(i: int) -> int:\n    return i & -i\n\n\n class NumMatrix:\n  def __init__(self, matrix: List[List[int]]):\n    self.matrix = matrix\n    self.tree = FenwickTree(len(matrix), len(matrix[0]))\n\n    for i in range(len(matrix)):\n      for j, val in enumerate(matrix[i]):\n        self.tree.update(i + 1, j + 1, val)\n\n  def update(self, row: int, col: int, val: int) -> None:\n    self.tree.update(row + 1, col + 1, val - self.matrix[row][col])\n    self.matrix[row][col] = val\n\n  def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:\n    return self.tree.get(row2 + 1, col2 + 1) - self.tree.get(row1, col2 + 1) - \\\n        self.tree.get(row2 + 1, col1) + self.tree.get(row1, col1)\n"
     }
   ],
   [
@@ -1796,7 +1781,7 @@
   [
     {
       "id": "315. Count of Smaller Numbers After Self",
-      "code": "class FenwickTree:\n  def __init__(self, n: int):\n    self.sums = [0] * (n + 1)\n\n  def update(self, i: int, delta: int) -> None:\n    while i < len(self.sums):\n      self.sums[i] += delta\n      i += FenwickTree.lowbit(i)\n\n  def get(self, i: int) -> int:\n    summ = 0\n    while i > 0:\n      summ += self.sums[i]\n      i -= FenwickTree.lowbit(i)\n    return summ\n\n  @staticmethod\n  def lowbit(i: int) -> int:\n    return i & -i\n\n\nclass Solution:\n  def countSmaller(self, nums: List[int]) -> List[int]:\n    ans = []\n    ranks = collections.Counter()\n    self._getRanks(nums, ranks)\n    tree = FenwickTree(len(ranks))\n\n    for num in reversed(nums):\n      ans.append(tree.get(ranks[num] - 1))\n      tree.update(ranks[num], 1)\n\n    return ans[::-1]\n\n  def _getRanks(self, nums: List[int], ranks: Dict[int, int]) -> None:\n    rank = 0\n    for num in sorted(set(nums)):\n      rank += 1\n      ranks[num] = rank\n"
+      "code": "class FenwickTree:\n  def __init__(self, n: int):\n    self.sums = [0] * (n + 1)\n\n  def update(self, i: int, delta: int) -> None:\n    while i < len(self.sums):\n      self.sums[i] += delta\n      i += FenwickTree.lowbit(i)\n\n  def get(self, i: int) -> int:\n    summ = 0\n    while i > 0:\n      summ += self.sums[i]\n      i -= FenwickTree.lowbit(i)\n    return summ\n\n  @staticmethod\n  def lowbit(i: int) -> int:\n    return i & -i\n\n\n class Solution:\n  def countSmaller(self, nums: List[int]) -> List[int]:\n    ans = []\n    ranks = collections.Counter()\n    self._getRanks(nums, ranks)\n    tree = FenwickTree(len(ranks))\n\n    for num in reversed(nums):\n      ans.append(tree.get(ranks[num] - 1))\n      tree.update(ranks[num], 1)\n\n    return ans[::-1]\n\n  def _getRanks(self, nums: List[int], ranks: Dict[int, int]) -> None:\n    rank = 0\n    for num in sorted(set(nums)):\n      rank += 1\n      ranks[num] = rank\n"
     }
   ],
   [
@@ -2428,7 +2413,7 @@
   [
     {
       "id": "462. Minimum Moves to Equal Array Elements II",
-      "code": "import statistics\n\n\nclass Solution:\n  def minMoves2(self, nums: List[int]) -> int:\n    median = int(statistics.median(nums))\n    return sum(abs(num - median) for num in nums)\n"
+      "code": "import statistics\n\n\n class Solution:\n  def minMoves2(self, nums: List[int]) -> int:\n    median = int(statistics.median(nums))\n    return sum(abs(num - median) for num in nums)\n"
     }
   ],
   [

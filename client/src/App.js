@@ -3,7 +3,6 @@ import {useState, useRef, useEffect} from 'react'
 import React from 'react'
 import Timer from './components/Timer.js'
 import javaCode from './components/javaCode.json'
-import testJavaCode from './components/testJavaCode.json'
 import pyCode from './components/pyCode.json'
 import cppCode from './components/cppCode.json'
 
@@ -76,23 +75,25 @@ function App() {
   function randomCode(codingLanguage) {
     let codeLang
     if (codingLanguage === 'cpp') codeLang = cppCode // C++ CRASHING RN PROB CAUSE COMMENTS (theyt end in smth sus)
-    else if (codingLanguage === 'java') codeLang = javaCode
+    else if (codingLanguage === 'java') codeLang = javaCode // same with java
     else if (codingLanguage === 'python') codeLang = pyCode
     let randInt = (Math.floor(Math.random() * (codeLang.length)))
     let selectedCode = ''
     let codeTitle = ''
     
-    let pulledCode = codeLang[randInt]
+    let pulledCode = codeLang[randInt] // contains /**  in java
     while (pulledCode === null) {
       randInt = (Math.floor(Math.random() * (codeLang.length)))
       pulledCode = codeLang[randInt]
     }
-    console.log(pulledCode)
+    
     pulledCode.map((codeInfo) => {
       selectedCode = codeInfo.code
       codeTitle = codeInfo.id
+      return 0
     })
     // 
+    console.log(codeTitle + ": " + selectedCode)
     setLeetcodeTitle(codeTitle)
     return selectedCode 
   }
@@ -106,8 +107,11 @@ function App() {
     // wordbank
     const codeWords = funcRawCode.split(' ')
     const finalCode = []
+    let isCommenting = false
     codeWords.map(word => {
-      if (word !== '') finalCode.push(word)
+      if (word === '//' || word === '/**') isCommenting = true
+      if (word !== '' && !isCommenting) finalCode.push(word)
+      else if (word.includes('\n')) isCommenting = false
       return console.log()
     })
     funcWordBank = finalCode
