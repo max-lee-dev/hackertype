@@ -81,7 +81,7 @@ function App() {
     let selectedCode = ''
     let codeTitle = ''
     
-    let pulledCode = codeLang[randInt] // contains /**  in java
+    let pulledCode = codeLang[279] // contains /**  in java
     while (pulledCode === null) {
       randInt = (Math.floor(Math.random() * (codeLang.length)))
       pulledCode = codeLang[randInt]
@@ -109,7 +109,7 @@ function App() {
     const finalCode = []
     let isCommenting = false
     codeWords.map(word => {
-      if (word === '//' || word === '/**') isCommenting = true
+      if (word === '//' || word === '/**' || (codingLanguage === 'python' && word === '#')) isCommenting = true
       if (word !== '' && !isCommenting) finalCode.push(word)
       else if (word.includes('\n')) isCommenting = false
       return console.log()

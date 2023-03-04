@@ -7,6 +7,7 @@ Will think of name and proper description later
 TODO:
 - FIX INDENTATION BUGS
 - add disappearing text 
+- include more stats at the end (words got wrong etc)
 - make word limit to solutions 
 - add user-set time limit
 - better UI obviously it looks garbage rn
