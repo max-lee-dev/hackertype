@@ -87,6 +87,7 @@ function App() {
       randInt = (Math.floor(Math.random() * (codeLang.length)))
       pulledCode = codeLang[randInt]
     }
+    console.log(pulledCode)
     pulledCode.map((codeInfo) => {
       selectedCode = codeInfo.code
       codeTitle = codeInfo.id
@@ -326,6 +327,7 @@ function App() {
                   onChange ={(e) => processInput(e)}
                   onKeyDown={handleKeyDown}
                   autoFocus
+                  spellCheck={false}
                   ref = {inputElement}
                 />}
               </div>
@@ -334,7 +336,7 @@ function App() {
 
               <p>{!finished && wordBank.map((word, index) => {
                 let s = ''
-                if (language === 'python' || index !== word.length) {
+                if (index !== wordBank.length - 1) {
                   for (let i = 0; i < whiteSpace[index]; i++) {
                     
                     s += '    '
