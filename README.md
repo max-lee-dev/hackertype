@@ -6,7 +6,7 @@ Will think of name and proper description later
 
 TODO:
 - FIX INDENTATION BUGS
-~~ - remove all obscure solutions~~ 
+~~- remove all obscure solutions~~ 
 ~~ - add comment detection (easy)~~
 ~~ - figure out c++ crash (prob comment detection)~~
 - add disappearing text 
