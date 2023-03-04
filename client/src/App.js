@@ -347,7 +347,7 @@ function App() {
                   text = {word}
                   active={index === activeWordIndex}
                   correct={correctWordArray[index]}
-                  
+                  //a
                 />
                 </span>
               })}</p>
