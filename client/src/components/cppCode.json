@@ -338,7 +338,7 @@
   [
     {
       "id": "57. Insert Interval",
-      "code": "class Solution {\n public:\n  vector<vector<int>> insert(vector<vector<int>>& intervals,\n                             vector<int>& newInterval) {\n    const int n = intervals.size();\n    vector<vector<int>> ans;\n    int i = 0;\n\n    while (i < n && intervals[i][1] < newInterval[0])\n      ans.push_back(intervals[i++]);\n\n    // Merge overlapping intervals\n    while (i < n && intervals[i][0] <= newInterval[1]) {\n      newInterval[0] = min(newInterval[0], intervals[i][0]);\n      newInterval[1] = max(newInterval[1], intervals[i][1]);\n      ++i;\n    }\n\n    ans.push_back(newInterval);\n\n    while (i < n)\n      ans.push_back(intervals[i++]);\n\n    return ans;\n  }\n };\n"
+      "code": "class Solution {\n public:\n  vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {\n    const int n = intervals.size();\n    vector<vector<int>> ans;\n    int i = 0;\n\n    while (i < n && intervals[i][1] < newInterval[0])\n      ans.push_back(intervals[i++]);\n\n    // Merge overlapping intervals\n    while (i < n && intervals[i][0] <= newInterval[1]) {\n      newInterval[0] = min(newInterval[0], intervals[i][0]);\n      newInterval[1] = max(newInterval[1], intervals[i][1]);\n      ++i;\n    }\n\n    ans.push_back(newInterval);\n\n    while (i < n)\n      ans.push_back(intervals[i++]);\n\n    return ans;\n  }\n };\n"
     }
   ],
   [
@@ -2705,7 +2705,7 @@
   [
     {
       "id": "469. Convex Polygon",
-      "code": "class Solution {\n public:\n  bool isConvex(vector<vector<int>>& points) {\n    auto getCross = [](const vector<int>& p, const vector<int>& q,\n                       const vector<int>& r) -> int {\n      return (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0]);\n    };\n\n    const int n = points.size();\n    long sign = 0;\n\n    for (int i = 0; i < points.size(); ++i) {\n      const int cross =\n          getCross(points[i], points[(i + 1) % n], points[(i + 2) % n]);\n      if (cross == 0)  // P, q, r are collinear\n        continue;\n      if (sign == 0)  // Find first cross that's not 0\n        sign = cross;\n      else if (cross * sign < 0)\n        return false;\n    }\n\n    return true;\n  }\n };\n"
+      "code": "class Solution {\n public:\n  bool isConvex(vector<vector<int>>& points) {\n    auto getCross = [](const vector<int>& p, const vector<int>& q, const vector<int>& r) -> int {\n      return (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0]);\n    };\n\n    const int n = points.size();\n    long sign = 0;\n\n    for (int i = 0; i < points.size(); ++i) {\n      const int cross = getCross(points[i], points[(i + 1) % n], points[(i + 2) % n]);\n      if (cross == 0)  // P, q, r are collinear\n        continue;\n      if (sign == 0)  // Find first cross that's not 0\n        sign = cross;\n      else if (cross * sign < 0)\n        return false;\n    }\n\n    return true;\n  }\n };\n"
     }
   ],
   null,

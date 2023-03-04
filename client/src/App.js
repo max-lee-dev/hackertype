@@ -55,6 +55,7 @@ function App() {
   const [whiteSpace, setWhiteSpace] = useState([])
   const [language, setLanguage] = useState('javaCode')
   const [newUser, setNewUser] = useState(true)
+  const [lastCode, setLastCode] = useState([])
   // --
   
 
@@ -81,10 +82,12 @@ function App() {
     let selectedCode = ''
     let codeTitle = ''
     
-    let pulledCode = codeLang[279] // contains /**  in java
-    while (pulledCode === null) {
+    let pulledCode = codeLang[451] // contains /**  in java
+    while (pulledCode === null) { //|| pulledCode === lastCode) {
       randInt = (Math.floor(Math.random() * (codeLang.length)))
       pulledCode = codeLang[randInt]
+      
+
     }
     
     pulledCode.map((codeInfo) => {
@@ -93,8 +96,8 @@ function App() {
       return 0
     })
     // 
-    console.log(codeTitle + ": " + selectedCode)
     setLeetcodeTitle(codeTitle)
+    setLastCode(pulledCode)
     return selectedCode 
   }
 
@@ -147,10 +150,11 @@ function App() {
       
       if (map[word] !== undefined) {
         
-        let index = funcRawCode.indexOf(`${word}`)
+        let index = funcRawCode.indexOf(`${word}`, map[word])
         while (funcIndentChars[index] === undefined) {
           index = funcRawCode.indexOf(`${word}`, index + 1)
         }
+        let ogIndex = index
         index--;
 
         let space = 0
@@ -160,17 +164,19 @@ function App() {
           space++
           index--
         }
-        map[word] = index + 1
+        map[word] = ogIndex + 1
         whiteSpaceAns[idx] = space
         return ''
         
 
       } else {
-        
+        if (word.includes('}')) console.log(word.length)
         let index = funcRawCode.indexOf(`${word}`)
         while (funcIndentChars[index] === undefined) {
           index = funcRawCode.indexOf(`${word}`, index + 1)
         }
+        if (word.includes('}')) console.log(wordBank[idx - 1])
+        let ogIndex = index
         index--;
         let space = 0
         
@@ -178,7 +184,7 @@ function App() {
           space++
           index--
         }
-        map[word] = index + 1
+        map[word] = ogIndex + 1
         
         whiteSpaceAns[idx] = space
         return ''
