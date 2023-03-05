@@ -24,3 +24,8 @@ TODO:
 ENDGAME:
 - profile database
 - leaderboards
+
+
+INDENT:
+isNumber
+search a 2d matrix

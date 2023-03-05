@@ -82,8 +82,8 @@ function App() {
     let selectedCode = ''
     let codeTitle = ''
     
-    let pulledCode = codeLang[451] // contains /**  in java
-    while (pulledCode === null) { //|| pulledCode === lastCode) {
+    let pulledCode = codeLang[randInt] // contains /**  in java
+    while (pulledCode === null || pulledCode === lastCode) {
       randInt = (Math.floor(Math.random() * (codeLang.length)))
       pulledCode = codeLang[randInt]
       
@@ -111,10 +111,17 @@ function App() {
     const codeWords = funcRawCode.split(' ')
     const finalCode = []
     let isCommenting = false
-    codeWords.map(word => {
-      if (word === '//' || word === '/**' || (codingLanguage === 'python' && word === '#')) isCommenting = true
-      if (word !== '' && !isCommenting) finalCode.push(word)
-      else if (word.includes('\n')) isCommenting = false
+    codeWords.map((word, i) => {
+      
+
+
+      if (word === '//' || word.includes('/**') || (codingLanguage === 'python' && word === '#')) isCommenting = true
+      if (word !== '' && !isCommenting && !word.includes('*/') && codeWords[i + 1] === '//') finalCode.push(`${word}\n`) // if next one is a comment, add a pseudo return line
+      else if (word !== '' && !isCommenting && !word.includes('*/')) finalCode.push(word)
+      else if (word.includes('\n')) {
+        isCommenting = false
+      }
+      
       return console.log()
     })
     funcWordBank = finalCode
@@ -149,10 +156,17 @@ function App() {
       // hasIndent
       
       if (map[word] !== undefined) {
-        
+        let times = 0
         let index = funcRawCode.indexOf(`${word}`, map[word])
-        while (funcIndentChars[index] === undefined) {
+        while ((funcIndentChars[index] === undefined || funcIndentChars[index] === 0 || funcIndentChars[index] === 2)) {
+          times++
           index = funcRawCode.indexOf(`${word}`, index + 1)
+          if (times === 100) break
+        }
+        if (times === 100) {
+          console.log("POG SAVED")
+          Reset(codingLanguage)
+          
         }
         let ogIndex = index
         index--;
@@ -164,18 +178,29 @@ function App() {
           space++
           index--
         }
+        
+        funcIndentChars[ogIndex] = 2 // done it, some edge cases idk i need this
         map[word] = ogIndex + 1
         whiteSpaceAns[idx] = space
         return ''
         
 
       } else {
-        if (word.includes('}')) console.log(word.length)
+        
         let index = funcRawCode.indexOf(`${word}`)
-        while (funcIndentChars[index] === undefined) {
+        let times = 0
+        while ((funcIndentChars[index] === undefined || funcIndentChars[index] === 0 || funcIndentChars[index] === 2)) {
+          times++
           index = funcRawCode.indexOf(`${word}`, index + 1)
+          if (times === 100) {
+            console.log("ADJSHDHASJHD")
+            break
+          }
         }
-        if (word.includes('}')) console.log(wordBank[idx - 1])
+        if (times === 100) {
+          console.log("POG SAVED")
+          Reset(codingLanguage)
+        }
         let ogIndex = index
         index--;
         let space = 0
@@ -184,15 +209,16 @@ function App() {
           space++
           index--
         }
-        map[word] = ogIndex + 1
         
+        map[word] = ogIndex + 1
+        funcIndentChars[ogIndex] = 2
         whiteSpaceAns[idx] = space
         return ''
       }
 
     })
     funcWhiteSpace = whiteSpaceAns;
-
+    
     
     setNewWordBank(funcWordBank)
     setWhiteSpace(funcWhiteSpace)
