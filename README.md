@@ -8,7 +8,6 @@ TODO:
 - FIX INDENTATION BUGS (conditional, the website fucked some of them up, will fix overtime)
 - remove the line if user gets it wrong/doesnt press enter
 - include more stats at the end (words got wrong etc)
-- make word limit to solutions 
 - add user-set time limit
 - better UI obviously it looks garbage rn
 - nav bar
@@ -18,6 +17,7 @@ TODO:
 - ~~add comment detection (easy)~~
 - ~~figure out c++ crash (prob comment detection)~~
 - ~~add disappearing text~~ 
+- ~~make word limit to solutions~~ 
 
 
 
