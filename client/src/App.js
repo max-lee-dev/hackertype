@@ -43,6 +43,7 @@ function App() {
   const [correctWordArray, setCorrectWordArray] = useState([])
   const [activeWordIndex, setActiveWordIndex] = useState(0)
   const [leetcodeTitle, setLeetcodeTitle] = useState('')
+  const [renderIndex, setRenderIndex] = useState(-1)
 
   // -- this is really scuffed but its needed for the indents LMFAO
   
@@ -56,6 +57,7 @@ function App() {
   const [language, setLanguage] = useState('javaCode')
   const [newUser, setNewUser] = useState(true)
   const [lastCode, setLastCode] = useState([])
+  const [wordsLeft, setWordsLeft] = useState(0)
   // --
   
 
@@ -64,6 +66,7 @@ function App() {
   
   function Restart(codingLanguage) {
     setLanguage(codingLanguage)
+    setRenderIndex(-1)
     setNewUser(false)
     setUserInput('')
     setActiveWordIndex(0)
@@ -125,6 +128,7 @@ function App() {
       return console.log()
     })
     funcWordBank = finalCode
+    setWordsLeft(funcWordBank.length)
     ///////////////
 
     // indent chars
@@ -232,6 +236,10 @@ function App() {
     }
   }, [startCounting]);
 
+  useEffect(() => {
+    setWordsLeft(curr => curr - 1)
+  }, [activeWordIndex])
+
   function Word(props) { // if this doesnt work put it back and try using React.memo
     
     const { text, active, correct} = props
@@ -284,8 +292,10 @@ function App() {
           setFinished(true)
           return
         }
+        setRenderIndex(activeWordIndex)
         setUserInput('')
         setActiveWordIndex(input => input + 1)
+       
         
       }
     }
@@ -340,7 +350,7 @@ function App() {
         <button onClick={() => Restart('python')}>Python</button>
           <div className = 'inputContainer'>
             <div className = 'leetcodeTitle'>
-              {finished && <p>{leetcodeTitle}</p>}
+              <p>{leetcodeTitle}</p>
             </div>
             <div id = 'timer'>
               
@@ -351,7 +361,7 @@ function App() {
                 correctWords={correctWordArray.filter(Boolean).length}
                 totalWords={wordBank.length}
               />
-              
+            
 
             </div>
             <div className = 'textContainer'>
@@ -367,25 +377,29 @@ function App() {
                   ref = {inputElement}
                 />}
               </div>
+              <div className = 'wordsLeft'>{!newUser && !finished && wordsLeft}</div>
             </div> 
+            
             <div className = 'text'>
 
               <p>{!finished && wordBank.map((word, index) => {
-                let s = ''
-                if (index !== wordBank.length - 1) {
-                  for (let i = 0; i < whiteSpace[index]; i++) {
-                    
-                    s += '    '
+                if (index > renderIndex) {
+                  let s = ''
+                  if (index !== wordBank.length - 1) {
+                    for (let i = 0; i < whiteSpace[index]; i++) {
+                      
+                      s += '    '
+                    }
                   }
+                  return <span key={index} className = 'displayText'>{s}<Word 
+                    
+                    text = {word}
+                    active={index === activeWordIndex}
+                    correct={correctWordArray[index]}
+                    
+                  />
+                  </span>
                 }
-                return <span key={index} className = 'displayText'>{s}<Word 
-                  
-                  text = {word}
-                  active={index === activeWordIndex}
-                  correct={correctWordArray[index]}
-                  
-                />
-                </span>
               })}</p>
               
             </div>
@@ -397,6 +411,7 @@ function App() {
           {!newUser && <p className = "reminder">Press Tab + Enter to Restart Test</p>}
           
         </div>
+        
       </div>
     </div>
   );

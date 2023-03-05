@@ -2385,7 +2385,7 @@
   [
     {
       "id": "454. 4Sum II",
-      "code": "class Solution:\n  def fourSumCount(self, nums1: List[int], nums2: List[int],\n                   nums3: List[int], nums4: List[int]) -> int:\n    count = collections.Counter(a + b for a in nums1 for b in nums2)\n    return sum(count[-c - d] for c in nums3 for d in nums4)\n"
+      "code": "class Solution:\n  def fourSumCount(self, nums1: List[int], nums2: List[int], nums3: List[int], nums4: List[int]) -> int:\n    count = collections.Counter(a + b for a in nums1 for b in nums2)\n    return sum(count[-c - d] for c in nums3 for d in nums4)\n"
     }
   ],
   null,
