@@ -44,27 +44,27 @@ function App() {
   const [activeWordIndex, setActiveWordIndex] = useState(0)
   const [leetcodeTitle, setLeetcodeTitle] = useState('')
   const [renderIndex, setRenderIndex] = useState(-1)
-
-  // -- this is really scuffed but its needed for the indents LMFAO
-  
-
-
-
-  
-  
+  const [solutionRange, setSolutionRage] = useState('ALL')
+  const [wordLimit, setWordLimit] = useState(50000)
   const [wordBank, setNewWordBank] = useState([])
   const [whiteSpace, setWhiteSpace] = useState([])
   const [language, setLanguage] = useState('javaCode')
   const [newUser, setNewUser] = useState(true)
   const [lastCode, setLastCode] = useState([])
   const [wordsLeft, setWordsLeft] = useState(0)
-  // --
+  const [error, setError] = useState('')
   
 
   
   const [finished, setFinished] = useState(false)
   
   function Restart(codingLanguage) {
+    if (solutionRange === 0 || solutionRange === 1) {
+      console.log('AWDWAD')
+      setError('Must have atleast 2 solutions')
+      return
+    }
+    setError('')
     setLanguage(codingLanguage)
     setRenderIndex(-1)
     setNewUser(false)
@@ -75,29 +75,40 @@ function App() {
     setFinished(false)
     //
     Reset(codingLanguage)
+    
   }
   function randomCode(codingLanguage) {
     let codeLang
     if (codingLanguage === 'cpp') codeLang = cppCode // C++ CRASHING RN PROB CAUSE COMMENTS (theyt end in smth sus)
     else if (codingLanguage === 'java') codeLang = javaCode // same with java
     else if (codingLanguage === 'python') codeLang = pyCode
-    let randInt = (Math.floor(Math.random() * (codeLang.length)))
-    let selectedCode = ''
-    let codeTitle = ''
+   
+    var selectedCode = ''
+    var codeTitle = ''
     
-    let pulledCode = codeLang[randInt] // contains /**  in java
-    while (pulledCode === null || pulledCode === lastCode) {
-      randInt = (Math.floor(Math.random() * (codeLang.length)))
+    
+    while (true) {
+      var randInt = (Math.floor(Math.random() * (codeLang.length)))
+      var pulledCode = codeLang[randInt] // contains /**  in java
       pulledCode = codeLang[randInt]
-      
+      while (pulledCode === null || pulledCode === lastCode) {
+        randInt = (Math.floor(Math.random() * (codeLang.length)))
+        pulledCode = codeLang[randInt]
+        
 
-    }
+      }
+     
+      
+      pulledCode.map((codeInfo) => {
+        selectedCode = codeInfo.code
+        codeTitle = codeInfo.id
+        return 0
+      })
+      
+      let numWords = selectedCode.split(' ').length
     
-    pulledCode.map((codeInfo) => {
-      selectedCode = codeInfo.code
-      codeTitle = codeInfo.id
-      return 0
-    })
+      if (numWords < wordLimit) break
+    }
     // 
     setLeetcodeTitle(codeTitle)
     setLastCode(pulledCode)
@@ -197,12 +208,10 @@ function App() {
           times++
           index = funcRawCode.indexOf(`${word}`, index + 1)
           if (times === 100) {
-            console.log("ADJSHDHASJHD")
             break
           }
         }
         if (times === 100) {
-          console.log("POG SAVED")
           Reset(codingLanguage)
         }
         let ogIndex = index
@@ -337,6 +346,30 @@ function App() {
     
   }
 
+  function handleWordLimit(val) {
+    if (val === '') setWordLimit(50000)
+    else setWordLimit(val)
+    
+    
+    let numSolutions = 0
+    for (let i = 0; i < javaCode.length; i++) {
+      let selectedCode = ''
+      
+      let pulledCode = javaCode[i]
+      if (pulledCode === null) continue
+      pulledCode.map((codeInfo) => {
+        selectedCode = codeInfo.code
+        return 0
+      })
+      // 
+      const solutionArray = selectedCode.split(" ")
+      if (solutionArray.length < val) numSolutions++
+    }
+    if (val === '') setSolutionRage('ALL')
+    else setSolutionRage(numSolutions)
+    console.log(numSolutions)
+  }
+
   
 
   return (
@@ -345,9 +378,22 @@ function App() {
         <div className = 'title'><h1> some name </h1></div>
         
         <div className = 'content'>
-        <button onClick={() => Restart('cpp')}>C++</button>
-        <button onClick={() => Restart('java')}>Java</button>
-        <button onClick={() => Restart('python')}>Python</button>
+          <div className = 'maxWordsDiv'>
+            <p>Word Limit</p>
+          
+            <input 
+              className = 'maxWordsForm' 
+              placeholder={'...'} 
+              type='text'
+              onChange={(e) => handleWordLimit(e.target.value)}
+            />
+            <p>Selecting from {solutionRange} solutions</p>
+            <p>{error}</p>
+          </div>
+
+          <button onClick={() => Restart('cpp')}>C++</button>
+          <button onClick={() => Restart('java')}>Java</button>
+          <button onClick={() => Restart('python')}>Python</button>
           <div className = 'inputContainer'>
             <div className = 'leetcodeTitle'>
               <p>{leetcodeTitle}</p>
