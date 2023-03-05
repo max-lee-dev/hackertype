@@ -5,7 +5,7 @@ Will think of name and proper description later
 
 
 TODO:
-- FIX INDENTATION BUGS
+- FIX INDENTATION BUGS (90ish percent of time done)
 - add disappearing text 
 - include more stats at the end (words got wrong etc)
 - make word limit to solutions 
@@ -26,6 +26,3 @@ ENDGAME:
 - leaderboards
 
 
-INDENT:
-isNumber
-search a 2d matrix
