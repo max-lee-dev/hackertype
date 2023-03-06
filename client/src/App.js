@@ -58,13 +58,13 @@ function App() {
   
   const [finished, setFinished] = useState(false)
   
-  function Restart(codingLanguage) {
-    if (solutionRange === 0 || solutionRange === 1) {
-      console.log('AWDWAD')
-      setError('Must have atleast 2 solutions')
-      return
-    }
-    setError('')
+  function Restart(codingLanguage, maxWords) {
+    console.log("NEW VAL: " + maxWords)
+    setError(Reset(codingLanguage, maxWords))
+    
+    
+    //
+    
     setLanguage(codingLanguage)
     setRenderIndex(-1)
     setNewUser(false)
@@ -73,12 +73,10 @@ function App() {
     setStartCounting(false)
     setCorrectWordArray([])
     setFinished(false)
-    handleWordLimit(wordLimit)
-    //
-    Reset(codingLanguage)
+    
     
   }
-  function randomCode(codingLanguage) {
+  function randomCode(codingLanguage, solutionSize) {
     let codeLang = javaCode
     if (codingLanguage === 'C++') codeLang = cppCode // C++ CRASHING RN PROB CAUSE COMMENTS (theyt end in smth sus)
     else if (codingLanguage === 'Java') codeLang = javaCode // same with java
@@ -88,11 +86,12 @@ function App() {
     var codeTitle = ''
     
     
+    
     while (true) {
       var randInt = (Math.floor(Math.random() * (codeLang.length)))
       var pulledCode = codeLang[randInt] // contains /**  in java
       pulledCode = codeLang[randInt]
-      while (pulledCode === null || pulledCode === lastCode) {
+      while (pulledCode === null || (solutionSize !== 1 && pulledCode === lastCode)) {
         console.log("test")
         randInt = (Math.floor(Math.random() * (codeLang.length)))
         pulledCode = codeLang[randInt]
@@ -117,8 +116,45 @@ function App() {
     return selectedCode 
   }
 
-  function Reset(codingLanguage) {
-    let funcRawCode = randomCode(codingLanguage)
+  function Reset(codingLanguage, maxWords) {
+   
+
+    // solution range
+    let codeLang = javaCode
+    if (codingLanguage === 'C++') codeLang = cppCode // C++ CRASHING RN PROB CAUSE COMMENTS (theyt end in smth sus)
+    else if (codingLanguage === 'Java') codeLang = javaCode // same with java
+    else if (codingLanguage === 'Python') codeLang = pyCode
+   
+    if (maxWords === '' || maxWords === undefined) {
+      console.log("max: " + maxWords)
+      maxWords = 50000
+      setWordLimit(50000)
+    }
+    else setWordLimit(maxWords)
+    
+    
+    let numSolutions = 0
+    for (let i = 0; i < codeLang.length; i++) {
+      let selectedCode = ''
+      
+      let pulledCode = codeLang[i]
+      if (pulledCode === null) continue
+      pulledCode.map((codeInfo) => {
+        selectedCode = codeInfo.code
+        return 0
+      })
+      // 
+      const solutionArray = selectedCode.split(" ")
+      if (solutionArray.length < maxWords) numSolutions++
+    }
+    if (maxWords === '') setSolutionRage('ALL')
+    else setSolutionRage(numSolutions)
+    if (numSolutions === 0) {
+      
+      console.log(error)
+      return `Must have atleast 1 ${codingLanguage} solutions`
+    }
+    let funcRawCode = randomCode(codingLanguage, numSolutions)
     let funcWordBank = []
     let funcIndentChars = []
     let funcWhiteSpace = []
@@ -352,9 +388,10 @@ function App() {
   }
 
   function handleWordLimit(val) {
-    
+    console.log("val: " + val)
     if (val === '') setWordLimit(50000)
     else setWordLimit(val)
+    console.log(wordLimit)
     
     
     let numSolutions = 0
@@ -402,9 +439,9 @@ function App() {
             <p>{error}</p>
           </div>
 
-          <button onClick={() => Restart('C++')}>C++</button>
-          <button onClick={() => Restart('Java')}>Java</button>
-          <button onClick={() => Restart('Python')}>Python</button>
+          <button onClick={() => Restart('C++', wordLimit)}>C++</button>
+          <button onClick={() => Restart('Java', wordLimit)}>Java</button>
+          <button onClick={() => Restart('Python', wordLimit)}>Python</button>
           <div className = 'inputContainer'>
             <div className = 'leetcodeTitle'>
               <p>{leetcodeTitle}</p>
@@ -465,7 +502,7 @@ function App() {
         </div>
         <div id = "userInput"> 
          
-          {!newUser && <button onClick={() => Restart(language)}>Restart Test</button>}
+          {!newUser && <button onClick={() => Restart(language, wordLimit)}>Restart Test</button>}
           {!newUser && <p className = "reminder">Press Tab + Enter to Restart Test</p>}
           
         </div>
