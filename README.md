@@ -18,7 +18,7 @@ TODO:
 - ~~figure out c++ crash (prob comment detection)~~
 - ~~add disappearing text~~ 
 - ~~make word limit to solutions~~ 
-- ~~ remove the line if user gets it wrong/doesnt press enter~~ 
+- ~~remove the line if user gets it wrong/doesnt press enter~~ 
 
 
 
