@@ -48,7 +48,7 @@ function App() {
   const [wordLimit, setWordLimit] = useState(50000)
   const [wordBank, setNewWordBank] = useState([])
   const [whiteSpace, setWhiteSpace] = useState([])
-  const [language, setLanguage] = useState('javaCode')
+  const [language, setLanguage] = useState('')
   const [newUser, setNewUser] = useState(true)
   const [lastCode, setLastCode] = useState([])
   const [wordsLeft, setWordsLeft] = useState(0)
@@ -73,15 +73,16 @@ function App() {
     setStartCounting(false)
     setCorrectWordArray([])
     setFinished(false)
+    handleWordLimit(wordLimit)
     //
     Reset(codingLanguage)
     
   }
   function randomCode(codingLanguage) {
-    let codeLang
-    if (codingLanguage === 'cpp') codeLang = cppCode // C++ CRASHING RN PROB CAUSE COMMENTS (theyt end in smth sus)
-    else if (codingLanguage === 'java') codeLang = javaCode // same with java
-    else if (codingLanguage === 'python') codeLang = pyCode
+    let codeLang = javaCode
+    if (codingLanguage === 'C++') codeLang = cppCode // C++ CRASHING RN PROB CAUSE COMMENTS (theyt end in smth sus)
+    else if (codingLanguage === 'Java') codeLang = javaCode // same with java
+    else if (codingLanguage === 'Python') codeLang = pyCode
    
     var selectedCode = ''
     var codeTitle = ''
@@ -92,13 +93,14 @@ function App() {
       var pulledCode = codeLang[randInt] // contains /**  in java
       pulledCode = codeLang[randInt]
       while (pulledCode === null || pulledCode === lastCode) {
+        console.log("test")
         randInt = (Math.floor(Math.random() * (codeLang.length)))
         pulledCode = codeLang[randInt]
         
 
       }
      
-      
+      // eslint-disable-next-line
       pulledCode.map((codeInfo) => {
         selectedCode = codeInfo.code
         codeTitle = codeInfo.id
@@ -129,7 +131,7 @@ function App() {
       
 
 
-      if (word === '//' || word.includes('/**') || (codingLanguage === 'python' && word === '#')) isCommenting = true
+      if (word === '//' || word.includes('/**') || (codingLanguage === 'Python' && word === '#')) isCommenting = true
       if (word !== '' && !isCommenting && !word.includes('*/') && codeWords[i + 1] === '//') finalCode.push(`${word}\n`) // if next one is a comment, add a pseudo return line
       else if (word !== '' && !isCommenting && !word.includes('*/')) finalCode.push(word)
       else if (word.includes('\n')) {
@@ -326,6 +328,9 @@ function App() {
         return newResult
 
       })
+      if (wordBank[activeWordIndex].substring(wordBank[activeWordIndex].length - 1) === "\n") {
+        setRenderIndex(activeWordIndex)
+      }
       if (activeWordIndex === wordBank.length - 1) { 
         
         setFinished(true)
@@ -347,15 +352,21 @@ function App() {
   }
 
   function handleWordLimit(val) {
+    
     if (val === '') setWordLimit(50000)
     else setWordLimit(val)
     
     
     let numSolutions = 0
-    for (let i = 0; i < javaCode.length; i++) {
+    const codingLanguage = language
+    let codeLang = javaCode
+    if (codingLanguage === 'C++') codeLang = cppCode // C++ CRASHING RN PROB CAUSE COMMENTS (theyt end in smth sus)
+    else if (codingLanguage === 'Java') codeLang = javaCode // same with java
+    else if (codingLanguage === 'Python') codeLang = pyCode
+    for (let i = 0; i < codeLang.length; i++) {
       let selectedCode = ''
       
-      let pulledCode = javaCode[i]
+      let pulledCode = codeLang[i]
       if (pulledCode === null) continue
       pulledCode.map((codeInfo) => {
         selectedCode = codeInfo.code
@@ -387,13 +398,13 @@ function App() {
               type='text'
               onChange={(e) => handleWordLimit(e.target.value)}
             />
-            <p>Selecting from {solutionRange} solutions</p>
+            <p>Selecting from {solutionRange} {language} solutions</p>
             <p>{error}</p>
           </div>
 
-          <button onClick={() => Restart('cpp')}>C++</button>
-          <button onClick={() => Restart('java')}>Java</button>
-          <button onClick={() => Restart('python')}>Python</button>
+          <button onClick={() => Restart('C++')}>C++</button>
+          <button onClick={() => Restart('Java')}>Java</button>
+          <button onClick={() => Restart('Python')}>Python</button>
           <div className = 'inputContainer'>
             <div className = 'leetcodeTitle'>
               <p>{leetcodeTitle}</p>
@@ -446,6 +457,7 @@ function App() {
                   />
                   </span>
                 }
+                return ''
               })}</p>
               
             </div>
