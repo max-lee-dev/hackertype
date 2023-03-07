@@ -1,19 +1,13 @@
-First webdev project
+HackerType
 
-Will think of name and proper description later
+Todo:
 
-
-
-TODO:
-
-- figure out why the entered wordlimit and the actual word limit isn't responsive (prob because i cut spaces?? smth like that)
-- include more stats at the end (words got wrong etc)
-- add user-set time limit
+- fix word limit number having an offset
 - better UI obviously it looks garbage rn
-- nav bar
-- add search for specific ID (number) -- should b easy
+- nav bar (logo, contact, about)
 - RETRY SAME TEST
 - select text box even if insta-refresh
+
 - ~~-remove all obscure solutions~~ 
 - ~~add comment detection (easy)~~
 - ~~figure out c++ crash (prob comment detection)~~
@@ -27,8 +21,18 @@ TODO:
 
 
 
-ENDGAME:
+Post-Deploy:
 - profile database
 - leaderboards
+- grid showing ALL solutions
+        - show's pb
+        - each solution has a leaderboard (friend/global)
+
+
+Maybe:
+- add search for sol-name, have solutions popup 
+- add user-set time limit
+- include more stats at the end (words got wrong, graph <- gonna be hard)
+
 
 
