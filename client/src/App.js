@@ -53,23 +53,29 @@ function App() {
   const [lastCode, setLastCode] = useState([])
   const [wordsLeft, setWordsLeft] = useState(0)
   const [error, setError] = useState('')
+  const [controlPress, setControllPress] = useState(false)
+  const [shiftPress, setShiftPress] = useState(false)
+  const [solutionWordCount, setSolutioNwordCount] = useState(0)
+  
   
 
   
   const [finished, setFinished] = useState(false)
   
-  function Restart(codingLanguage, maxWords) {
+  function Restart(codingLanguage, maxWords, retrySame) {
     console.log("NEW VAL: " + maxWords)
     let s = ''
-    s = Reset(codingLanguage, maxWords)
-    if (s !== undefined) {
-      setError(s)
-      return
-    } else setError('')
+    if (retrySame === undefined) {
+      s = Reset(codingLanguage, maxWords)
+      if (s !== undefined) {
+        setError(s)
+        return
+      } else setError('')
+    }
     
     
     //
-    
+    if (!newUser) setWordsLeft(solutionWordCount)
     setLanguage(codingLanguage)
     setRenderIndex(-1)
     setNewUser(false)
@@ -80,9 +86,11 @@ function App() {
     setFinished(false)
     
     
+    
   }
   function randomCode(codingLanguage, solutionSize) {
     let codeLang = javaCode
+    
     if (codingLanguage === 'C++') codeLang = cppCode // C++ CRASHING RN PROB CAUSE COMMENTS (theyt end in smth sus)
     else if (codingLanguage === 'Java') codeLang = javaCode // same with java
     else if (codingLanguage === 'Python') codeLang = pyCode
@@ -170,7 +178,6 @@ function App() {
     let funcWordBank = []
     let funcIndentChars = []
     let funcWhiteSpace = []
-
     // wordbank
     const codeWords = funcRawCode.split(' ')
     const finalCode = []
@@ -190,6 +197,10 @@ function App() {
     })
     funcWordBank = finalCode
     setWordsLeft(funcWordBank.length)
+    console.log("HERE: ")
+    console.log(solutionWordCount)
+    console.log(funcWordBank.length)
+    setSolutioNwordCount(funcWordBank.length)
     ///////////////
 
     // indent chars
@@ -299,6 +310,9 @@ function App() {
     setWordsLeft(curr => curr - 1)
   }, [activeWordIndex])
 
+  
+  
+
   function Word(props) { // if this doesnt work put it back and try using React.memo
     
     const { text, active, correct} = props
@@ -338,6 +352,18 @@ function App() {
 
 
   function handleKeyDown(e) {
+    if (e.key === 'Shift') setShiftPress(true)
+    else (setShiftPress(false))
+    if (e.key === 'Control') setControllPress(true)
+    else (setControllPress(false))
+
+
+    if (e.key === 'Enter' && (shiftPress || controlPress)) {
+      Restart(language, wordLimit, leetcodeTitle)
+      setControllPress(false)
+      setShiftPress(false)
+      return ''
+    }
     if (e.key === 'Enter' && inputElement.current.type === document.activeElement.type) {
       if (wordBank[activeWordIndex].substring(wordBank[activeWordIndex].length - 1) === "\n") {
         setCorrectWordArray(data => {
@@ -358,6 +384,7 @@ function App() {
         
       }
     }
+    
   }
   
   function processInput(e) {
@@ -400,7 +427,6 @@ function App() {
   }
 
   function handleWordLimit(val) {
-    console.log("val: " + val)
     if (val === '') setWordLimit(50000)
     else setWordLimit(val)
     console.log(wordLimit)
@@ -435,6 +461,7 @@ function App() {
     console.log(numSolutions)
   }
 
+  
   
 
   return (
@@ -520,7 +547,7 @@ function App() {
         <div id = "userInput"> 
          
           {!newUser && <button onClick={() => Restart(language, wordLimit)}>Restart Test</button>}
-          {!newUser && <p className = "reminder">Press Tab + Enter to Restart Test</p>}
+          {!newUser && <p className = "reminder">Tab + Enter to Restart Test<br/><br/>Shift/Ctrl + Enter to Retry Same Test</p>}
           
         </div>
         
