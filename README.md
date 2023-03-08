@@ -1,13 +1,12 @@
 # HackerType
+Test your coding speed and accuracy by practicing with LeetCode solutions!
 
 ## Todo:
 
-- fix word limit number having an offset
-- better UI obviously it looks garbage rn
-- nav bar (logo, contact, about)
-- RETRY SAME TEST
-- select text box even if insta-refresh
 
+- RETRY SAME TEST
+- nav bar (logo, contact, about)
+- fix CSS
 
 
 
@@ -35,6 +34,8 @@
 - ~~remove the line if user gets it wrong/doesnt press enter~~ 
 - ~~update solution range onClick(), prob have to make func again idk~~ 
 - ~~FIX INDENTATION BUGS (conditional, the website fucked some of them up, will fix overtime)~~
+- ~~fix word limit number having an offset~~
+- ~~select text box even if insta-refresh~~
 
 
 

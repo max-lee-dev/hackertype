@@ -60,7 +60,12 @@ function App() {
   
   function Restart(codingLanguage, maxWords) {
     console.log("NEW VAL: " + maxWords)
-    setError(Reset(codingLanguage, maxWords))
+    let s = ''
+    s = Reset(codingLanguage, maxWords)
+    if (s !== undefined) {
+      setError(s)
+      return
+    } else setError('')
     
     
     //
@@ -92,7 +97,7 @@ function App() {
       var pulledCode = codeLang[randInt] // contains /**  in java
       pulledCode = codeLang[randInt]
       while (pulledCode === null || (solutionSize !== 1 && pulledCode === lastCode)) {
-        console.log("test")
+        
         randInt = (Math.floor(Math.random() * (codeLang.length)))
         pulledCode = codeLang[randInt]
         
@@ -107,8 +112,13 @@ function App() {
       })
       
       let numWords = selectedCode.split(' ').length
+      const selectedCodeArr = selectedCode.split(' ')
+      selectedCodeArr.map((word) => {
+        if (word === '') numWords--;
+        return ''
+      })
     
-      if (numWords < wordLimit) break
+      if (numWords <= wordLimit) break
     }
     // 
     setLeetcodeTitle(codeTitle)
@@ -126,7 +136,6 @@ function App() {
     else if (codingLanguage === 'Python') codeLang = pyCode
    
     if (maxWords === '' || maxWords === undefined) {
-      console.log("max: " + maxWords)
       maxWords = 50000
       setWordLimit(50000)
     }
@@ -145,13 +154,16 @@ function App() {
       })
       // 
       const solutionArray = selectedCode.split(" ")
-      if (solutionArray.length < maxWords) numSolutions++
+      let solutionSize = 0
+      solutionArray.map((word) => {
+        if (word !== '') solutionSize++
+        return ''
+      })
+      if (solutionSize <= maxWords) numSolutions++
     }
     if (maxWords === '') setSolutionRage('ALL')
     else setSolutionRage(numSolutions)
-    if (numSolutions === 0) {
-      
-      console.log(error)
+    if (numSolutions === 0) {      
       return `Must have atleast 1 ${codingLanguage} solutions`
     }
     let funcRawCode = randomCode(codingLanguage, numSolutions)
@@ -281,7 +293,7 @@ function App() {
       inputElement.current.focus();
       
     }
-  }, [startCounting]);
+  }, [lastCode]);
 
   useEffect(() => {
     setWordsLeft(curr => curr - 1)
@@ -411,7 +423,12 @@ function App() {
       })
       // 
       const solutionArray = selectedCode.split(" ")
-      if (solutionArray.length < val) numSolutions++
+      let solutionSize = 0
+      solutionArray.map((word) => {
+        if (word !== '') solutionSize++
+        return ''
+      })
+      if (solutionSize <= val) numSolutions++
     }
     if (val === '') setSolutionRage('ALL')
     else setSolutionRage(numSolutions)
