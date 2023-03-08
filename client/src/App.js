@@ -75,7 +75,7 @@ function App() {
     
     
     //
-    if (!newUser) setWordsLeft(solutionWordCount)
+    if (!newUser && retrySame !== undefined) setWordsLeft(solutionWordCount)
     setLanguage(codingLanguage)
     setRenderIndex(-1)
     setNewUser(false)

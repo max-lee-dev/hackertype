@@ -4,7 +4,6 @@ Test your coding speed and accuracy by practicing with LeetCode solutions!
 ## Todo:
 
 
-- wordcount lagging behind by 1 solution bug
 - nav bar (logo, contact, about)
 - fix CSS
 
@@ -37,6 +36,8 @@ Test your coding speed and accuracy by practicing with LeetCode solutions!
 - ~~fix word limit number having an offset~~
 - ~~select text box even if insta-refresh~~
 - ~~RETRY SAME TEST~~
+- ~~wordcount lagging behind by 1 solution bug~~
+
 
 
 
