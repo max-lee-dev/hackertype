@@ -3,9 +3,9 @@ Test your coding speed and accuracy by practicing with LeetCode solutions!
 
 ## Todo:
 
-- select an id
+
 - nav bar (logo, contact, about)
-- fix CSS
+- fix CSS (try chakra-ui)
 
 
 
@@ -14,13 +14,13 @@ Test your coding speed and accuracy by practicing with LeetCode solutions!
 ## Post-Deploy:
 - profile database
 - leaderboards
+- add search for sol-name, have solutions popup (better search-id function)
 - grid showing ALL solutions
   - show's pb
   - each solution has a leaderboard (friend/global)
 
 
 ## Maybe:
-- add search for sol-name, have solutions popup 
 - add user-set time limit
 - include more stats at the end (words got wrong, graph <- gonna be hard)
 
@@ -37,6 +37,7 @@ Test your coding speed and accuracy by practicing with LeetCode solutions!
 - ~~select text box even if insta-refresh~~
 - ~~RETRY SAME TEST~~
 - ~~wordcount lagging behind by 1 solution bug~~
+- ~~select solution id~~
 
 
 
