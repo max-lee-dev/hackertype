@@ -596,7 +596,7 @@
   [
     {
       "id": "100. Same Tree",
-      "code": "class Solution {\n public:\n  bool isSameTree(TreeNode* p, TreeNode* q) {\n    if (!p || !q)\n      return p == q;\n    return p->val == q->val &&\n           isSameTree(p->left, q->left) &&\n           isSameTree(p->right, q->right);\n  }\n };\n"
+      "code": "class Solution {\n public:\n  bool isSameTree(TreeNode* p, TreeNode* q) {\n    if (!p || !q)\n      return p == q;\n    return p->val == q->val && isSameTree(p->left, q->left) && isSameTree(p->right, q->right);\n  }\n };\n"
     }
   ],
   [
@@ -994,7 +994,7 @@
   [
     {
       "id": "168. Excel Sheet Column Title",
-      "code": "class Solution {\n public:\n  string convertToTitle(int n) {\n    return n == 0 ? \"\"\n                  : convertToTitle((n - 1) / 26) + (char)('A' + ((n - 1) % 26));\n  }\n };\n"
+      "code": "class Solution {\n public:\n  string convertToTitle(int n) {\n    return n == 0 ? : convertToTitle((n - 1) / 26) + (char)('A' + ((n - 1) % 26));\n  }\n };\n"
     }
   ],
   [
@@ -1012,7 +1012,7 @@
   [
     {
       "id": "171. Excel Sheet Column Number",
-      "code": "class Solution {\n public:\n  int titleToNumber(string s) {\n    return accumulate(begin(s), end(s), 0,\n                      [](int a, int b) { return a * 26 + (b - 'A' + 1); });\n  }\n };\n"
+      "code": "class Solution {\n public:\n  int titleToNumber(string s) {\n    return accumulate(begin(s), end(s), 0, [](int a, int b) { return a * 26 + (b - 'A' + 1); });\n  }\n };\n"
     }
   ],
   [

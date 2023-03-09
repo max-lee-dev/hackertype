@@ -22,8 +22,10 @@
 
 .containter {
     width: 500px;  
-    background-color: aliceblue;
+    background-color: rgb(15, 68, 116);
     text-align: center;
+    
+    
     
 }
 .title {
@@ -39,19 +41,20 @@
 }
 
 .content {
-    background-color: rgb(236, 212, 255);
+    background-color: rgb(247, 238, 255);
     border-radius: 10px;
-    translate: 0 20px;
-    width: 100%;
+    width: 75%;
     height: fit-content;
-    padding: 20px;
-    display: grid;
-    flex-direction: column;
-    justify-content: center;
+    transform: translateX(250px);
+    padding-left: 20px;
+    padding-bottom: 20px;
+    
 }
 
 .inputContainer {
-    
+    padding: flex;
+    flex-direction: column;
+    justify-content: center;
     justify-content: space-between;
 }
 
@@ -78,6 +81,7 @@
     font-size: 30px;
     border-radius: 10px;
     border: 0px;
+    
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     
 }
@@ -120,15 +124,20 @@
 
 .maxWordsDiv {
     display: flex;
+    align-items: center;
     flex-direction: column;
     padding-bottom: 20px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    padding-right: 5%;
+    padding-left: 25px;
 }
 
 .maxWordsDiv input {
     background-color: transparent;
+    align-self: center;
     user-select: none;
     outline: none;
-    width: 70px;
+    width: 50px;
     height: 50px;
     text-align: center;
     background-color: rgba(0, 0, 0, 0.02);
@@ -153,6 +162,18 @@
     border: 0px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 
+}
+
+.codingSettings {
+
+    display: flex;
+    flex-direction: row;
+}
+
+.codingSettings button {
+    align-self: center;
+    height: 30px;
+    width: 100px;
 }
 
 

@@ -470,22 +470,24 @@ function App() {
         <div className = 'title'><h1> some name </h1></div>
         
         <div className = 'content'>
-          <div className = 'maxWordsDiv'>
-            <p>Word Limit</p>
           
-            <input 
-              className = 'maxWordsForm' 
-              placeholder={'...'} 
-              type='text'
-              onChange={(e) => handleWordLimit(e.target.value)}
-            />
-            <p>Selecting from {solutionRange} {language} solutions</p>
-            <p>{error}</p>
+          <div className = 'codingSettings'>
+            <div className = 'maxWordsDiv'>
+              <p>Word Limit</p>
+            
+              <input 
+                className = 'maxWordsForm' 
+                placeholder={'...'} 
+                type='text'
+                onChange={(e) => handleWordLimit(e.target.value)}
+              />
+              <p>Selecting from {solutionRange} {language} solutions</p>
+              <p>{error}</p>
+            </div>
+            <button onClick={() => Restart('C++', wordLimit)}>C++</button>
+            <button onClick={() => Restart('Java', wordLimit)}>Java</button>
+            <button onClick={() => Restart('Python', wordLimit)}>Python</button>
           </div>
-
-          <button onClick={() => Restart('C++', wordLimit)}>C++</button>
-          <button onClick={() => Restart('Java', wordLimit)}>Java</button>
-          <button onClick={() => Restart('Python', wordLimit)}>Python</button>
           <div className = 'inputContainer'>
             <div className = 'leetcodeTitle'>
               <p>{leetcodeTitle}</p>
