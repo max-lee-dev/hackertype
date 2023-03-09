@@ -33,7 +33,6 @@
     justify-content: center;
     background-color: rgb(210, 227, 243);
     border-radius: 100px;
-    outline: invert;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 :root {
@@ -43,11 +42,11 @@
 .content {
     background-color: rgb(247, 238, 255);
     border-radius: 10px;
-    width: 75%;
+    width: 100%;
     height: fit-content;
-    transform: translateX(250px);
     padding-left: 20px;
     padding-bottom: 20px;
+    padding-top: 20px;
     
 }
 
@@ -148,11 +147,16 @@
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 
 }
+
+.maxWordsDiv input::placeholder {
+    transform: translateY(-5px);
+    font-size: 30px;
+}
 .maxWordsDiv input:focus {
     background-color: transparent;
     user-select: none;
     outline: none;
-    width: 70px;
+    width: 50px;
     height: 50px;
     text-align: center;
     background-color: rgba(0, 0, 0, 0.12);
@@ -164,10 +168,17 @@
 
 }
 
+.error {
+    color: rgb(215, 48, 48);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font: bold;
+}
+
 .codingSettings {
 
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 .codingSettings button {

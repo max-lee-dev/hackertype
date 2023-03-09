@@ -56,6 +56,7 @@ function App() {
   const [controlPress, setControllPress] = useState(false)
   const [shiftPress, setShiftPress] = useState(false)
   const [solutionWordCount, setSolutioNwordCount] = useState(0)
+  const [id, setId] = useState('')
   
   
 
@@ -65,8 +66,17 @@ function App() {
   function Restart(codingLanguage, maxWords, retrySame) {
     console.log("NEW VAL: " + maxWords)
     let s = ''
+    
     if (retrySame === undefined) {
       s = Reset(codingLanguage, maxWords)
+      if (id !== undefined && id !== '') {
+        
+        if (!isNaN(id) || id < 1) {
+          console.log("wat: " + id)
+          s = Reset(codingLanguage, maxWords, id)
+        }
+      }
+      
       if (s !== undefined) {
         setError(s)
         return
@@ -76,6 +86,10 @@ function App() {
     
     //
     if (!newUser && retrySame !== undefined) setWordsLeft(solutionWordCount)
+    if (inputElement.current) {
+      inputElement.current.focus();
+      
+    }
     setLanguage(codingLanguage)
     setRenderIndex(-1)
     setNewUser(false)
@@ -88,9 +102,9 @@ function App() {
     
     
   }
-  function randomCode(codingLanguage, solutionSize) {
+  function randomCode(codingLanguage, solutionSize, id) {
     let codeLang = javaCode
-    
+    id--
     if (codingLanguage === 'C++') codeLang = cppCode // C++ CRASHING RN PROB CAUSE COMMENTS (theyt end in smth sus)
     else if (codingLanguage === 'Java') codeLang = javaCode // same with java
     else if (codingLanguage === 'Python') codeLang = pyCode
@@ -111,7 +125,13 @@ function App() {
         
 
       }
-     
+      if (id !== undefined && !isNaN(id)) {
+        if (codeLang[parseInt(id)] === undefined) {
+          console.log('test')
+          setError('Not a valid solution ID!')
+        }
+        pulledCode = codeLang[parseInt(id)]
+      }
       // eslint-disable-next-line
       pulledCode.map((codeInfo) => {
         selectedCode = codeInfo.code
@@ -119,13 +139,15 @@ function App() {
         return 0
       })
       
+
+      
       let numWords = selectedCode.split(' ').length
       const selectedCodeArr = selectedCode.split(' ')
       selectedCodeArr.map((word) => {
         if (word === '') numWords--;
         return ''
       })
-    
+      if (id !== undefined) break
       if (numWords <= wordLimit) break
     }
     // 
@@ -134,7 +156,7 @@ function App() {
     return selectedCode 
   }
 
-  function Reset(codingLanguage, maxWords) {
+  function Reset(codingLanguage, maxWords, id) {
    
 
     // solution range
@@ -172,9 +194,9 @@ function App() {
     if (maxWords === '') setSolutionRage('ALL')
     else setSolutionRage(numSolutions)
     if (numSolutions === 0) {      
-      return `Must have atleast 1 ${codingLanguage} solutions`
+      return `Must have atleast 1 solution`
     }
-    let funcRawCode = randomCode(codingLanguage, numSolutions)
+    let funcRawCode = randomCode(codingLanguage, numSolutions, id)
     let funcWordBank = []
     let funcIndentChars = []
     let funcWhiteSpace = []
@@ -467,28 +489,44 @@ function App() {
   return (
     <div className = 'body'>
       <div className = 'container'>
-        <div className = 'title'><h1> some name </h1></div>
+        <div className = 'title'><h1>HackerType </h1></div>
         
         <div className = 'content'>
           
           <div className = 'codingSettings'>
             <div className = 'maxWordsDiv'>
-              <p>Word Limit</p>
             
               <input 
                 className = 'maxWordsForm' 
-                placeholder={'...'} 
+                placeholder={''} 
                 type='text'
                 onChange={(e) => handleWordLimit(e.target.value)}
               />
               <p>Selecting from {solutionRange} {language} solutions</p>
-              <p>{error}</p>
+              
             </div>
-            <button onClick={() => Restart('C++', wordLimit)}>C++</button>
-            <button onClick={() => Restart('Java', wordLimit)}>Java</button>
-            <button onClick={() => Restart('Python', wordLimit)}>Python</button>
+            <div className = 'languageSettings'>
+              <button onClick={() => Restart('C++', wordLimit)}>C++</button>
+              <button onClick={() => Restart('Java', wordLimit)}>Java</button>
+              <button onClick={() => Restart('Python', wordLimit)}>Python</button>
+            </div>
+            <div className = 'maxWordsDiv'>
+              <input 
+                className = 'searchForm' 
+                placeholder={'#'}
+                onChange={(e) => setId(e.target.value)}
+                type='text'
+              />
+              <button onClick={() => Restart(language, wordLimit, undefined, id)}>Python</button>
+
+              <p>Search for a specific solution</p>
+            </div>
+            
+            
           </div>
+          
           <div className = 'inputContainer'>
+            
             <div className = 'leetcodeTitle'>
               <p>{leetcodeTitle}</p>
             </div>
@@ -505,6 +543,7 @@ function App() {
 
             </div>
             <div className = 'textContainer'>
+              <p className = 'error'> {error}</p>
               <div>
                 {!newUser && !finished && <input 
                   className = 'textInput'

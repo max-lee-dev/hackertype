@@ -26,13 +26,13 @@ Test your coding speed and accuracy by practicing with LeetCode solutions!
 
 ## Finished:
 - ~~-remove all obscure solutions~~ 
-- ~~add comment detection (easy)~~
-- ~~figure out c++ crash (prob comment detection)~~
+- ~~add comment detection~~
+- ~~figure out c++ crash~~
 - ~~add disappearing text~~ 
 - ~~make word limit to solutions~~ 
 - ~~remove the line if user gets it wrong/doesnt press enter~~ 
-- ~~update solution range onClick(), prob have to make func again idk~~ 
-- ~~FIX INDENTATION BUGS (conditional, the website fucked some of them up, will fix overtime)~~
+- ~~update solution range onClick()~~ 
+- ~~FIX INDENTATION BUGS~~
 - ~~fix word limit number having an offset~~
 - ~~select text box even if insta-refresh~~
 - ~~RETRY SAME TEST~~
