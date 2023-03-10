@@ -1286,7 +1286,7 @@
   [
     {
       "id": "230. Kth Smallest Element in a BST",
-      "code": "class Solution {\n public:\n  int kthSmallest(TreeNode* root, int k) {\n    const int leftCount = countNodes(root->left);\n\n    if (leftCount == k - 1)\n      return root->val;\n    if (leftCount >= k)\n      return kthSmallest(root->left, k);\n    return kthSmallest(root->right, k - 1 - leftCount);  // LeftCount < k\n  }\n\n private:\n  int countNodes(TreeNode* root) {\n    if (root == nullptr)\n      return 0;\n    return 1 + countNodes(root->left) + countNodes(root->right);\n  }\n };\n"
+      "code": "class Solution {\n public:\n  int kthSmallest(TreeNode* root, int k) {\n    const int leftCount = countNodes(root->left);\n\n    if (leftCount == k - 1)\n      return root->val;\n    if (leftCount >= k)\n      return kthSmallest(root->left, k);\n    return kthSmallest(root->right, k - 1 - leftCount);\n  }\n\n private:\n  int countNodes(TreeNode* root) {\n    if (root == nullptr)\n      return 0;\n    return 1 + countNodes(root->left) + countNodes(root->right);\n  }\n };\n"
     }
   ],
   [

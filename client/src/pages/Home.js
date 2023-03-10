@@ -120,6 +120,7 @@ function App() {
         
 
       }
+      console.log("? : " + isNaN(id))
       if (id !== undefined && !isNaN(id)) {
         if (codeLang[parseInt(id)] === undefined) {
           console.log('test')
@@ -134,7 +135,6 @@ function App() {
         return 0
       })
       
-      console.log("word: " + id)
       
       let numWords = selectedCode.split(' ').length
       const selectedCodeArr = selectedCode.split(' ')
@@ -582,7 +582,7 @@ function App() {
         <div id = "userInput"> 
          
           {!newUser && <button onClick={() => Restart(language, wordLimit)}>Restart Test</button>}
-          {!newUser && <p className = "reminder">Tab + Enter to Restart Test<br/><br/>Shift/Ctrl + Enter to Retry Same Test</p>}
+          {!newUser && <p className = "reminder">Tab + Enter to Restart Test<br/><br/>Ctrl + Enter to Retry Same Test</p>}
           
         </div>
         

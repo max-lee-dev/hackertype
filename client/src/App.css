@@ -92,6 +92,11 @@ body {
     background-color: aliceblue;
 }
 
+.container {
+    flex-wrap: wrap;
+    flex-wrap: wrap;
+    overflow-wrap: break-word;
+}
 .content {
     background-color: rgb(247, 238, 255);
     border-radius: 10px;
