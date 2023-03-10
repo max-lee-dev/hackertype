@@ -50,7 +50,6 @@ function App() {
   const [wordsLeft, setWordsLeft] = useState(0)
   const [error, setError] = useState('')
   const [controlPress, setControllPress] = useState(false)
-  const [shiftPress, setShiftPress] = useState(false)
   const [solutionWordCount, setSolutionWordCount] = useState(0)
   const [id, setId] = useState('')
   
@@ -370,16 +369,13 @@ function App() {
 
 
   function handleKeyDown(e) {
-    if (e.key === 'Shift') setShiftPress(true)
-    else (setShiftPress(false))
     if (e.key === 'Control') setControllPress(true)
     else (setControllPress(false))
 
 
-    if (e.key === 'Enter' && (shiftPress || controlPress)) {
+    if (e.key === 'Enter' && (controlPress)) {
       Restart(language, wordLimit, leetcodeTitle)
       setControllPress(false)
-      setShiftPress(false)
       return ''
     }
     if (e.key === 'Enter' && inputElement.current.type === document.activeElement.type) {
