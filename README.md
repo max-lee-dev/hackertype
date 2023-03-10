@@ -38,6 +38,7 @@ Test your coding speed and accuracy by practicing with LeetCode solutions!
 - ~~RETRY SAME TEST~~
 - ~~wordcount lagging behind by 1 solution bug~~
 - ~~select solution id~~
+- ~~add no paste in user input~~
 
 
 

@@ -55,7 +55,7 @@ function App() {
   const [error, setError] = useState('')
   const [controlPress, setControllPress] = useState(false)
   const [shiftPress, setShiftPress] = useState(false)
-  const [solutionWordCount, setSolutioNwordCount] = useState(0)
+  const [solutionWordCount, setSolutionWordCount] = useState(0)
   const [id, setId] = useState('')
   
   
@@ -139,7 +139,7 @@ function App() {
         return 0
       })
       
-
+      console.log("word: " + id)
       
       let numWords = selectedCode.split(' ').length
       const selectedCodeArr = selectedCode.split(' ')
@@ -147,8 +147,10 @@ function App() {
         if (word === '') numWords--;
         return ''
       })
-      if (id !== undefined) break
+      
       if (numWords <= wordLimit) break
+      
+      if (id !== undefined && !isNaN(id)) break
     }
     // 
     setLeetcodeTitle(codeTitle)
@@ -157,7 +159,7 @@ function App() {
   }
 
   function Reset(codingLanguage, maxWords, id) {
-   
+    
 
     // solution range
     let codeLang = javaCode
@@ -184,7 +186,8 @@ function App() {
       })
       // 
       const solutionArray = selectedCode.split(" ")
-      let solutionSize = 0
+      let solutionSize = 0 
+      
       solutionArray.map((word) => {
         if (word !== '') solutionSize++
         return ''
@@ -219,10 +222,7 @@ function App() {
     })
     funcWordBank = finalCode
     setWordsLeft(funcWordBank.length)
-    console.log("HERE: ")
-    console.log(solutionWordCount)
-    console.log(funcWordBank.length)
-    setSolutioNwordCount(funcWordBank.length)
+    setSolutionWordCount(funcWordBank.length)
     ///////////////
 
     // indent chars
@@ -548,6 +548,10 @@ function App() {
                 {!newUser && !finished && <input 
                   className = 'textInput'
                   type="text" 
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    return false;
+                  }}
                   value={userInput} 
                   onChange ={(e) => processInput(e)}
                   onKeyDown={handleKeyDown}
