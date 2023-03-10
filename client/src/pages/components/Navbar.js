@@ -5,10 +5,10 @@ export default function Navbar() {
         <a href='/' className='site-title'>HackerType</a>
         <ul>
                 <li>            
-                        <a href='/about'>Solutions(wip)</a>
+                        <a href='/'>Solutions (WIP)</a>
                 </li>
                 <li>
-                        <a href='/'>Leaderboard(wip)</a>
+                        <a href='/'>Leaderboard (WIP)</a>
                 </li>
                 <li>            
                         <a href='/about'>About</a>

@@ -72,13 +72,12 @@ body {
 
 
 
-.containter {
-    width: 500px;  
-    background-color: rgb(15, 68, 116);
+.pageContainer {
+    margin: 1rem;
+}
+
+.aboutContainer {
     text-align: center;
-    
-    
-    
 }
 .title {
     display: flex;
