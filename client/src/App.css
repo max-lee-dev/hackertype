@@ -70,7 +70,9 @@ body {
 }
 
 
-
+.activePage {
+    background-color: #555;
+}
 
 .pageContainer {
     margin: 1rem;
