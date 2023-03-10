@@ -5,7 +5,8 @@ import Timer from './components/Timer.js'
 import javaCode from './components/javaCode.json'
 import pyCode from './components/pyCode.json'
 import cppCode from './components/cppCode.json'
-
+import NavBar from './components/Navbar.js'
+import About from './pages/About.js'
 
 
 // figure out how to get new text every reload
@@ -36,7 +37,6 @@ function countReturns(text) {
 
 
 function App() {
-  
   const inputElement = useRef(null);
   const [userInput, setUserInput] = useState('')
   const [startCounting, setStartCounting] = useState(false)
@@ -485,11 +485,14 @@ function App() {
 
   
   
-
   return (
+   
     <div className = 'body'>
       <div className = 'container'>
-        <div className = 'title'><h1>HackerType </h1></div>
+    <>
+    <NavBar/>
+      
+    </>
         
         <div className = 'content'>
           
