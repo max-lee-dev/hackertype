@@ -4,7 +4,7 @@ Test your coding speed and accuracy by practicing with LeetCode solutions!
 ## Todo:
 
 
-- nav bar (logo, contact, about)
+
 - fix CSS (try chakra-ui)
 
 
@@ -39,6 +39,7 @@ Test your coding speed and accuracy by practicing with LeetCode solutions!
 - ~~wordcount lagging behind by 1 solution bug~~
 - ~~select solution id~~
 - ~~add no paste in user input~~
+- ~~nav bar (logo, contact, about)~~
 
 
 
