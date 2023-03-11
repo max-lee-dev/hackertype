@@ -1006,7 +1006,7 @@
   [
     {
       "id": "170. Two Sum III - Data structure design",
-      "code": "class TwoSum {\n  public void add(int number) {\n    count.put(number, count.getOrDefault(number, 0) + 1);\n  }\n\n  public boolean find(int value) {\n    for (Map.Entry<Integer, Integer> entry : count.entrySet()) {\n      final int key = entry.getKey();\n      final int remain = value - key;\n      if (key == remain && entry.getValue() > 1)\n        return true;\n      if (key != remain && count.containsKey(remain))\n        return true;\n    }\n\n    return false;\n  }\n\n  private HashMap<Integer, Integer> count = new HashMap<>();\n}\n"
+      "code": "class TwoSum {\n  public void add(int number) {\n    count.put(number, count.getOrDefault(number, 0) + 1);\n  }\n\n  public boolean find(int value) {\n    for (Map.Entry<Integer, Integer> entry : count.entrySet()) {\n      final int key = entry.getKey();\n      final int remain = value - key;\n      if (key == remain && entry.getValue() > 1)\n        return true;\n      if (key != remain && count.containsKey(remain))\n        return true;\n    }\n\n    return false;\n  }\n\n  private HashMap<Integer, Integer> count = new HashMap<>();\n }\n"
     }
   ],
   [

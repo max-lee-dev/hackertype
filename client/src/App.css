@@ -1,6 +1,26 @@
 * {
     box-sizing: border-box;
 }
+html::-webkit-scrollbar {
+    width: 1vw;
+    height: 0.1vw;
+}
+
+html::-webkit-scrollbar-thumb {
+    background-color: #7775;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+    background-color: #777;
+}
+
+html::-webkit-scrollbar-track {
+    background-color: rgba(14,12,16,0.12);
+}
+
+html::-webkit-scrollbar-track {
+    background-color: rgb(14,12,16)
+}
 
 body {
     margin: 0;
@@ -92,6 +112,7 @@ body {
 }
 :root {
     background-color: rgb(14,14,16);
+    --maintext: rgb(244,244,244);
 }
 
 .container {
@@ -171,7 +192,7 @@ body {
     border-radius: 10px;
     background-color: rgb(247, 247, 227);
     background: rgba(255, 255, 255, 0.12);
-
+    color:var(--maintext);
     box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.19);
     border-radius: 15px; 
     
@@ -282,7 +303,7 @@ body {
 
 .reminder {
     font-style: italic;
-    color:rgba(0, 0, 0, 0.5);
+    color:var(--maintext);
     font-size: 15px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     user-select: none;
