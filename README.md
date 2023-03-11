@@ -6,6 +6,9 @@ Test your coding speed and accuracy by practicing with LeetCode solutions!
 
 
 - fix CSS (try chakra-ui)
+ - have solution range for each lang
+ - button for both search and limit
+ 
 
 
 

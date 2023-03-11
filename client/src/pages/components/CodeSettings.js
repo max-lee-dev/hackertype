@@ -15,8 +15,14 @@ import {
         ModalFooter,
         Button,
         IconButton,
-        Stack
+        Stack,
+        
       } from '@chakra-ui/react'
+import {
+        Search2Icon,
+        EditIcon,
+        CheckIcon
+} from '@chakra-ui/icons'
 export default function CodeSettings({
         id, language, isOpen, onOpen, onClose, wordLimit, handleWordLimit, Restart, solutionRange, setId
 }) {
@@ -28,7 +34,7 @@ export default function CodeSettings({
                 
                 <Center>
                         <Stack isInline>
-                                <IconButton colorScheme='yellow' onClick={onOpen} >Open</IconButton>
+                                <IconButton icon={<Search2Icon/>} varaint='outline' colorScheme='cyan' onClick={onOpen}>Open</IconButton>
                                 <Modal isOpen={isOpen} onClose={onClose}>
                                 <ModalOverlay />
                                 <ModalContent>
@@ -39,35 +45,36 @@ export default function CodeSettings({
                                 <ModalBody>
                                         
                                         <FormControl>
-                                        <FormLabel>Word Limit</FormLabel>
-                                        <Input type="text" />
-                                        <FormHelperText>
-                                        Enter a word limit for solutions
-                                        </FormHelperText>
+                                                        <FormLabel>Word Limit</FormLabel>
+                                                        <Input
+                                                                className = 'maxWordsForm' 
+                                                                placeholder={`Selecting from ${solutionRange} ${language} solutions`} 
+                                                                type='text'
+                                                                onChange={(e) => handleWordLimit(e.target.value)}
+                                                        />
+                                                        
+                                                        <FormHelperText>
+                                                        Enter a word limit for solutions
+                                                        </FormHelperText>
+                                                        
                                         </FormControl>
+                                        {solutionRange}
                                 </ModalBody>
                 
                                 <ModalFooter>
-                                        <Button type="submit" form="new-note">
-                                        Submit
+                                        <Button justifyContent='center' width='500px' type="submit" form="new-note" onClick={onClose}>
+                                                <CheckIcon/>
                                         </Button>
                                 </ModalFooter>
                                 </ModalContent>
                                 </Modal>
-                                        <div className = 'maxWordsDiv'>
                                         
-                                        <Input
-                                        className = 'maxWordsForm' 
-                                        placeholder={`Selecting from ${solutionRange} ${language} solutions`} 
-                                        type='text'
-                                        onChange={(e) => handleWordLimit(e.target.value)}
-                                        />
+                                       
                                         
                                         
-                                        </div>
                                 <Divider orientation='vertical' size='xl' borderColor={'chakra-placeholder-color'}/>
                                         <div className = 'languageSettings'>
-                                        <Button onClick={() => Restart('C++', wordLimit)}>C++</Button>
+                                        <Button onClick={() => Restart('C++', wordLimit)}>C++ {solutionRange}</Button>
                                         <Button onClick={() => Restart('Java', wordLimit)}>Java</Button>
                                         <Button onClick={() => Restart('Python', wordLimit)}>Python</Button>
                                         </div>
