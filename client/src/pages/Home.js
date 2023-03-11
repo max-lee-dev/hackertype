@@ -502,13 +502,13 @@ function App() {
                 
                 
               </div>
-              <Divider orientation='vertical' />
+              <Divider orientation='vertical' size='xl' borderRadius='full' borderColor={'red.300'} />
               <div className = 'languageSettings'>
                 <button onClick={() => Restart('C++', wordLimit)}>C++</button>
                 <button onClick={() => Restart('Java', wordLimit)}>Java</button>
                 <button onClick={() => Restart('Python', wordLimit)}>Python</button>
               </div>
-              <Divider orientation='vertical' colorScheme='red'/>
+              <Divider orientation='vertical' borderColor={'red'}/>
               <div className = 'maxWordsDiv'>
                 <Input
                   className = 'searchForm' 
