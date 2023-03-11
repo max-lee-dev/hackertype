@@ -264,14 +264,9 @@ body {
     font: bold;
 }
 
-.codingSettings {
 
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
 
-.codingSettings button {
+.codingSettings Button {
     align-self: center;
     height: 30px;
     width: 100px;

@@ -4,11 +4,10 @@ import Timer from './components/Timer.js'
 import javaCode from './components/javaCode.json'
 import pyCode from './components/pyCode.json'
 import cppCode from './components/cppCode.json' // bye bye
+import CodeSettings from './components/CodeSettings.js'
 import {
   Center,
-  Input,
-  Divider,
-  HStack
+  useDisclosure
 } from '@chakra-ui/react'
 
 // figure out how to get new text every reload
@@ -39,6 +38,7 @@ function countReturns(text) {
 
 
 function App() {
+  const { isOpen, onClose, onOpen } = useDisclosure();
   const inputElement = useRef(null);
   const [userInput, setUserInput] = useState('')
   const [startCounting, setStartCounting] = useState(false)
@@ -489,37 +489,21 @@ function App() {
       <div className = 'container'>        
         <Center>
           <div className = 'content'>
+            
             <div className = 'codingSettings'>
-              <div className = 'maxWordsDiv'>
-                
-              <Input
-                    className = 'maxWordsForm' 
-                    placeholder={`Selecting from ${solutionRange} ${language} solutions`} 
-                    type='text'
-                    onChange={(e) => handleWordLimit(e.target.value)}
-                  />
-                
-                
-              </div>
-              <Divider orientation='vertical' size='xl' borderrad='blue'/>
-              <div className = 'languageSettings'>
-                <button onClick={() => Restart('C++', wordLimit)}>C++</button>
-                <button onClick={() => Restart('Java', wordLimit)}>Java</button>
-                <button onClick={() => Restart('Python', wordLimit)}>Python</button>
-              </div>
-              <Divider orientation='vertical' size='xl' variant="thick" colorScheme='red'/>
-              <div className = 'maxWordsDiv'>
-                <Input
-                  className = 'searchForm' 
-                  placeholder={'#'}
-                  onChange={(e) => setId(e.target.value)}
-                  type='text'
-                />
-                <button onClick={() => Restart(language, wordLimit, undefined, id)}>Python</button>
-
-                <p>Search for a specific solution</p>
-              </div>
-             </div>
+              <CodeSettings
+                id={id}
+                language={language} 
+                isOpen={isOpen} 
+                onOpen={onOpen} 
+                onClose={onClose} 
+                wordLimit={wordLimit} 
+                handleWordLimit={handleWordLimit} 
+                Restart={Restart}
+                solutionRange={solutionRange} 
+                setId={setId}
+              />
+            </div>
             
             <div className = 'inputContainer'>
               
