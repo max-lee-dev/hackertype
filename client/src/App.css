@@ -7,7 +7,7 @@ body {
 }
 
 .nav {
-    background-color: #333;
+    background-color: rgb(24,24,27);
     color: white;
     display: flex;
     justify-content: space-between;
@@ -52,19 +52,21 @@ body {
 
 .correct {
     font-size: bold;
-    color: rgb(5, 164, 5);
+    color: rgb(124, 197, 124) !important;
 }
 
 .incorrect {
     font-size: bold;
-    color: red;
+    color: rgb(241, 83, 83) !important;
 }
 
 .active {
     font-weight: bold;
+    color:rgb(241, 241, 241) !important;
 }
 
 .displayText {
+    color: rgb(127,127,127);
     white-space: pre;
     user-select: none;
 }
@@ -89,7 +91,7 @@ body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 :root {
-    background-color: rgb(34,39,46);
+    background-color: rgb(14,14,16);
 }
 
 .container {
@@ -99,9 +101,11 @@ body {
 }
 .content {
     margin-top: 20px;
-    background-color: rgb(247, 238, 255);
+    
+    background-color: rgb(31,31,35);
+
     border-radius: 10px;
-    width: 85%;
+    width: 80%;
     height: fit-content;
     padding-left: 20px;
     padding-bottom: 20px;
@@ -137,11 +141,12 @@ body {
     width: 50%;
     height: 50px;
     text-align: center;
-    background-color: rgba(0, 0, 0, 0.02);
+    background-color: rgba(244,244,244, 0.12);
     border-radius: 10px;
     font-size: 30px;
     border-radius: 10px;
     border: 0px;
+    color: rgb(244,244,244);
     
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     
@@ -153,7 +158,7 @@ body {
 
 .textContainer input:focus {
     text-align: center;
-    background-color: rgba(0, 0, 0, 0.12);
+    background-color: rgba(244,244,244, 0.12);
 }
 
 
@@ -173,6 +178,8 @@ body {
 }
 
 .wordsLeft {
+    color: rgb(244, 244, 244);
+    padding-top: 5px;
     font-size: 20px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
@@ -260,6 +267,8 @@ body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 30px;
     text-align: center;
+    color:whitesmoke;
+    
 
     
 }
@@ -268,7 +277,7 @@ body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 25px;
     text-align: center;
-    
+    color: rgb(244,244,244)
 }
 
 .reminder {
@@ -285,8 +294,10 @@ body {
 }
 
 .currentCorrect {
-    color: rgb(124, 197, 124);
+    /* color: rgb(124, 197, 124);
+    font-weight: bold; */
     font-weight: bold;
+    color:rgb(241, 241, 241) !important;
 }
 
 .currentIncorrect {

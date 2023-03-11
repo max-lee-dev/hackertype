@@ -878,7 +878,7 @@
   [
     {
       "id": "147. Insertion Sort List",
-      "code": "class Solution {\n public:\n  ListNode* insertionSortList(ListNode* head) {\n    ListNode dummy(0);\n    ListNode* prev = &dummy;  // The last (largest) of the sorted list\n\n    while (head) {                  // Current inserting node\n      ListNode* next = head->next;  // Cache next inserting node\n      if (prev->val >= head->val)   // `prev` >= current inserting node\n        prev = &dummy;              // Move `prev` to the front\n      while (prev->next && prev->next->val < head->val)\n        prev = prev->next;\n      head->next = prev->next;\n      prev->next = head;\n      head = next;  // Update current inserting node\n    }\n\n    return dummy.next;\n  }\n };\n"
+      "code": "class Solution {\n public:\n  ListNode* insertionSortList(ListNode* head) {\n    ListNode dummy(0);\n    ListNode* prev = &dummy;\n  // The last (largest) of the sorted list\n    while (head) {\n                  // Current inserting node\n      ListNode* next = head->next;\n  // Cache next inserting node\n      if (prev->val >= head->val)\n   // `prev` >= current inserting node\n        prev = &dummy;\n              // Move `prev` to the front\n      while (prev->next && prev->next->val < head->val)\n        prev = prev->next;\n      head->next = prev->next;\n      prev->next = head;\n      head = next;\n  // Update current inserting node\n    }\n\n    return dummy.next;\n  }\n };\n"
     }
   ],
   [
@@ -1340,7 +1340,7 @@
   [
     {
       "id": "239. Sliding Window Maximum",
-      "code": "class Solution {\n public:\n  vector<int> maxSlidingWindow(vector<int>& nums, int k) {\n    vector<int> ans;\n    deque<int> q;  // Max queue\n\n    for (int i = 0; i < nums.size(); ++i) {\n      while (!q.empty() && q.back() < nums[i])\n        q.pop_back();\n      q.push_back(nums[i]);\n      if (i >= k && nums[i - k] == q.front())  // Out of bound\n        q.pop_front();\n      if (i >= k - 1)\n        ans.push_back(q.front());\n    }\n\n    return ans;\n  }\n };\n"
+      "code": "class Solution {\n public:\n  vector<int> maxSlidingWindow(vector<int>& nums, int k) {\n    vector<int> ans;\n    deque<int> q;\n  // Max queue\n\n    for (int i = 0; i < nums.size(); ++i) {\n      while (!q.empty() && q.back() < nums[i])\n        q.pop_back();\n      q.push_back(nums[i]);\n      if (i >= k && nums[i - k] == q.front())  // Out of bound\n        q.pop_front();\n      if (i >= k - 1)\n        ans.push_back(q.front());\n    }\n\n    return ans;\n  }\n };\n"
     }
   ],
   [

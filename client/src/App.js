@@ -5,7 +5,7 @@ import NavBar from './pages/components/Navbar.js'
 import About from './pages/About.js'
 import Leaderboard from './pages/Leaderboard.js'
 import Solutions from './pages/Solutions.js'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 
 
 
@@ -20,15 +20,14 @@ function App() {
    
     <>
       <NavBar/>
-
-
-
+        <div className = 'pageContainer'>
           <Routes>
             <Route path='/' element={<Home/>} />
             <Route path='/about' element={<About/>} />
             <Route path='/leaderboard' element={<Leaderboard/>} />
             <Route path='/solutions' element={<Solutions/>} />
           </Routes>
+        </div>
     </>
   )
 }

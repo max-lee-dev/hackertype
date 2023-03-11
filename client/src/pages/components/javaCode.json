@@ -230,13 +230,13 @@
   [
     {
       "id": "39. Combination Sum",
-      "code": "class Solution {\n  public List<List<Integer>> combinationSum(int[] candidates, int target) {\n    List<List<Integer>> ans = new ArrayList<>();\n    Arrays.sort(candidates);\n    dfs(0, candidates, target, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int s, int[] candidates, int target, List<Integer> path,\n                   List<List<Integer>> ans) {\n    if (target < 0)\n      return;\n    if (target == 0) {\n      ans.add(new ArrayList<>(path));\n      return;\n    }\n\n    for (int i = s; i < candidates.length; ++i) {\n      path.add(candidates[i]);\n      dfs(i, candidates, target - candidates[i], path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n }\n"
+      "code": "class Solution {\n  public List<List<Integer>> combinationSum(int[] candidates, int target) {\n    List<List<Integer>> ans = new ArrayList<>();\n    Arrays.sort(candidates);\n    dfs(0, candidates, target, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int s, int[] candidates, int target, List<Integer> path, List<List<Integer>> ans) {\n    if (target < 0)\n      return;\n    if (target == 0) {\n      ans.add(new ArrayList<>(path));\n      return;\n    }\n\n    for (int i = s; i < candidates.length; ++i) {\n      path.add(candidates[i]);\n      dfs(i, candidates, target - candidates[i], path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n }\n"
     }
   ],
   [
     {
       "id": "40. Combination Sum II",
-      "code": "class Solution {\n  public List<List<Integer>> combinationSum2(int[] candidates, int target) {\n    List<List<Integer>> ans = new ArrayList<>();\n    Arrays.sort(candidates);\n    dfs(0, candidates, target, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int s, int[] candidates, int target, List<Integer> path,\n                   List<List<Integer>> ans) {\n    if (target < 0)\n      return;\n    if (target == 0) {\n      ans.add(new ArrayList<>(path));\n      return;\n    }\n\n    for (int i = s; i < candidates.length; ++i) {\n      if (i > s && candidates[i] == candidates[i - 1])\n        continue;\n      path.add(candidates[i]);\n      dfs(i + 1, candidates, target - candidates[i], path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n }\n"
+      "code": "class Solution {\n  public List<List<Integer>> combinationSum2(int[] candidates, int target) {\n    List<List<Integer>> ans = new ArrayList<>();\n    Arrays.sort(candidates);\n    dfs(0, candidates, target, new ArrayList<>(), ans);\n    return ans;\n  }\n\n  private void dfs(int s, int[] candidates, int target, List<Integer> path, List<List<Integer>> ans) {\n    if (target < 0)\n      return;\n    if (target == 0) {\n      ans.add(new ArrayList<>(path));\n      return;\n    }\n\n    for (int i = s; i < candidates.length; ++i) {\n      if (i > s && candidates[i] == candidates[i - 1])\n        continue;\n      path.add(candidates[i]);\n      dfs(i + 1, candidates, target - candidates[i], path, ans);\n      path.remove(path.size() - 1);\n    }\n  }\n }\n"
     }
   ],
   [
@@ -878,7 +878,7 @@
   [
     {
       "id": "147. Insertion Sort List",
-      "code": "class Solution {\n  public ListNode insertionSortList(ListNode head) {\n    ListNode dummy = new ListNode(0);\n    ListNode prev = dummy; // The last (largest) of the sorted list\n\n    while (head != null) {       // Current inserting node\n      ListNode next = head.next; // Cache next inserting node\n      if (prev.val >= head.val)  // `prev` >= current inserting node\n        prev = dummy;            // Move `prev` to the front\n      while (prev.next != null && prev.next.val < head.val)\n        prev = prev.next;\n      head.next = prev.next;\n      prev.next = head;\n      head = next; // Update current inserting node\n    }\n\n    return dummy.next;\n  }\n }\n"
+      "code": "class Solution {\n  public ListNode insertionSortList(ListNode head) {\n    ListNode dummy = new ListNode(0);\n    ListNode prev = dummy; // The last (largest) of the sorted list\n\n    while (head != null) {\n       // Current inserting node\n      ListNode next = head.next;\n // Cache next inserting node\n      if (prev.val >= head.val)\n  // `prev` >= current inserting node\n        prev = dummy;\n            // Move `prev` to the front\n      while (prev.next != null && prev.next.val < head.val)\n        prev = prev.next;\n      head.next = prev.next;\n      prev.next = head;\n      head = next; // Update current inserting node\n    }\n\n    return dummy.next;\n  }\n }\n"
     }
   ],
   [

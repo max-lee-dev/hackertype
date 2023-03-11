@@ -363,7 +363,7 @@ function App() {
 
     if (active) {
             if (hasReturn) return <span className = "displayText" style = {{ fontWeight: active ? 'bold' : 'lighter'}}>{text} <br/></span>
-            return <span className = "displayText" style = {{ fontWeight: active ? 'bold' : 'lighter'}}>{text} </span>
+            return <span className = "active">{text} </span>
     }
     if (hasReturn)return <span className = "displayText">{text}<br/></span>
     return <span className = "displayText">{text} </span>
@@ -490,7 +490,6 @@ function App() {
         <Center>
           <div className = 'content'>
             <div className = 'codingSettings'>
-              <HStack>
               <div className = 'maxWordsDiv'>
                 
               <Input
@@ -502,13 +501,13 @@ function App() {
                 
                 
               </div>
-              <Divider orientation='vertical' size='xl' borderRadius='full' borderColor={'red.300'} />
+              <Divider orientation='vertical' size='xl' borderrad='blue'/>
               <div className = 'languageSettings'>
                 <button onClick={() => Restart('C++', wordLimit)}>C++</button>
                 <button onClick={() => Restart('Java', wordLimit)}>Java</button>
                 <button onClick={() => Restart('Python', wordLimit)}>Python</button>
               </div>
-              <Divider orientation='vertical' borderColor={'red'}/>
+              <Divider orientation='vertical' size='xl' variant="thick" colorScheme='red'/>
               <div className = 'maxWordsDiv'>
                 <Input
                   className = 'searchForm' 
@@ -520,9 +519,7 @@ function App() {
 
                 <p>Search for a specific solution</p>
               </div>
-              
-            </HStack>
-            </div>
+             </div>
             
             <div className = 'inputContainer'>
               
