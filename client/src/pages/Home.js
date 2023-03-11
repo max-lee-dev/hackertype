@@ -3,7 +3,13 @@ import React from 'react'
 import Timer from './components/Timer.js'
 import javaCode from './components/javaCode.json'
 import pyCode from './components/pyCode.json'
-import cppCode from './components/cppCode.json'
+import cppCode from './components/cppCode.json' // bye bye
+import {
+  Center,
+  Input,
+  Divider,
+  HStack
+} from '@chakra-ui/react'
 
 // figure out how to get new text every reload
 
@@ -481,104 +487,108 @@ function App() {
    
     <div className = 'body'>
       <div className = 'container'>        
-        <div className = 'content'>
-          
-          <div className = 'codingSettings'>
-            <div className = 'maxWordsDiv'>
-            
-              <input 
-                className = 'maxWordsForm' 
-                placeholder={''} 
-                type='text'
-                onChange={(e) => handleWordLimit(e.target.value)}
-              />
-              <p>Selecting from {solutionRange} {language} solutions</p>
-              
-            </div>
-            <div className = 'languageSettings'>
-              <button onClick={() => Restart('C++', wordLimit)}>C++</button>
-              <button onClick={() => Restart('Java', wordLimit)}>Java</button>
-              <button onClick={() => Restart('Python', wordLimit)}>Python</button>
-            </div>
-            <div className = 'maxWordsDiv'>
-              <input 
-                className = 'searchForm' 
-                placeholder={'#'}
-                onChange={(e) => setId(e.target.value)}
-                type='text'
-              />
-              <button onClick={() => Restart(language, wordLimit, undefined, id)}>Python</button>
-
-              <p>Search for a specific solution</p>
-            </div>
-            
-            
-          </div>
-          
-          <div className = 'inputContainer'>
-            
-            <div className = 'leetcodeTitle'>
-              <p>{leetcodeTitle}</p>
-            </div>
-            <div id = 'timer'>
-              
-              <Timer
-                codeID={leetcodeTitle}
-                startCounting={startCounting}
-                pause={finished}
-                correctWords={correctWordArray.filter(Boolean).length}
-                totalWords={wordBank.length}
-              />
-            
-
-            </div>
-            <div className = 'textContainer'>
-              <p className = 'error'> {error}</p>
-              <div>
-                {!newUser && !finished && <input 
-                  className = 'textInput'
-                  type="text" 
-                  onPaste={(e) => {
-                    e.preventDefault();
-                    return false;
-                  }}
-                  value={userInput} 
-                  onChange ={(e) => processInput(e)}
-                  onKeyDown={handleKeyDown}
-                  autoFocus
-                  spellCheck={false}
-                  ref = {inputElement}
-                />}
-              </div>
-              <div className = 'wordsLeft'>{!newUser && !finished && wordsLeft}</div>
-            </div> 
-            
-            <div className = 'text'>
-
-              <p>{!finished && wordBank.map((word, index) => {
-                if (index > renderIndex) {
-                  let s = ''
-                  if (index !== wordBank.length - 1) {
-                    for (let i = 0; i < whiteSpace[index]; i++) {
-                      
-                      s += '    '
-                    }
-                  }
-                  return <span key={index} className = 'displayText'>{s}<Word 
-                    
-                    text = {word}
-                    active={index === activeWordIndex}
-                    correct={correctWordArray[index]}
-                    
+        <Center>
+          <div className = 'content'>
+            <div className = 'codingSettings'>
+              <HStack>
+              <div className = 'maxWordsDiv'>
+                
+              <Input
+                    className = 'maxWordsForm' 
+                    placeholder={`Selecting from ${solutionRange} ${language} solutions`} 
+                    type='text'
+                    onChange={(e) => handleWordLimit(e.target.value)}
                   />
-                  </span>
-                }
-                return ''
-              })}</p>
+                
+                
+              </div>
+              <Divider orientation='vertical' />
+              <div className = 'languageSettings'>
+                <button onClick={() => Restart('C++', wordLimit)}>C++</button>
+                <button onClick={() => Restart('Java', wordLimit)}>Java</button>
+                <button onClick={() => Restart('Python', wordLimit)}>Python</button>
+              </div>
+              <Divider orientation='vertical' colorScheme='red'/>
+              <div className = 'maxWordsDiv'>
+                <Input
+                  className = 'searchForm' 
+                  placeholder={'#'}
+                  onChange={(e) => setId(e.target.value)}
+                  type='text'
+                />
+                <button onClick={() => Restart(language, wordLimit, undefined, id)}>Python</button>
+
+                <p>Search for a specific solution</p>
+              </div>
               
+            </HStack>
+            </div>
+            
+            <div className = 'inputContainer'>
+              
+              <div className = 'leetcodeTitle'>
+                <p>{leetcodeTitle}</p>
+              </div>
+              <div id = 'timer'>
+                
+                <Timer
+                  codeID={leetcodeTitle}
+                  startCounting={startCounting}
+                  pause={finished}
+                  correctWords={correctWordArray.filter(Boolean).length}
+                  totalWords={wordBank.length}
+                />
+              
+
+              </div>
+              <div className = 'textContainer'>
+                <p className = 'error'> {error}</p>
+                <div>
+                  {!newUser && !finished && <input 
+                    className = 'textInput'
+                    type="text" 
+                    onPaste={(e) => {
+                      e.preventDefault();
+                      return false;
+                    }}
+                    value={userInput} 
+                    onChange ={(e) => processInput(e)}
+                    onKeyDown={handleKeyDown}
+                    autoFocus
+                    spellCheck={false}
+                    ref = {inputElement}
+                  />}
+                </div>
+                <div className = 'wordsLeft'>{!newUser && !finished && wordsLeft}</div>
+              </div> 
+              
+              <div className = 'text'>
+
+                <p>{!finished && wordBank.map((word, index) => {
+                  if (index > renderIndex) {
+                    let s = ''
+                    if (index !== wordBank.length - 1) {
+                      for (let i = 0; i < whiteSpace[index]; i++) {
+                        
+                        s += '    '
+                      }
+                    }
+                    return <span key={index} className = 'displayText'>{s}<Word 
+                      
+                      text = {word}
+                      active={index === activeWordIndex}
+                      correct={correctWordArray[index]}
+                      
+                    />
+                    </span>
+                  }
+                  return ''
+                })}</p>
+                
+              </div>
             </div>
           </div>
-        </div>
+        </Center>
         <div id = "userInput"> 
          
           {!newUser && <button onClick={() => Restart(language, wordLimit)}>Restart Test</button>}

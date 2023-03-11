@@ -89,7 +89,7 @@ body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 :root {
-    background-color: aliceblue;
+    background-color: rgb(34,39,46);
 }
 
 .container {
@@ -98,13 +98,15 @@ body {
     overflow-wrap: break-word;
 }
 .content {
+    margin-top: 20px;
     background-color: rgb(247, 238, 255);
     border-radius: 10px;
-    width: 100%;
+    width: 85%;
     height: fit-content;
     padding-left: 20px;
     padding-bottom: 20px;
     padding-top: 20px;
+
     
 }
 
@@ -119,6 +121,8 @@ body {
     border-color: black;
     font-size: 150%;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 #userInput {
