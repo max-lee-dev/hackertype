@@ -8,7 +8,6 @@ import CodeSettings from './components/CodeSettings.js'
 import {
   Center,
   useDisclosure,
-  Button,
   IconButton,
   Stack,
   Divider
@@ -633,7 +632,7 @@ function App() {
         <Center>
           <div className = 'content'>
           <div className = 'leetcodeTitle'>
-                <p>{newUser && 'Click on one of the languages and begin typing!'}</p>
+                <p>{newUser && 'Select a language to begin coding'}</p>
               </div>
             <div className = 'codingSettings'>
               <CodeSettings
