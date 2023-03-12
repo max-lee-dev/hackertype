@@ -2053,12 +2053,7 @@
       "code": "class Solution {\n  public int depthSumInverse(List<NestedInteger> nestedList) {\n    int ans = 0;\n    int prevSum = 0;\n    Queue<NestedInteger> q = new ArrayDeque<>(nestedList);\n\n    while (!q.isEmpty()) {\n      for (int sz = q.size(); sz > 0; --sz) {\n        final NestedInteger ni = q.poll();\n        if (ni.isInteger())\n          prevSum += ni.getInteger();\n        else\n          q.addAll(ni.getList());\n      }\n      ans += prevSum;\n    }\n\n    return ans;\n  }\n }\n"
     }
   ],
-  [
-    {
-      "id": "365. Water and Jug Problem",
-      "code": "class Solution {\n  public boolean canMeasureWater(int jug1Capacity, int jug2Capacity, int targetCapacity) {\n    return targetCapacity == 0 || jug1Capacity + jug2Capacity >= targetCapacity && targetCapacity % gcd(jug1Capacity, jug2Capacity) == 0;\n  }\n\n  private int gcd(int a, int b) {\n    return b == 0 ? a : gcd(b, a % b);\n  }\n }\n"
-    }
-  ],
+  null,
   [
     {
       "id": "366. Find Leaves of Binary Tree",

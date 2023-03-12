@@ -2043,12 +2043,7 @@
   ],
   null,
   null,
-  [
-    {
-      "id": "365. Water and Jug Problem",
-      "code": "class Solution:\n  def canMeasureWater(self, jug1Capacity: int, jug2Capacity: int, targetCapacity: int) -> bool:\n    return targetCapacity == 0 or \\\n        jug1Capacity + jug2Capacity >= targetCapacity and \\\n        targetCapacity % gcd(jug1Capacity, jug2Capacity) == 0\n"
-    }
-  ],
+  null,
   null,
   [
     {

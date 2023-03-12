@@ -2083,12 +2083,7 @@
       "code": "class Solution {\n public:\n  int depthSumInverse(vector<NestedInteger>& nestedList) {\n    int ans = 0;\n    int prevSum = 0;\n    queue<NestedInteger> q{{begin(nestedList), end(nestedList)}};\n\n    while (!q.empty()) {\n      for (int sz = q.size(); sz > 0; --sz) {\n        const NestedInteger ni = q.front();\n        q.pop();\n        if (ni.isInteger())\n          prevSum += ni.getInteger();\n        else {\n          for (const NestedInteger nextNi : ni.getList())\n            q.push(nextNi);\n        }\n      }\n      ans += prevSum;\n    }\n\n    return ans;\n  }\n };\n"
     }
   ],
-  [
-    {
-      "id": "365. Water and Jug Problem",
-      "code": "class Solution {\n public:\n  bool canMeasureWater(int jug1Capacity, int jug2Capacity, int targetCapacity) {\n    return targetCapacity == 0 ||\n           jug1Capacity + jug2Capacity >= targetCapacity &&\n               targetCapacity % __gcd(jug1Capacity, jug2Capacity) == 0;\n  }\n };\n"
-    }
-  ],
+  null,
   [
     {
       "id": "366. Find Leaves of Binary Tree",

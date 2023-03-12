@@ -103,6 +103,12 @@ body {
 .aboutContainer {
     text-align: center;
 }
+
+.wordLimitButton {
+    width: 32px ;
+    height: 30px !important;
+}
+
 .title {
     display: flex;
     justify-content: center;
@@ -128,9 +134,8 @@ body {
     border-radius: 10px;
     width: 80%;
     height: fit-content;
-    padding-left: 20px;
-    padding-bottom: 20px;
-    padding-top: 20px;
+    padding: 2rem;
+    
 
     
 }
@@ -152,7 +157,6 @@ body {
 
 #userInput {
     text-align: center;
-    
 }
 
 .textInput {
@@ -185,7 +189,7 @@ body {
 
 #userInput button {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    width: 200px;
+    width: 50px;
     height: 50px;
     border: 0px;
     font-size: 25px;
@@ -272,6 +276,11 @@ body {
     width: 100px;
 }
 
+.codingSettings {
+    display: flex;
+    justify-content: center;
+}
+
 
 
 
@@ -287,6 +296,15 @@ body {
     
 
     
+}
+
+.smallerText {
+    font-size: 20px;
+    color: var(--maintext);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #555;
+    align-items: center;
+    text-align: center;
 }
 
 #timer {

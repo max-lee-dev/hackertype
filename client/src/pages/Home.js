@@ -7,8 +7,13 @@ import cppCode from './components/cppCode.json' // bye bye
 import CodeSettings from './components/CodeSettings.js'
 import {
   Center,
-  useDisclosure
+  useDisclosure,
+  Button,
+  IconButton
 } from '@chakra-ui/react'
+import {
+  RepeatIcon
+} from '@chakra-ui/icons'
 
 // figure out how to get new text every reload
 
@@ -38,7 +43,9 @@ function countReturns(text) {
 
 
 function App() {
-  const { isOpen, onClose, onOpen } = useDisclosure();
+  const { isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen } = useDisclosure();
+  const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
+
   const inputElement = useRef(null);
   const [userInput, setUserInput] = useState('')
   const [startCounting, setStartCounting] = useState(false)
@@ -46,7 +53,9 @@ function App() {
   const [activeWordIndex, setActiveWordIndex] = useState(0)
   const [leetcodeTitle, setLeetcodeTitle] = useState('')
   const [renderIndex, setRenderIndex] = useState(-1)
-  const [solutionRange, setSolutionRage] = useState('ALL')
+  const [javaRange, setJavaRange] = useState('ALL')
+  const [cppRange, setCppRange] = useState('ALL')
+  const [pythonRange, setPythonRange] = useState('ALL')
   const [wordLimit, setWordLimit] = useState(50000)
   const [wordBank, setNewWordBank] = useState([])
   const [whiteSpace, setWhiteSpace] = useState([])
@@ -163,11 +172,9 @@ function App() {
     
 
     // solution range
-    let codeLang = javaCode
-    if (codingLanguage === 'C++') codeLang = cppCode // C++ CRASHING RN PROB CAUSE COMMENTS (theyt end in smth sus)
-    else if (codingLanguage === 'Java') codeLang = javaCode // same with java
-    else if (codingLanguage === 'Python') codeLang = pyCode
-   
+    ////////////////////////// C++ 
+    let codeLang = cppCode
+    
     if (maxWords === '' || maxWords === undefined) {
       maxWords = 50000
       setWordLimit(50000)
@@ -195,8 +202,85 @@ function App() {
       })
       if (solutionSize <= maxWords) numSolutions++
     }
-    if (maxWords === '') setSolutionRage('ALL')
-    else setSolutionRage(numSolutions)
+    if (maxWords === '') setCppRange('ALL')
+    else setCppRange(numSolutions)
+    ////////////////////////// JAVA
+    numSolutions = 0
+    
+    codeLang = javaCode
+    for (let i = 0; i < codeLang.length; i++) {
+      let selectedCode = ''
+      
+      let pulledCode = codeLang[i]
+      if (pulledCode === null) continue
+      pulledCode.map((codeInfo) => {
+        selectedCode = codeInfo.code
+        return 0
+      })
+      // 
+      const solutionArray = selectedCode.split(" ")
+      let solutionSize = 0 
+      
+      solutionArray.map((word) => {
+        if (word !== '') solutionSize++
+        return ''
+      })
+      if (solutionSize <= maxWords) numSolutions++
+    }
+    if (maxWords === '') setJavaRange('ALL')
+    else setJavaRange(numSolutions)
+    numSolutions = 0
+    ////////////////////////// PYTHON
+    codeLang = pyCode
+    for (let i = 0; i < codeLang.length; i++) {
+      let selectedCode = ''
+      
+      let pulledCode = codeLang[i]
+      if (pulledCode === null) continue
+      pulledCode.map((codeInfo) => {
+        selectedCode = codeInfo.code
+        return 0
+      })
+      // 
+      const solutionArray = selectedCode.split(" ")
+      let solutionSize = 0 
+      
+      solutionArray.map((word) => {
+        if (word !== '') solutionSize++
+        return ''
+      })
+      if (solutionSize <= maxWords) numSolutions++
+    }
+    if (maxWords === '') setPythonRange('ALL')
+    else setPythonRange(numSolutions)
+
+    numSolutions = 0
+    if (codingLanguage === 'C++') codeLang = cppCode // C++ CRASHING RN PROB CAUSE COMMENTS (theyt end in smth sus)
+    else if (codingLanguage === 'Java') codeLang = javaCode // same with java
+    else if (codingLanguage === 'Python') codeLang = pyCode
+   
+    for (let i = 0; i < codeLang.length; i++) {
+      let selectedCode = ''
+      
+      let pulledCode = codeLang[i]
+      if (pulledCode === null) continue
+      pulledCode.map((codeInfo) => {
+        selectedCode = codeInfo.code
+        return 0
+      })
+      // 
+      const solutionArray = selectedCode.split(" ")
+      let solutionSize = 0 
+      
+      solutionArray.map((word) => {
+        if (word !== '') solutionSize++
+        return ''
+      })
+      if (solutionSize <= maxWords) numSolutions++
+    }
+
+
+
     if (numSolutions === 0) {      
       return `Must have atleast 1 solution`
     }
@@ -452,12 +536,18 @@ function App() {
     console.log(wordLimit)
     
     
+    // solution range
+    ////////////////////////// C++ 
+    let codeLang = cppCode
+    
+    if (val === '' || val === undefined) {
+      val = 50000
+      setWordLimit(50000)
+    }
+    else setWordLimit(val)
+    
+    
     let numSolutions = 0
-    const codingLanguage = language
-    let codeLang = javaCode
-    if (codingLanguage === 'C++') codeLang = cppCode // C++ CRASHING RN PROB CAUSE COMMENTS (theyt end in smth sus)
-    else if (codingLanguage === 'Java') codeLang = javaCode // same with java
-    else if (codingLanguage === 'Python') codeLang = pyCode
     for (let i = 0; i < codeLang.length; i++) {
       let selectedCode = ''
       
@@ -469,16 +559,65 @@ function App() {
       })
       // 
       const solutionArray = selectedCode.split(" ")
-      let solutionSize = 0
+      let solutionSize = 0 
+      
       solutionArray.map((word) => {
         if (word !== '') solutionSize++
         return ''
       })
       if (solutionSize <= val) numSolutions++
     }
-    if (val === '') setSolutionRage('ALL')
-    else setSolutionRage(numSolutions)
-    console.log(numSolutions)
+    if (val === '') setCppRange('ALL')
+    else setCppRange(numSolutions)
+    ////////////////////////// JAVA
+    numSolutions = 0 
+
+    codeLang = javaCode
+    for (let i = 0; i < codeLang.length; i++) {
+      let selectedCode = ''
+      
+      let pulledCode = codeLang[i]
+      if (pulledCode === null) continue
+      pulledCode.map((codeInfo) => {
+        selectedCode = codeInfo.code
+        return 0
+      })
+      // 
+      const solutionArray = selectedCode.split(" ")
+      let solutionSize = 0 
+      
+      solutionArray.map((word) => {
+        if (word !== '') solutionSize++
+        return ''
+      })
+      if (solutionSize <= val) numSolutions++
+    }
+    if (val === '') setJavaRange('ALL')
+    else setJavaRange(numSolutions)
+    ////////////////////////// PYTHON
+    codeLang = pyCode
+    numSolutions = 0 
+    for (let i = 0; i < codeLang.length; i++) {
+      let selectedCode = ''
+      
+      let pulledCode = codeLang[i]
+      if (pulledCode === null) continue
+      pulledCode.map((codeInfo) => {
+        selectedCode = codeInfo.code
+        return 0
+      })
+      // 
+      const solutionArray = selectedCode.split(" ")
+      let solutionSize = 0 
+      
+      solutionArray.map((word) => {
+        if (word !== '') solutionSize++
+        return ''
+      })
+      if (solutionSize <= val) numSolutions++
+    }
+    if (val === '') setPythonRange('ALL')
+    else setPythonRange(numSolutions)
   }
 
   
@@ -494,13 +633,18 @@ function App() {
               <CodeSettings
                 id={id}
                 language={language} 
-                isOpen={isOpen} 
-                onOpen={onOpen} 
-                onClose={onClose} 
+                isSearchOpen={isSearchOpen}
+                onSearchOpen={onSearchOpen}
+                onSearchClose={onSearchClose}
+                isWordsOpen={isWordsOpen}
+                onWordsOpen={onWordsOpen}
+                onWordsClose={onWordsClose}
                 wordLimit={wordLimit} 
                 handleWordLimit={handleWordLimit} 
                 Restart={Restart}
-                solutionRange={solutionRange} 
+                cppRange={cppRange}
+                javaRange={javaRange}
+                pythonRange={pythonRange}
                 setId={setId}
               />
             </div>
@@ -572,7 +716,7 @@ function App() {
         </Center>
         <div id = "userInput"> 
          
-          {!newUser && <button onClick={() => Restart(language, wordLimit)}>Restart Test</button>}
+          {!newUser && <IconButton icon={<RepeatIcon/>} onClick={() => Restart(language, wordLimit)}></IconButton>}
           {!newUser && <p className = "reminder">Tab + Enter to Restart Test<br/><br/>Ctrl + Enter to Retry Same Test</p>}
           
         </div>

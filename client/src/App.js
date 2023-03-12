@@ -8,6 +8,7 @@ import Solutions from './pages/Solutions.js'
 import { Routes, Route } from 'react-router-dom'
 import {
   ChakraProvider,
+  extendTheme
 } from '@chakra-ui/react'
 
 
@@ -18,11 +19,19 @@ import {
 
 function App() {
  
-  
+  const theme = extendTheme({
+    colors: {
+      brand: {
+        100: "#545e56",
+        // ...
+        900: "#1a202c",
+      },
+    },
+  })
   return (
    
     <>  
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
           <NavBar/>
             <div className = 'pageContainer'>
               <Routes>
