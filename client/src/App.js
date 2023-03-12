@@ -6,11 +6,12 @@ import About from './pages/About.js'
 import Leaderboard from './pages/Leaderboard.js'
 import Solutions from './pages/Solutions.js'
 import { Routes, Route } from 'react-router-dom'
-import { Analytics } from '@vercel/analytics/react';
+import { inject } from '@vercel/analytics'
 import {
   ChakraProvider,
   extendTheme,
 } from '@chakra-ui/react'
+inject();
 
 
 
@@ -19,7 +20,7 @@ import {
 
 
 function App() {
- 
+  
   const theme = extendTheme({
     colors: {
       brand: {
@@ -44,7 +45,7 @@ function App() {
             </div>
           
       </ChakraProvider>
-      <Analytics />
+      
     </>
   )
 }

@@ -75,7 +75,6 @@ function App() {
   const [finished, setFinished] = useState(false)
   
   function Restart(codingLanguage, maxWords, retrySame) {
-    console.log("NEW VAL: " + maxWords)
     let s = ''
     
     if (retrySame === undefined) {
@@ -83,7 +82,6 @@ function App() {
       if (id !== undefined && id !== '') {
         
         if (!isNaN(id) || id < 1) {
-          console.log("wat: " + id)
           s = Reset(codingLanguage, maxWords, id)
         }
       }
@@ -125,7 +123,6 @@ function App() {
     
     
     if (codeLang[id] === null) {
-      console.log(';DPASDASD')
       setError('Not a valid solution ID!')
     }
     while (true) {
@@ -141,7 +138,6 @@ function App() {
       }
       if (id !== undefined && !isNaN(id)) {
         if (codeLang[parseInt(id)] === undefined) {
-          console.log('test')
           setError('Not a valid solution ID!')
         }
         pulledCode = codeLang[parseInt(id)]
@@ -350,7 +346,6 @@ function App() {
           if (times === 100) break
         }
         if (times === 100) {
-          console.log("POG SAVED")
           Reset(codingLanguage)
           
         }
@@ -536,7 +531,6 @@ function App() {
   function handleWordLimit(val) {
     if (val === '') setWordLimit(50000)
     else setWordLimit(val)
-    console.log(wordLimit)
     
     
     // solution range
