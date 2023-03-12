@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "@chakra-ui/core";
+import { Link } from "@chakra-ui/react";
 import {
         Image,
 } from '@chakra-ui/react'

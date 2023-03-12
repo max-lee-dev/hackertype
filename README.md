@@ -1,6 +1,6 @@
 # HackerType
 Test your coding speed and accuracy by practicing with LeetCode solutions!
-
+![Screenshot](image.png)
 ## Todo:
 
 

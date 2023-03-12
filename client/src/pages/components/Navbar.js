@@ -1,14 +1,6 @@
 import React from 'react'
 import ExternalLink from './ExternalLink'
-import {
-        Image,
-        Box
-} from '@chakra-ui/react'
 
-import {
-        DownloadIcon,
-        Github
-} from '@chakra-ui/icons'
 export default function Navbar() {
 
 
@@ -16,7 +8,6 @@ export default function Navbar() {
         <div className='Logo' >
         <ExternalLink
                 isExternal={false}
-                icon={<DownloadIcon />}
                 href='/'
                 gridColumn={0} // additional prop passed in
         />
