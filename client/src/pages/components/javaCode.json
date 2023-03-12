@@ -2579,12 +2579,7 @@
       "code": "class Solution {\n  public int findContentChildren(int[] g, int[] s) {\n    Arrays.sort(g);\n    Arrays.sort(s);\n\n    int i = 0;\n    for (int j = 0; i < g.length && j < s.length; ++j)\n      if (g[i] <= s[j])\n        ++i;\n\n    return i;\n  }\n }\n"
     }
   ],
-  [
-    {
-      "id": "456. 132 Pattern",
-      "code": "class Solution {\n  public boolean find132pattern(int[] nums) {\n    Deque<Integer> stack = new ArrayDeque<>(); // Max stack\n    int ak = Integer.MIN_VALUE;                // We want to find a seq ai < ak < aj\n\n    for (int i = nums.length - 1; i >= 0; --i) {\n      if (nums[i] < ak) // Ai < ak, we're done because ai must also smaller than aj\n        return true;\n      while (!stack.isEmpty() && stack.peek() < nums[i])\n        ak = stack.pop();\n      stack.push(nums[i]); // nums[i] is a candidate of aj\n    }\n\n    return false;\n  }\n }\n"
-    }
-  ],
+  null,
   [
     {
       "id": "457. Circular Array Loop",

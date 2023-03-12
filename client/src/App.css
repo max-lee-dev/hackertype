@@ -89,12 +89,16 @@ body {
     color: rgb(127,127,127);
     white-space: pre;
     user-select: none;
+    word-break: break-all !important;
+
 }
 
 
 .activePage {
     background-color: #555;
 }
+
+
 
 .pageContainer {
     margin: 1rem;
@@ -107,9 +111,11 @@ body {
 .wordLimitButton {
     width: 32px ;
     height: 30px !important;
+    border-radius: 0px !important;
 }
 
 .title {
+
     display: flex;
     justify-content: center;
     background-color: rgb(210, 227, 243);
@@ -123,7 +129,6 @@ body {
 
 .container {
     flex-wrap: wrap;
-    flex-wrap: wrap;
     overflow-wrap: break-word;
 }
 .content {
@@ -136,9 +141,12 @@ body {
     height: fit-content;
     padding: 2rem;
     
+    
 
     
 }
+
+
 
 .inputContainer {
     padding: flex;
@@ -147,12 +155,37 @@ body {
     justify-content: space-between;
 }
 
+.inputContainer button:focus {
+    background-color: #555;
+}
+
+.restartDiv {
+    padding-left: 10px;
+    order: 1;
+}
+
+.userInput {
+
+}
+
+
+
+
+
+.restartDiv button {
+    
+}
+
+
+
 .text {
     border-color: black;
     font-size: 150%;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     display: flex;
     flex-wrap: wrap;
+    word-break: break-all !important;
+
 }
 
 #userInput {
@@ -274,6 +307,12 @@ body {
     align-self: center;
     height: 30px;
     width: 100px;
+    border-radius: 0px;
+}
+
+
+.languageSettings Button {
+    color: rgb(0, 0, 0);
 }
 
 .codingSettings {

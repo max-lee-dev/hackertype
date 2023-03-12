@@ -5,10 +5,8 @@ Test your coding speed and accuracy by practicing with LeetCode solutions!
 
 
 
-- fix CSS (try chakra-ui)
- - have solution range for each lang
- - button for both search and limit
- 
+
+
 
 
 
@@ -43,6 +41,9 @@ Test your coding speed and accuracy by practicing with LeetCode solutions!
 - ~~select solution id~~
 - ~~add no paste in user input~~
 - ~~nav bar (logo, contact, about)~~
+- ~~fix CSS (try chakra-ui)~~
+ - ~~have solution range for each lang~~
+ - ~~button for both search and limit~~
 
 
 

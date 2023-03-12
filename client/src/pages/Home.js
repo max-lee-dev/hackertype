@@ -9,7 +9,9 @@ import {
   Center,
   useDisclosure,
   Button,
-  IconButton
+  IconButton,
+  Stack,
+  Divider
 } from '@chakra-ui/react'
 import {
   RepeatIcon
@@ -45,7 +47,7 @@ function countReturns(text) {
 function App() {
   const { isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen } = useDisclosure();
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
-
+  
   const inputElement = useRef(null);
   const [userInput, setUserInput] = useState('')
   const [startCounting, setStartCounting] = useState(false)
@@ -123,7 +125,10 @@ function App() {
     var codeTitle = ''
     
     
-    
+    if (codeLang[id] === null) {
+      console.log(';DPASDASD')
+      setError('Not a valid solution ID!')
+    }
     while (true) {
       var randInt = (Math.floor(Math.random() * (codeLang.length)))
       var pulledCode = codeLang[randInt] // contains /**  in java
@@ -135,7 +140,6 @@ function App() {
         
 
       }
-      console.log("? : " + isNaN(id))
       if (id !== undefined && !isNaN(id)) {
         if (codeLang[parseInt(id)] === undefined) {
           console.log('test')
@@ -666,10 +670,17 @@ function App() {
               
 
               </div>
+              
               <div className = 'textContainer'>
+                
                 <p className = 'error'> {error}</p>
+                 
                 <div>
+                  
+                  <Stack justifyContent='center' direction='row'>
+                  <Divider orientation='vertical' width='56px'/>
                   {!newUser && !finished && <input 
+                    
                     className = 'textInput'
                     type="text" 
                     onPaste={(e) => {
@@ -683,7 +694,15 @@ function App() {
                     spellCheck={false}
                     ref = {inputElement}
                   />}
+                   
+                  <div className = 'restartDiv'>
+                    {!newUser && <IconButton boxSize='12' icon={<RepeatIcon/>} onClick={() => Restart(language, wordLimit)}></IconButton>}
+                  </div>
+                  </Stack>
                 </div>
+                
+                
+                
                 <div className = 'wordsLeft'>{!newUser && !finished && wordsLeft}</div>
               </div> 
               
@@ -716,7 +735,7 @@ function App() {
         </Center>
         <div id = "userInput"> 
          
-          {!newUser && <IconButton icon={<RepeatIcon/>} onClick={() => Restart(language, wordLimit)}></IconButton>}
+         
           {!newUser && <p className = "reminder">Tab + Enter to Restart Test<br/><br/>Ctrl + Enter to Retry Same Test</p>}
           
         </div>
