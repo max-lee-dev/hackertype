@@ -449,7 +449,7 @@ function App() {
     }
 
     if (active) {
-            if (hasReturn) return <span className = "displayText" style = {{ fontWeight: active ? 'bold' : 'lighter'}}>{text} <br/></span>
+            if (hasReturn) return <span className = "active">{text} <br/></span>
             return <span className = "active">{text} </span>
     }
     if (hasReturn)return <span className = "displayText">{text}<br/></span>
