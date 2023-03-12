@@ -1,18 +1,7 @@
 # HackerType
-Test your coding speed and accuracy by practicing with LeetCode solutions!
+### Test your coding speed and accuracy by practicing with LeetCode solutions!
 ![Screenshot](/client/public/hackertype2.png)
 ## Todo:
-
-
-
-
-
-
-
-
-
-
-## Post-Deploy:
 - profile database
   - personal bests
 - leaderboards
