@@ -6,10 +6,10 @@ import About from './pages/About.js'
 import Leaderboard from './pages/Leaderboard.js'
 import Solutions from './pages/Solutions.js'
 import { Routes, Route } from 'react-router-dom'
+import { Analytics } from '@vercel/analytics/react';
 import {
   ChakraProvider,
   extendTheme,
-  VStack
 } from '@chakra-ui/react'
 
 
@@ -44,7 +44,7 @@ function App() {
             </div>
           
       </ChakraProvider>
-      
+      <Analytics />
     </>
   )
 }
