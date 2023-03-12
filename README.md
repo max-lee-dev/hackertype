@@ -14,6 +14,7 @@ Test your coding speed and accuracy by practicing with LeetCode solutions!
 
 ## Post-Deploy:
 - profile database
+ - personal bests
 - leaderboards
 - add search for sol-name, have solutions popup (better search-id function)
 - grid showing ALL solutions
