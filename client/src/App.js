@@ -8,7 +8,8 @@ import Solutions from './pages/Solutions.js'
 import { Routes, Route } from 'react-router-dom'
 import {
   ChakraProvider,
-  extendTheme
+  extendTheme,
+  VStack
 } from '@chakra-ui/react'
 
 
@@ -32,7 +33,7 @@ function App() {
    
     <>  
       <ChakraProvider theme={theme}>
-          <NavBar/>
+        <NavBar/>
             <div className = 'pageContainer'>
               <Routes>
                 <Route path='/' element={<Home/>} />
@@ -41,7 +42,9 @@ function App() {
                 <Route path='/solutions' element={<Solutions/>} />
               </Routes>
             </div>
+          
       </ChakraProvider>
+      
     </>
   )
 }

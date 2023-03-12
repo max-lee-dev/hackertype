@@ -632,7 +632,9 @@ function App() {
       <div className = 'container'>        
         <Center>
           <div className = 'content'>
-            
+          <div className = 'leetcodeTitle'>
+                <p>{newUser && 'Click on one of the languages and begin typing!'}</p>
+              </div>
             <div className = 'codingSettings'>
               <CodeSettings
                 id={id}
@@ -655,7 +657,7 @@ function App() {
             
             <div className = 'inputContainer'>
               
-              <div className = 'leetcodeTitle'>
+            <div className = 'leetcodeTitle'>
                 <p>{leetcodeTitle}</p>
               </div>
               <div id = 'timer'>
@@ -678,7 +680,7 @@ function App() {
                 <div>
                   
                   <Stack justifyContent='center' direction='row'>
-                  <Divider orientation='vertical' width='56px'/>
+                  {!finished && <Divider orientation='vertical' width='56px'/>}
                   {!newUser && !finished && <input 
                     
                     className = 'textInput'

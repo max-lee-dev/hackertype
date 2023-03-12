@@ -26,6 +26,10 @@ body {
     margin: 0;
 }
 
+.aboutContainer a {
+    text-decoration: underline;
+}
+
 .nav {
     background-color: rgb(24,24,27);
     color: white;
@@ -106,6 +110,7 @@ body {
 
 .aboutContainer {
     text-align: center;
+    color:rgb(244, 244, 244)
 }
 
 .wordLimitButton {

@@ -74,7 +74,7 @@ export default function CodeSettings({
                                                 width='500px' 
                                                 backgroundColor='#bdf2c9' 
                                                 type="submit" 
-                                                onClick={onWordsClose}>
+                                                onClick={() => closeLimitModal()}>
                                                         <CheckIcon/>
                                                 </Button>
                                         </ModalFooter>
@@ -135,7 +135,7 @@ export default function CodeSettings({
                                         </ModalBody>
                         
                                         <ModalFooter>
-                                                <Button idjustifyContent='center' width='500px' backgroundColor='#bdf2c9' type="submit" onClick={onSearchClose}>
+                                                <Button id='search-close' width='500px' backgroundColor='#bdf2c9' type="submit" onClick={() => closeSearchModal()}>
                                                         <CheckIcon/>
                                                 </Button>
                                         </ModalFooter>
@@ -146,5 +146,17 @@ export default function CodeSettings({
                         </Stack>
                 </Center>
         </div>
+
+      
   )
+  function closeLimitModal() {
+        onWordsClose()
+        console.log("id: " + id)
+        Restart(language === '' ? 'Java' : language, wordLimit, id === '' ? undefined : id)
+}
+
+function closeSearchModal() {
+        onSearchClose()
+        Restart(language === '' ? 'Java' : language, wordLimit, id === '' ? id : undefined)
+}
 }
