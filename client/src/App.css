@@ -26,6 +26,11 @@ body {
     margin: 0;
 }
 
+.Logo {
+    display:flex;   
+    flex-direction: row;
+}
+
 .aboutContainer a {
     text-decoration: underline;
 }
