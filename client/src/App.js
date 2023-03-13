@@ -6,12 +6,11 @@ import About from './pages/About.js'
 import Leaderboard from './pages/Leaderboard.js'
 import Solutions from './pages/Solutions.js'
 import { Routes, Route } from 'react-router-dom'
-import { inject } from '@vercel/analytics'
 import {
   ChakraProvider,
   extendTheme,
 } from '@chakra-ui/react'
-inject();
+
 
 
 
