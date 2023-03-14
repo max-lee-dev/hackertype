@@ -467,19 +467,19 @@ function App() {
 
 
   function handleKeyDown(e) {
-    console.log(userInput)
     if (e.key === 'Backspace' && userInput === '' && activeWordIndex !== 0) {
       if (whiteSpace[activeWordIndex] !== undefined) {
         setRenderIndex(lineRenderIndex[currentLine - 1])
-        setCurrentLine(line => line - 1)
+        setCurrentLine(line => line - 1)      
+      }
         setUserInput(storedInputArray[activeWordIndex-1])
         setActiveWordIndex(input => input - 1)
-        
-      } else {
-      console.log("test: " + storedInputArray[activeWordIndex-1])
-      setUserInput(storedInputArray[activeWordIndex-1])
-      setActiveWordIndex(input => input - 1)
-      }
+        setCorrectWordArray(data => {
+          const newResult = [...data] 
+          newResult[activeWordIndex] = null
+          return newResult
+        })
+      
 
       
       
@@ -508,9 +508,7 @@ function App() {
           return
         }
         var StoredInputFunction = StoredInput()
-        console.log("huh: " + e.target.value)
         setStoredInputArray(StoredInputFunction.setCode(storedInputArray, activeWordIndex, e.target.value + e.target.value.charAt(e.target.value.length - 1))) // WHY DO I NEED THIS LMFAO (deletes last char)
-        console.log(storedInputArray)
 
         setRenderIndex(activeWordIndex)
         const arr = [...lineRenderIndex]
@@ -532,7 +530,6 @@ function App() {
     
     const value = e.target.value;
     if (value.endsWith(' ')) {
-      console.log("OPHHHH")
       setActiveWordIndex(index => index + 1)
       setUserInput('')
       setCorrectWordArray(data => {
@@ -695,6 +692,7 @@ function App() {
             <div className = 'inputContainer'>
               
             <div className = 'leetcodeTitle'>
+
                 <p>{leetcodeTitle}</p>
               </div>
               <div id = 'timer'>
