@@ -1,10 +1,11 @@
 import {useState, useRef, useEffect} from 'react'
 import React from 'react'
 import Timer from './components/Timer.js'
-import javaCode from './components/javaCode.json'
-import pyCode from './components/pyCode.json'
-import cppCode from './components/cppCode.json' // bye bye
+import javaCode from './components/codefiles/javaCode.json'
+import pyCode from './components/codefiles/pyCode.json'
+import cppCode from './components/codefiles/cppCode.json' // bye bye
 import CodeSettings from './components/CodeSettings.js'
+import StoredInput from './components/StoredInput.js'
 import {
   Center,
   useDisclosure,
@@ -67,6 +68,10 @@ function App() {
   const [error, setError] = useState('')
   const [controlPress, setControllPress] = useState(false)
   const [solutionWordCount, setSolutionWordCount] = useState(0)
+  const [storedInputArray, setStoredInputArray] = useState([])
+  const [lineRenderIndex, setLineRenderIndex] = useState([])
+  const [currentLine, setCurrentLine] = useState(0)
+  
   const [id, setId] = useState('')
   
   
@@ -107,6 +112,9 @@ function App() {
     setStartCounting(false)
     setCorrectWordArray([])
     setFinished(false)
+    setStoredInputArray([])
+    setLineRenderIndex([])
+    setCurrentLine(0)
     
     
     
@@ -162,6 +170,8 @@ function App() {
       if (id !== undefined && !isNaN(id)) break
     }
     // 
+    const inputArr = []
+    setStoredInputArray(inputArr)
     setLeetcodeTitle(codeTitle)
     setLastCode(pulledCode)
     return selectedCode 
@@ -457,6 +467,24 @@ function App() {
 
 
   function handleKeyDown(e) {
+    console.log(userInput)
+    if (e.key === 'Backspace' && userInput === '' && activeWordIndex !== 0) {
+      if (whiteSpace[activeWordIndex] !== undefined) {
+        setRenderIndex(lineRenderIndex[currentLine - 1])
+        setCurrentLine(line => line - 1)
+        setUserInput(storedInputArray[activeWordIndex-1])
+        setActiveWordIndex(input => input - 1)
+        
+      } else {
+      console.log("test: " + storedInputArray[activeWordIndex-1])
+      setUserInput(storedInputArray[activeWordIndex-1])
+      setActiveWordIndex(input => input - 1)
+      }
+
+      
+      
+    } 
+
     if (e.key === 'Control') setControllPress(true)
     else (setControllPress(false))
 
@@ -479,7 +507,16 @@ function App() {
           setFinished(true)
           return
         }
+        var StoredInputFunction = StoredInput()
+        console.log("huh: " + e.target.value)
+        setStoredInputArray(StoredInputFunction.setCode(storedInputArray, activeWordIndex, e.target.value + e.target.value.charAt(e.target.value.length - 1))) // WHY DO I NEED THIS LMFAO (deletes last char)
+        console.log(storedInputArray)
+
         setRenderIndex(activeWordIndex)
+        const arr = [...lineRenderIndex]
+        arr[currentLine] = renderIndex
+        setCurrentLine(line => line + 1)
+        setLineRenderIndex(arr)
         setUserInput('')
         setActiveWordIndex(input => input + 1)
        
@@ -495,7 +532,7 @@ function App() {
     
     const value = e.target.value;
     if (value.endsWith(' ')) {
-      
+      console.log("OPHHHH")
       setActiveWordIndex(index => index + 1)
       setUserInput('')
       setCorrectWordArray(data => {
@@ -507,7 +544,14 @@ function App() {
       })
       if (wordBank[activeWordIndex].substring(wordBank[activeWordIndex].length - 1) === "\n") {
         setRenderIndex(activeWordIndex)
+        const arr = [...lineRenderIndex]
+        arr[currentLine] = renderIndex
+        setCurrentLine(line => line + 1)
+        setLineRenderIndex(arr)
       }
+      var StoredInputFunction = StoredInput()
+      setStoredInputArray(StoredInputFunction.setCode(storedInputArray, activeWordIndex, value))
+
       if (activeWordIndex === wordBank.length - 1) { 
         
         setFinished(true)
@@ -698,7 +742,6 @@ function App() {
                 
                 
                 
-                <div className = 'wordsLeft'>{!newUser && !finished && wordsLeft}</div>
               </div> 
               
               <div className = 'text'>
