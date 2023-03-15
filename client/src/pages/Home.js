@@ -527,11 +527,7 @@ function App() {
           return newResult
   
         })
-        if (activeWordIndex === wordBank.length - 1) { 
         
-          setFinished(true)
-          return
-        }
         var StoredInputFunction = StoredInput()
         setStoredInputArray(StoredInputFunction.setCode(storedInputArray, activeWordIndex, e.target.value + e.target.value.charAt(e.target.value.length - 1))) // WHY DO I NEED THIS LMFAO (deletes last char)
 
@@ -547,7 +543,11 @@ function App() {
 
         setCorrectCharsArray(oldCharacterCountArray)
        
+        if (activeWordIndex === wordBank.length - 1) { 
         
+          setFinished(true)
+          return
+        }
       }
     }
     
