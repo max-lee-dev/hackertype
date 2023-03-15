@@ -6,6 +6,7 @@ import pyCode from './components/codefiles/pyCode.json'
 import cppCode from './components/codefiles/cppCode.json' // bye bye
 import CodeSettings from './components/CodeSettings.js'
 import StoredInput from './components/StoredInput.js'
+import Letter from './components/Letter.js'
 import {
   Center,
   useDisclosure,
@@ -430,35 +431,49 @@ function App() {
 
   function Word(props) { // if this doesnt work put it back and try using React.memo
     
-    const { text, active, correct} = props
+    const { text, active, correct, thisWordIndex} = props
     const hasReturn = text.includes('\n')
-    
-    if (correct === true) {
-            if (active) {
-                    if (hasReturn) return <span className = 'currentCorrect displayText'>{text} <br/></span>
-                    return <span className="currentCorrect displayText">{text} </span>
-            } else {
-                    if (hasReturn) return <span className="correct displayText">{text} <br/></span>
-                    return <span className="correct displayText">{text} </span>
-            }
-    }
-    if (correct === false) {
-            if (active) {
-                    if (hasReturn) return <span className="currentIncorrect displayText">{text} <br/></span>
-                    return <span className ="currentIncorrect displayText">{text} </span>
-            } else {
-                    if (hasReturn) return <span className="incorrect displayText">{text} <br/></span>
-                    return <span className ="incorrect displayText">{text} </span>
-            }
+    const textArr = text.split('')
+    return textArr.map((char, index) => {
+      return ( <Letter
+        idx={index}
+        char={char}
+        displayWord={text}
+        userInput={userInput}
+        active={active}
+        wordCorrect={correct}
+        hasReturn={hasReturn}
+        activeWordIndex={activeWordIndex}
+        thisWordIndex={thisWordIndex}
+      />)
+      
+    })
+    // if (correct === true) {
+    //         if (active) {
+    //                 if (hasReturn) return <span className = 'currentCorrect displayText'>{text} <br/></span>
+    //                 return <span className="currentCorrect displayText">{text} </span>
+    //         } else {
+    //                 if (hasReturn) return <span className="correct displayText">{text} <br/></span>
+    //                 return <span className="correct displayText">{text} </span>
+    //         }
+    // }
+    // if (correct === false) {
+    //         if (active) {
+    //                 if (hasReturn) return <span className="currentIncorrect displayText">{text} <br/></span>
+    //                 return <span className ="currentIncorrect displayText">{text} </span>
+    //         } else {
+    //                 if (hasReturn) return <span className="incorrect displayText">{text} <br/></span>
+    //                 return <span className ="incorrect displayText">{text} </span>
+    //         }
             
-    }
+    // }
 
-    if (active) {
-            if (hasReturn) return <span className = "active">{text} <br/></span>
-            return <span className = "active">{text} </span>
-    }
-    if (hasReturn)return <span className = "displayText">{text}<br/></span>
-    return <span className = "displayText">{text} </span>
+    // if (active) {
+    //         if (hasReturn) return <span className = "active">{text} <br/></span>
+    //         return <span className = "active">{text} </span>
+    // }
+    // if (hasReturn)return <span className = "displayText">{text}<br/></span>
+    // return <span className = "displayText">{text} </span>
   }
   // eslint-disable-next-line
   Word = React.memo(Word)
@@ -527,7 +542,6 @@ function App() {
   function processInput(e) {
     
     setStartCounting(true)
-    
     const value = e.target.value;
     if (value.endsWith(' ')) {
       setActiveWordIndex(index => index + 1)
@@ -758,6 +772,7 @@ function App() {
                       text = {word}
                       active={index === activeWordIndex}
                       correct={correctWordArray[index]}
+                      thisWordIndex={index}
                       
                     />
                     </span>

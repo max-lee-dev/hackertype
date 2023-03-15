@@ -90,8 +90,7 @@ body {
 }
 
 .active {
-    font-weight: bold;
-    color:rgb(241, 241, 241) !important;
+    color:rgb(222, 222, 222) !important;
 }
 
 .displayText {
@@ -380,7 +379,7 @@ body {
     /* color: rgb(124, 197, 124);
     font-weight: bold; */
     font-weight: bold;
-    color:rgb(241, 241, 241) !important;
+    color:rgb(124, 197, 124) !important;
 }
 
 .currentIncorrect {
