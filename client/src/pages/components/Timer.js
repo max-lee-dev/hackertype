@@ -3,7 +3,7 @@ import { useState, useEffect} from 'react'
 
 function Timer (props) {
        const [timeElapsed, setTimeElapsed] = useState(0)
-        const { correctWords, startCounting, pause, totalWords} = props
+        const { correctWords, startCounting, pause, totalWords, correctCharacterArray} = props
         const [done, setDone] = useState(pause)
         const [wordspm, setWordspm] = useState(0)
         useEffect(() => {
@@ -20,12 +20,21 @@ function Timer (props) {
                         
                 }
         }, [startCounting])
-        const wpm = (correctWords/(timeElapsed/60) || 0).toFixed(0)
+       
+        let totalCorrectChars = 0
+        for (let i = 0; i < correctCharacterArray.length; i++) {
+                totalCorrectChars += correctCharacterArray[i]
+        }
+        
+        let fakeCorrectWords = totalCorrectChars/4.7
+        console.log(fakeCorrectWords)
+        const wpm = (fakeCorrectWords/(timeElapsed/60) || 0).toFixed(0)
+        
         if (!pause && startCounting) return <p className = "wpm">WPM : {wpm}</p>
         else if (pause) {
                 const accuracy = (correctWords/totalWords || 0).toFixed(3) * 100 
                 if (!done) {
-                        setWordspm((correctWords/(timeElapsed/60) || 0).toFixed(0))
+                        setWordspm((fakeCorrectWords/(timeElapsed/60) || 0).toFixed(0))
                         setDone(true)
                 }
                 const acc = accuracy.toFixed(0)

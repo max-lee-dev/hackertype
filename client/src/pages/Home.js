@@ -24,7 +24,15 @@ import {
 
 
 
-
+function countCharCorrect(actualText, userText) {
+  let count = 0, 
+  i = 0;
+  while (i < actualText.length) {
+    if (userText.charAt(i) === actualText.charAt(i)) count++;
+    i++;
+  }
+  return count;
+}
 
 function countReturns(text) {
   let count = 0,
@@ -72,6 +80,7 @@ function App() {
   const [storedInputArray, setStoredInputArray] = useState([])
   const [lineRenderIndex, setLineRenderIndex] = useState([])
   const [currentLine, setCurrentLine] = useState(0)
+  const [correctCharsArray, setCorrectCharsArray] = useState([])
   
   const [id, setId] = useState('')
   
@@ -116,6 +125,7 @@ function App() {
     setStoredInputArray([])
     setLineRenderIndex([])
     setCurrentLine(0)
+    setCorrectCharsArray([])
     
     
     
@@ -532,6 +542,10 @@ function App() {
         setLineRenderIndex(arr)
         setUserInput('')
         setActiveWordIndex(input => input + 1)
+        var oldCharacterCountArray = [...correctCharsArray]
+        oldCharacterCountArray[activeWordIndex] = countCharCorrect(wordBank[activeWordIndex], e.target.value.trim())
+
+        setCorrectCharsArray(oldCharacterCountArray)
        
         
       }
@@ -562,6 +576,11 @@ function App() {
       }
       var StoredInputFunction = StoredInput()
       setStoredInputArray(StoredInputFunction.setCode(storedInputArray, activeWordIndex, value))
+      var oldCharacterCountArray = [...correctCharsArray]
+      oldCharacterCountArray[activeWordIndex] = countCharCorrect(wordBank[activeWordIndex], value.trim())
+
+      setCorrectCharsArray(oldCharacterCountArray)
+      
 
       if (activeWordIndex === wordBank.length - 1) { 
         
@@ -717,6 +736,7 @@ function App() {
                   pause={finished}
                   correctWords={correctWordArray.filter(Boolean).length}
                   totalWords={wordBank.length}
+                  correctCharacterArray={correctCharsArray}
                 />
               
 
