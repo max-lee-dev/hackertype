@@ -378,8 +378,12 @@ body {
 .currentCorrect {
     /* color: rgb(124, 197, 124);
     font-weight: bold; */
-    font-weight: bold;
     color:rgb(124, 197, 124) !important;
+}
+
+.underlineRed {
+    text-decoration: underline;
+    text-decoration-color: rgb(245, 141, 141);
 }
 
 .currentIncorrect {

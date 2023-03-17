@@ -7,6 +7,25 @@ export default function Letter(props) {
         let correct = char === userChar
         
         if (userChar === '' || !active) correct = null
+
+
+        // if user goes over the word length
+        if (active) {
+                if (hasReturn && userInput.length >= displayWord.length) {
+                        if (isLastChar) return <span className = "currentIncorrect underlineRed displayText"> {char}<br/></span>
+                        return <span className="currentIncorrect underlineRed displayText">{char}</span>
+                }
+                if (userInput.length > displayWord.length) {
+                       
+                        if(isLastChar) return <span className =  "currentIncorrect underlineRed displayText">{char} </span>
+                         return <span className ="currentIncorrect underlineRed displayText">{char}</span>
+                }
+                
+                
+        }
+
+
+        
         if (wordCorrect && activeWordIndex > thisWordIndex)  {
                 if(isLastChar) return <span className =  "correct displayText">{char} </span>
                 return <span className="correct displayText">{char}</span>
@@ -61,14 +80,7 @@ export default function Letter(props) {
                 if(isLastChar) return <span className = "active">{char} </span>
                 return <span className = "active">{char}</span>
         }
-    
 
-        // ACTIVE TEXT CHARACTERS BOLD
-        if (active) {
-                if (hasReturn && isLastChar) return <span className = "active">{char}<br/></span>
-                if(isLastChar) return <span className = "active">{char} </span>
-                return <span className = "active">{char}</span>
-        }
         if (hasReturn && isLastChar)return <span className = "displayText">{char}<br/></span>
 
         

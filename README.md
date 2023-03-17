@@ -2,6 +2,7 @@
 ### Test your coding speed and accuracy by practicing with LeetCode solutions!
 ![Screenshot](/client/public/hackertype2.png)
 ## Todo:
+- make word red if userInput passes the currentWord.length
 - profile database
   - personal bests
 - leaderboards
