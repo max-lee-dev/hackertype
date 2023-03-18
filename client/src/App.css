@@ -391,6 +391,10 @@ body {
     font-weight: bold;
 }
 
+.maintext {
+    color: var(--maintext);
+}
+
 
 
 

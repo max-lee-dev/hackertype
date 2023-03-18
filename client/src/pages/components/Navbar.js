@@ -18,6 +18,7 @@ export default function Navbar() {
                 <CustomLink href='/solutions'>Solution Set (WIP)</CustomLink>
                 <CustomLink href='/leaderboard'>Leaderboard (WIP)</CustomLink>
                 <CustomLink href='/about'>About</CustomLink>
+                <CustomLink href='/login'>Login</CustomLink>
                 
         </ul>
   </nav>

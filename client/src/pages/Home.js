@@ -53,11 +53,14 @@ function countReturns(text) {
 
 
 
-function App() {
+function App({submissions}) {
   const { isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen } = useDisclosure();
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
   
+
+
   const inputElement = useRef(null);
+  const [submitted, setSubmitted] = useState(false)
   const [userInput, setUserInput] = useState('')
   const [startCounting, setStartCounting] = useState(false)
   const [correctWordArray, setCorrectWordArray] = useState([])
@@ -114,6 +117,7 @@ function App() {
       inputElement.current.focus();
       
     }
+    setSubmitted(false)
     setLanguage(codingLanguage)
     setRenderIndex(-1)
     setNewUser(false)
@@ -692,6 +696,7 @@ function App() {
   }
 
   
+
   
   return (
    
@@ -737,10 +742,14 @@ function App() {
                   correctWords={correctWordArray.filter(Boolean).length}
                   totalWords={wordBank.length}
                   correctCharacterArray={correctCharsArray}
+                  submitted={submitted}
+                  leetcodeTitle={leetcodeTitle}
+                  setSubmitted={setSubmitted}
                 />
               
 
               </div>
+              
               
               <div className = 'textContainer'>
                 

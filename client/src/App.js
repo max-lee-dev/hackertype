@@ -5,9 +5,10 @@ import NavBar from './pages/components/Navbar.js'
 import About from './pages/About.js'
 import Leaderboard from './pages/Leaderboard.js'
 import Solutions from './pages/Solutions.js'
+import UserLogin from './pages/components/UserLogin'
 import { Routes, Route } from 'react-router-dom'
 
-import {db} from './firebase'
+import {db} from './pages/components/firebase'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 
 import {
@@ -24,7 +25,7 @@ import {
 
 function App() {
   const [submissions, setSubmissions] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   
   const submissionsCollectionRef = collection(db, 'submissions')
   useEffect(() => {
@@ -61,26 +62,17 @@ function App() {
   return (
    
     <>  
-      <div>
-        {submissions.map((submission) => {
-          return (
-            <div>
-            {" "}
-              <h1>{"title: " + submission.email}</h1>
-            </div>
-            
-          )
-        })}
-      </div>
+     
       <ChakraProvider theme={theme}>
         <NavBar/>
             <div className = 'pageContainer'>
               
               <Routes>
-                <Route path='/' element={<Home/>} />
+                <Route path='/' element={<Home submissions={submissions} />} />
                 <Route path='/about' element={<About/>} />
-                <Route path='/leaderboard' element={<Leaderboard/>} />
+                <Route path='/leaderboard' element={<Leaderboard submissions={submissions} />} />
                 <Route path='/solutions' element={<Solutions/>} />
+                <Route path='/login' element={<UserLogin/>} />
               </Routes>
             </div>
           
