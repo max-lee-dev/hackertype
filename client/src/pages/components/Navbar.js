@@ -19,7 +19,7 @@ export default function Navbar({user, loading}) {
                 <CustomLink href='/leaderboard'>Leaderboard (WIP)</CustomLink>
                 <CustomLink href='/about'>About</CustomLink>
                 {loading && <CustomLink href='/login'>Log in</CustomLink>}
-                {!loading && <CustomLink href='/login'>Log in</CustomLink>}
+                {!loading && !user && <CustomLink href='/login'>Log in</CustomLink>}
                 {!loading && user && user.displayName && <CustomLink href='/profile'>{user.displayName}</CustomLink>}
                 
         </ul>
