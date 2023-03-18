@@ -7,7 +7,7 @@ export default function Profile() {
         console.log("test")
 async function signout() {
         await signOut(auth);
-        window.location.reload()
+        window.location.replace('/')
                 
         }
   return (
