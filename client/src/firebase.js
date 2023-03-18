@@ -1,17 +1,15 @@
-import firebase from "firebase";
-  
+import {initializeApp} from "firebase/app";
+import { getFirestore } from "@firebase/firestore";
 const firebaseConfig = {
-  apiKey: "AIzaSyATKyTSJVN7-Zx60WQ66kkHo3nBhuMhYDs",
-  authDomain: "meteor-3fd94.firebaseapp.com",
-  projectId: "meteor-3fd94",
-  storageBucket: "meteor-3fd94.appspot.com",
-  messagingSenderId: "391620415322",
-  appId: "1:391620415322:web:6848292646d9e91e6e6d63",
-  measurementId: "G-69J20TCH7X",
+  apiKey: "AIzaSyD8REai_maBKqw882b90K2LEDunwOpNkoM",
+  authDomain: "hackertype-directory.firebaseapp.com",
+  projectId: "hackertype-directory",
+  storageBucket: "hackertype-directory.appspot.com",
+  messagingSenderId: "631721304818",
+  appId: "1:631721304818:web:0d3653f8f407bb5c0ce66b",
+  measurementId: "G-HSM9DBC9SN"
 };
   
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-  
-export default db;
+const firebaseApp = initializeApp(firebaseConfig);
+export const db = getFirestore(firebaseApp);
 

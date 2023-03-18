@@ -6,13 +6,9 @@ import About from './pages/About.js'
 import Leaderboard from './pages/Leaderboard.js'
 import Solutions from './pages/Solutions.js'
 import { Routes, Route } from 'react-router-dom'
-import firebase from './firebase'
-import database from './firebase';
-import { getFirestore } from 'firebase/firestore'
-import db from "./firebase";
 
-import { doc, onSnapshot, collection, query, where, Unsubscribe } from "firebase/firestore";
-
+import {db} from './firebase'
+import { collection, getDocs, query, where } from 'firebase/firestore'
 
 import {
   ChakraProvider,
@@ -28,17 +24,22 @@ import {
 
 function App() {
   const [submissions, setSubmissions] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   
+  const submissionsCollectionRef = collection(db, 'submissions')
   useEffect(() => {
     setLoading(true)
-    db.collection("submissions").onSnapshot((snapshot) => {
-      setSubmissions(snapshot.docs.map((doc) => doc.data()))
-    })
+    const getSubmissions = async () => {
+      const data = await getDocs(submissionsCollectionRef)
+      setSubmissions(data.docs.map(doc => (
+        {...doc.data(), id: doc.id}
+      )))
+    }
+    getSubmissions()
     setLoading(false)
+
   }, [])
   
-
   const theme = extendTheme({
     colors: {
       brand: {
@@ -48,19 +49,33 @@ function App() {
       },
     },
   })
-  console.log("hi: " + submissions)
+  console.log(loading)
+  
+    
+  
   if (loading) {
-    return <h1>Loading...</h1>
+    return <h1 className='reminder'>Loading...</h1>
   }
-
 
   
   return (
    
     <>  
+      <div>
+        {submissions.map((submission) => {
+          return (
+            <div>
+            {" "}
+              <h1>{"title: " + submission.email}</h1>
+            </div>
+            
+          )
+        })}
+      </div>
       <ChakraProvider theme={theme}>
         <NavBar/>
             <div className = 'pageContainer'>
+              
               <Routes>
                 <Route path='/' element={<Home/>} />
                 <Route path='/about' element={<About/>} />
