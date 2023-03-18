@@ -1,33 +1,35 @@
 import React from 'react'
 
-export default function Leaderboard({submissions}) {
+export default function Leaderboard({submissions, loading}) {
 
-  function displaySubmissions() {
-    return (
-      <div>
-        {submissions.map(submission => (
-          <div key={submission.id}>
-            <h1>{submission.id}</h1>
-            <h1>{submission.language}</h1>
-            <h1>{submission.time}</h1>
-            <h1>{submission.words}</h1>
-          </div>
-        ))}
-      </div>
-    )
-  }
+  
 
   return (
-    <div className='reminder'>
+   
+
+
+    <div className ='aboutContainer'>
+      <h1 className='site-title'>Leaderboard</h1>
       <div>
-        {submissions.map(submission => (
-          <div key={submission.id}>
-            <h1>{submission.wpm}</h1>
-            <h1>{submission.user}</h1>
-            
-          </div>
-        ))}
+        Just shows data for now :))
+    
       </div>
+      <br/>
+      {loading && <div className = 'site-title'>Loading...</div>}
+        <div className='reminder'>
+          <div>
+            {submissions.map(submission => (
+              <div key={submission.id}>
+                <br/>
+                <h1>{submission.user}</h1>
+                <h1>{submission.solution_id}</h1>
+                <h1>WPM: {submission.wpm}</h1>
+                
+                
+              </div>
+            ))}
+          </div>
+        </div>
     </div>
   )
 }

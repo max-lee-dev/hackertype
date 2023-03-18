@@ -6,10 +6,12 @@ import About from './pages/About.js'
 import Leaderboard from './pages/Leaderboard.js'
 import Solutions from './pages/Solutions.js'
 import UserLogin from './pages/components/UserLogin'
+import Profile from './pages/components/Profile'
 import { Routes, Route } from 'react-router-dom'
 
 import {db} from './pages/components/firebase'
 import { collection, getDocs, query, where } from 'firebase/firestore'
+import {getAuth} from 'firebase/auth'
 
 import {
   ChakraProvider,
@@ -25,8 +27,18 @@ import {
 
 function App() {
   const [submissions, setSubmissions] = useState([])
-  const [loading, setLoading] = useState(false)
-  
+  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState({});
+  const auth = getAuth();
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user)
+      } else {
+        setUser(null)
+      }
+    })
+  }, [])
   const submissionsCollectionRef = collection(db, 'submissions')
   useEffect(() => {
     setLoading(true)
@@ -36,10 +48,12 @@ function App() {
         {...doc.data(), id: doc.id}
       )))
     }
-    getSubmissions()
-    setLoading(false)
-
+    getSubmissions().then(() => setLoading(false))
+    
+    
   }, [])
+
+  
   
   const theme = extendTheme({
     colors: {
@@ -54,25 +68,25 @@ function App() {
   
     
   
-  if (loading) {
-    return <h1 className='reminder'>Loading...</h1>
-  }
-
   
+
+  console.log("here: " + user)
   return (
+    
    
     <>  
      
       <ChakraProvider theme={theme}>
-        <NavBar/>
+        <NavBar loading={loading} user={user}/>
             <div className = 'pageContainer'>
               
               <Routes>
-                <Route path='/' element={<Home submissions={submissions} />} />
+                <Route path='/' element={<Home submissions={submissions} user={user}/>} />
                 <Route path='/about' element={<About/>} />
-                <Route path='/leaderboard' element={<Leaderboard submissions={submissions} />} />
+                <Route path='/leaderboard' element={<Leaderboard submissions={submissions} loading={loading} />} />
                 <Route path='/solutions' element={<Solutions/>} />
-                <Route path='/login' element={<UserLogin/>} />
+                <Route path='/login' element={<UserLogin user={user} setUser={setUser}/>} />
+                <Route path='/profile' element={<Profile user={user} setUser={setUser}/>} />
               </Routes>
             </div>
           

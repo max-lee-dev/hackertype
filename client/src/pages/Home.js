@@ -53,7 +53,7 @@ function countReturns(text) {
 
 
 
-function App({submissions}) {
+function App({user}) {
   const { isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen } = useDisclosure();
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
   
@@ -745,6 +745,7 @@ function App({submissions}) {
                   submitted={submitted}
                   leetcodeTitle={leetcodeTitle}
                   setSubmitted={setSubmitted}
+                  user={user}
                 />
               
 

@@ -4,9 +4,7 @@ import {db} from './firebase'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 
 
-function Timer ({leetcodeTitle, submitted, setSubmitted, correctWords, startCounting, pause, totalWords, correctCharacterArray}) {
-        const [newUser, setNewUser] = useState("")
-        const [setWPM, setNewWPM] = useState(0)
+function Timer ({user, leetcodeTitle, submitted, setSubmitted, correctWords, startCounting, pause, totalWords, correctCharacterArray}) {
        const [timeElapsed, setTimeElapsed] = useState(0)
         
         const [wordspm, setWordspm] = useState(0)
@@ -16,12 +14,13 @@ function Timer ({leetcodeTitle, submitted, setSubmitted, correctWords, startCoun
         const [newAcc , setNewAcc] = useState(0)
 
 
-        
         useEffect(() => {
                 let id 
                 if (startCounting) {
                         id = setInterval(() => {
                                 setTimeElapsed(oldTime => oldTime + 1)
+                                console.log(user.displayName)
+
                         }, 1000)
                 }
                 return () => {
@@ -68,7 +67,7 @@ function Timer ({leetcodeTitle, submitted, setSubmitted, correctWords, startCoun
         }
         
         async function createSubmission() {
-                await addDoc(submissionsCollectionRef, {solution_id: leetcodeTitle, user: "YOOOO", wpm: wordspm, acc: newAcc});
+                await addDoc(submissionsCollectionRef, {solution_id: leetcodeTitle, user: user.displayName, wpm: wordspm, acc: newAcc});
         }
 
 }
