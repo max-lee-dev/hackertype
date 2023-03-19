@@ -1,40 +1,22 @@
 # HackerType
 ### Test your coding speed and accuracy by practicing with LeetCode solutions!
-![Screenshot](/client/public/hackertype2.png)
+![Screenshot](/client/public/hackertype3.png)
 ## Todo:
-- make word red if userInput passes the currentWord.length
-- profile database
-  - personal bests
-- leaderboards
-- add search for sol-name, have solutions popup (better search-id function)
-- grid showing ALL solutions
-  - show's pb
-  - each solution has a leaderboard (friend/global)
+- World Record for each solution
+- Improved search solution modal
+- Fix Log In UI (turbo scuffed rn)
+- Add Friends/Friends leaderboard
+- Solution Set: grid showing ALL solutions
+  - Show's pb
+  - Each solution has a leaderboard (friend/global)
+  - Include search solution modal
+- More color themes
 
 
 ## Maybe:
-- add user-set time limit
-- include more stats at the end (words got wrong, graph <- gonna be hard)
+- Add user-set time limit
+- Include more stats at the end (words got wrong, graph)
 
-## Finished:
-- ~~-remove all obscure solutions~~ 
-- ~~add comment detection~~
-- ~~figure out c++ crash~~
-- ~~add disappearing text~~ 
-- ~~make word limit to solutions~~ 
-- ~~remove the line if user gets it wrong/doesnt press enter~~ 
-- ~~update solution range onClick()~~ 
-- ~~FIX INDENTATION BUGS~~
-- ~~fix word limit number having an offset~~
-- ~~select text box even if insta-refresh~~
-- ~~RETRY SAME TEST~~
-- ~~wordcount lagging behind by 1 solution bug~~
-- ~~select solution id~~
-- ~~add no paste in user input~~
-- ~~nav bar (logo, contact, about)~~
-- ~~fix CSS (try chakra-ui)~~
- - ~~have solution range for each lang~~
- - ~~button for both search and limit~~
 
 
 

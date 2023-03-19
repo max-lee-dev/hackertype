@@ -39,14 +39,17 @@ export default function UserLogin({user, setUser}) {
             
               
               
-              //eslint-disable-next-line
+              
             let ok = true
+            //eslint-disable-next-line
             users.map(user => {
               if (user.displayName === username) {
                 ok = false
               }
             })
             if (!ok) return setErrorMessage('Username already in use')
+
+
             if (username === '') {
               setErrorMessage('Username cannot be empty')
               return
@@ -76,7 +79,7 @@ export default function UserLogin({user, setUser}) {
         async function login() {
           try {
             const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-            console.log("huh")
+            
             console.log(user)
             setErrorMessage('')
           } catch (error) {
