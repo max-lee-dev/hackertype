@@ -480,7 +480,9 @@ function App({user}) {
     const hasReturn = text.includes('\n')
     const textArr = text.split('')
     return textArr.map((char, index) => {
+      
       return ( <Letter
+        key={index}
         idx={index}
         char={char}
         displayWord={text}

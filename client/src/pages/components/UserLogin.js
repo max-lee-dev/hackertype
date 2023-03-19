@@ -1,7 +1,8 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword, updateProfile} from 'firebase/auth';
 import { auth } from './firebase.js';
-
+import { db } from './firebase.js';
+import { getFirestore, doc, addDoc, getDocs, setDoc, collection} from 'firebase/firestore';
 export default function UserLogin({user, setUser}) {
 
         const [registerEmail, setRegisterEmail] = useState("");
@@ -9,35 +10,65 @@ export default function UserLogin({user, setUser}) {
         const [loginEmail, setLoginEmail] = useState("");
         const [loginPassword, setLoginPassword] = useState("");
         const [username, setUsername] = useState("");
-        const [errorMessage, setErrorMesssage] = useState("");
-        
+        const [errorMessage, setErrorMessage] = useState("");
+        const [users, setUsers] = useState([]);
+        const usersRef = collection(db, 'users');
       
-        
-
+        useEffect(() => {
+          const getUsers = async () => {
+            const data = await getDocs(usersCollectionRef)
+            setUsers(data.docs.map(doc => (
+              {...doc.data(), id: doc.id}
+            )))
+          }
+          getUsers()
+        }, [])
+        const usersCollectionRef = collection(db, 'users')
         onAuthStateChanged(auth, (user) => {
           if (user) {
             setUser(user)
           }
         })
 
+        async function createNewUser() {
+          await addDoc(usersRef, {displayName: username, email: registerEmail})
+        }
+
         async function register() {
           try {
-            console.log(username)
+            
+              
+              
+              //eslint-disable-next-line
+            let ok = true
+            users.map(user => {
+              if (user.displayName === username) {
+                ok = false
+              }
+            })
+            if (!ok) return setErrorMessage('Username already in use')
+            if (username === '') {
+              setErrorMessage('Username cannot be empty')
+              return
+            }
             const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
             await updateProfile(auth.currentUser, { displayName: username }).catch(
               (err) => console.log(err)
             );
+
             console.log(user)
-            setErrorMesssage('')
+            setErrorMessage('')
+            createNewUser()
+            window.location.reload()
           } catch (error) {
                   
             console.log(error.message)
             if (error.message === 'Firebase: Error (auth/invalid-email).' || error.message === 'Firebase: Error (auth/internal-error).') {
-              setErrorMesssage('Invalid email')
+              setErrorMessage('Invalid email')
             } else if (error.message === 'Firebase: Password should be at least 6 characters (auth/weak-password).') {
-              setErrorMesssage('Password should be at least 6 characters')
+              setErrorMessage('Password should be at least 6 characters')
             } else if (error.message === 'Firebase: Error (auth/email-already-in-use).') {
-              setErrorMesssage('Email already in use')
+              setErrorMessage('Email already in use')
             }
 
           }
@@ -47,14 +78,14 @@ export default function UserLogin({user, setUser}) {
             const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword)
             console.log("huh")
             console.log(user)
-            setErrorMesssage('')
+            setErrorMessage('')
           } catch (error) {
             if (error.message === 'Firebase: Error (auth/user-not-found).' || error.message === 'Firebase: Error (auth/invalid-email).') {
-              setErrorMesssage('Invalid email')
+              setErrorMessage('Invalid email')
             } else if (error.message === 'Firebase: Error (auth/internal-error).' || error.message === 'Firebase: Error (auth/wrong-password).') {
-              setErrorMesssage('Incorrect password')
+              setErrorMessage('Incorrect password')
             } else if (error.message === 'Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).') {
-              setErrorMesssage(`Too many failed login attempts to ${loginEmail}. Please try again later.`)
+              setErrorMessage(`Too many failed login attempts to ${loginEmail}. Please try again later.`)
             } 
             console.log(error.message)
 
