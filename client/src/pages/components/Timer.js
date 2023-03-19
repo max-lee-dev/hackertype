@@ -20,7 +20,6 @@ function Timer ({thisSolutionPR, user, leetcodeTitle, submitted, setSubmitted, c
                 if (startCounting) {
                         id = setInterval(() => {
                                 setTimeElapsed(oldTime => oldTime + 1)
-                                console.log(actualPR)
 
                         }, 1000)
                 }
@@ -58,7 +57,6 @@ function Timer ({thisSolutionPR, user, leetcodeTitle, submitted, setSubmitted, c
 
                 }
                
-                console.log("pr: " + actualPR + " WPM: " + wordspm + " Accuracy: " + acc);
                 const isPR = wordspm > actualPR
                 return (
                         

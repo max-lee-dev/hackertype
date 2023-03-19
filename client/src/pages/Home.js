@@ -110,7 +110,6 @@ function App({user}) {
     //eslint-disable-next-line
   }, [finished])
   function Restart(codingLanguage, maxWords, retrySame) {
-    console.log(wordsLeft)
     let s = ''
     
     if (retrySame === undefined) { // if not retrying same code (typically)
@@ -219,7 +218,6 @@ function App({user}) {
       
       
     })
-    console.log("TESdTTT: " + pr)
     setThisSolutionPR(pr)
     return selectedCode 
   }
@@ -593,7 +591,7 @@ function App({user}) {
     
     setStartCounting(true)
     const value = e.target.value;
-    if (value.endsWith(' ')) {
+    if (value.endsWith(' ') && value.length > 1) {
       setActiveWordIndex(index => index + 1)
       setUserInput('')
       setCorrectWordArray(data => {
@@ -624,7 +622,7 @@ function App({user}) {
         return
       }
     } else {
-      setUserInput(value)
+      if (!value.endsWith(' ')) setUserInput(value)
       
   
       // live feedback
@@ -780,7 +778,6 @@ function App({user}) {
                   user={user}
                   thisSolutionPR={thisSolutionPR}
                 />}
-                {console.log("test2: " + thisSolutionPR)}
               </div>
               
               
