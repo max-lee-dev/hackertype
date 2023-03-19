@@ -14,17 +14,14 @@ import {
         FormHelperText,
         ModalFooter,
         Button,
-        IconButton,
-        Stack,
-        Text,
-        useDisclosure
+        Stack
+
         
       } from '@chakra-ui/react'
 import {
         Search2Icon,
         EditIcon,
         CheckIcon,
-        DeleteIcon
 } from '@chakra-ui/icons'
 export default function CodeSettings({
         id, language, isSearchOpen, onSearchOpen, onSearchClose, isWordsOpen, onWordsOpen, onWordsClose, wordLimit, handleWordLimit, Restart, cppRange, javaRange, pythonRange, setId

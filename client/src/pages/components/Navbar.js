@@ -3,13 +3,14 @@ import ExternalLink from './ExternalLink'
 
 export default function Navbar({user, loading}) {
 
-
+        
   return <nav className='nav'>
         <div className='Logo' >
         <ExternalLink
         isExternal={false}
                 href='/'
                 gridColumn={0} // additional prop passed in
+                src='favicon.ico'
         />
         <a href='/' className='site-title'>HackerType</a>
         </div>

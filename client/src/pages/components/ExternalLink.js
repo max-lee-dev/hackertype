@@ -4,7 +4,7 @@ import {
         Image,
 } from '@chakra-ui/react'
 
-const ExternalLink = ({ isExternal, icon, href, ...rest}) => (
+const ExternalLink = ({ isExternal, icon, href, src, ...rest}) => (
   <Link
     
     fontSize="xs"
@@ -15,7 +15,7 @@ const ExternalLink = ({ isExternal, icon, href, ...rest}) => (
          isExternal={isExternal}
     {...rest}
   >
-    <Image _activeLink={'/'} boxSize={'60px'} src ='favicon.ico' alt='logo' className='site-title'/> 
+    <Image _activeLink={'/'} boxSize={'60px'} src = {src} alt='logo' className='site-title'/> 
 
   </Link>
 );

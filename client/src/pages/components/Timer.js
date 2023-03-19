@@ -1,12 +1,13 @@
 import { useState, useEffect} from 'react'
 import {addDoc} from 'firebase/firestore'
 import {db} from './firebase'
-import { collection, getDocs, query, where } from 'firebase/firestore'
+import { collection } from 'firebase/firestore'
+import { StarIcon } from '@chakra-ui/icons'
 
 
-function Timer ({user, leetcodeTitle, submitted, setSubmitted, correctWords, startCounting, pause, totalWords, correctCharacterArray}) {
+function Timer ({thisSolutionPR, user, leetcodeTitle, submitted, setSubmitted, correctWords, startCounting, pause, totalWords, correctCharacterArray}) {
        const [timeElapsed, setTimeElapsed] = useState(0)
-        
+        const actualPR = thisSolutionPR;
         const [wordspm, setWordspm] = useState(0)
         const submissionsCollectionRef = collection(db, 'submissions')
 
@@ -19,7 +20,7 @@ function Timer ({user, leetcodeTitle, submitted, setSubmitted, correctWords, sta
                 if (startCounting) {
                         id = setInterval(() => {
                                 setTimeElapsed(oldTime => oldTime + 1)
-                                console.log(user.displayName)
+                                console.log(actualPR)
 
                         }, 1000)
                 }
@@ -28,6 +29,7 @@ function Timer ({user, leetcodeTitle, submitted, setSubmitted, correctWords, sta
                         clearInterval(id)
                         
                 }
+                //eslint-disable-next-line
         }, [startCounting])
        
 
@@ -35,7 +37,7 @@ function Timer ({user, leetcodeTitle, submitted, setSubmitted, correctWords, sta
                 if (done) {
                         createSubmission()
                 }
-                
+              //eslint-disable-next-line  
         }, [done])
         let totalCorrectChars = 0
         for (let i = 0; i < correctCharacterArray.length; i++) {
@@ -56,10 +58,22 @@ function Timer ({user, leetcodeTitle, submitted, setSubmitted, correctWords, sta
 
                 }
                
-                
+                console.log("pr: " + actualPR + " WPM: " + wordspm + " Accuracy: " + acc);
+                const isPR = wordspm > actualPR
                 return (
                         
-                        <p>WPM: {wordspm}<br/>Accuracy: {acc}%</p>
+                        <div className = 'aboutContainer'>
+                                {isPR && <h1><StarIcon/> NEW PR!</h1>}
+                                <div>
+                                        
+                                </div>
+                                
+                                <div>
+                                        <p>WPM: {wordspm}<br/>Accuracy: {acc}%</p>
+                                </div>
+                                {!isPR && <p className = 'reminder'>PR: {actualPR}</p>}
+                                {isPR && <h1 className = 'reminder'>Old PR: {actualPR}</h1>}
+                        </div>
                 )
                 
                 

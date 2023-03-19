@@ -10,7 +10,7 @@ import Profile from './pages/components/Profile'
 import { Routes, Route } from 'react-router-dom'
 
 import {db} from './pages/components/firebase'
-import { collection, getDocs, query, where } from 'firebase/firestore'
+import { collection, getDocs } from 'firebase/firestore'
 import {getAuth} from 'firebase/auth'
 
 import {
@@ -38,6 +38,7 @@ function App() {
         setUser(null)
       }
     })
+    //eslint-disable-next-line
   }, [])
   const submissionsCollectionRef = collection(db, 'submissions')
   useEffect(() => {
@@ -50,7 +51,7 @@ function App() {
     }
     getSubmissions().then(() => setLoading(false))
     
-    
+    //eslint-disable-next-line
   }, [])
 
   
@@ -64,13 +65,7 @@ function App() {
       },
     },
   })
-  console.log(loading)
   
-    
-  
-  
-
-  console.log("here: " + user)
   return (
     
    
@@ -86,7 +81,7 @@ function App() {
                 <Route path='/leaderboard' element={<Leaderboard submissions={submissions} loading={loading} />} />
                 <Route path='/solutions' element={<Solutions/>} />
                 <Route path='/login' element={<UserLogin user={user} setUser={setUser}/>} />
-                <Route path='/profile' element={<Profile user={user} setUser={setUser}/>} />
+                <Route path='/profile' element={<Profile user={user} submissions={submissions} loading={loading}/>} />
               </Routes>
             </div>
           

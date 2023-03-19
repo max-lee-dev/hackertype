@@ -2,8 +2,6 @@ import React from 'react'
 import {
   Heading,
   Text,
-  UnorderdList,
-  ListIcon,
   ListItem,
   List,
   

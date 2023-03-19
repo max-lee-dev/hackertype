@@ -16,11 +16,7 @@ export default function UserLogin({user, setUser}) {
 
         onAuthStateChanged(auth, (user) => {
           if (user) {
-            console.log("User is logged in")
             setUser(user)
-          } else {
-            
-            console.log("User is logged out")
           }
         })
 

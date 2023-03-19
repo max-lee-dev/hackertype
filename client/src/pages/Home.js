@@ -12,10 +12,12 @@ import {
   useDisclosure,
   IconButton,
   Stack,
-  Divider
+  Divider,
+  Image
 } from '@chakra-ui/react'
 import {
-  RepeatIcon
+  RepeatIcon,
+  StarIcon
 } from '@chakra-ui/icons'
 
 // figure out how to get new text every reload
@@ -53,7 +55,7 @@ function countReturns(text) {
 
 
 
-function App({user}) {
+function App({user, submissions}) {
   const { isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen } = useDisclosure();
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
   
@@ -84,24 +86,27 @@ function App({user}) {
   const [lineRenderIndex, setLineRenderIndex] = useState([])
   const [currentLine, setCurrentLine] = useState(0)
   const [correctCharsArray, setCorrectCharsArray] = useState([])
+  const [thisSolutionPR, setThisSolutionPR] = useState(0)
   
   const [id, setId] = useState('')
-  
   
 
   
   const [finished, setFinished] = useState(false)
   
   function Restart(codingLanguage, maxWords, retrySame) {
+    console.log(wordsLeft)
     let s = ''
     
-    if (retrySame === undefined) {
-      s = Reset(codingLanguage, maxWords)
+    if (retrySame === undefined) { // if not retrying same code (typically)
+      
       if (id !== undefined && id !== '') {
         
         if (!isNaN(id) || id < 1) {
           s = Reset(codingLanguage, maxWords, id)
         }
+      } else {
+        s = Reset(codingLanguage, maxWords)
       }
       
       if (s !== undefined) {
@@ -189,6 +194,18 @@ function App({user}) {
     setStoredInputArray(inputArr)
     setLeetcodeTitle(codeTitle)
     setLastCode(pulledCode)
+    let pr = 0;
+    submissions.map(submission => {
+                    
+      if (submission.user !== user.displayName) return ''
+      if (submission.solution_id !== codeTitle) return ''
+      if (submission.wpm > pr) pr = submission.wpm
+      
+      
+      
+    })
+    console.log("TESdTTT: " + pr)
+    setThisSolutionPR(pr)
     return selectedCode 
   }
 
@@ -735,7 +752,7 @@ function App({user}) {
               </div>
               <div id = 'timer'>
                 
-                <Timer
+                {startCounting && <Timer
                   codeID={leetcodeTitle}
                   startCounting={startCounting}
                   pause={finished}
@@ -746,9 +763,9 @@ function App({user}) {
                   leetcodeTitle={leetcodeTitle}
                   setSubmitted={setSubmitted}
                   user={user}
-                />
-              
-
+                  thisSolutionPR={thisSolutionPR}
+                />}
+                {console.log("test2: " + thisSolutionPR)}
               </div>
               
               
@@ -779,7 +796,20 @@ function App({user}) {
                   <div className = 'restartDiv'>
                     {!newUser && <IconButton boxSize='12' icon={<RepeatIcon/>} onClick={() => Restart(language, wordLimit)}></IconButton>}
                   </div>
+                  
                   </Stack>
+                </div>
+                <div className = 'reminder'>
+                <Center>
+                  <Stack direction={['row']}>
+                 {!newUser && !startCounting && 
+                 <p>PR: {thisSolutionPR} WPM </p>
+                 
+                 }
+                 {!newUser && !startCounting && <Image _activeLink={'/'} boxSize='25px' src = {'crown (2).png'} alt='logo' className='site-title'/>}
+                  
+                 </Stack>
+                </Center>
                 </div>
                 
                 
