@@ -45,6 +45,7 @@ export default function UserLogin({user, setUser}) {
         async function login() {
           try {
             const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword)
+            console.log("huh")
             console.log(user)
             setErrorMesssage('')
           } catch (error) {
