@@ -50,11 +50,11 @@ export default function UserLogin({user, setUser}) {
           } catch (error) {
             if (error.message === 'Firebase: Error (auth/user-not-found).' || error.message === 'Firebase: Error (auth/invalid-email).') {
               setErrorMesssage('Invalid email')
-            } else if (error.message === 'Firebase: Error (auth/internal-error).') {
+            } else if (error.message === 'Firebase: Error (auth/internal-error).' || error.message === 'Firebase: Error (auth/wrong-password).') {
               setErrorMesssage('Incorrect password')
             } else if (error.message === 'Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).') {
               setErrorMesssage(`Too many failed login attempts to ${loginEmail}. Please try again later.`)
-            }
+            } 
             console.log(error.message)
 
           }

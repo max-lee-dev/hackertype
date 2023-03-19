@@ -169,7 +169,7 @@ body {
 }
 
 .restartDiv {
-    padding-left: 10px;
+    padding-left: 0px;
     order: 1;
 }
 
@@ -393,6 +393,11 @@ body {
 
 .maintext {
     color: var(--maintext);
+}
+
+.whiteUnderline {
+    text-decoration: underline;
+    text-decoration-color: rgb(244,244,244);
 }
 
 

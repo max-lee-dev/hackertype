@@ -209,8 +209,9 @@ function App({user}) {
     setLeetcodeTitle(codeTitle)
     setLastCode(pulledCode)
     let pr = 0;
+    if (!user) return selectedCode 
     submissions.map(submission => {
-                    
+                  
       if (submission.user !== user.displayName) return ''
       if (submission.solution_id !== codeTitle) return ''
       if (submission.wpm > pr) pr = submission.wpm
@@ -814,13 +815,15 @@ function App({user}) {
                 <div className = 'reminder'>
                 <Center>
                   <Stack direction={['row']}>
-                 {!newUser && !startCounting && 
+                 {user && !newUser && !startCounting && 
                  <p>PR: {thisSolutionPR} WPM </p>
                  
                  }
-                 {!newUser && !startCounting && <Image _activeLink={'/'} boxSize='25px' src = {'crown (2).png'} alt='logo' className='site-title'/>}
-                  
+                 {user && !newUser && !startCounting && <Image _activeLink={'/'} boxSize='25px' src = {'crown (2).png'} alt='logo' className='site-title'/>}
+                 {!user && !newUser && !startCounting && <a className = 'whiteUnderline' href = '/login'> Log in</a>} 
+                 
                  </Stack>
+                 {!user && !newUser && !startCounting && <p>&nbsp;to save your data</p>} 
                 </Center>
                 </div>
                 
