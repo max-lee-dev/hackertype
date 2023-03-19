@@ -76,7 +76,7 @@ function App() {
             <div className = 'pageContainer'>
               
               <Routes>
-                <Route path='/' element={<Home submissions={submissions} user={user}/>} />
+                <Route path='/' element={<Home user={user}/>} />
                 <Route path='/about' element={<About/>} />
                 <Route path='/leaderboard' element={<Leaderboard submissions={submissions} loading={loading} />} />
                 <Route path='/solutions' element={<Solutions/>} />

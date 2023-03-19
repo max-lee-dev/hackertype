@@ -7,6 +7,9 @@ import cppCode from './components/codefiles/cppCode.json' // bye bye
 import CodeSettings from './components/CodeSettings.js'
 import StoredInput from './components/StoredInput.js'
 import Letter from './components/Letter.js'
+import {addDoc, getDocs} from 'firebase/firestore'
+import {db} from './components/firebase.js'
+import { collection } from 'firebase/firestore'
 import {
   Center,
   useDisclosure,
@@ -55,7 +58,7 @@ function countReturns(text) {
 
 
 
-function App({user, submissions}) {
+function App({user}) {
   const { isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen } = useDisclosure();
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
   
@@ -87,13 +90,25 @@ function App({user, submissions}) {
   const [currentLine, setCurrentLine] = useState(0)
   const [correctCharsArray, setCorrectCharsArray] = useState([])
   const [thisSolutionPR, setThisSolutionPR] = useState(0)
-  
+  const [submissions, setSubmissions] = useState([])
+  const [loading, setLoading] = useState(false)
   const [id, setId] = useState('')
-  
-
+  const submissionsCollectionRef = collection(db, 'submissions')
+ 
   
   const [finished, setFinished] = useState(false)
-  
+  useEffect(() => {
+    setLoading(true)
+    const getSubmissions = async () => {
+      const data = await getDocs(submissionsCollectionRef)
+      setSubmissions(data.docs.map(doc => (
+        {...doc.data(), id: doc.id}
+      )))
+    }
+    getSubmissions().then(() => setLoading(false))
+    
+    //eslint-disable-next-line
+  }, [finished])
   function Restart(codingLanguage, maxWords, retrySame) {
     console.log(wordsLeft)
     let s = ''
