@@ -29,7 +29,7 @@ export default function CodeSettings({
         
         const initialRef = React.useRef(null)
         const finalRef = React.useRef(null)
-        const displayLimit = wordLimit === 50000 ? 'No Limit' : wordLimit
+        const displayLimit = wordLimit === 50000 ? 'Word Limit' : wordLimit
         const displayId = id === '' ? 'No ID' : id
   return (
         
@@ -38,7 +38,7 @@ export default function CodeSettings({
                 <Center width='700px' height='100px'>
                         <Stack isInline>
                                 <Stack>
-                                        <Button className = 'wordLimitButton' size='xl' leftIcon={<EditIcon/>} variant='outline'  colorScheme='whiteAlpha' onClick={onWordsOpen}>{displayLimit}</Button>
+                                        <Button minWidth={'125px'} className = 'wordLimitButton' size='xl' leftIcon={<EditIcon/>} variant='outline'  colorScheme='whiteAlpha' onClick={onWordsOpen}>{displayLimit}</Button>
                                         <Modal initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={isWordsOpen} onClose={onWordsClose}>
                                         <ModalOverlay />
                                         <ModalContent>
@@ -99,6 +99,7 @@ export default function CodeSettings({
                                         <Button 
                                         className = 'wordSearchButton' 
                                         size='xl' 
+                                        minWidth={'125px'}
                                         leftIcon={<Search2Icon/>} 
                                         variant='outline'  
                                         colorScheme='whiteAlpha' 
