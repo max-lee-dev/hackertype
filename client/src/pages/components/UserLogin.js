@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword, updateProfile} from 'firebase/auth';
 import { auth } from './firebase.js';
-import { db } from './firebase.js';
+import { db } from './firebase';
 import { getFirestore, doc, addDoc, getDocs, setDoc, collection} from 'firebase/firestore';
 export default function UserLogin({user, setUser}) {
 
@@ -30,8 +30,15 @@ export default function UserLogin({user, setUser}) {
           }
         })
 
-        async function createNewUser() {
-          await addDoc(usersRef, {displayName: username, email: registerEmail})
+        async function createNewUser(uid) {
+          console.log('creating new user')
+          await setDoc(doc(db, "users", uid),  {
+            displayName: username, 
+            email: registerEmail, 
+            account_created: new Date().toLocaleString(),
+            uid: uid
+          });
+          window.location.reload()
         }
 
         async function register() {
@@ -59,10 +66,9 @@ export default function UserLogin({user, setUser}) {
               (err) => console.log(err)
             );
 
-            console.log(user)
+            console.log(auth.currentUser.uid)
             setErrorMessage('')
-            createNewUser()
-            window.location.reload()
+            createNewUser(auth.currentUser.uid)
           } catch (error) {
                   
             console.log(error.message)

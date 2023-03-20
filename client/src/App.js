@@ -29,6 +29,7 @@ function App() {
   const [submissions, setSubmissions] = useState([])
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState({});
+  const [id, setId] = useState('')
   const auth = getAuth();
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -76,7 +77,12 @@ function App() {
             <div className = 'pageContainer'>
               
               <Routes>
-                <Route path='/' element={<Home user={user}/>} />
+                <Route path='/' element={<Home 
+                  user={user}
+                  id={id}
+                  setID={setId}
+                  />
+                }/>
                 <Route path='/about' element={<About/>} />
                 <Route path='/leaderboard' element={<Leaderboard submissions={submissions} loading={loading} />} />
                 <Route path='/solutions' element={<Solutions/>} />

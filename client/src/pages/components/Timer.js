@@ -5,7 +5,7 @@ import { collection } from 'firebase/firestore'
 import { StarIcon } from '@chakra-ui/icons'
 
 
-function Timer ({thisSolutionPR, user, leetcodeTitle, submitted, setSubmitted, correctWords, startCounting, pause, totalWords, correctCharacterArray}) {
+function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSubmitted, correctWords, startCounting, pause, totalWords, correctCharacterArray}) {
        const [timeElapsed, setTimeElapsed] = useState(0)
         const actualPR = thisSolutionPR;
         const [wordspm, setWordspm] = useState(0)
@@ -79,7 +79,7 @@ function Timer ({thisSolutionPR, user, leetcodeTitle, submitted, setSubmitted, c
         }
         
         async function createSubmission() {
-                await addDoc(submissionsCollectionRef, {solution_id: leetcodeTitle, user: user.displayName, wpm: wordspm, acc: newAcc});
+                await addDoc(submissionsCollectionRef, {solution_id: leetcodeTitle, user: user.displayName, wpm: wordspm, acc: newAcc, language: language, user_uid: user.uid, date: new Date()});
         }
 
 }

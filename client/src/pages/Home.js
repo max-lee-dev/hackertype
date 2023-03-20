@@ -7,9 +7,11 @@ import cppCode from './components/codefiles/cppCode.json' // bye bye
 import CodeSettings from './components/CodeSettings.js'
 import StoredInput from './components/StoredInput.js'
 import Letter from './components/Letter.js'
-import {addDoc, getDocs} from 'firebase/firestore'
-import {db} from './components/firebase.js'
-import { collection } from 'firebase/firestore'
+import { getFirestore, doc, updateDoc, addDoc, getDocs, setDoc, collection, query, where} from 'firebase/firestore';
+import { updateProfile } from 'firebase/auth'
+import { ref as sRef } from 'firebase/storage';
+import {auth} from './components/firebase.js'
+import {db} from './components/firebase.js';
 import {
   Center,
   useDisclosure,
@@ -58,10 +60,12 @@ function countReturns(text) {
 
 
 
-function App({user}) {
+function App({user, id, setId}) {
   const { isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen } = useDisclosure();
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
+  const usersCollectionRef = collection(db, 'users')
   
+
 
 
   const inputElement = useRef(null);
@@ -91,27 +95,56 @@ function App({user}) {
   const [correctCharsArray, setCorrectCharsArray] = useState([])
   const [thisSolutionPR, setThisSolutionPR] = useState(0)
   const [submissions, setSubmissions] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [id, setId] = useState('')
+  const [loading, setLoading] = useState(true)
   const submissionsCollectionRef = collection(db, 'submissions')
  
   
   const [finished, setFinished] = useState(false)
   useEffect(() => {
-    setLoading(true)
+    
     const getSubmissions = async () => {
       const data = await getDocs(submissionsCollectionRef)
       setSubmissions(data.docs.map(doc => (
         {...doc.data(), id: doc.id}
       )))
     }
-    getSubmissions().then(() => setLoading(false))
+    getSubmissions()
     
     //eslint-disable-next-line
   }, [finished])
-  function Restart(codingLanguage, maxWords, retrySame) {
-    let s = ''
+
+  useEffect(() => {
+    setLoading(true)
+    async function getUserSettings() {
+      const q = query(collection(db, "users"), where("uid", "==", user.uid));
+
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        Restart(doc.data().lastLanguage, '');
+      });
+    }
+    getUserSettings().then(() => setLoading(false))
+  }, [user])
+
+
+  
+  async function changeLastLanguage(codingLanguage) {
     
+    await updateDoc(doc(db, "users", user.uid), {
+      lastLanguage: codingLanguage,
+    });
+  } // not used rn
+
+
+
+
+
+
+  function Restart(codingLanguage, maxWords, retrySame) {
+    
+    let s = ''
+    changeLastLanguage(codingLanguage)
     if (retrySame === undefined) { // if not retrying same code (typically)
       
       if (id !== undefined && id !== '') {
@@ -737,11 +770,10 @@ function App({user}) {
       <div className = 'container'>        
         <Center>
           <div className = 'content'>
-          <div className = 'leetcodeTitle'>
-                <p>{newUser && 'Select a language to begin coding'}</p>
-              </div>
             <div className = 'codingSettings'>
-              <CodeSettings
+              {!loading && <CodeSettings
+                
+                startCounting={startCounting}
                 id={id}
                 language={language} 
                 isSearchOpen={isSearchOpen}
@@ -757,19 +789,20 @@ function App({user}) {
                 javaRange={javaRange}
                 pythonRange={pythonRange}
                 setId={setId}
-              />
+              />}
             </div>
             
             <div className = 'inputContainer'>
               
             <div className = 'leetcodeTitle'>
-
+                {loading && <p>Loading...</p>}
                 <p>{leetcodeTitle}</p>
               </div>
               <div id = 'timer'>
                 
                 {startCounting && <Timer
                   codeID={leetcodeTitle}
+                  language={language}
                   startCounting={startCounting}
                   pause={finished}
                   correctWords={correctWordArray.filter(Boolean).length}
@@ -787,12 +820,12 @@ function App({user}) {
               <div className = 'textContainer'>
                 
                 <p className = 'error'> {error}</p>
-                 
+                 {console.log(loading)}
                 <div>
                   
                   <Stack justifyContent='center' direction='row'>
                   {!finished && <Divider orientation='vertical' width='56px'/>}
-                  {!newUser && !finished && <input 
+                  {!finished && !loading && <input 
                     
                     className = 'textInput'
                     type="text" 
@@ -809,7 +842,7 @@ function App({user}) {
                   />}
                    
                   <div className = 'restartDiv'>
-                    {!newUser && <IconButton boxSize='12' icon={<RepeatIcon/>} onClick={() => Restart(language, wordLimit)}></IconButton>}
+                    {!loading && <IconButton boxSize='12' icon={<RepeatIcon/>} onClick={() => Restart(language, wordLimit)}></IconButton>}
                   </div>
                   
                   </Stack>
@@ -817,15 +850,18 @@ function App({user}) {
                 <div className = 'reminder'>
                 <Center>
                   <Stack direction={['row']}>
-                 {user && !newUser && !startCounting && 
+                 {
+                 user && 
+                 !startCounting && 
+                 !loading &&
                  <p>PR: {thisSolutionPR} WPM </p>
                  
                  }
-                 {user && !newUser && !startCounting && <Image _activeLink={'/'} boxSize='25px' src = {'crown (2).png'} alt='logo' className='site-title'/>}
-                 {!user && !newUser && !startCounting && <a className = 'whiteUnderline' href = '/login'> Log in</a>} 
+                 {!loading && user && !startCounting && <Image _activeLink={'/'} boxSize='25px' src = {'crown (2).png'} alt='logo' className='site-title'/>}
+                 {!loading && !user && !startCounting && <a className = 'whiteUnderline' href = '/login'> Log in</a>} 
                  
                  </Stack>
-                 {!user && !newUser && !startCounting && <p>&nbsp;to save your data</p>} 
+                 {!loading && !user && !startCounting && <p>&nbsp;to save your data</p>} 
                 </Center>
                 </div>
                 

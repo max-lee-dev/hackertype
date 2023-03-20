@@ -1,4 +1,5 @@
 import React from 'react'
+import {auth} from './firebase'
 import {
         Center,
         Input,
@@ -18,13 +19,18 @@ import {
 
         
       } from '@chakra-ui/react'
+
+
+
+      import {updateProfile, collection} from 'firebase/auth'
+        import {db} from './firebase'
 import {
         Search2Icon,
         EditIcon,
         CheckIcon,
 } from '@chakra-ui/icons'
 export default function CodeSettings({
-        id, language, isSearchOpen, onSearchOpen, onSearchClose, isWordsOpen, onWordsOpen, onWordsClose, wordLimit, handleWordLimit, Restart, cppRange, javaRange, pythonRange, setId
+        startCounting, id, language, isSearchOpen, onSearchOpen, onSearchClose, isWordsOpen, onWordsOpen, onWordsClose, wordLimit, handleWordLimit, Restart, cppRange, javaRange, pythonRange, setId
 }) {
         
         const initialRef = React.useRef(null)
@@ -35,7 +41,7 @@ export default function CodeSettings({
         
         <div>
                 
-                <Center width='700px' height='100px'>
+                {!startCounting && <Center width='700px' height='100px'>
                         <Stack isInline>
                                 <Stack>
                                         <Button minWidth={'125px'} className = 'wordLimitButton' size='xl' leftIcon={<EditIcon/>} variant='outline'  colorScheme='whiteAlpha' onClick={onWordsOpen}>{displayLimit}</Button>
@@ -143,7 +149,9 @@ export default function CodeSettings({
                                 </Stack>
                         </Stack>
                 </Center>
+                }
         </div>
+        
 
       
   )
@@ -151,10 +159,12 @@ export default function CodeSettings({
         onWordsClose()
         console.log("id: " + id)
         Restart(language === '' ? 'Java' : language, wordLimit, id === '' ? undefined : id)
-}
+        }
 
 function closeSearchModal() {
         onSearchClose()
         Restart(language === '' ? 'Java' : language, wordLimit, id === '' ? id : undefined)
 }
+
+        
 }
