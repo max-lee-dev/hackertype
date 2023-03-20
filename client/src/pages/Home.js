@@ -116,6 +116,7 @@ function App({user, id, setId}) {
   useEffect(() => {
     setLoading(true)
     async function getUserSettings() {
+      
       const q = query(collection(db, "users"), where("uid", "==", user.uid));
 
       const querySnapshot = await getDocs(q);
@@ -124,7 +125,11 @@ function App({user, id, setId}) {
         Restart(doc.data().lastLanguage, '');
       });
     }
-    getUserSettings().then(() => setLoading(false))
+    if (user) getUserSettings().then(() => setLoading(false))
+    if (!user) {
+      Restart('Java', '')
+      setLoading(false)
+    }
   }, [user])
 
 
