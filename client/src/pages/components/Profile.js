@@ -71,50 +71,50 @@ export default function Profile({}) {
 
         var date = new Date(profileUserData?.account_created)
         var dateArr = date.toDateString().split(' ');
-        var dobFormat = dateArr[2] + ' ' + dateArr[1] + ' ' + dateArr[3];
   return (
-        <Center>
                 <Stack>
-                <div className = 'aboutContainer'>
-                        
-
-                        <div className = 'userTitleCard'> 
-                                
-                                <div className = 'userTitle mainFont'>
-                                        {!loading && !profileUserData && <Text fontSize = '56px'>User not found...</Text>}
-                                        <Text fontSize = '56px'>{profileUserData?.displayName}</Text>
-                                        {profileUserData && <Text fontSize = '22px'>Joined {dateArr[1]} {dateArr[2]}, {dateArr[3]}</Text>}
-                                </div>
-
-
-                                <div className = 'generalUserInfo mainFont'>
-                                        <div>
-                                                <Text fontSize = '40px'>Average</Text>
-                                                {profileUserData?.average_wpm && <Text fontSize = '40px'>{profileUserData?.average_wpm} WPM</Text>}
-                                        </div>
-
-                                        <div>
-                                                <Text fontSize = '40px'>Started</Text>
-                                                <Text fontSize = '40px'>{profileUserData?.tests_started}</Text>
-                                        </div>
-
-                                        <div>
-                                                <Text fontSize = '40px'>Completed</Text>
-                                                <Text fontSize = '40px'>{profileUserData?.tests_completed}</Text>
-                                        </div>
+                        <div className = 'userTitleContainer'>
+                                <Center>
+                                <div className = 'userTitleCard aboutContainer'> 
                                         
                                         
+                                        <div className = 'userTitle mainFont'>
+                                                {!loading && !profileUserData && <Text fontSize = '56px'>User not found...</Text>}
+                                                <Text fontSize = '56px'>{profileUserData?.displayName}</Text>
+                                                {profileUserData && <Text fontSize = '22px'>Joined {dateArr[1]} {dateArr[2]}, {dateArr[3]}</Text>}
+                                        </div>
+
+
+                                        <div className = 'generalUserInfo mainFont'>
+                                                <div>
+                                                        <Text fontSize = '40px'>Average</Text>
+                                                        {profileUserData?.average_wpm && <Text fontSize = '40px'>{profileUserData?.average_wpm} WPM</Text>}
+                                                </div>
+
+                                                <div>
+                                                        <Text fontSize = '40px'>Started</Text>
+                                                        <Text fontSize = '40px'>{profileUserData?.tests_started}</Text>
+                                                </div>
+
+                                                <div>
+                                                        <Text fontSize = '40px'>Completed</Text>
+                                                        <Text fontSize = '40px'>{profileUserData?.tests_completed}</Text>
+                                                </div>
+                                                
+                                                
+                                        </div>
                                 </div>
+                                </Center>
                         </div>
-
+                        <div className = 'aboutContainer'> 
+                        <Center>
                         {loading && <div className = 'site-title'>Loading...</div> }
                         
 
 
-                        <div className = 'site-title mainFont'>{profileUserData?.displayName}</div>
                         
                         {!loading && username === user?.displayName && <Button colorScheme={'red'} onClick={signout}>Signout</Button>}
-                        
+                        </Center>
 
                         {!loading && profileUserData && <div className = 'about'>
                                 <h1>WPM: {profileUserData?.wpm}</h1>
@@ -143,9 +143,8 @@ export default function Profile({}) {
                                 
 
                         </div>
-                </div>
+                        </div>
                 </Stack>
-         </Center>
          
         
   )

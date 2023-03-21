@@ -87,7 +87,7 @@ function App() {
     <>  
      
       <ChakraProvider theme={theme}>
-        <NavBar loading={loading} user={user}/>
+        <NavBar/>
               <Routes>
                 <Route path='/' element={<Home 
                   user={user}

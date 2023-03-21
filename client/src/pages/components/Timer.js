@@ -12,8 +12,9 @@ function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSu
         const submissionsCollectionRef = collection(db, 'submissions')
         const [submissions, setSubmissions] = useState([])
         const [done, setDone] = useState(pause)
+        const [addedOne, setAddedOne] = useState(false)
         const [newAcc , setNewAcc] = useState(0)
-
+        console.log("START: " + startCounting)
 
         useEffect(() => {
                 let id 
@@ -131,9 +132,12 @@ function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSu
         }
 
         async function startedTest() {
-                await updateDoc(doc(db, "users", user?.uid), {
-                        tests_started: increment(0.5) // this runs twice for some reason lol
-                });
+                if (!addedOne) {
+                        await updateDoc(doc(db, "users", user?.uid), {
+                                tests_started: increment(1) // this runs twice for some reason lol
+                        });
+                        setAddedOne(true) 
+                }
         }
 
 }
