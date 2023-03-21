@@ -36,7 +36,6 @@ export default function CodeSettings({
         const displayLimit = wordLimit === 50000 ? 'Word Limit' : wordLimit
         const displayId = id === '' ? 'No ID' : id
         function test(e) {
-                console.log({e, id})
                 setId(e.target.value)
           }
   return (

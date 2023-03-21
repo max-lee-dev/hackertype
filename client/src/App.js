@@ -65,7 +65,6 @@ function App() {
       )))
     }
     getSubmissions().then(() => setLoading(false))
-    
     //eslint-disable-next-line
   }, [])
 
@@ -91,8 +90,7 @@ function App() {
               <Routes>
                 <Route path='/' element={<Home 
                   user={user}
-                  id={id}
-                  setId={setId}
+                  givenId={id}
                   />
                 }/>
                 <Route path='/about' element={<About/>} />

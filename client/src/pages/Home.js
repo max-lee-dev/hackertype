@@ -60,7 +60,7 @@ function countReturns(text) {
 
 
 
-function App({user, id, setId}) {
+function App({user, givenId}) {
   const { isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen } = useDisclosure();
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
   const usersCollectionRef = collection(db, 'users')
@@ -97,6 +97,7 @@ function App({user, id, setId}) {
   const [submissions, setSubmissions] = useState([])
   const [loading, setLoading] = useState(true)
   const submissionsCollectionRef = collection(db, 'submissions')
+  const [id, setId] = useState(givenId)
  
   
   const [finished, setFinished] = useState(false)
