@@ -1,7 +1,7 @@
 import { useState, useEffect} from 'react'
 import {addDoc} from 'firebase/firestore'
 import {db} from './firebase'
-import { collection } from 'firebase/firestore'
+import { collection, increment, updateDoc, doc, getDocs } from 'firebase/firestore'
 import { StarIcon } from '@chakra-ui/icons'
 
 
@@ -10,7 +10,7 @@ function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSu
         const actualPR = thisSolutionPR;
         const [wordspm, setWordspm] = useState(0)
         const submissionsCollectionRef = collection(db, 'submissions')
-
+        const [submissions, setSubmissions] = useState([])
         const [done, setDone] = useState(pause)
         const [newAcc , setNewAcc] = useState(0)
 
@@ -18,6 +18,7 @@ function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSu
         useEffect(() => {
                 let id 
                 if (startCounting) {
+                        startedTest()
                         id = setInterval(() => {
                                 setTimeElapsed(oldTime => oldTime + 1)
 
@@ -38,6 +39,24 @@ function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSu
                 }
               //eslint-disable-next-line  
         }, [done])
+
+ 
+  
+        useEffect(() => {
+        
+        const getSubmissions = async () => {
+        const data = await getDocs(submissionsCollectionRef)
+        setSubmissions(data.docs.map(doc => (
+                {...doc.data(), id: doc.id}
+        )))
+        }
+        getSubmissions()
+        
+        //eslint-disable-next-line
+        }, [])
+
+
+
         let totalCorrectChars = 0
         for (let i = 0; i < correctCharacterArray.length; i++) {
                 totalCorrectChars += correctCharacterArray[i]
@@ -79,7 +98,42 @@ function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSu
         }
         
         async function createSubmission() {
-                await addDoc(submissionsCollectionRef, {solution_id: leetcodeTitle, user: user.displayName, wpm: wordspm, acc: newAcc, language: language, user_uid: user.uid, date: new Date()});
+                if (user) {
+                        let totalWpm = 0
+                        let testsCompleted = 1
+                        submissions.map(submission => {
+                                if (submission.user === user.displayName) {
+                                        console.log(submission.wpm)
+                                        totalWpm += parseInt(submission.wpm)
+                                        testsCompleted++
+                                }
+                                return ''
+                        })
+                        const avgWpm = (totalWpm/testsCompleted).toFixed(0)
+                        console.log(avgWpm)
+                        await updateDoc(doc(db, "users", user?.uid), {
+                                tests_completed: increment(1),
+                                average_wpm: avgWpm
+                        })
+                        
+                        await addDoc(submissionsCollectionRef, {
+                                solution_id: leetcodeTitle, 
+                                user: user.displayName, 
+                                wpm: wordspm, 
+                                acc: newAcc, 
+                                language: language, 
+                                user_uid: user.uid, 
+                                date: new Date()
+                        });
+                        
+                }
+
+        }
+
+        async function startedTest() {
+                await updateDoc(doc(db, "users", user?.uid), {
+                        tests_started: increment(0.5) // this runs twice for some reason lol
+                });
         }
 
 }

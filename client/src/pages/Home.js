@@ -136,7 +136,7 @@ function App({user, id, setId}) {
   
   async function changeLastLanguage(codingLanguage) {
     
-    await updateDoc(doc(db, "users", user.uid), {
+    if (user) await updateDoc(doc(db, "users", user.uid), {
       lastLanguage: codingLanguage,
     });
   } // not used rn
