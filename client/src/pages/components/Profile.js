@@ -14,7 +14,7 @@ import { useParams } from "react-router-dom";
 import { collection, doc, getDocs, query, where } from "firebase/firestore";
 import { db } from "./firebase"; // import your Firebase app instance
 
-export default function Profile({}) {
+export default function Profile() {
         async function signout() {
                 await signOut(auth);
                 window.location.replace('/')
@@ -39,8 +39,11 @@ export default function Profile({}) {
         })
         //eslint-disable-next-line
         }, [loading])
+
+        
         
         useEffect(() => {
+                setLoading(true)
                 async function getUserSettings() {
                         
                   const q = query(collection(db, "users"));
@@ -51,13 +54,13 @@ export default function Profile({}) {
                     if (doc.data().displayName === username) setUserData(doc.data())
                   });
                 }
-                getUserSettings()
+                getUserSettings().then(() => setLoading(false))
                 
-              }, [])
+              }, [username])
 
         const submissionsCollectionRef = collection(db, 'submissions')
                 useEffect(() => {
-                setLoading(true)
+                        setLoading(true)
                 const getSubmissions = async () => {
                 const data = await getDocs(submissionsCollectionRef)
                 setSubmissions(data.docs.map(doc => (
@@ -67,7 +70,7 @@ export default function Profile({}) {
                 getSubmissions().then(() => setLoading(false))
                 
                 //eslint-disable-next-line
-        }, [])
+        }, [username])
 
         var date = new Date(profileUserData?.account_created)
         var dateArr = date.toDateString().split(' ');
