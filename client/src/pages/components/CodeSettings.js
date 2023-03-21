@@ -22,8 +22,6 @@ import {
 
 
 
-      import {updateProfile, collection} from 'firebase/auth'
-        import {db} from './firebase'
 import {
         Search2Icon,
         EditIcon,
@@ -37,6 +35,10 @@ export default function CodeSettings({
         const finalRef = React.useRef(null)
         const displayLimit = wordLimit === 50000 ? 'Word Limit' : wordLimit
         const displayId = id === '' ? 'No ID' : id
+        function test(e) {
+                console.log({e, id})
+                setId(e.target.value)
+          }
   return (
         
         <div>
@@ -127,7 +129,7 @@ export default function CodeSettings({
                                                                 className = 'maxWordsForm' 
                                                                 placeholder={`Enter an ID (e.g. 455)`} 
                                                                 type='text'
-                                                                onChange={(e) => setId(e.target.value)}
+                                                                onChange={(e) => test(e)}
                                                         />
                                                         
                                                         <FormHelperText>
@@ -155,6 +157,8 @@ export default function CodeSettings({
 
       
   )
+
+  
   function closeLimitModal() {
         onWordsClose()
         console.log("id: " + id)

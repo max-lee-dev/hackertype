@@ -1,6 +1,6 @@
 import React from 'react'
 import ExternalLink from './ExternalLink'
-
+import logo from './assets/favicon.ico';
 export default function Navbar({user, loading}) {
 
         
@@ -10,7 +10,7 @@ export default function Navbar({user, loading}) {
         isExternal={false}
                 href='/'
                 gridColumn={0} // additional prop passed in
-                src='favicon.ico'
+                src={logo}
         />
         <a href='/' className='site-title'>HackerType</a>
         </div>
@@ -21,7 +21,7 @@ export default function Navbar({user, loading}) {
                 <CustomLink href='/about'>About</CustomLink>
                 {loading && <CustomLink href='/login'>Log in</CustomLink>}
                 {!loading && !user && <CustomLink href='/login'>Log in</CustomLink>}
-                {!loading && user && user.displayName && <CustomLink href='/profile'>{user.displayName}</CustomLink>}
+                {!loading && user && user.displayName && <CustomLink href={`/profile/${user.displayName}`}>{user.displayName}</CustomLink>}
                 
         </ul>
   </nav>

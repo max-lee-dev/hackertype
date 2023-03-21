@@ -7,7 +7,7 @@ import Leaderboard from './pages/Leaderboard.js'
 import Solutions from './pages/Solutions.js'
 import UserLogin from './pages/components/UserLogin'
 import Profile from './pages/components/Profile'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Link } from 'react-router-dom'
 
 import {db} from './pages/components/firebase'
 import { collection, getDocs } from 'firebase/firestore'
@@ -29,7 +29,8 @@ function App() {
   const [submissions, setSubmissions] = useState([])
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState({});
-  const [id, setId] = useState('')
+  const [id, setId] = useState('');
+  const [users, setUsers] = useState([]);
   const auth = getAuth();
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -41,6 +42,19 @@ function App() {
     })
     //eslint-disable-next-line
   }, [])
+
+  const usersCollectionRef = collection(db, 'users')
+  useEffect(() => {
+    const getUsers = async () => {
+      const data = await getDocs(usersCollectionRef)
+      setUsers(data.docs.map(doc => (
+        {...doc.data(), id: doc.id}
+      )))
+    }
+    getUsers()
+  }, [])
+
+
   const submissionsCollectionRef = collection(db, 'submissions')
   useEffect(() => {
     setLoading(true)
@@ -74,22 +88,23 @@ function App() {
      
       <ChakraProvider theme={theme}>
         <NavBar loading={loading} user={user}/>
-            <div className = 'pageContainer'>
-              
               <Routes>
                 <Route path='/' element={<Home 
                   user={user}
                   id={id}
-                  setID={setId}
+                  setId={setId}
                   />
                 }/>
                 <Route path='/about' element={<About/>} />
                 <Route path='/leaderboard' element={<Leaderboard submissions={submissions} loading={loading} />} />
                 <Route path='/solutions' element={<Solutions/>} />
                 <Route path='/login' element={<UserLogin user={user} setUser={setUser}/>} />
-                <Route path='/profile' element={<Profile user={user} submissions={submissions} loading={loading}/>} />
+                <Route path='/profile/:username' element={<Profile/>} />
+
+                
+                
+                
               </Routes>
-            </div>
           
       </ChakraProvider>
       
