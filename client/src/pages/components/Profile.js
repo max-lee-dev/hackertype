@@ -57,11 +57,14 @@ export default function Profile() {
                   });
                 }
                 async function getRecentSubmissions() {
-                        const q = query(submissionsCollectionRef, orderBy("date", "desc"), limit(3));
-                        const recentQuerySnapshot = await getDocs(q);
+                        const q = query(submissionsCollectionRef, where("user", "==", username))
+                        console.log(q)
+                        const top = query(q, orderBy("date", "desc"), limit(3));
+                        const recentQuerySnapshot = await getDocs(top);
                         const tempArray = []
 
                         recentQuerySnapshot.forEach((doc) => {
+                                console.log(doc.user)
                                 tempArray.push(doc.id)
                         })
                         setRecentSubmissions(tempArray)
@@ -156,13 +159,13 @@ export default function Profile() {
                                                 <Stack direction={'row'} spacing='450px' justifyContent='space-evenly'>
                                                 <div className = 'recentSubmissionsContainer mainFont font500'>
                                                         <Text fontSize = '36px'>Recent</Text>
-                                                        {recentSubmissions[0] && <Submission
+                                                        {!loading && recentSubmissions[0] && <Submission
                                                                 uid={recentSubmissions[0]}
                                                         />}
-                                                        {recentSubmissions[1] &&  <Submission
+                                                        {!loading && recentSubmissions[1] &&  <Submission
                                                                 uid={recentSubmissions[1]}
                                                         />}
-                                                        {recentSubmissions[2] && <Submission
+                                                        {!loading && recentSubmissions[2] && <Submission
                                                                 uid={recentSubmissions[2]}
                                                         />}
                                                 </div>
