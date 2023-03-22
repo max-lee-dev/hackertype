@@ -148,7 +148,7 @@ function App({user, givenId}) {
 
 
   function Restart(codingLanguage, maxWords, retrySame) {
-    
+    console.log(id)
     let s = ''
     changeLastLanguage(codingLanguage)
     if (retrySame === undefined) { // if not retrying same code (typically)

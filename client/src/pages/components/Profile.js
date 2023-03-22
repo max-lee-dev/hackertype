@@ -11,8 +11,9 @@ import {
 
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { collection, doc, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, getDocs, query, where, orderBy, limit } from "firebase/firestore";
 import { db } from "./firebase"; // import your Firebase app instance
+import Submission from './Submission';
 
 export default function Profile() {
         async function signout() {
@@ -28,6 +29,7 @@ export default function Profile() {
         const [loading, setLoading] = useState(true)
         const [submissions, setSubmissions] = useState([]);
         const [user, setUser] = useState({});
+        const [recentSubmissions, setRecentSubmissions] = useState([]);
         useEffect(() => {
                 auth.onAuthStateChanged((user) => {
                 if (user) {
@@ -54,7 +56,19 @@ export default function Profile() {
                     if (doc.data().displayName === username) setUserData(doc.data())
                   });
                 }
-                getUserSettings().then(() => setLoading(false))
+                async function getRecentSubmissions() {
+                        const q = query(submissionsCollectionRef, orderBy("date", "desc"), limit(3));
+                        const recentQuerySnapshot = await getDocs(q);
+                        const tempArray = []
+
+                        recentQuerySnapshot.forEach((doc) => {
+                                tempArray.push(doc.id)
+                        })
+                        setRecentSubmissions(tempArray)
+                }
+                getUserSettings()
+                getRecentSubmissions().then(() => setLoading(false))
+                
                 
               }, [username])
 
@@ -74,41 +88,94 @@ export default function Profile() {
 
         var date = new Date(profileUserData?.account_created)
         var dateArr = date.toDateString().split(' ');
+        console.log("HELLO: "  + recentSubmissions)
+
+       
   return (
-                <Stack>
+        <Stack>
+                <div className = 'profileContainer'>
                         <div className = 'userTitleContainer'>
-                                <Center>
+                        <Center>
+                                        
                                 <div className = 'userTitleCard aboutContainer'> 
                                         
                                         
-                                        <div className = 'userTitle mainFont'>
+                                        <div className = 'userTitle mainFont font500'>
                                                 {!loading && !profileUserData && <Text fontSize = '56px'>User not found...</Text>}
                                                 <Text fontSize = '56px'>{profileUserData?.displayName}</Text>
-                                                {profileUserData && <Text fontSize = '22px'>Joined {dateArr[1]} {dateArr[2]}, {dateArr[3]}</Text>}
+                                                {profileUserData && <Text fontSize = '22px' className='grayText font400'>Joined {dateArr[1]} {dateArr[2]}, {dateArr[3]}</Text>}
+                                                <div className='signoutButton'>
+                                                        {false && !loading && username === user?.displayName && <Button width={'75px'} fontSize="15px" colorScheme={'red'} onClick={signout}>Sign Out</Button>}
+                                                </div>
                                         </div>
 
-
+                                        <Stack>
                                         <div className = 'generalUserInfo mainFont'>
-                                                <div>
-                                                        <Text fontSize = '40px'>Average</Text>
-                                                        {profileUserData?.average_wpm && <Text fontSize = '40px'>{profileUserData?.average_wpm} WPM</Text>}
+                                        <Stack direction = 'row' spacing = {24}>
+                                                <div className = 'generalInfoCard'>
+                                                {profileUserData?.average_wpm && <Text fontSize = '36px' className ='font400'>{profileUserData?.average_wpm}</Text>}
+                                                        <Text fontSize = '22px' className='grayText font400' >Average WPM</Text> 
+                                                        
                                                 </div>
 
-                                                <div>
-                                                        <Text fontSize = '40px'>Started</Text>
-                                                        <Text fontSize = '40px'>{profileUserData?.tests_started}</Text>
+                                                <div className = 'generalInfoCard'>
+                                                        
+                                                        <Text fontSize = '36px' className ='font400'>{profileUserData?.tests_started}</Text>
+                                                        <Text fontSize = '22px' className='grayText font400' >Started</Text>
                                                 </div>
 
-                                                <div>
-                                                        <Text fontSize = '40px'>Completed</Text>
-                                                        <Text fontSize = '40px'>{profileUserData?.tests_completed}</Text>
+                                                <div className = 'generalInfoCard'>
+                                                        
+                                                        <Text fontSize = '36px' className ='font400'>{profileUserData?.tests_completed}</Text>
+                                                        <Text fontSize = '22px' className='grayText font400'>Completed</Text>
                                                 </div>
                                                 
-                                                
+                                        </Stack>   
                                         </div>
+                                        </Stack>   
+                                        
                                 </div>
+                                
                                 </Center>
                         </div>
+                        <div className = 'graphContentContainer'>
+                                <div className = 'graphContainer'> 
+                                        <Center>
+                                        <div className = 'graphCard aboutContainer'>
+                                                <div className = 'graphTitle mainFont font500'>
+                                                        <Text fontSize = '36px'>Graph</Text>
+                                                </div>
+                                        </div>
+                                        </Center>
+                                </div>
+                        </div>
+                        <Center>
+                        <div className = 'submissionContentContainer'>
+                                <div className = 'submissionContainer'>
+                                        <div className = 'submissionCard aboutContainer'>
+                                                <Stack direction={'row'} spacing='450px' justifyContent='space-evenly'>
+                                                <div className = 'recentSubmissionsContainer mainFont font500'>
+                                                        <Text fontSize = '36px'>Recent</Text>
+                                                        {recentSubmissions[0] && <Submission
+                                                                uid={recentSubmissions[0]}
+                                                        />}
+                                                        {recentSubmissions[1] &&  <Submission
+                                                                uid={recentSubmissions[1]}
+                                                        />}
+                                                        {recentSubmissions[2] && <Submission
+                                                                uid={recentSubmissions[2]}
+                                                        />}
+                                                </div>
+                                                <div className = 'recentSubmissionsContainer mainFont font500'>
+                                                        <Text fontSize = '36px'>Best</Text>
+                                                </div>
+                                                </Stack>
+                                        </div>
+                                        
+                                </div>
+                        </div>  
+                        </Center>
+
                         <div className = 'aboutContainer'> 
                         <Center>
                         {loading && <div className = 'site-title'>Loading...</div> }
@@ -116,10 +183,11 @@ export default function Profile() {
 
 
                         
-                        {!loading && username === user?.displayName && <Button colorScheme={'red'} onClick={signout}>Signout</Button>}
+                       
                         </Center>
+                </div>
 
-                        {!loading && profileUserData && <div className = 'about'>
+                        {/* {!loading && profileUserData && <div className = 'about'>
                                 <h1>WPM: {profileUserData?.wpm}</h1>
                                 <h1>Accuracy: {profileUserData?.accuracy}</h1>
                                 <h1>Last Language: {profileUserData?.lastLanguage}</h1>
@@ -145,7 +213,7 @@ export default function Profile() {
                                         
                                 
 
-                        </div>
+                        </div> */}
                         </div>
                 </Stack>
          

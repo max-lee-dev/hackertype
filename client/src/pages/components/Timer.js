@@ -77,7 +77,8 @@ function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSu
 
                 }
                
-                const isPR = wordspm > actualPR
+                const isPR = parseInt(wordspm) > parseInt(actualPR)
+                console.log("pr?: " + wordspm + " " + actualPR)
                 return (
                         
                         <div className = 'aboutContainer'>
@@ -100,8 +101,20 @@ function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSu
         
         async function createSubmission() {
                 if (user) {
-                        let totalWpm = 0
+                        let totalWpm = parseInt(wordspm)
                         let testsCompleted = 1
+                        
+                        
+                        
+                        await addDoc(submissionsCollectionRef, {
+                                solution_id: leetcodeTitle, 
+                                user: user.displayName, 
+                                wpm: wordspm, 
+                                acc: newAcc, 
+                                language: language, 
+                                user_uid: user.uid, 
+                                date: new Date()
+                        });
                         submissions.map(submission => {
                                 if (submission.user === user.displayName) {
                                         console.log(submission.wpm)
@@ -116,16 +129,6 @@ function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSu
                                 tests_completed: increment(1),
                                 average_wpm: avgWpm
                         })
-                        
-                        await addDoc(submissionsCollectionRef, {
-                                solution_id: leetcodeTitle, 
-                                user: user.displayName, 
-                                wpm: wordspm, 
-                                acc: newAcc, 
-                                language: language, 
-                                user_uid: user.uid, 
-                                date: new Date()
-                        });
                         
                 }
 

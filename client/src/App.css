@@ -15,7 +15,27 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 .mainFont {
-    font-family: 'IBM Plex Serif', serif;
+    font-family: 'IBM Plex Serif', sans-serif;
+}
+
+.font500 {
+    font-weight: 500;
+}
+
+.font400 {
+    font-weight: 400;
+}
+
+.font300 {
+    font-weight: 300;
+}
+
+.font200 {
+    font-weight: 200;
+}
+
+.font100 {
+    font-weight: 100;
 }
 
 .smallerMainFont {
@@ -32,29 +52,91 @@ html::-webkit-scrollbar-track {
 }
 
 .userTitleContainer {
-    width: 100%;
     height: 140px;
+    
 }
 
 .userTitleCard {
-    background-color: rgb(31,31,35);
     border-radius: 25px;
     width: 100%;
-    height: 100%;
+    height: 175px;
     display: flex;
     flex-direction: row;
     margin: 2rem;
     justify-content: space-between;
     align-items: stretch;
+    
+}
+
+.profileContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.grayText {
+    color: rgb(127,127,127);
+}
+
+.wpmCard {
+    display: flex;
+    justify-content: space-evenly;
+}
+.graphContentContainer {
+    padding-top: 90px;
+    width: 100%;
+    height: 140px;
+    padding-top: 85px !important;
+    padding: 2rem;
+}
+.graphContainer {
+    background-color: rgb(31,31,35);
+    border-radius: 25px;
+    
+    width: 100%;
+    height: 400px;
+    flex-direction: row;
+    padding-top: 20px;
+    
+    justify-content: space-between;
+}
+
+.generalInfoCard {
+    
+    padding-top: 20px;
+    width: 150px;
+}
+
+.submissionContentContainer {
+    width: 100%;
+    height: 140px;
+    padding-top: 365px !important;
+    padding: 2rem;
+}
+.submissionContainer {
+    background-color: rgb(31,31,35);
+    border-radius: 25px;
+    width: 100%;
+    height: 350px;
+    flex-direction: row;
+    padding-top: 20px;
+    
+    justify-content: space-between;
 }
 
 .generalUserInfo {
     width: 45%;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    padding-right: 80px;
+    padding-right: 125px;
     padding-top: 8px;
+    
+    
+}
+
+.signoutButton {
+    padding-top: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24px;
 }
 
 
