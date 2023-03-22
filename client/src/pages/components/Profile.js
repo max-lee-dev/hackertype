@@ -27,7 +27,6 @@ export default function Profile() {
         const auth = getAuth();
         const { username } = useParams();
         const [loading, setLoading] = useState(true)
-        const [submissions, setSubmissions] = useState([]);
         const [user, setUser] = useState({});
         const [recentSubmissions, setRecentSubmissions] = useState([]);
         useEffect(() => {
@@ -58,13 +57,11 @@ export default function Profile() {
                 }
                 async function getRecentSubmissions() {
                         const q = query(submissionsCollectionRef, where("user", "==", username))
-                        console.log(q)
                         const top = query(q, orderBy("date", "desc"), limit(3));
                         const recentQuerySnapshot = await getDocs(top);
                         const tempArray = []
 
                         recentQuerySnapshot.forEach((doc) => {
-                                console.log(doc.user)
                                 tempArray.push(doc.id)
                         })
                         setRecentSubmissions(tempArray)
@@ -76,22 +73,9 @@ export default function Profile() {
               }, [username])
 
         const submissionsCollectionRef = collection(db, 'submissions')
-                useEffect(() => {
-                        setLoading(true)
-                const getSubmissions = async () => {
-                const data = await getDocs(submissionsCollectionRef)
-                setSubmissions(data.docs.map(doc => (
-                        {...doc.data(), id: doc.id}
-                )))
-                }
-                getSubmissions().then(() => setLoading(false))
-                
-                //eslint-disable-next-line
-        }, [username])
-
+               
         var date = new Date(profileUserData?.account_created)
         var dateArr = date.toDateString().split(' ');
-        console.log("HELLO: "  + recentSubmissions)
 
        
   return (
@@ -108,7 +92,7 @@ export default function Profile() {
                                                 <Text fontSize = '56px'>{profileUserData?.displayName}</Text>
                                                 {profileUserData && <Text fontSize = '22px' className='grayText font400'>Joined {dateArr[1]} {dateArr[2]}, {dateArr[3]}</Text>}
                                                 <div className='signoutButton'>
-                                                        {false && !loading && username === user?.displayName && <Button width={'75px'} fontSize="15px" colorScheme={'red'} onClick={signout}>Sign Out</Button>}
+                                                        {!loading && username === user?.displayName && <Button width={'75px'} fontSize="15px" colorScheme={'red'} onClick={signout}>Sign Out</Button>}
                                                 </div>
                                         </div>
 

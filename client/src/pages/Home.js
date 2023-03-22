@@ -63,7 +63,6 @@ function countReturns(text) {
 function App({user, givenId}) {
   const { isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen } = useDisclosure();
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
-  const usersCollectionRef = collection(db, 'users')
   
 
 
@@ -115,6 +114,23 @@ function App({user, givenId}) {
   }, [finished])
 
   useEffect(() => {
+    if (user && !finished) {
+      console.log(leetcodeTitle)
+      submissions.map(submission => {
+                  
+        if (submission.user !== user.displayName) return ''
+        if (submission.solution_id !== leetcodeTitle) return ''
+        if (submission.language !== language) return ''
+        if (!submission.isBestSubmission) return ''
+        setThisSolutionPR(submission.wpm)
+        
+        
+        
+      })
+    }
+  }, [submissions])
+
+  useEffect(() => {
     setLoading(true)
     async function getUserSettings() {
       
@@ -148,7 +164,6 @@ function App({user, givenId}) {
 
 
   function Restart(codingLanguage, maxWords, retrySame) {
-    console.log(id)
     let s = ''
     changeLastLanguage(codingLanguage)
     if (retrySame === undefined) { // if not retrying same code (typically)
@@ -247,19 +262,25 @@ function App({user, givenId}) {
     setStoredInputArray(inputArr)
     setLeetcodeTitle(codeTitle)
     setLastCode(pulledCode)
-    let pr = 0;
-    if (!user) return selectedCode 
-    submissions.map(submission => {
+    if (!user) return selectedCode
+    if (user) {
+      let found = false
+      submissions.map(submission => {
                   
-      if (submission.user !== user.displayName) return ''
-      if (submission.solution_id !== codeTitle) return ''
-      if (submission.wpm > pr) pr = submission.wpm
-      
-      
-      
-    })
-    setThisSolutionPR(pr)
+        if (submission.user !== user.displayName) return ''
+        if (submission.solution_id !== codeTitle) return ''
+        if (submission.language !== codingLanguage) return ''
+        if (!submission.isBestSubmission) return ''
+        setThisSolutionPR(submission.wpm)
+        found = true
+        
+        
+        
+      })
+      if (!found) setThisSolutionPR(0)
+    }
     return selectedCode 
+    
   }
 
   function Reset(codingLanguage, maxWords, id) {
@@ -819,6 +840,7 @@ function App({user, givenId}) {
                   setSubmitted={setSubmitted}
                   user={user}
                   thisSolutionPR={thisSolutionPR}
+                  setThisSolutionPR={setThisSolutionPR}
                 />}
               </div>
               

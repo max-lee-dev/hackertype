@@ -8,12 +8,14 @@ import { StarIcon } from '@chakra-ui/icons'
 function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSubmitted, correctWords, startCounting, pause, totalWords, correctCharacterArray}) {
        const [timeElapsed, setTimeElapsed] = useState(0)
         const actualPR = thisSolutionPR;
-        const [wordspm, setWordspm] = useState(0)
+        const [finalWPM, setFinalWPM] = useState(0)
         const submissionsCollectionRef = collection(db, 'submissions')
         const [submissions, setSubmissions] = useState([])
         const [done, setDone] = useState(pause)
         const [addedOne, setAddedOne] = useState(false)
         const [newAcc , setNewAcc] = useState(0)
+        const [rank, setRank] = useState(1)
+        const [totalOpponents, setTotalOpponents] = useState(1)
         console.log("START: " + startCounting)
 
         useEffect(() => {
@@ -71,27 +73,28 @@ function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSu
                 const accuracy = (correctWords/totalWords || 0).toFixed(3) * 100 
                 const acc = accuracy.toFixed(0)
                 if (!done) {
-                        setWordspm((fakeCorrectWords/(timeElapsed/60) || 0).toFixed(0))
+                        setFinalWPM((fakeCorrectWords/(timeElapsed/60) || 0).toFixed(0))
                         setDone(true)
                         setNewAcc(acc)
 
                 }
                
-                const isPR = parseInt(wordspm) > parseInt(actualPR)
-                console.log("pr?: " + wordspm + " " + actualPR)
+                const isPR = user ? parseInt(finalWPM) > parseInt(actualPR) : false
+                // specify language using BADGES (CHAKRA)
                 return (
                         
                         <div className = 'aboutContainer'>
                                 {isPR && <h1><StarIcon/> NEW PR!</h1>}
+                                {isPR && <h1>RANK: {rank}/{totalOpponents}</h1>} 
                                 <div>
                                         
                                 </div>
                                 
                                 <div>
-                                        <p>WPM: {wordspm}<br/>Accuracy: {acc}%</p>
+                                        <p>WPM: {finalWPM}<br/>Accuracy: {acc}%</p>
                                 </div>
                                 {!isPR && <p className = 'reminder'>PR: {actualPR}</p>}
-                                {isPR && <h1 className = 'reminder'>Old PR: {actualPR}</h1>}
+                                {user && isPR && <h1 className = 'reminder'>Old PR: {actualPR}</h1>}
                         </div>
                 )
                 
@@ -101,34 +104,78 @@ function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSu
         
         async function createSubmission() {
                 if (user) {
-                        let totalWpm = parseInt(wordspm)
+                        let totalWpm = parseInt(finalWPM) // database doesnt update during this func so start with the current wpm
                         let testsCompleted = 1
                         
                         
                         
-                        await addDoc(submissionsCollectionRef, {
-                                solution_id: leetcodeTitle, 
-                                user: user.displayName, 
-                                wpm: wordspm, 
-                                acc: newAcc, 
-                                language: language, 
-                                user_uid: user.uid, 
-                                date: new Date()
-                        });
+                        let isBestSubmission = true
+                        const oldBestSubmission = submissions.filter(function(submission) {
+                                return submission.isBestSubmission === true && submission.user === user.displayName && submission.language === language && submission.solution_id === leetcodeTitle
+                        })
                         submissions.map(submission => {
-                                if (submission.user === user.displayName) {
-                                        console.log(submission.wpm)
+                                if (submission.user === user.displayName) { // This user's submissions
+                                        // calculate rank
+                                        if (submission.language === language && submission.solution_id === leetcodeTitle) { // This user's submissions in this language and this problem
+                                                console.log("check")
+                                                if (submission.isBestSubmission) {
+                                                        // remove its status if the current one is best, it cant be the best anymore
+
+                                                }
+                                                if (parseInt(submission.wpm) > parseInt(finalWPM)) { 
+                                                        isBestSubmission = false
+                                                }
+                                        }
+
+
+
+                                        // calculate new average wpm
                                         totalWpm += parseInt(submission.wpm)
                                         testsCompleted++
                                 }
                                 return ''
                         })
+                        let amountBetter = 1
+                        let totalOppo = 1
+                        if (isBestSubmission) {
+
+                                // first update last one,
+                                oldBestSubmission.map(submission => {
+                                        updateDoc(doc(db, "submissions", submission.id), {
+                                                isBestSubmission: false
+                                        })
+                                        return ''
+                                })
+                                
+                                submissions.filter(function(submission) {
+                                return submission.isBestSubmission === true && submission.user !== user.displayName && submission.language === language && submission.solution_id === leetcodeTitle
+                                }).map(submission => {
+                                        totalOppo++
+                                        if (parseInt(submission.wpm) > parseInt(finalWPM)) {
+                                                amountBetter++
+                                        }
+                                        return ''
+                                })
+                                setTotalOpponents(totalOppo)
+                                setRank(amountBetter)
+                        }
                         const avgWpm = (totalWpm/testsCompleted).toFixed(0)
                         console.log(avgWpm)
                         await updateDoc(doc(db, "users", user?.uid), {
                                 tests_completed: increment(1),
                                 average_wpm: avgWpm
                         })
+                        await addDoc(submissionsCollectionRef, {
+                                solution_id: leetcodeTitle, 
+                                user: user.displayName, 
+                                wpm: finalWPM, 
+                                acc: newAcc, 
+                                language: language, 
+                                user_uid: user.uid, 
+                                date: new Date(),
+                                isBestSubmission: isBestSubmission,
+                                rank: amountBetter,
+                        });
                         
                 }
 
