@@ -145,12 +145,12 @@ function App({user, givenId}) {
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
         if (!givenLanguage) Restart(doc.data().lastLanguage, '');
-        else Restart(givenLanguage, '');
       });
     }
     if (user) getUserSettings().then(() => setLoading(false))
     if (!user) {
-      Restart('Java', '')
+      if (!givenLanguage) Restart('Java', '')
+      else Restart(givenLanguage, '')
       setLoading(false)
     }
   }, [user])
