@@ -52,8 +52,9 @@ html::-webkit-scrollbar-track {
 }
 
 .userTitleContainer {
+    align-self: center;
     height: 140px;
-    
+    width: 100%;
 }
 
 .userTitleCard {
@@ -64,11 +65,11 @@ html::-webkit-scrollbar-track {
     flex-direction: row;
     margin: 2rem;
     justify-content: space-between;
-    align-items: stretch;
-    
+    align-items: stretch;        
 }
 
 .profileContainer {
+    width: 70%;
     display: flex;
     flex-direction: column;
 }
@@ -82,7 +83,6 @@ html::-webkit-scrollbar-track {
     justify-content: space-evenly;
 }
 .graphContentContainer {
-    padding-top: 90px;
     width: 100%;
     height: 140px;
     padding-top: 85px !important;
@@ -106,28 +106,85 @@ html::-webkit-scrollbar-track {
     width: 150px;
 }
 
-.submissionContentContainer {
+.submissionCard {
     width: 100%;
-    height: 140px;
-    padding-top: 365px !important;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: row;
+    height: 400px;
     padding: 2rem;
+    padding-top: 1px !important;
+}
+
+.submissionContentContainer {
+    border-radius: 25px;
+    width: 100%;
+    height: 400px;
+    padding-top: 350px;
+    
 }
 .submissionContainer {
-    background-color: rgb(31,31,35);
     border-radius: 25px;
     width: 100%;
     height: 350px;
-    flex-direction: row;
-    padding-top: 20px;
     
+}
+
+.bestSubmissionsContainer {
+    width: 50%;
+}
+
+.bestTitle {
+    transform: translateX(-50px);
+
+}
+
+.recentSubmissionsContainer {
+    width: 50%;
+    
+    
+
+}
+
+.individualSubmissionContainer {
+    background-color: rgb(31,31,35);
+    width: 100%;
+    height: 70px;
+    margin-top: 25px;
+    border-radius: 25px;
+    
+    
+    
+    
+}   
+
+.submissionText {
+    color: rgb(127,127,127);
+    
+    padding: 1rem;
+}
+
+.badgeContainer {
+    text-align: center;
+}
+
+.badge {
+    color:rgb(0, 0, 0);
+    padding-right: 5px;
+}
+
+.submissionInformationContainer {
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
 }
+
 
 .generalUserInfo {
     width: 45%;
     display: flex;
     justify-content: space-between;
-    padding-right: 125px;
+    padding-right: 25px;
     padding-top: 8px;
     
     
@@ -137,6 +194,10 @@ html::-webkit-scrollbar-track {
     padding-top: 10px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 24px;
+}
+
+.bestSubmissionTitle {
+    text-align: left;
 }
 
 
@@ -160,7 +221,7 @@ body {
 
 .nav {
     font-family: 'IBM Plex Serif', serif;
-    background-color: rgb(24,24,27);
+    background-color: rgb(244,27);
     color: white;
     display: flex;
     justify-content: space-between;
@@ -228,6 +289,10 @@ body {
 
 .activePage {
     background-color: #555;
+}
+
+.whiteText {
+    color:rgb(244, 244, 244)
 }
 
 

@@ -106,7 +106,7 @@ function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSu
                 if (user) {
                         let totalWpm = parseInt(finalWPM) // database doesnt update during this func so start with the current wpm
                         let testsCompleted = 1
-                        
+                        let firstTime = true;
                         
                         
                         let isBestSubmission = true
@@ -118,6 +118,7 @@ function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSu
                                         // calculate rank
                                         if (submission.language === language && submission.solution_id === leetcodeTitle) { // This user's submissions in this language and this problem
                                                 console.log("check")
+                                                firstTime = false;
                                                 if (submission.isBestSubmission) {
                                                         // remove its status if the current one is best, it cant be the best anymore
 
@@ -153,7 +154,10 @@ function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSu
                                         totalOppo++
                                         if (parseInt(submission.wpm) > parseInt(finalWPM)) {
                                                 amountBetter++
+                                        } else {
+                                               decreaseRank(submission)
                                         }
+                                        if (firstTime) addNewOpponent(submission, totalOppo)
                                         return ''
                                 })
                                 setTotalOpponents(totalOppo)
@@ -175,10 +179,24 @@ function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSu
                                 date: new Date(),
                                 isBestSubmission: isBestSubmission,
                                 rank: amountBetter,
+                                totalOpponents: totalOppo
                         });
                         
                 }
 
+        }
+
+        async function decreaseRank(submission) {
+                await updateDoc(doc(db, "submissions", submission?.id), {
+                        
+                        rank: increment(1)
+                })
+        }
+
+        async function addNewOpponent(submission, numOppo) {
+                await updateDoc(doc(db, "submissions", submission?.id), {
+                        totalOpponents: numOppo
+                })
         }
 
         async function startedTest() {
