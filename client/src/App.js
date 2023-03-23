@@ -97,7 +97,11 @@ function App() {
                 <Route path='/leaderboard' element={<Leaderboard submissions={submissions} loading={loading} />} />
                 <Route path='/solutions' element={<Solutions/>} />
                 <Route path='/login' element={<UserLogin user={user} setUser={setUser}/>} />
-                <Route path='/profile/:username' element={<Profile/>} />
+                <Route path='/profile/:username' element={<Profile setId={setId} />} />
+                <Route path='/solutions/:givenLanguage/:number' element={<Home 
+                  user={user}
+                  givenId={id}
+                  />} />
 
                 
                 

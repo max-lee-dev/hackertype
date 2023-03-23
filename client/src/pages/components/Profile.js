@@ -16,7 +16,7 @@ import { collection, doc, getDocs, query, where, orderBy, limit } from "firebase
 import { db } from "./firebase"; // import your Firebase app instance
 import Submission from './Submission';
 
-export default function Profile() {
+export default function Profile({setId}) {
         async function signout() {
                 await signOut(auth);
                 window.location.replace('/')
@@ -70,14 +70,12 @@ export default function Profile() {
                 getUserSettings()
                 getRecentSubmissions().then(() => setLoading(false))
                 
-                
               }, [username])
 
         const submissionsCollectionRef = collection(db, 'submissions')
                
         var date = new Date(profileUserData?.account_created)
         var dateArr = date.toDateString().split(' ');
-
        
   return (
                 <Center>
@@ -143,36 +141,42 @@ export default function Profile() {
                                 <div className = 'submissionContainer'>
                                         
                                         <div className = 'submissionCard mainFont'>
-                                                                <div className = 'recentSubmissionsContainer mainFont font500'>
-                                                                <Text fontSize = '36px'>Recent</Text>
-                                                                        {!loading && recentSubmissions[0] && <Submission
-                                                                                uid={recentSubmissions[0]}
-                                                                        />}
-                                                                        {!loading && recentSubmissions[1] &&  <Submission
-                                                                                uid={recentSubmissions[1]}
-                                                                        />}
-                                                                        {!loading && recentSubmissions[2] && <Submission
-                                                                                uid={recentSubmissions[2]}
-                                                                        />}
-                                                                </div>
+                                                <div className = 'recentSubmissionsContainer mainFont font500'>
+                                                {!loading && <Text fontSize = '36px'>Recent</Text>}
+                                                        {!loading && recentSubmissions[0] && <Submission
+                                                                setId={setId}
+                                                                uid={recentSubmissions[0]}
+                                                        />}
+                                                        {!loading && recentSubmissions[1] &&  <Submission
+                                                                setId={setId}
+                                                                uid={recentSubmissions[1]}
+                                                        />}
+                                                        {!loading && recentSubmissions[2] && <Submission
+                                                                setId={setId}
+                                                                uid={recentSubmissions[2]}
+                                                        />}
+                                                </div>
+                                        
+                                                <Divider orientation='vertical' border={'5px solid'} borderColor='transparent' variant='none' />
+                                                <div className = 'bestSubmissionsContainer mainFont font500'>
                                                         
-                                                                <Divider orientation='vertical' border={'5px solid'} borderColor='transparent' variant='none' />
-                                                                <div className = 'bestSubmissionsContainer mainFont font500'>
-                                                                       
-                                                                        <Text fontSize = '36px'>Best</Text>
-                                                                        <div>
-                                                                                {!loading && recentSubmissions[0] && <Submission
-                                                                                        uid={recentSubmissions[0]}
-                                                                                />}
-                                                                                {}
-                                                                                {!loading && recentSubmissions[1] &&  <Submission
-                                                                                        uid={recentSubmissions[1]}
-                                                                                />}
-                                                                                {!loading && recentSubmissions[2] && <Submission
-                                                                                        uid={recentSubmissions[2]}
-                                                                                />}
-                                                                        </div>
-                                                                </div>
+                                                {!loading && <Text fontSize = '36px'>Best</Text>}
+                                                        <div>
+                                                        {!loading && recentSubmissions[0] && <Submission
+                                                                setId={setId}
+                                                                        uid={recentSubmissions[0]}
+                                                                />}
+                                                                {}
+                                                                {!loading && recentSubmissions[1] &&  <Submission
+                                                                        setId={setId}
+                                                                        uid={recentSubmissions[1]}
+                                                                />}
+                                                                {!loading && recentSubmissions[2] && <Submission
+                                                                        setId={setId}
+                                                                        uid={recentSubmissions[2]}
+                                                                />}
+                                                        </div>
+                                                </div>
                                         </div>
                                 </div>
                         </div>  

@@ -1,7 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import {db} from './components/firebase'
 import {orderBy, where, query, collection, getDocs} from '@firebase/firestore'
-
+import {
+  Center,
+  Stack,
+  Text
+} from '@chakra-ui/react'
 export default function Leaderboard({submissions}) {
   const[loading, setLoading] = useState(true)
   const [top, setTop] = useState([])
@@ -27,32 +31,45 @@ export default function Leaderboard({submissions}) {
   return (
    
 
-
-    <div className ='aboutContainer'>
-      <h1 className='site-title'>Leaderboard</h1>
-      <div>
-        Just shows data for now :))
-    
-      </div>
+    <Center>
+    <div className ='profileContianer'>
+      <Center>
+        <Stack dir='column'>
+        <Text className='site-title whiteText mainFont'>Leaderboard</Text>
+        <div className = 'whiteText mainFont'>
+          Just shows data for now :))
+      
+        </div>
+        </Stack>
+      </Center>
       <br/>
       {loading && <div className = 'site-title'>Loading...</div>}
-        <div className='reminder'>
+        <Center>
           <div>
+          <Center>
+            <Stack dir='column'>
             {top.map(submission => (
-              
-              <div key={submission.id}>
-                <br/>
-                <h1 className = 'mainFont font500'>{submission.solution_id}</h1>
-                <h1>{submission.user} {submission.rank}</h1>
-                <h1>Language: {submission.language}</h1>
-                <h1>WPM: {submission.wpm}</h1>
+              <div className = 'leaderboardSolutionContainer'>
+                <div className = 'whiteText'>
                 
+                  <div key={submission.id}>
+                  <Stack dir = 'row'>
+                    <Text className = 'mainFont font500'>{submission.solution_id}</Text>
+                  
+                    </Stack>
+                  </div>
+                  
+                </div>
                 
               </div>
               
             ))}
+            </Stack>
+          </Center>
           </div>
-        </div>
-    </div>
+        </Center>
+      </div>
+      
+        </Center>
   )
 }

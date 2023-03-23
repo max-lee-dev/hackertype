@@ -7,11 +7,13 @@ import cppCode from './components/codefiles/cppCode.json' // bye bye
 import CodeSettings from './components/CodeSettings.js'
 import StoredInput from './components/StoredInput.js'
 import Letter from './components/Letter.js'
+import { useParams } from "react-router-dom";
 import { getFirestore, doc, updateDoc, addDoc, getDocs, setDoc, collection, query, where} from 'firebase/firestore';
 import { updateProfile } from 'firebase/auth'
 import { ref as sRef } from 'firebase/storage';
 import {auth} from './components/firebase.js'
 import {db} from './components/firebase.js';
+import crown from './components/assets/crown (2).png'
 import {
   Center,
   useDisclosure,
@@ -65,8 +67,8 @@ function App({user, givenId}) {
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
   
 
-
-
+  const {givenLanguage, number} = useParams();
+  console.log("num: " + number)
   const inputElement = useRef(null);
   const [submitted, setSubmitted] = useState(false)
   const [userInput, setUserInput] = useState('')
@@ -81,7 +83,7 @@ function App({user, givenId}) {
   const [wordLimit, setWordLimit] = useState(50000)
   const [wordBank, setNewWordBank] = useState([])
   const [whiteSpace, setWhiteSpace] = useState([])
-  const [language, setLanguage] = useState('')
+  const [language, setLanguage] = useState(givenLanguage)
   const [newUser, setNewUser] = useState(true)
   const [lastCode, setLastCode] = useState([])
   const [wordsLeft, setWordsLeft] = useState(0)
@@ -96,7 +98,7 @@ function App({user, givenId}) {
   const [submissions, setSubmissions] = useState([])
   const [loading, setLoading] = useState(true)
   const submissionsCollectionRef = collection(db, 'submissions')
-  const [id, setId] = useState(givenId)
+  const [id, setId] = useState(number)
  
   
   const [finished, setFinished] = useState(false)
@@ -115,7 +117,6 @@ function App({user, givenId}) {
 
   useEffect(() => {
     if (user && !finished) {
-      console.log(leetcodeTitle)
       submissions.map(submission => {
                   
         if (submission.user !== user.displayName) return ''
@@ -128,7 +129,11 @@ function App({user, givenId}) {
         
       })
     }
-  }, [submissions])
+  }, [submissions, []])
+
+
+  // if given a solution id, load the pr
+  
 
   useEffect(() => {
     setLoading(true)
@@ -139,7 +144,8 @@ function App({user, givenId}) {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
-        Restart(doc.data().lastLanguage, '');
+        if (!givenLanguage) Restart(doc.data().lastLanguage, '');
+        else Restart(givenLanguage, '');
       });
     }
     if (user) getUserSettings().then(() => setLoading(false))
@@ -885,7 +891,7 @@ function App({user, givenId}) {
                  <p>PR: {thisSolutionPR} WPM </p>
                  
                  }
-                 {!loading && user && !startCounting && <Image _activeLink={'/'} boxSize='25px' src = {'crown (2).png'} alt='logo' className='site-title'/>}
+                 {!loading && user && !startCounting && <Image _activeLink={'/'} boxSize='25px' src = {crown} alt='logo' className='site-title'/>}
                  {!loading && !user && !startCounting && <a className = 'whiteUnderline' href = '/login'> Log in</a>} 
                  
                  </Stack>

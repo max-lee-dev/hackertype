@@ -4,21 +4,25 @@ import {db} from './firebase'
 import {
         Stack,
         Text,
-        Badge
+        Tooltip,
+        Badge,
+        Button
 } from '@chakra-ui/react'
 
-export default function Submission({uid}) {
+export default function Submission({uid, setId}) {
         const [submission, setSubmission] = useState({})
+        const [loading, setLoading] = useState(true)
         let color = 'green'
         if (submission.language === 'Python') {
-                color = 'yellow'
+                color = '#adaa45'
         } else if (submission.language === 'Java') {
                 color = '#fcba03'
         } else if (submission.language === 'C++') {
-                color = 'blue'
+                color = '#2b5599'
         }
-
+        let solutionNumber = ''
         useEffect(() => {
+                setLoading(true)
                 async function getSubmission() {
                         console.log(uid)
                         const subRef = doc(db, "submissions", uid)
@@ -29,33 +33,58 @@ export default function Submission({uid}) {
                                 console.log("No such document!");
                         }
                 }
-                getSubmission()
+                getSubmission().then(() => setLoading(false))
         }, [])
+       
+        if (!loading) {
+                const solutionNumberArr = submission.solution_id.split('.')
+                solutionNumber = solutionNumberArr[0]
+        }
+
+        async function redirect() {
+                window.location.replace(`/solutions/${submission.language}/${solutionNumber}`)
+                
+        }
+
   return (
         <div className = 'individualSubmissionContainer'>
                 <div className = 'submissionText'>
                         
                                 <div className = 'submissionInformationContainer'>
                                         <div>
-                                        <Stack direction='row'>
-                                                <Text fontSize = '22px' className='whiteText font500'>{submission.solution_id}</Text>
-                                                <Text fontSize = '22px' className='grayText font100'>{submission.user}</Text>
-                                                <Text fontSize = '22px' className='grayText font400'>{submission.wpm}</Text>
-                                                
-                                        </Stack>
+                                                <Stack direction='row'>
+                                                        
+                                                        <div className = 'solutionTitleDiv'>
+                                                                <Button onClick={redirect}>
+                                                                <Text fontSize = '22px' paddingLeft = '6px'className='whiteText font500'>{submission.solution_id}</Text>
+                                                                </Button>
+                                                        </div>
+                                                        
+                                                        <Text fontSize = '22px' className='grayText font400'>- {submission.wpm} WPM</Text>
+                                                        
+                                                        
+                                                </Stack>
                                         </div>
                                         <div className = 'badgeContainer'>
                                                 <Stack direction='row'>
-                                                        <div className = 'badge'>
-                                                                <Badge variant='subtle' width='60px' height='20px' bgColor={color}>
-                                                                        {submission.language}
-                                                                </Badge>
-                                                        </div>
-                                                        <div className = 'badge'>
-                                                                <Badge variant='subtle'height='20px' colorScheme={'green'}>
-                                                                        {submission.rank}/{submission.totalOpponents}
-                                                                </Badge>
-                                                        </div>
+                                                        <Tooltip label = 'Rank' placement='top'>       
+                                                                        
+                                                                        <div className = 'badge'>                                                  
+                                                                                <Badge variant='subtle' fontSize='15px' height='24px' colorScheme={'yellow'}>
+                                                                                        {submission.rank}/{submission.totalOpponents}
+                                                                                </Badge>   
+                                                                        </div>  
+                                                                                                                                     
+                                                        </Tooltip>
+
+                                                        <Tooltip label = 'Language' placement='top'>
+                                                                <div className = 'badge'>
+                                                                        <Badge variant='subtle' fontSize='13px' color='white' paddingTop={'2px'} width='65px' height='24px' bgColor={color}>
+                                                                                <div ckassName='badgeText'>{submission.language}</div>
+                                                                        </Badge>
+                                                                </div>
+                                                        </Tooltip>
+                                                        
                                                 </Stack>
                                         </div>
                                 </div>
