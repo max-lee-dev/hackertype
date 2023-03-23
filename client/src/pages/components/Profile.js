@@ -130,7 +130,7 @@ export default function Profile({setId}) {
                                 <Center>
                                         <div className = 'graphCard aboutContainer'>
                                                 <div className = 'graphTitle mainFont font500'>
-                                                        <Text fontSize = '36px'>Graph</Text>
+                                                        <Text fontSize = '36px'>Graph (wip)</Text>
                                                 </div>
                                         </div>
                                         </Center>

@@ -1,6 +1,7 @@
 # HackerType
 ### Test your coding speed and accuracy by practicing with LeetCode solutions!
 ![Screenshot](/client/public/hackertype3.png)
+![Screenshot](/client/public/hackertypeprofile.png)
 ## Todo:
 - Show what rank a guest would have gotten
 - World Record for each solution
