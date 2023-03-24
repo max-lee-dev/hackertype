@@ -20,7 +20,8 @@ import {
   IconButton,
   Stack,
   Divider,
-  Image
+  Image,
+  Tooltip
 } from '@chakra-ui/react'
 import {
   RepeatIcon,
@@ -866,7 +867,7 @@ function App({user, givenId}) {
                 <p className = 'error'> {error}</p>
                  {console.log(loading)}
                 <div>
-                  
+                  <div className = 'userInputContainer'>
                   <Stack justifyContent='center' direction='row'>
                   {!finished && <Divider orientation='vertical' width='56px'/>}
                   {!finished && !loading && <input 
@@ -891,22 +892,34 @@ function App({user, givenId}) {
                   
                   </Stack>
                 </div>
-                <div className = 'reminder'>
-                <Center>
-                  <Stack direction={['row']}>
-                 {
-                 user && 
-                 !startCounting && 
-                 !loading &&
-                 <p>PR: {thisSolutionPR} WPM </p>
+                
+                  <div className = 'font100 mainFont whiteText'>
+                  <Center>
+                    <Stack direction={['row']}>
+                    
+                  {
+                  user && 
+                  !startCounting && 
+                  !loading &&
+                  
+                  <p>{thisSolutionPR} WPM </p>
+                  
+                  }
+                  {!loading && user && !startCounting && 
+                  <div className ='podiumIcon'>
+                    <Tooltip label="Your personal best" placement="top">
+                      <ion-icon name="podium"></ion-icon>
+                    </Tooltip>
+                  </div>
                  
-                 }
-                 {!loading && user && !startCounting && <Image _activeLink={'/'} boxSize='25px' src = {crown} alt='logo' className='site-title'/>}
-                 {!loading && !user && !startCounting && <a className = 'whiteUnderline' href = '/login'> Log in</a>} 
-                 
-                 </Stack>
-                 {!loading && !user && !startCounting && <p>&nbsp;to save your data</p>} 
-                </Center>
+                  }
+                   
+                  {!loading && !user && !startCounting && <a className = 'whiteUnderline' href = '/login'> Log in</a>} 
+                  
+                  </Stack>
+                  {!loading && !user && !startCounting && <p>&nbsp;to save your data</p>} 
+                  </Center>
+                  </div>
                 </div>
                 
                 

@@ -182,6 +182,14 @@ html::-webkit-scrollbar-track {
     
 }   
 
+.podiumIcon {
+    font-size: 20px;
+}
+
+.userInputContainer {
+    padding-right: 10px;
+}
+
 .submissionText {
     color: rgb(127,127,127);
     
