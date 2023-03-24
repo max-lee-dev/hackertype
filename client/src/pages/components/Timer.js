@@ -47,13 +47,13 @@ function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSu
   
         useEffect(() => {
         
-        const getSubmissions = async () => {
-        const data = await getDocs(submissionsCollectionRef)
-        setSubmissions(data.docs.map(doc => (
-                {...doc.data(), id: doc.id}
-        )))
-        }
-        getSubmissions()
+                const getSubmissions = async () => {
+                        const data = await getDocs(submissionsCollectionRef)
+                        setSubmissions(data.docs.map(doc => (
+                                {...doc.data(), id: doc.id}
+                        )))
+                }
+                getSubmissions()
         
         //eslint-disable-next-line
         }, [])
@@ -68,7 +68,10 @@ function Timer ({language, thisSolutionPR, user, leetcodeTitle, submitted, setSu
         let fakeCorrectWords = totalCorrectChars/4.5
         const wpm = (fakeCorrectWords/(timeElapsed/60) || 0).toFixed(0)
         
-        if (!pause && startCounting) return <p className = "wpm">WPM : {wpm}</p>
+        if (!pause && startCounting) {
+                if (wpm === 'Infinity') return <p className = "wpm mainFont">{0}</p>
+                return <p className = "wpm mainFont">{wpm}</p>
+        }
         else if (pause) {
                 const accuracy = (correctWords/totalWords || 0).toFixed(3) * 100 
                 const acc = accuracy.toFixed(0)

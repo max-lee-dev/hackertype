@@ -10,6 +10,9 @@ import {
         Text
 } from '@chakra-ui/react'
 
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS} from 'chart.js/auto'
+
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { collection, doc, getDocs, query, where, orderBy, limit } from "firebase/firestore";
@@ -30,6 +33,9 @@ export default function Profile({setId}) {
         const [loading, setLoading] = useState(true)
         const [user, setUser] = useState({});
         const [recentSubmissions, setRecentSubmissions] = useState([]);
+        const [bestSubmissions, setBestSubmissions] = useState([]);
+        const [numberWorldRecords, setNumberWorldRecords] = useState(0);
+        
         useEffect(() => {
                 auth.onAuthStateChanged((user) => {
                 if (user) {
@@ -45,7 +51,12 @@ export default function Profile({setId}) {
         
         
         useEffect(() => {
+                
                 setLoading(true)
+
+                
+                
+
                 async function getUserSettings() {
                         
                   const q = query(collection(db, "users"));
@@ -58,7 +69,7 @@ export default function Profile({setId}) {
                 }
                 async function getRecentSubmissions() {
                         const q = query(submissionsCollectionRef, where("user", "==", username))
-                        const top = query(q, orderBy("date", "desc"), limit(3));
+                        const top = query(q, orderBy("date", "desc"), limit(5));
                         const recentQuerySnapshot = await getDocs(top);
                         const tempArray = []
 
@@ -67,7 +78,32 @@ export default function Profile({setId}) {
                         })
                         setRecentSubmissions(tempArray)
                 }
+
+                async function getBestSubmissions() {
+                        const q = query(submissionsCollectionRef, where("user", "==", username))
+                        const top = query(q, orderBy("rank", "asc"), limit(5));
+                        const bestQuerySnapshot = await getDocs(top);
+                        const tempArray = []
+
+                        bestQuerySnapshot.forEach((doc) => {
+                                tempArray.push(doc.id)
+                        })
+                        setBestSubmissions(tempArray)
+                        
+                        
+                }
+
+                async function getNumberWorldRecords() {
+                        const q = query(submissionsCollectionRef, where("user", "==", username))
+                        const top = query(q, where('rank', '==', 1));
+                        const bestQuerySnapshot = await getDocs(top);
+                        const size = bestQuerySnapshot.size
+                        setNumberWorldRecords(size)
+                }
+
+                getNumberWorldRecords()
                 getUserSettings()
+                getBestSubmissions()
                 getRecentSubmissions().then(() => setLoading(false))
                 
               }, [username])
@@ -90,17 +126,24 @@ export default function Profile({setId}) {
                                                         {!loading && !profileUserData && <Text fontSize = '56px'>User not found...</Text>}
                                                         <Text fontSize = '56px'>{profileUserData?.displayName}</Text>
                                                         {profileUserData && <Text fontSize = '22px' className='grayText font400'>Joined {dateArr[1]} {dateArr[2]}, {dateArr[3]}</Text>}
-                                                        <div className='signoutButton'>
-                                                                {!loading && username === user?.displayName && <Button width={'75px'} fontSize="15px" colorScheme={'red'} onClick={signout}>Sign Out</Button>}
-                                                        </div>
+                                                                                                  {!loading && username === user?.displayName && <Button width={'75px'} fontSize="15px" colorScheme={'red'} onClick={signout}>Sign Out</Button>}
+                                                        </div>                      <div className='signoutButton'>
+
                                                 </div>
                                                 <Divider orientation='vertical' border={'20px solid'} borderColor='transparent' variant='none' />
                                                 <Stack>
                                                 
                                                         <div className = 'generalUserInfo mainFont'>
                                                         <Stack direction = 'row' spacing = {6}>
+
                                                                 <div className = 'generalInfoCard'>
-                                                                {profileUserData?.average_wpm && <Text fontSize = '36px' className ='font400'>{profileUserData?.average_wpm}</Text>}
+                                                                {profileUserData?.average_wpm && <Text fontSize = '36px' className ='font400'>{numberWorldRecords}</Text>}
+                                                                        <Text fontSize = '22px' className='grayText font400' >World Records</Text> 
+                                                                        
+                                                                </div>
+
+                                                                <div className = 'generalInfoCard'>
+                                                                        {profileUserData?.average_wpm && <Text fontSize = '36px' className ='font400'>{profileUserData?.average_wpm}</Text>}
                                                                         <Text fontSize = '22px' className='grayText font400' >Average WPM</Text> 
                                                                         
                                                                 </div>
@@ -143,39 +186,34 @@ export default function Profile({setId}) {
                                         <div className = 'submissionCard mainFont'>
                                                 <div className = 'recentSubmissionsContainer mainFont font500'>
                                                 {!loading && <Text fontSize = '36px'>Recent</Text>}
-                                                        {!loading && recentSubmissions[0] && <Submission
-                                                                setId={setId}
-                                                                uid={recentSubmissions[0]}
-                                                        />}
-                                                        {!loading && recentSubmissions[1] &&  <Submission
-                                                                setId={setId}
-                                                                uid={recentSubmissions[1]}
-                                                        />}
-                                                        {!loading && recentSubmissions[2] && <Submission
-                                                                setId={setId}
-                                                                uid={recentSubmissions[2]}
-                                                        />}
+
+                                                {!loading && recentSubmissions.map((submission) => (
+                                                        <Submission
+                                                                uid={submission}
+                                                        />
+                                                ))}
+                                                
+                                                {!loading && !recentSubmissions[0] && <Text fontSize = '22px' className='grayText font400'>No recent submissions</Text>}
+
+
+
+
                                                 </div>
                                         
                                                 <Divider orientation='vertical' border={'5px solid'} borderColor='transparent' variant='none' />
                                                 <div className = 'bestSubmissionsContainer mainFont font500'>
                                                         
                                                 {!loading && <Text fontSize = '36px'>Best</Text>}
-                                                        <div>
-                                                        {!loading && recentSubmissions[0] && <Submission
-                                                                setId={setId}
-                                                                        uid={recentSubmissions[0]}
-                                                                />}
-                                                                {}
-                                                                {!loading && recentSubmissions[1] &&  <Submission
-                                                                        setId={setId}
-                                                                        uid={recentSubmissions[1]}
-                                                                />}
-                                                                {!loading && recentSubmissions[2] && <Submission
-                                                                        setId={setId}
-                                                                        uid={recentSubmissions[2]}
-                                                                />}
-                                                        </div>
+                                                
+                                                
+                                                {!loading && bestSubmissions.map((submission) => (
+                                                        <Submission
+                                                                uid={submission}
+                                                        />
+                                                ))}
+                                                
+                                                {!loading && !bestSubmissions[0] && <Text fontSize = '22px' className='grayText font400'>No recent submissions</Text>}
+
                                                 </div>
                                         </div>
                                 </div>

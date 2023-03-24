@@ -15,8 +15,8 @@ import {
         FormHelperText,
         ModalFooter,
         Button,
-        Stack
-
+        Stack,
+        Tooltip
         
       } from '@chakra-ui/react'
 
@@ -27,6 +27,7 @@ import {
         EditIcon,
         CheckIcon,
 } from '@chakra-ui/icons'
+
 export default function CodeSettings({
         startCounting, id, language, isSearchOpen, onSearchOpen, onSearchClose, isWordsOpen, onWordsOpen, onWordsClose, wordLimit, handleWordLimit, Restart, cppRange, javaRange, pythonRange, setId
 }) {
@@ -34,7 +35,7 @@ export default function CodeSettings({
         const initialRef = React.useRef(null)
         const finalRef = React.useRef(null)
         const displayLimit = wordLimit === 50000 ? 'Word Limit' : wordLimit
-        const displayId = id === '' ? 'No ID' : id
+        const displayId = (id === '' || id === undefined) ? 'No ID' : id
         function test(e) {
                 setId(e.target.value)
           }
@@ -42,10 +43,23 @@ export default function CodeSettings({
         
         <div>
                 
-                {!startCounting && <Center width='700px' height='100px'>
+                {!startCounting && <Center width='900px' height='100px'>
                         <Stack isInline>
                                 <Stack>
-                                        <Button minWidth={'125px'} className = 'wordLimitButton' size='xl' leftIcon={<EditIcon/>} variant='outline'  colorScheme='whiteAlpha' onClick={onWordsOpen}>{displayLimit}</Button>
+                                        <Stack direction='row'>
+                                                <Button minWidth={'125px'} className = 'wordLimitButton' size='xl' leftIcon={<EditIcon/>} variant='outline'  colorScheme='whiteAlpha' onClick={onWordsOpen}>{displayLimit}</Button>
+                                        <div className='trashButton'>
+                                                <Button
+                                                        maxWidth={'10px'}
+                                                        bgColor='transparent'
+                                                        onClick={() => handleWordLimit('')}
+                                                >
+                                                <div className = 'trashIcon'>
+                                                        <ion-icon name="trash-sharp"></ion-icon>
+                                                </div>
+                                                </Button>
+                                        </div>
+                                        </Stack>
                                         <Modal initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={isWordsOpen} onClose={onWordsClose}>
                                         <ModalOverlay />
                                         <ModalContent>
@@ -95,6 +109,7 @@ export default function CodeSettings({
                                 <Divider orientation='vertical' size='xl' width='50px' borderRadius='full' borderColor={'white'}/>
                                 
                                         <div className = 'languageSettings'>
+                                                
                                         <Button _hover={{bg: '#a0a0a0'  }} backgroundColor={language === 'C++' ? '' : '#404040'} onClick={() => Restart('C++', wordLimit)}>C++ {cppRange}</Button>
                                         <Button _hover={{bg: '#a0a0a0'  }} backgroundColor={language === 'Java' ? '' : '#404040'} onClick={() => Restart('Java', wordLimit)}>Java {javaRange}</Button>
                                         <Button _hover={{bg: '#a0a0a0'  }} backgroundColor={language === 'Python' ? '' : '#404040'} onClick={() => Restart('Python', wordLimit)}>Python {pythonRange}</Button>
@@ -103,6 +118,7 @@ export default function CodeSettings({
 
                                 
                                 <Stack>
+                                <Stack direction='row'>
                                         <Button 
                                         className = 'wordSearchButton' 
                                         size='xl' 
@@ -112,6 +128,18 @@ export default function CodeSettings({
                                         colorScheme='whiteAlpha' 
                                         onClick={onSearchOpen}
                                         > {displayId} </Button>
+                                        <div className='trashButton'>
+                                                <Button
+                                                        maxWidth={'10px'}
+                                                        bgColor='transparent'
+                                                        onClick={() => setId('')}
+                                                >
+                                                        <div className = 'trashIcon'>
+                                                                <ion-icon name="trash-sharp"></ion-icon>
+                                                        </div>
+                                                </Button>
+                                        </div>
+                                        </Stack>
                                         <Modal initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={isSearchOpen} onClose={onSearchClose}>
                                         <ModalOverlay />
                                         <ModalContent>
@@ -148,6 +176,7 @@ export default function CodeSettings({
                                 
                                         </Modal>
                                 </Stack>
+                                
                         </Stack>
                 </Center>
                 }

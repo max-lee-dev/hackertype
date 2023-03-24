@@ -83,7 +83,7 @@ function App({user, givenId}) {
   const [wordLimit, setWordLimit] = useState(50000)
   const [wordBank, setNewWordBank] = useState([])
   const [whiteSpace, setWhiteSpace] = useState([])
-  const [language, setLanguage] = useState(givenLanguage)
+  const [language, setLanguage] = useState('')
   const [newUser, setNewUser] = useState(true)
   const [lastCode, setLastCode] = useState([])
   const [wordsLeft, setWordsLeft] = useState(0)
@@ -831,7 +831,7 @@ function App({user, givenId}) {
               
             <div className = 'leetcodeTitle'>
                 {loading && <p>Loading...</p>}
-                <p>{leetcodeTitle}</p>
+                {!startCounting && <p className = 'mainFont'>{leetcodeTitle}</p>}
               </div>
               <div id = 'timer'>
                 
@@ -878,7 +878,7 @@ function App({user, givenId}) {
                   />}
                    
                   <div className = 'restartDiv'>
-                    {!loading && <IconButton boxSize='12' icon={<RepeatIcon/>} onClick={() => Restart(language, wordLimit)}></IconButton>}
+                    {!loading && <IconButton  boxSize='12' icon={<RepeatIcon/>} onClick={() => Restart(language, wordLimit)}></IconButton>}
                   </div>
                   
                   </Stack>
@@ -916,15 +916,17 @@ function App({user, givenId}) {
                         s += '    '
                       }
                     }
-                    return <span key={index} className = 'displayText'>{s}<Word 
-                      
-                      text = {word}
-                      active={index === activeWordIndex}
-                      correct={correctWordArray[index]}
-                      thisWordIndex={index}
-                      
-                    />
-                    </span>
+                    return (
+                      <span key={index} className = 'displayText'>{s}<Word 
+                        
+                        text = {word}
+                        active={index === activeWordIndex}
+                        correct={correctWordArray[index]}
+                        thisWordIndex={index}
+                        
+                      />
+                      </span>
+                    )
                   }
                   return ''
                 })}</p>

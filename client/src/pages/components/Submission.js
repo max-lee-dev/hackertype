@@ -9,14 +9,16 @@ import {
         Button
 } from '@chakra-ui/react'
 
-export default function Submission({uid, setId}) {
+
+
+export default function Submission({uid}) {
         const [submission, setSubmission] = useState({})
         const [loading, setLoading] = useState(true)
         let color = 'green'
         if (submission.language === 'Python') {
-                color = '#adaa45'
+                color = '#c9b900'
         } else if (submission.language === 'Java') {
-                color = '#fcba03'
+                color = '#eda618'
         } else if (submission.language === 'C++') {
                 color = '#2b5599'
         }
@@ -24,7 +26,6 @@ export default function Submission({uid, setId}) {
         useEffect(() => {
                 setLoading(true)
                 async function getSubmission() {
-                        console.log(uid)
                         const subRef = doc(db, "submissions", uid)
                         const docSnap = await getDoc(subRef);
                         if (docSnap.exists()) {
@@ -53,24 +54,31 @@ export default function Submission({uid, setId}) {
                                 <div className = 'submissionInformationContainer'>
                                         <div>
                                                 <Stack direction='row'>
-                                                        
+                                                        {!loading && submission.rank === 1 && submission.isBestSubmission === true && <div className = 'badge'>
+                                                        <Tooltip label = 'World Record' placement='top'>
+                                                                        <div className = 'trophyIcon'>
+                                                                        <ion-icon name="trophy-sharp"></ion-icon>
+                                                                        </div>
+                                                                </Tooltip>
+                                                        </div>}
                                                         <div className = 'solutionTitleDiv'>
                                                                 <Button onClick={redirect}>
-                                                                <Text fontSize = '22px' paddingLeft = '6px'className='whiteText font500'>{submission.solution_id}</Text>
+                                                                <Text fontSize = '' paddingLeft = '6px'className='soltitle whiteText font500'>{submission.solution_id}</Text>
                                                                 </Button>
                                                         </div>
-                                                        
-                                                        <Text fontSize = '22px' className='grayText font400'>- {submission.wpm} WPM</Text>
-                                                        
+                                                        <div>
+                                                                <Text className=' font400 submissionWPMDisplay'>- {submission.wpm} WPM</Text>
+                                                        </div>
                                                         
                                                 </Stack>
                                         </div>
                                         <div className = 'badgeContainer'>
-                                                <Stack direction='row'>
+                                                <Stack direction='row' spacing='10px'>
+                                                        
                                                         <Tooltip label = 'Rank' placement='top'>       
                                                                         
                                                                         <div className = 'badge'>                                                  
-                                                                                <Badge variant='subtle' fontSize='15px' height='24px' colorScheme={'yellow'}>
+                                                                                <Badge variant='subtle' fontSize='15px' height='24px' bgColor='gray'>
                                                                                         {submission.rank}/{submission.totalOpponents}
                                                                                 </Badge>   
                                                                         </div>  
@@ -80,7 +88,7 @@ export default function Submission({uid, setId}) {
                                                         <Tooltip label = 'Language' placement='top'>
                                                                 <div className = 'badge'>
                                                                         <Badge variant='subtle' fontSize='13px' color='white' paddingTop={'2px'} width='65px' height='24px' bgColor={color}>
-                                                                                <div ckassName='badgeText'>{submission.language}</div>
+                                                                                <div className='badgeText'>{submission.language}</div>
                                                                         </Badge>
                                                                 </div>
                                                         </Tooltip>

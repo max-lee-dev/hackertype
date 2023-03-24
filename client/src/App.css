@@ -103,7 +103,7 @@ html::-webkit-scrollbar-track {
 .generalInfoCard {
     
     padding-top: 20px;
-    width: 150px;
+    width: 175px;
 }
 
 .submissionCard {
@@ -147,6 +147,10 @@ html::-webkit-scrollbar-track {
 
 }
 
+.soltitle {
+    font-size:0.8vw;
+}
+
 .individualSubmissionContainer {
     background-color: rgb(31,31,35);
     width: 100%;
@@ -158,6 +162,12 @@ html::-webkit-scrollbar-track {
     
     
 }   
+
+.trophyIcon {
+    color: rgb(246, 249, 165);
+    font-size: 2vh;
+    
+}
 
 .leaderboardSolutionContainer {
     background-color: rgb(31,31,35);
@@ -181,14 +191,12 @@ html::-webkit-scrollbar-track {
     text-align: center;
 }
 
-.badgeText {
-    padding-top: 5px;
-}
 
 .solutionTitleDiv {
     background-color: rgba(85, 83, 83, 0.32);
     height: 5px;
     height: 50%;
+    padding-top: 1px;
     border-radius: 10px;
     padding-bottom: 5px;
 }
@@ -212,9 +220,15 @@ html::-webkit-scrollbar-track {
 }
 
 .submissionInformationContainer {
+    padding-top: 5px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.submissionWPMDisplay {
+    font-size: 1.5vh;
+    color:rgb(181, 181, 181)
 }
 
 
@@ -399,6 +413,23 @@ body {
     padding-left: 0px;
     order: 1;
 }
+.restartDiv button {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: aliceblue;
+    padding-left: 0px;
+    order: 1;
+}
+.restartDiv button:hover{
+    background-color: rgba(0, 0, 0, 0.405);
+    padding-left: 0px;
+    order: 1;
+}
+
+.restartDiv button:focus{
+    background-color: rgba(0, 0, 0, 0.405);
+    padding-left: 0px;
+    order: 1;
+}
 
 .userInput {
 
@@ -415,8 +446,10 @@ body {
 
 
 .text {
+    margin-top: 25px;
     border-color: black;
-    font-size: 150%;
+    
+    font-size: 220%;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     display: flex;
     flex-wrap: wrap;
@@ -432,7 +465,7 @@ body {
     background-color: transparent;
     user-select: none;
     outline: none;
-    width: 50%;
+    width: 25%;
     height: 50px;
     text-align: center;
     background-color: rgba(244,244,244, 0.12);
@@ -582,11 +615,27 @@ body {
     text-align: center;
 }
 
+.trashIcon {
+    color: rgb(157, 157, 157);
+    font-size: 24px;
+}
+
 #timer {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 25px;
     text-align: center;
     color: rgb(244,244,244)
+}
+
+.trashButton button:hover {
+    
+    background-color: transparent;
+}
+
+.TimerAndInputContainer {
+    width: 1000px;
+    display: grid;
+    justify-content: flex-start;
 }
 
 .reminder {
@@ -598,8 +647,8 @@ body {
 }
 
 .wpm {
-    display: flex;
-    justify-content: center;
+    font-size: 100px;
+    color:#777;
 }
 
 .currentCorrect {
