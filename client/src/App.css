@@ -330,7 +330,7 @@ body {
     color:rgb(222, 222, 222) !important;
 }
 
-.displayText {
+.displayText span{
     color: rgb(127,127,127);
     white-space: pre;
     user-select: none;
@@ -448,14 +448,12 @@ body {
 .text {
     margin-top: 25px;
     border-color: black;
-    
     font-size: 220%;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    display: flex;
-    flex-wrap: wrap;
-    word-break: break-all !important;
 
 }
+
+
 
 #userInput {
     text-align: center;

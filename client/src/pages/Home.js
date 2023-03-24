@@ -913,7 +913,7 @@ function App({user, givenId}) {
                     if (index !== wordBank.length - 1) {
                       for (let i = 0; i < whiteSpace[index]; i++) {
                         
-                        s += '    '
+                        s += '&nbsp'
                       }
                     }
                     return (
