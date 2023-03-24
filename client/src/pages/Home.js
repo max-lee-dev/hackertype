@@ -94,11 +94,13 @@ function App({user, givenId}) {
   const [lineRenderIndex, setLineRenderIndex] = useState([])
   const [currentLine, setCurrentLine] = useState(0)
   const [correctCharsArray, setCorrectCharsArray] = useState([])
+  const [preGeneratedLineIndex, setPreGeneratedLineIndex] = useState([])
   const [thisSolutionPR, setThisSolutionPR] = useState(0)
   const [submissions, setSubmissions] = useState([])
   const [loading, setLoading] = useState(true)
   const submissionsCollectionRef = collection(db, 'submissions')
   const [id, setId] = useState(number)
+  const [amountOfLinesToRender, setAmountOfLinesToRender] = useState(5)
  
   
   const [finished, setFinished] = useState(false)
@@ -150,7 +152,6 @@ function App({user, givenId}) {
     }
     if (user) getUserSettings().then(() => setLoading(false))
     if (!user) {
-      console.log("DASLDJASKLDJASDKLASD")
       if (!givenLanguage) Restart('Java', '')
       else Restart(givenLanguage, '')
       setLoading(false)
@@ -437,6 +438,7 @@ function App({user, givenId}) {
     const ans = []
     const characters = funcRawCode.split('')
     let indent = false;
+    
     characters.map((char, i) => {
       if (char === '\n') {
         indent = true;
@@ -454,12 +456,18 @@ function App({user, givenId}) {
 
     const whiteSpaceAns = []
     const map = {}
+    let curLine = 0
+    const preGeneratedLineIndexArray = []
+      
     funcWordBank.map((word, idx) => {
       
       if (idx === 0) return ans[idx] = 0
       if (!funcWordBank[idx-1].includes('\n')) return ans[idx] = 0
       
       // hasIndent
+      
+      preGeneratedLineIndexArray[curLine++] = idx
+
       
       if (map[word] !== undefined) {
         let times = 0
@@ -522,7 +530,7 @@ function App({user, givenId}) {
     })
     funcWhiteSpace = whiteSpaceAns;
     
-    
+    setPreGeneratedLineIndex(preGeneratedLineIndexArray)
     setNewWordBank(funcWordBank)
     setWhiteSpace(funcWhiteSpace)
   }
@@ -798,7 +806,7 @@ function App({user, givenId}) {
 
   
 
-  
+  const renderLimit = preGeneratedLineIndex[currentLine + amountOfLinesToRender-1] === undefined ? 1000000 : preGeneratedLineIndex[currentLine + amountOfLinesToRender-1];
   return (
    
     <div className = 'body'>
@@ -906,9 +914,9 @@ function App({user, givenId}) {
               </div> 
               
               <div className = 'text'>
-
+                 {console.log("Hi: " + preGeneratedLineIndex[currentLine + 1] + " c: " + preGeneratedLineIndex)}
                 <p>{!finished && wordBank.map((word, index) => {
-                  if (index > renderIndex) {
+                  if ((!startCounting || (index > renderIndex && index < renderLimit))) {
                     let s = ''
                     if (index !== wordBank.length - 1) {
                       for (let i = 0; i < whiteSpace[index]; i++) {
@@ -932,13 +940,14 @@ function App({user, givenId}) {
                 })}</p>
                 
               </div>
+              <p className ='mainFont active whiteText'>{preGeneratedLineIndex.length - currentLine} more lines...</p>
             </div>
           </div>
         </Center>
         <div id = "userInput"> 
          
          
-          {!newUser && <p className = "reminder">Tab + Enter to Restart Test<br/><br/>Ctrl + Enter to Retry Same Test</p>}
+          {!newUser && <p className = "grayText mainFont font500">Tab + Enter to Restart Test<br/></p>}
           
         </div>
         

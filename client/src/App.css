@@ -330,6 +330,8 @@ body {
     color:rgb(222, 222, 222) !important;
 }
 
+
+
 .displayText span{
     color: rgb(127,127,127);
     white-space: pre;
@@ -661,7 +663,7 @@ body {
 }
 
 .currentIncorrect {
-    color: rgb(245, 141, 141);
+    color: rgb(245, 141, 141) !important;
     font-weight: bold;
 }
 
