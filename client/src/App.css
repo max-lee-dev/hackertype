@@ -165,6 +165,7 @@ html::-webkit-scrollbar-track {
 
 .trophyIcon {
     color: rgb(246, 249, 165);
+    padding-top: 5px;
     font-size: 2vh;
     
 }
@@ -196,7 +197,6 @@ html::-webkit-scrollbar-track {
     background-color: rgba(85, 83, 83, 0.32);
     height: 5px;
     height: 50%;
-    padding-top: 1px;
     border-radius: 10px;
     padding-bottom: 5px;
 }
@@ -450,7 +450,7 @@ body {
 .text {
     margin-top: 25px;
     border-color: black;
-    font-size: 220%;
+    font-size: 200%;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 
 }

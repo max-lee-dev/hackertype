@@ -61,17 +61,21 @@ export default function Submission({uid}) {
                                                                         </div>
                                                                 </Tooltip>
                                                         </div>}
-                                                        <div className = 'solutionTitleDiv'>
-                                                                <Button onClick={redirect}>
-                                                                <Text fontSize = '' paddingLeft = '6px'className='soltitle whiteText font500'>{submission.solution_id}</Text>
-                                                                </Button>
-                                                        </div>
+                                                                <div className = 'solutionTitleDiv'>
+                                                                        <Button onClick={redirect}>
+                                                                        <Text fontSize = '' paddingLeft = '6px'className='soltitle whiteText font500'>{submission.solution_id}</Text>
+                                                                        </Button>
+                                                                </div>
                                                         <div>
-                                                                <Text className=' font400 submissionWPMDisplay'>- {submission.wpm} WPM</Text>
+                                                                <div>
+                                                                        <Text paddingTop='10px' className=' font400 submissionWPMDisplay'>- {submission.wpm} WPM</Text>
+                                                                </div>
                                                         </div>
                                                         
                                                 </Stack>
                                         </div>
+
+
                                         <div className = 'badgeContainer'>
                                                 <Stack direction='row' spacing='10px'>
                                                         
