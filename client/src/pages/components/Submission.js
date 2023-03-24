@@ -68,7 +68,7 @@ export default function Submission({uid}) {
                                                                 </div>
                                                         <div>
                                                                 <div>
-                                                                        <Text paddingTop='10px' className=' font400 submissionWPMDisplay'>- {submission.wpm} WPM</Text>
+                                                                        <Text paddingTop='5px' className=' font400 submissionWPMDisplay'>- {submission.wpm} WPM</Text>
                                                                 </div>
                                                         </div>
                                                         
