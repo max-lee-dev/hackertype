@@ -815,6 +815,7 @@ function App({user, givenId}) {
         <Center>
           <div className = 'content'>
             <div className = 'codingSettings'>
+              <div>
               {!loading && <CodeSettings
                 
                 startCounting={startCounting}
@@ -834,6 +835,7 @@ function App({user, givenId}) {
                 pythonRange={pythonRange}
                 setId={setId}
               />}
+              </div>
             </div>
             
             <div className = 'inputContainer'>
@@ -892,34 +894,34 @@ function App({user, givenId}) {
                   
                   </Stack>
                 </div>
-                
-                  <div className = 'font100 mainFont whiteText'>
-                  <Center>
-                    <Stack direction={['row']}>
                     
-                  {
-                  user && 
-                  !startCounting && 
-                  !loading &&
+                <Tooltip label="Your personal best" placement="top">
+                  <div className = 'font100 mainFont whiteText no-select'>
+                    <Center>
+                      <Stack direction={['row']}>
+                      
+                    {
+                    user && 
+                    !startCounting && 
+                    !loading &&
+                    
+                    <p className ='grayText font500'>{thisSolutionPR} WPM </p>
+                    
+                    }
+                    {!loading && user && !startCounting && 
+                    <div className ='podiumIcon'>
+                        <ion-icon name="podium"></ion-icon>
+                    </div>
                   
-                  <p>{thisSolutionPR} WPM </p>
-                  
-                  }
-                  {!loading && user && !startCounting && 
-                  <div className ='podiumIcon'>
-                    <Tooltip label="Your personal best" placement="top">
-                      <ion-icon name="podium"></ion-icon>
-                    </Tooltip>
+                    }
+                    
+                    {!loading && !user && !startCounting && <a className = 'whiteUnderline' href = '/login'> Log in</a>} 
+                    
+                    </Stack>
+                    {!loading && !user && !startCounting && <p>&nbsp;to save your data</p>} 
+                    </Center>
                   </div>
-                 
-                  }
-                   
-                  {!loading && !user && !startCounting && <a className = 'whiteUnderline' href = '/login'> Log in</a>} 
-                  
-                  </Stack>
-                  {!loading && !user && !startCounting && <p>&nbsp;to save your data</p>} 
-                  </Center>
-                  </div>
+                  </Tooltip>
                 </div>
                 
                 
@@ -927,7 +929,6 @@ function App({user, givenId}) {
               </div> 
               
               <div className = 'text'>
-                 {console.log("Hi: " + preGeneratedLineIndex[currentLine + 1] + " c: " + preGeneratedLineIndex)}
                 <p>{!finished && wordBank.map((word, index) => {
                   if ((!startCounting || (index > renderIndex && index < renderLimit))) {
                     let s = ''
@@ -953,7 +954,7 @@ function App({user, givenId}) {
                 })}</p>
                 
               </div>
-              <p className ='mainFont active whiteText'>{preGeneratedLineIndex.length - currentLine} more lines...</p>
+              {startCounting && !finished && <p className ='mainFont active whiteText'>{preGeneratedLineIndex.length - currentLine} more lines...</p>}
             </div>
           </div>
         </Center>

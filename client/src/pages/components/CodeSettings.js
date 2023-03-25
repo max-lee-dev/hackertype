@@ -41,7 +41,7 @@ export default function CodeSettings({
           }
   return (
         
-        <div>
+        <div className = 'codingSettings'>
                 
                 {!startCounting && <Center width='900px' height='100px'>
                         <Stack isInline>

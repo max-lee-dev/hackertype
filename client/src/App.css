@@ -186,6 +186,10 @@ html::-webkit-scrollbar-track {
     font-size: 20px;
 }
 
+.no-select {
+    user-select: none;
+}
+
 .userInputContainer {
     padding-right: 10px;
 }
