@@ -99,175 +99,185 @@ export default function Profile({ setId }) {
 
   return (
     <Center>
-      <div className="profileContainer">
-        <div className="userTitleContainer">
-          <Center>
-            <div className="userTitleCard aboutContainer">
-              <div className="userTitle mainFont font500">
-                {!loading && !profileUserData && <Text fontSize="56px">User not found...</Text>}
-                <Text fontSize="56px">{profileUserData?.displayName}</Text>
+      <Box className="profileContainer">
+        <Box className="userTitleContainer">
+          <Box className="userTitleCard aboutContainer">
+            <Box className="userTitle mainFont font500">
+              {!loading && !profileUserData && <Text fontSize="56px">User not found...</Text>}
+              <Text fontSize="56px">{profileUserData?.displayName}</Text>
 
-                {profileUserData && (
-                  <Text fontSize="22px" className="grayText font400">
-                    Joined {dateArr[1]} {dateArr[2]}, {dateArr[3]}
-                  </Text>
-                )}
-                {!loading && username === user?.displayName && (
-                  <Button
-                    width={"75px"}
-                    marginTop="10px"
-                    fontSize="13px"
-                    bgColor="transparent"
-                    onClick={signout}>
-                    Sign Out
-                  </Button>
-                )}
-              </div>{" "}
-              <div className="signoutButton"></div>
-              <Divider
-                orientation="vertical"
-                border={"20px solid"}
-                borderColor="transparent"
-                variant="none"
-              />
-              <Stack>
-                <div className="generalUserInfo mainFont">
-                  <Stack direction="row" spacing={6}>
-                    <div className="generalInfoCard">
-                      {profileUserData?.average_wpm && (
-                        <Text fontSize="36px" className="font400">
-                          {numberWorldRecords}
-                        </Text>
-                      )}
-                      <Text fontSize="22px" className="grayText font400">
-                        World Records
-                      </Text>
-                    </div>
-
-                    <div className="generalInfoCard">
-                      {profileUserData?.average_wpm && (
-                        <Text fontSize="36px" className="font400">
-                          {profileUserData?.average_wpm}
-                        </Text>
-                      )}
-                      <Text fontSize="22px" className="grayText font400">
-                        Average WPM
-                      </Text>
-                    </div>
-
-                    <div className="generalInfoCard">
+              {profileUserData && (
+                <Text fontSize="22px" className="grayText font400">
+                  joined {dateArr[1]} {dateArr[2]}, {dateArr[3]}
+                </Text>
+              )}
+              {!loading && username === user?.displayName && (
+                <Button
+                  width={"75px"}
+                  marginTop="10px"
+                  fontSize="13px"
+                  bgColor="transparent"
+                  onClick={signout}>
+                  sign out
+                </Button>
+              )}
+            </Box>{" "}
+            <Box className="signoutButton"></Box>
+            <Divider orientation="vertical" border={"20px solid"} borderColor="transparent" variant="none" />
+            <Stack>
+              <Box className="generalUserInfo mainFont">
+                <Stack direction="row" spacing={6}>
+                  <Box className="generalInfoCard">
+                    {profileUserData?.average_wpm && (
                       <Text fontSize="36px" className="font400">
-                        {profileUserData?.tests_started}
+                        {numberWorldRecords}
                       </Text>
-                      <Text fontSize="22px" className="grayText font400">
-                        Started
-                      </Text>
-                    </div>
+                    )}
+                    <Text fontSize="22px" className="grayText font400">
+                      world records
+                    </Text>
+                  </Box>
 
-                    <div className="generalInfoCard">
+                  <Box className="generalInfoCard">
+                    {profileUserData?.average_wpm && (
                       <Text fontSize="36px" className="font400">
-                        {profileUserData?.tests_completed}
+                        {profileUserData?.average_wpm}
                       </Text>
-                      <Text fontSize="22px" className="grayText font400">
-                        Completed
-                      </Text>
-                    </div>
-                  </Stack>
-                </div>
-              </Stack>
-            </div>
-          </Center>
-        </div>
+                    )}
+                    <Text fontSize="22px" className="grayText font400">
+                      average WPM
+                    </Text>
+                  </Box>
 
-        <div className="graphContentContainer">
+                  <Box className="generalInfoCard">
+                    <Text fontSize="36px" className="font400">
+                      {profileUserData?.tests_started}
+                    </Text>
+                    <Text fontSize="22px" className="grayText font400">
+                      started
+                    </Text>
+                  </Box>
+
+                  <Box className="generalInfoCard">
+                    <Text fontSize="36px" className="font400">
+                      {profileUserData?.tests_completed}
+                    </Text>
+                    <Text fontSize="22px" className="grayText font400">
+                      completed
+                    </Text>
+                  </Box>
+                </Stack>
+              </Box>
+            </Stack>
+          </Box>
+        </Box>
+
+        <Box className="graphContentContainer">
           <Box width="50%">
-            <div className="graphContainer">
-              <Text paddingLeft="20px" color="white" fontSize="30px" className="mainFont">
-                Submission History
-              </Text>
-              <Divider borderColor="#FFCD29" marginLeft="20px" width="51%" />
+            <Box className="graphContainer">
               <Center>
                 <Box marginBottom="50px" style={{ width: 600 }}>
                   <LineChart username={username} />
                 </Box>
               </Center>
-            </div>
+
+              <Center>
+                <Text
+                  alignSelf="center"
+                  paddingLeft="20px"
+                  color="gray"
+                  fontSize="15px"
+                  className="mainFont"
+                  fontWeight="200">
+                  submission history
+                </Text>
+              </Center>
+            </Box>
           </Box>
           <Box width="50%">
-            <div className="dailySolutionGraph">
-              <Text paddingLeft="20px" color="white" fontSize="30px" className="mainFont">
-                Daily Submissions
-              </Text>
-              <Divider borderColor="#FFCD29" marginLeft="20px" width="50%" />
+            <Box className="dailySolutionGraph">
               <Center>
-                <div style={{ width: 600 }}>
+                <Box marginBottom="50px" style={{ width: 600 }}>
                   <DailySolutionChart username={username} />
-                </div>
+                </Box>
               </Center>
-            </div>
+              <Center>
+                <Text
+                  alignSelf="center"
+                  paddingLeft="20px"
+                  color="gray"
+                  fontSize="15px"
+                  className="mainFont"
+                  fontWeight="200">
+                  daily submissions
+                </Text>
+              </Center>
+            </Box>
           </Box>
-        </div>
+        </Box>
         <Center>
-          <div className="submissionContentContainer whiteText">
-            <div className="submissionContainer">
-              <div className="submissionCard mainFont">
-                <div className="recentSubmissionsContainer mainFont font500">
-                  {!loading && <Text fontSize="36px">Recent</Text>}
+          <Box paddingTop="60px">
+            <Box className="submissionContentContainer whiteText">
+              <Box className="submissionContainer">
+                <Box className="submissionCard mainFont">
+                  <Box className="recentSubmissionsContainer mainFont font500">
+                    {!loading && <Text fontSize="36px">recent</Text>}
 
-                  {!loading && recentSubmissions.map((submission) => <Submission uid={submission} />)}
+                    {!loading && recentSubmissions.map((submission) => <Submission uid={submission} />)}
 
-                  {!loading && !recentSubmissions[0] && (
-                    <Text fontSize="22px" className="grayText font400">
-                      No recent submissions
-                    </Text>
-                  )}
-                </div>
+                    {!loading && !recentSubmissions[0] && (
+                      <Text fontSize="22px" className="grayText font400">
+                        no recent submissions
+                      </Text>
+                    )}
+                  </Box>
 
-                <Divider
-                  orientation="vertical"
-                  border={"5px solid"}
-                  borderColor="transparent"
-                  variant="none"
-                />
-                <div className="bestSubmissionsContainer mainFont font500">
-                  {!loading && <Text fontSize="36px">Best</Text>}
+                  <Divider
+                    orientation="vertical"
+                    border={"5px solid"}
+                    borderColor="transparent"
+                    variant="none"
+                  />
+                  <Box className="bestSubmissionsContainer mainFont font500">
+                    {!loading && <Text fontSize="36px">best</Text>}
 
-                  {!loading && bestSubmissions.map((submission) => <Submission uid={submission} />)}
+                    {!loading && bestSubmissions.map((submission) => <Submission uid={submission} />)}
 
-                  {!loading && !bestSubmissions[0] && (
-                    <Text fontSize="22px" className="grayText font400">
-                      No recent submissions
-                    </Text>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
+                    {!loading && !bestSubmissions[0] && (
+                      <Text fontSize="22px" className="grayText font400">
+                        no recent submissions
+                      </Text>
+                    )}
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
         </Center>
 
-        <div className="aboutContainer">
-          <Center>{loading && <div className="site-title">Loading...</div>}</Center>
-        </div>
+        <Box className="aboutContainer">
+          <Center>{loading && <Box className="site-title">Loading...</Box>}</Center>
+        </Box>
 
-        {/* {!loading && profileUserData && <div className = 'about'>
+        {/* {!loading && profileUserData && <Box className = 'about'>
                                         <h1>WPM: {profileUserData?.wpm}</h1>
                                         <h1>Accuracy: {profileUserData?.accuracy}</h1>
                                         <h1>Last Language: {profileUserData?.lastLanguage}</h1>
                                         <br/>
-                                </div>}
+                                </Box>}
 
                                 
-                                <div>
-                                        {!loading && profileUserData && <div className = 'smallerMainFont site-title correct'>Recent Submissions</div>}
+                                <Box>
+                                        {!loading && profileUserData && <Box className = 'smallerMainFont site-title correct'>Recent Submissions</Box>}
                                         {submissions.map(submission => {
                                                 if (submission.user === profileUserData?.displayName) {
                                                         return (
-                                                                <div key={submission.id}>
+                                                                <Box key={submission.id}>
                                                                         <br/>
                                                                         <h1>{submission.user}</h1>
                                                                         <h1>{submission.solution_id}</h1>
                                                                         <h1>WPM: {submission.wpm}</h1>
-                                                                </div>
+                                                                </Box>
                                                         )
                                                 }
                                                 return ''
@@ -275,8 +285,8 @@ export default function Profile({ setId }) {
                                                 
                                         
 
-                                </div> */}
-      </div>
+                                </Box> */}
+      </Box>
     </Center>
   );
 }

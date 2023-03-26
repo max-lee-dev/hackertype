@@ -66,6 +66,9 @@ export default function DailySolutionChart({ username }) {
               display: true,
               text: "",
             },
+            legend: {
+              display: false,
+            },
           },
         }}
       />

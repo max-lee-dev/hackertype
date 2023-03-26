@@ -49,6 +49,9 @@ export default function LineChart({ username }) {
               display: true,
               text: "",
             },
+            legend: {
+              display: false,
+            },
           },
         }}
       />
