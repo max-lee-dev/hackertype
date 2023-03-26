@@ -245,7 +245,7 @@ export default function Profile({ setId }) {
                     />
                     <Box className="bestSubmissionsContainer mainFont font500">
                       {!loading && (
-                        <Text fontSize="28px" paddingLeft={"22px"}>
+                        <Text fontSize="28px" fontWeight="300" paddingLeft={"22px"}>
                           best
                         </Text>
                       )}

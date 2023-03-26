@@ -858,30 +858,36 @@ function App({ user, givenId }) {
                   </Box>
                   <Center>
                     <Box width="90px" className="font100 mainFont whiteText no-select">
-                      <Tooltip label="Your personal best" placement="top">
+                      <Center>
                         <Center>
-                          <Center>
+                          <Box width="300px">
                             <Stack direction={["row"]}>
-                              {user && !startCounting && !loading && (
-                                <p className="grayText font500">{thisSolutionPR} WPM </p>
-                              )}
-                              {!loading && user && !startCounting && (
-                                <Box className="podiumIcon">
-                                  <ion-icon name="podium"></ion-icon>
-                                </Box>
+                              {user && (
+                                <Tooltip label="Your personal best" placement="top">
+                                  <Box width="50px" marginLeft="125px">
+                                    {user && !startCounting && !loading && (
+                                      <p className="grayText font500">{thisSolutionPR} WPM </p>
+                                    )}
+                                    {!loading && user && !startCounting && (
+                                      <Box className="podiumIcon">
+                                        <ion-icon name="podium"></ion-icon>
+                                      </Box>
+                                    )}
+                                  </Box>
+                                </Tooltip>
                               )}
 
                               {!loading && !user && !startCounting && (
-                                <a className="whiteUnderline" href="/login">
+                                <a className="whiteUnderline padLeft" href="/login">
                                   {" "}
                                   Log in
                                 </a>
                               )}
+                              {!loading && !user && !startCounting && <p>to save your data</p>}
                             </Stack>
-                            {!loading && !user && !startCounting && <p>&nbsp;to save your data</p>}
-                          </Center>
+                          </Box>
                         </Center>
-                      </Tooltip>
+                      </Center>
                     </Box>
                   </Center>
                 </Box>
