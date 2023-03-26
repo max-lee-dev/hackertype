@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { auth } from "./firebase";
 import ExternalLink from "./ExternalLink";
 import logo from "./assets/favicon.ico";
-import { Divider, Text, Stack, Box } from "@chakra-ui/react";
+import { Divider, Text, Stack, Box, Button } from "@chakra-ui/react";
 export default function Navbar() {
   const [user, setUser] = useState(null);
+  const [location, setLocation] = useState(window.location.pathname);
 
   auth.onAuthStateChanged((user) => {
     if (user) {
@@ -15,35 +16,40 @@ export default function Navbar() {
     }
   });
 
+  useEffect(() => {}, [user]);
+
   //eslint-disable-next-line
   return (
     <nav className="nav">
       <div className="Logo">
-        <Link to="/" className="site-title">
+        <NavLink to="/" className="site-title">
           hackertype
-        </Link>
-        <Link to="/" className="site-title">
-          <Text color="#FFCD29" marginLeft="-7px">
-            .dev
+        </NavLink>
+        <NavLink to="/" className="site-title">
+          <Text color="#FFCD29" marginLeft="-12px">
+            .
           </Text>
-        </Link>
+          <Text color="#FFCD29" marginLeft="-5px">
+            dev
+          </Text>
+        </NavLink>
       </div>
 
       <Box fontWeight={"200"}>
         <ul>
           <li>
-            <Link to="/solutions">&lt;solutions&gt;</Link>
+            <NavLink to="/solutions">&lt;solutions&gt;</NavLink>
           </li>
           <li>
-            <Link to="/leaderboard">&lt;leaderboard&gt;</Link>
+            <NavLink to="/leaderboard">&lt;leaderboard&gt;</NavLink>
           </li>
           <li>
-            <Link to="/about">&lt;about&gt;</Link>
+            <NavLink to="/about">&lt;about&gt;</NavLink>
           </li>
           <li>
             <Stack direction="row">
               {!user && (
-                <Link to="/login">
+                <NavLink to="/login">
                   <Text
                     className="glow"
                     marginTop="12px"
@@ -52,11 +58,11 @@ export default function Navbar() {
                     textColor="#FFCD29">
                     &lt;log in&gt;
                   </Text>
-                </Link>
+                </NavLink>
               )}
               {user && (
                 <Box fontSize="40px">
-                  <Link to={`/profile/${user.displayName}`}>
+                  <NavLink to={`/profile/${user.displayName}`}>
                     <li>
                       <Text
                         className="glow"
@@ -67,7 +73,7 @@ export default function Navbar() {
                         &lt;{user.displayName}&gt;
                       </Text>
                     </li>
-                  </Link>
+                  </NavLink>
                 </Box>
               )}
             </Stack>

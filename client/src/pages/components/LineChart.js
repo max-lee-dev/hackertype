@@ -27,10 +27,10 @@ export default function LineChart({ username }) {
             data: tempArray.map((data) => data.wpm),
             borderColor: "#FFCD29",
             backgroundColor: "white",
-            hoverBorderColor: "blue",
-            hoverBackgroundColor: "grey",
+            hoverBorderColor: "#FFCD29",
+            hoverBackgroundColor: "white",
             scaleShowLabels: false,
-            pointBackgroundColor: "white",
+            pointBackgroundColor: "#FFCD29",
           },
         ],
       });

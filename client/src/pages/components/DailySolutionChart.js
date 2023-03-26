@@ -38,9 +38,10 @@ export default function DailySolutionChart({ username }) {
             data: mapArray.map((data) => data[1]),
             borderColor: "#FFCD29",
             backgroundColor: "white",
-            hoverBorderColor: "blue",
-            hoverBackgroundColor: "grey",
-            pointBackgroundColor: "white",
+            hoverBorderColor: "#FFCD29",
+            hoverBackgroundColor: "white",
+            scaleShowLabels: false,
+            pointBackgroundColor: "#FFCD29",
           },
         ],
       });

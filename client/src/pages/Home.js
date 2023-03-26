@@ -42,8 +42,12 @@ import { RepeatIcon, StarIcon } from "@chakra-ui/icons";
 // remove comments, when i find a // remopve that ENTIRE line not just thaT word
 
 function countCharCorrect(actualText, userText) {
-  let count = 1,
+  let count = 0,
     i = 0;
+  if (actualText === userText) {
+    // if text is correct, give them the space character as well
+    count = 1;
+  }
   while (i < actualText.length) {
     if (userText.charAt(i) === actualText.charAt(i)) count++;
     i++;

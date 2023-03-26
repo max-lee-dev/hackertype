@@ -42,26 +42,28 @@ export default function Submission({ uid }) {
     <div className="individualSubmissionContainer">
       <div className="submissionText">
         <div className="submissionInformationContainer">
-          <div>
-            <Stack direction="row">
+          <Box width="400px">
+            <Stack direction="row" spacing="0">
               <Tooltip label="Rank" placement="top">
                 <Box>
-                  <Text userSelect={"none"}>[#{submission.rank}]</Text>
+                  <Text color={submission.rank === 1 ? "yellow" : "grey"} userSelect={"none"}>
+                    [#{submission.rank}]
+                  </Text>
                 </Box>
               </Tooltip>
-              <Box>
-                <Button bgColor="transparent" className="submissionButton" onClick={redirect}>
-                  <Text
-                    fontSize=""
-                    paddingBottom="14px"
-                    paddingLeft="6px"
-                    className="soltitle whiteText font500">
-                    {submission.solution_id}
-                  </Text>
-                </Button>
+              <Box width="100%" textAlign="left">
+                <Text
+                  onClick={redirect}
+                  fontSize=""
+                  paddingBottom="14px"
+                  paddingLeft="6px"
+                  className="soltitle whiteText font500"
+                  _hover={{ cursor: "pointer" }}>
+                  {submission.solution_id}
+                </Text>
               </Box>
             </Stack>
-          </div>
+          </Box>
 
           <Stack direction="row" spacing="10px">
             <Tooltip label="WPM" placement="top">

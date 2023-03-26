@@ -70,7 +70,6 @@ html::-webkit-scrollbar-track {
     flex-direction: row;
     margin: 2rem;
     justify-content: space-between;
-    align-items: stretch;        
 }
 
 .profileContainer {
@@ -145,7 +144,7 @@ html::-webkit-scrollbar-track {
 }
 
 .bestSubmissionsContainer {
-    width: 50%;
+    width: 100%;
 }
 
 .bestTitle {
@@ -155,17 +154,22 @@ html::-webkit-scrollbar-track {
 
 .recentSubmissionsContainer {
     width: 50%;
-    
+    margin-left: -70px;
     
 
 }
 
 .soltitle {
     font-size:0.8vw;
+    width: 100%;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .individualSubmissionContainer {
-    width: 100%;
+    width: 110%;
     height: 70px;
     margin-top: 25px;
     border-radius: 25px;
@@ -209,8 +213,8 @@ html::-webkit-scrollbar-track {
 
 .submissionText {
     color: rgb(127,127,127);
-    
-    padding: 1rem;
+    width: 100%;
+    padding: 1.5rem;
 }
 
 .badgeContainer {
@@ -249,6 +253,7 @@ html::-webkit-scrollbar-track {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
 }
 
 .submissionWPMDisplay {
@@ -281,7 +286,6 @@ html::-webkit-scrollbar-track {
 
 
 .userTitle {
-    
 }
 
 #text {

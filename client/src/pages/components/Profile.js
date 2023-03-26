@@ -101,7 +101,7 @@ export default function Profile({ setId }) {
     <Center>
       <Box className="profileContainer">
         <Box className="userTitleContainer">
-          <Box className="userTitleCard aboutContainer">
+          <Box className="userTitleCard whiteText">
             <Box className="userTitle mainFont font500">
               {!loading && !profileUserData && <Text fontSize="56px">User not found...</Text>}
               <Text fontSize="56px">{profileUserData?.displayName}</Text>
@@ -218,37 +218,47 @@ export default function Profile({ setId }) {
         <Center>
           <Box paddingTop="60px">
             <Box className="submissionContentContainer whiteText">
-              <Box className="submissionContainer">
+              <Box className="submissionContainer" width="100%" marginLeft={"44px"}>
                 <Box className="submissionCard mainFont">
-                  <Box className="recentSubmissionsContainer mainFont font500">
-                    {!loading && <Text fontSize="36px">recent</Text>}
+                  <Stack direction="row" spacing="2">
+                    <Box className="mainFont font500" width="100%">
+                      {!loading && (
+                        <Text fontSize="28px" fontWeight={"300"} paddingLeft={"22px"}>
+                          recent
+                        </Text>
+                      )}
 
-                    {!loading && recentSubmissions.map((submission) => <Submission uid={submission} />)}
+                      {!loading && recentSubmissions.map((submission) => <Submission uid={submission} />)}
 
-                    {!loading && !recentSubmissions[0] && (
-                      <Text fontSize="22px" className="grayText font400">
-                        no recent submissions
-                      </Text>
-                    )}
-                  </Box>
+                      {!loading && !recentSubmissions[0] && (
+                        <Text fontSize="22px" className="grayText font400">
+                          no recent submissions
+                        </Text>
+                      )}
+                    </Box>
 
-                  <Divider
-                    orientation="vertical"
-                    border={"5px solid"}
-                    borderColor="transparent"
-                    variant="none"
-                  />
-                  <Box className="bestSubmissionsContainer mainFont font500">
-                    {!loading && <Text fontSize="36px">best</Text>}
+                    <Divider
+                      orientation="vertical"
+                      border={"20px solid"}
+                      borderColor="transparent"
+                      variant="none"
+                    />
+                    <Box className="bestSubmissionsContainer mainFont font500">
+                      {!loading && (
+                        <Text fontSize="28px" paddingLeft={"22px"}>
+                          best
+                        </Text>
+                      )}
 
-                    {!loading && bestSubmissions.map((submission) => <Submission uid={submission} />)}
+                      {!loading && bestSubmissions.map((submission) => <Submission uid={submission} />)}
 
-                    {!loading && !bestSubmissions[0] && (
-                      <Text fontSize="22px" className="grayText font400">
-                        no recent submissions
-                      </Text>
-                    )}
-                  </Box>
+                      {!loading && !bestSubmissions[0] && (
+                        <Text fontSize="22px" className="grayText font400">
+                          no recent submissions
+                        </Text>
+                      )}
+                    </Box>
+                  </Stack>
                 </Box>
               </Box>
             </Box>
