@@ -1,4 +1,4 @@
-import {initializeApp} from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 import { getAuth } from "firebase/auth";
 const firebaseConfig = {
@@ -8,10 +8,9 @@ const firebaseConfig = {
   storageBucket: "hackertype-directory.appspot.com",
   messagingSenderId: "631721304818",
   appId: "1:631721304818:web:0d3653f8f407bb5c0ce66b",
-  measurementId: "G-HSM9DBC9SN"
+  measurementId: "G-HSM9DBC9SN",
 };
-  
+
 const firebaseApp = initializeApp(firebaseConfig);
 export const db = getFirestore(firebaseApp);
 export const auth = getAuth(firebaseApp);
-
