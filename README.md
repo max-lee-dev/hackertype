@@ -4,6 +4,7 @@
 
 ![Screenshot](/client/public/hackertypewithbigbro.png)
 ![Screenshot](/client/public/profilepage.png)
+![Screenshot](/client/public/wpmgraph.png)
 
 ## Todo:
 

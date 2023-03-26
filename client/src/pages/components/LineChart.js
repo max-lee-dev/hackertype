@@ -12,13 +12,14 @@ export default function LineChart({ username }) {
     setLoading(true);
     async function getGraphSubmissions() {
       const q = query(submissionsCollectionRef, where("user", "==", username));
-      const top = query(q, orderBy("date", "asc"), limit(50));
-      const recentQuerySnapshot = await getDocs(top);
-      const tempArray = [];
+      const topd = query(q, orderBy("date", "desc"), limit(50));
+      const recentQuerySnapshot = await getDocs(topd);
+      let tempArray = [];
 
       recentQuerySnapshot.forEach((doc) => {
         tempArray.push(doc.data());
       });
+      tempArray = tempArray.reverse();
       setGraphData({
         labels: tempArray.map((data) => data.date[0] + data.date[1] + data.date[2] + data.date[3]),
         datasets: [
