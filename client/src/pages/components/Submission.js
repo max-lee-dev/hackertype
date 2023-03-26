@@ -46,7 +46,7 @@ export default function Submission({ uid }) {
             <Stack direction="row">
               <Tooltip label="Rank" placement="top">
                 <Box>
-                  <Text>[#{submission.rank}]</Text>
+                  <Text userSelect={"none"}>[#{submission.rank}]</Text>
                 </Box>
               </Tooltip>
               <Box>
@@ -60,21 +60,18 @@ export default function Submission({ uid }) {
                   </Text>
                 </Button>
               </Box>
-              <div>
-                <div>
-                  <Text paddingTop="5px" className=" font400 submissionWPMDisplay"></Text>
-                </div>
-              </div>
             </Stack>
           </div>
 
           <Stack direction="row" spacing="10px">
             <Tooltip label="WPM" placement="top">
-              <Text>{submission.wpm} WPM</Text>
+              <Text userSelect={"none"}>{submission.wpm} WPM</Text>
             </Tooltip>
 
             <Tooltip label="Language" placement="top">
-              <Text textColor={color}>[{submission.language}]</Text>
+              <Text userSelect={"none"} textColor={color}>
+                [{submission.language}]
+              </Text>
             </Tooltip>
           </Stack>
         </div>

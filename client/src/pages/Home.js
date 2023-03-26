@@ -24,7 +24,17 @@ import { ref as sRef } from "firebase/storage";
 import { auth } from "./components/firebase.js";
 import { db } from "./components/firebase.js";
 import crown from "./components/assets/crown (2).png";
-import { Center, useDisclosure, IconButton, Stack, Divider, Image, Tooltip, Text } from "@chakra-ui/react";
+import {
+  Center,
+  useDisclosure,
+  IconButton,
+  Stack,
+  Divider,
+  Image,
+  Tooltip,
+  Text,
+  Box,
+} from "@chakra-ui/react";
 import { RepeatIcon, StarIcon } from "@chakra-ui/icons";
 
 // figure out how to get new text every reload
@@ -748,12 +758,12 @@ function App({ user, givenId }) {
       ? 1000000
       : preGeneratedLineIndex[currentLine + amountOfLinesToRender - 1];
   return (
-    <div className="body">
-      <div className="container">
+    <Box className="body">
+      <Box className="container">
         <Center>
-          <div className="content">
-            <div className="codingSettings">
-              <div>
+          <Box className="content">
+            <Box className="codingSettings">
+              <Box>
                 {!loading && (
                   <CodeSettings
                     startCounting={startCounting}
@@ -774,15 +784,15 @@ function App({ user, givenId }) {
                     setId={setId}
                   />
                 )}
-              </div>
-            </div>
+              </Box>
+            </Box>
 
-            <div className="inputContainer">
-              <div className="leetcodeTitle">
+            <Box className="inputContainer">
+              <Box className="leetcodeTitle">
                 {loading && <p>Loading...</p>}
                 {!startCounting && <p className="mainFont">{leetcodeTitle}</p>}
-              </div>
-              <div id="timer">
+              </Box>
+              <Box id="timer">
                 {startCounting && (
                   <Timer
                     codeID={leetcodeTitle}
@@ -800,13 +810,13 @@ function App({ user, givenId }) {
                     setThisSolutionPR={setThisSolutionPR}
                   />
                 )}
-              </div>
+              </Box>
 
-              <div className="textContainer">
+              <Box className="textContainer">
                 <p className="error"> {error}</p>
                 {console.log(loading)}
-                <div>
-                  <div className="userInputContainer">
+                <Box>
+                  <Box className="userInputContainer">
                     {!startCounting && !loading && (
                       <Text className="mainFont" color="white">
                         {preGeneratedLineIndex.length} lines
@@ -832,53 +842,59 @@ function App({ user, givenId }) {
                         />
                       )}
 
-                      <div className="restartDiv">
+                      <Box className="restartDiv">
                         {!loading && (
                           <IconButton
                             boxSize="12"
                             icon={<RepeatIcon />}
                             onClick={() => Restart(language, wordLimit)}></IconButton>
                         )}
-                      </div>
+                      </Box>
                     </Stack>
-                  </div>
+                  </Box>
+                  <Center>
+                    <Box width="90px" className="font100 mainFont whiteText no-select">
+                      <Tooltip label="Your personal best" placement="top">
+                        <Center>
+                          <Center>
+                            <Stack direction={["row"]}>
+                              {user && !startCounting && !loading && (
+                                <p className="grayText font500">{thisSolutionPR} WPM </p>
+                              )}
+                              {!loading && user && !startCounting && (
+                                <Box className="podiumIcon">
+                                  <ion-icon name="podium"></ion-icon>
+                                </Box>
+                              )}
 
-                  <Tooltip label="Your personal best" placement="top">
-                    <div className="font100 mainFont whiteText no-select">
-                      <Center>
-                        <Stack direction={["row"]}>
-                          {user && !startCounting && !loading && (
-                            <p className="grayText font500">{thisSolutionPR} WPM </p>
-                          )}
-                          {!loading && user && !startCounting && (
-                            <div className="podiumIcon">
-                              <ion-icon name="podium"></ion-icon>
-                            </div>
-                          )}
+                              {!loading && !user && !startCounting && (
+                                <a className="whiteUnderline" href="/login">
+                                  {" "}
+                                  Log in
+                                </a>
+                              )}
+                            </Stack>
+                            {!loading && !user && !startCounting && <p>&nbsp;to save your data</p>}
+                          </Center>
+                        </Center>
+                      </Tooltip>
+                    </Box>
+                  </Center>
+                </Box>
+              </Box>
 
-                          {!loading && !user && !startCounting && (
-                            <a className="whiteUnderline" href="/login">
-                              {" "}
-                              Log in
-                            </a>
-                          )}
-                        </Stack>
-                        {!loading && !user && !startCounting && <p>&nbsp;to save your data</p>}
-                      </Center>
-                    </div>
-                  </Tooltip>
-                </div>
-              </div>
-
-              <div className="text">
-                <p>
+              <Box className="text">
+                <pre
+                  style={{
+                    whiteSpace: "pre-wrap",
+                  }}>
                   {!finished &&
                     wordBank.map((word, index) => {
                       if (!startCounting || (index > renderIndex && index < renderLimit)) {
                         let s = "";
                         if (index !== wordBank.length - 1) {
                           for (let i = 0; i < whiteSpace[index]; i++) {
-                            s += "&nbsp";
+                            s += "  ";
                           }
                         }
                         return (
@@ -895,26 +911,26 @@ function App({ user, givenId }) {
                       }
                       return "";
                     })}
-                </p>
-              </div>
+                </pre>
+              </Box>
               {startCounting && !finished && (
                 <p className="mainFont active whiteText">
                   {preGeneratedLineIndex.length - currentLine} more lines...
                 </p>
               )}
-            </div>
-          </div>
+            </Box>
+          </Box>
         </Center>
-        <div id="userInput">
+        <Box id="userInput">
           {!newUser && (
             <p className="grayText mainFont font500">
               Tab + Enter to Restart Test
               <br />
             </p>
           )}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 }
 

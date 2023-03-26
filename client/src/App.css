@@ -423,7 +423,7 @@ html::-webkit-scrollbar-track {
 .content {
     margin-top: 20px;
     
-    background-color: rgb(31,31,35);
+    background-color: transparent;
 
     border-radius: 10px;
     width: 80%;
