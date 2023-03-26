@@ -69,7 +69,9 @@ export default function Profile({ setId }) {
     async function getBestSubmissions() {
       const q = query(submissionsCollectionRef, where("user", "==", username));
       const top = query(q, orderBy("rank", "asc"), limit(5));
-      const bestQuerySnapshot = await getDocs(top);
+      const topr = query(top, orderBy("date", "desc"));
+
+      const bestQuerySnapshot = await getDocs(topr);
       const tempArray = [];
 
       bestQuerySnapshot.forEach((doc) => {
@@ -81,7 +83,8 @@ export default function Profile({ setId }) {
     async function getNumberWorldRecords() {
       const q = query(submissionsCollectionRef, where("user", "==", username));
       const top = query(q, where("rank", "==", 1));
-      const bestQuerySnapshot = await getDocs(top);
+      const isBest = query(top, where("isBestSubmission", "==", true));
+      const bestQuerySnapshot = await getDocs(isBest);
       const size = bestQuerySnapshot.size;
       setNumberWorldRecords(size);
     }

@@ -863,18 +863,20 @@ function App({ user, givenId }) {
                           <Box width="300px">
                             <Stack direction={["row"]}>
                               {user && (
-                                <Tooltip label="Your personal best" placement="top">
-                                  <Box width="50px" marginLeft="125px">
-                                    {user && !startCounting && !loading && (
-                                      <p className="grayText font500">{thisSolutionPR} WPM </p>
-                                    )}
-                                    {!loading && user && !startCounting && (
-                                      <Box className="podiumIcon">
-                                        <ion-icon name="podium"></ion-icon>
-                                      </Box>
-                                    )}
-                                  </Box>
-                                </Tooltip>
+                                <Center>
+                                  <Tooltip label="Your personal best" placement="top">
+                                    <Box width="100px" marginLeft="99px">
+                                      {user && !startCounting && !loading && (
+                                        <p className="grayText font500">{thisSolutionPR} WPM </p>
+                                      )}
+                                      {!loading && user && !startCounting && (
+                                        <Box className="podiumIcon">
+                                          <ion-icon name="podium"></ion-icon>
+                                        </Box>
+                                      )}
+                                    </Box>
+                                  </Tooltip>
+                                </Center>
                               )}
 
                               {!loading && !user && !startCounting && (

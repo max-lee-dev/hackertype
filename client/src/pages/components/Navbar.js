@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { auth } from "./firebase";
-import ExternalLink from "./ExternalLink";
-import logo from "./assets/favicon.ico";
-import { Divider, Text, Stack, Box, Button } from "@chakra-ui/react";
+
+import { Text, Stack, Box } from "@chakra-ui/react";
 export default function Navbar() {
   const [user, setUser] = useState(null);
-  const [location, setLocation] = useState(window.location.pathname);
 
   auth.onAuthStateChanged((user) => {
     if (user) {

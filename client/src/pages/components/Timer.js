@@ -3,7 +3,8 @@ import { addDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import { collection, increment, updateDoc, doc, getDocs } from "firebase/firestore";
 import { StarIcon } from "@chakra-ui/icons";
-import { Text } from "@chakra-ui/react";
+import { Text, Box, Center, Stack, Divider } from "@chakra-ui/react";
+import WpmLineChart from "./WpmLineChart";
 
 function Timer({
   language,
@@ -29,6 +30,21 @@ function Timer({
   const [rank, setRank] = useState(1);
   const [totalOpponents, setTotalOpponents] = useState(1);
   console.log("START: " + startCounting);
+  let totalCorrectChars = 0;
+  for (let i = 0; i < correctCharacterArray.length; i++) {
+    totalCorrectChars += correctCharacterArray[i];
+  }
+  let fakeCorrectWords = totalCorrectChars / 4.7;
+  const wpm = (fakeCorrectWords / (timeElapsed / 60) || 0).toFixed(0);
+  const [wpmGraph, setWPMGraph] = useState([]);
+
+  useEffect(() => {
+    if (!pause) {
+      const tempArray = [...wpmGraph];
+      tempArray[timeElapsed] = wpm;
+      setWPMGraph(tempArray);
+    }
+  }, [timeElapsed, wpm]);
 
   useEffect(() => {
     let id;
@@ -62,15 +78,8 @@ function Timer({
     //eslint-disable-next-line
   }, []);
 
-  let totalCorrectChars = 0;
-  for (let i = 0; i < correctCharacterArray.length; i++) {
-    totalCorrectChars += correctCharacterArray[i];
-  }
-
-  let fakeCorrectWords = totalCorrectChars / 4.7;
-  const wpm = (fakeCorrectWords / (timeElapsed / 60) || 0).toFixed(0);
-
   if (!pause && startCounting) {
+    console.log(wpmGraph);
     if (wpm === "Infinity") return <p className="wpm mainFont">{0}</p>;
     return <Text className="wpm mainFont">{wpm}</Text>;
   } else if (pause) {
@@ -85,29 +94,96 @@ function Timer({
     const isPR = user ? parseInt(finalWPM) > parseInt(actualPR) : false;
     // specify language using BADGES (CHAKRA)
     return (
-      <div className="aboutContainer">
+      <Box className="aboutContainer mainFont">
+        <Text>{leetcodeTitle}</Text>
         {isPR && (
-          <h1>
-            <StarIcon /> NEW PR!
-          </h1>
+          <Box>
+            <Center>
+              <Stack direction="row">
+                <StarIcon fontSize="24px" paddingTop="10px" />
+                <Text color="yellow.300">NEW PR!</Text>
+              </Stack>
+            </Center>
+          </Box>
         )}
-        {isPR && (
-          <h1>
-            RANK: {rank}/{totalOpponents}
-          </h1>
-        )}
-        <div></div>
 
-        <div>
-          <p>
-            WPM: {finalWPM}
-            <br />
-            Accuracy: {acc}%
-          </p>
-        </div>
-        {!isPR && <p className="reminder">PR: {actualPR}</p>}
-        {user && isPR && <h1 className="reminder">Old PR: {actualPR}</h1>}
-      </div>
+        <Center>
+          <Box style={{ width: 750 }}>
+            <WpmLineChart givenData={wpmGraph} />
+          </Box>
+        </Center>
+        <Center>
+          <Text
+            userSelect="none"
+            alignSelf="center"
+            color="gray"
+            fontSize="15px"
+            className="mainFont"
+            fontWeight="200">
+            wpm graph
+          </Text>
+        </Center>
+
+        <Box paddingTop="24px" className="mainFont" fontSize="44px">
+          <Center>
+            <Stack direction="row" spacing="10">
+              <Box>
+                <Text>{finalWPM}</Text>
+                <Text color="grey" fontSize="18px">
+                  {" "}
+                  WPM
+                </Text>
+              </Box>
+              <Box>
+                <Text>{acc}%</Text>
+                <Text color="grey" fontSize="18px">
+                  {" "}
+                  accuracy
+                </Text>
+              </Box>
+              <Box>
+                <Text>
+                  {rank}/{totalOpponents}
+                </Text>
+                <Text color="grey" fontSize="18px">
+                  {" "}
+                  rank
+                </Text>
+              </Box>
+              <Box paddingTop="10px">
+                <Divider
+                  orientation="vertical"
+                  height="20"
+                  border={"1px solid"}
+                  borderColor="white"
+                  variant="none"
+                />
+              </Box>
+              <Box fontWeight={300} color="grey">
+                <Box>
+                  {!isPR && (
+                    <Box>
+                      <Text>{actualPR}</Text>
+                      <Text color="grey" fontSize="18px">
+                        pr
+                      </Text>
+                    </Box>
+                  )}
+
+                  {user && isPR && (
+                    <Box>
+                      <Text>{actualPR}</Text>
+                      <Text color="grey" fontSize="18px">
+                        old pr
+                      </Text>
+                    </Box>
+                  )}
+                </Box>
+              </Box>
+            </Stack>
+          </Center>
+        </Box>
+      </Box>
     );
   }
 
