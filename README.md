@@ -1,8 +1,12 @@
 # HackerType
+
 ### Test your coding speed and accuracy by practicing with LeetCode solutions!
-![Screenshot](/client/public/hackertype3.png)
-![Screenshot](/client/public/hackertypeprofile.png)
+
+![Screenshot](/client/public/hackertypewithbigbro.png)
+![Screenshot](/client/public/profilepage.png)
+
 ## Todo:
+
 - Show what rank a guest would have gotten
 - World Record for each solution
 - Improved search solution modal
@@ -14,13 +18,7 @@
   - Include search solution modal
 - More color themes
 
-
-
 ## Maybe:
+
 - Add user-set time limit
 - Include more stats at the end (words got wrong, graph)
-
-
-
-
-
