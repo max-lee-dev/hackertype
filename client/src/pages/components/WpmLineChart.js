@@ -29,6 +29,8 @@ export default function WpmLineChart({ givenData }) {
             hoverBackgroundColor: "white",
             scaleShowLabels: false,
             pointBackgroundColor: "#FFCD29",
+            pointRadius: 1,
+            pointHitRadius: 50,
           },
         ],
       });

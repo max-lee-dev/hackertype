@@ -42,6 +42,8 @@ export default function DailySolutionChart({ username }) {
             hoverBackgroundColor: "white",
             scaleShowLabels: false,
             pointBackgroundColor: "#FFCD29",
+            pointRadius: 1,
+            pointHitRadius: 50,
           },
         ],
       });
@@ -57,8 +59,23 @@ export default function DailySolutionChart({ username }) {
         options={{
           scales: {
             y: {
+              display: true,
+              grid: {
+                display: false,
+              },
+              gridLines: {
+                display: false,
+              },
               ticks: {
-                stepSize: 100,
+                stepSize: 25,
+                display: true,
+                beginAtZero: true,
+                suggestedMin: 0,
+              },
+            },
+            x: {
+              ticks: {
+                display: false,
               },
             },
           },

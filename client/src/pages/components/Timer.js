@@ -101,7 +101,9 @@ function Timer({
             <Center>
               <Stack direction="row">
                 <StarIcon fontSize="24px" paddingTop="10px" />
-                <Text color="yellow.300">NEW PR!</Text>
+                <Text className="glow" color="yellow.300">
+                  NEW PR!
+                </Text>
               </Stack>
             </Center>
           </Box>

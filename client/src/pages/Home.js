@@ -65,6 +65,30 @@ function countReturns(text) {
   }
 }
 
+function countNumberOfLines(funcRawCode, codingLanguage) {
+  const codeWords = funcRawCode.split(" ");
+  const finalCode = [];
+  let isCommenting = false;
+  codeWords.map((word, i) => {
+    if (word === "//" || word.includes("/**") || (codingLanguage === "Python" && word === "#"))
+      isCommenting = true;
+    if (word !== "" && !isCommenting && !word.includes("*/") && codeWords[i + 1] === "//")
+      finalCode.push(`${word}\n`); // if next one is a comment, add a pseudo return line
+    else if (word !== "" && !isCommenting && !word.includes("*/")) finalCode.push(word);
+    else if (word.includes("\n")) {
+      isCommenting = false;
+    }
+
+    return console.log();
+  });
+  let lineCount = 0;
+
+  finalCode.map((word) => {
+    if (word.includes("\n")) lineCount++;
+  });
+  return lineCount;
+}
+
 function App({ user, givenId }) {
   const { isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen } = useDisclosure();
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
@@ -230,14 +254,9 @@ function App({ user, givenId }) {
         return 0;
       });
 
-      let numWords = selectedCode.split(" ").length;
-      const selectedCodeArr = selectedCode.split(" ");
-      selectedCodeArr.map((word) => {
-        if (word === "") numWords--;
-        return "";
-      });
+      let numLines = countNumberOfLines(selectedCode, codingLanguage);
 
-      if (numWords <= wordLimit) break;
+      if (numLines <= wordLimit) break;
 
       if (id !== undefined && !isNaN(id)) break;
     }
@@ -283,14 +302,10 @@ function App({ user, givenId }) {
         return 0;
       });
       //
-      const solutionArray = selectedCode.split(" ");
-      let solutionSize = 0;
+      let solutionSize = countNumberOfLines(selectedCode, codeLang);
 
-      solutionArray.map((word) => {
-        if (word !== "") solutionSize++;
-        return "";
-      });
       if (solutionSize <= maxWords) numSolutions++;
+      console.log(solutionSize + " HEKRLDADKS " + numSolutions);
     }
     if (maxWords === "") setCppRange("ALL");
     else setCppRange(numSolutions);
@@ -308,13 +323,8 @@ function App({ user, givenId }) {
         return 0;
       });
       //
-      const solutionArray = selectedCode.split(" ");
-      let solutionSize = 0;
+      let solutionSize = countNumberOfLines(selectedCode, codeLang);
 
-      solutionArray.map((word) => {
-        if (word !== "") solutionSize++;
-        return "";
-      });
       if (solutionSize <= maxWords) numSolutions++;
     }
     if (maxWords === "") setJavaRange("ALL");
@@ -332,13 +342,7 @@ function App({ user, givenId }) {
         return 0;
       });
       //
-      const solutionArray = selectedCode.split(" ");
-      let solutionSize = 0;
-
-      solutionArray.map((word) => {
-        if (word !== "") solutionSize++;
-        return "";
-      });
+      let solutionSize = countNumberOfLines(selectedCode, codeLang);
       if (solutionSize <= maxWords) numSolutions++;
     }
     if (maxWords === "") setPythonRange("ALL");
@@ -360,13 +364,8 @@ function App({ user, givenId }) {
         return 0;
       });
       //
-      const solutionArray = selectedCode.split(" ");
-      let solutionSize = 0;
+      let solutionSize = countNumberOfLines(selectedCode, codingLanguage);
 
-      solutionArray.map((word) => {
-        if (word !== "") solutionSize++;
-        return "";
-      });
       if (solutionSize <= maxWords) numSolutions++;
     }
 
@@ -699,7 +698,7 @@ function App({ user, givenId }) {
       let solutionSize = 0;
 
       solutionArray.map((word) => {
-        if (word !== "") solutionSize++;
+        if (word.includes("\n")) solutionSize++;
         return "";
       });
       if (solutionSize <= val) numSolutions++;
@@ -724,7 +723,7 @@ function App({ user, givenId }) {
       let solutionSize = 0;
 
       solutionArray.map((word) => {
-        if (word !== "") solutionSize++;
+        if (word.includes("\n")) solutionSize++;
         return "";
       });
       if (solutionSize <= val) numSolutions++;
@@ -748,7 +747,7 @@ function App({ user, givenId }) {
       let solutionSize = 0;
 
       solutionArray.map((word) => {
-        if (word !== "") solutionSize++;
+        if (word.charAt(word.length - 1) === "\n") solutionSize++;
         return "";
       });
       if (solutionSize <= val) numSolutions++;
