@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { auth } from "./firebase";
+import logo from "./assets/favicon.ico";
 
 import { Text, Stack, Box } from "@chakra-ui/react";
 export default function Navbar() {

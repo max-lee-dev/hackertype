@@ -56,11 +56,12 @@ export default function Profile({ setId }) {
     }
     async function getRecentSubmissions() {
       const q = query(submissionsCollectionRef, where("user", "==", username));
-      const top = query(q, orderBy("date", "desc"), limit(5));
+      const top = query(q, orderBy("when", "desc"), limit(5));
       const recentQuerySnapshot = await getDocs(top);
       const tempArray = [];
-
+      console.log(top);
       recentQuerySnapshot.forEach((doc) => {
+        console.log(Date.parse(doc.data().date));
         tempArray.push(doc.id);
       });
       setRecentSubmissions(tempArray);
@@ -70,7 +71,7 @@ export default function Profile({ setId }) {
       const q = query(submissionsCollectionRef, where("user", "==", username));
       const best = query(q, where("isBestSubmission", "==", true));
       const top = query(best, orderBy("rank", "asc"), limit(5));
-      const topr = query(top, orderBy("date", "desc"));
+      const topr = query(top, orderBy("when", "desc"));
 
       const bestQuerySnapshot = await getDocs(topr);
       const tempArray = [];

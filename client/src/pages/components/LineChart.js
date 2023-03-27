@@ -13,7 +13,7 @@ export default function LineChart({ username }) {
     setLoading(true);
     async function getGraphSubmissions() {
       const q = query(submissionsCollectionRef, where("user", "==", username));
-      const topd = query(q, orderBy("date", "desc"), limit(50));
+      const topd = query(q, orderBy("when", "desc"), limit(50));
       const recentQuerySnapshot = await getDocs(topd);
       let tempArray = [];
 

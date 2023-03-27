@@ -12,7 +12,7 @@ export default function DailySolutionChart({ username }) {
     setLoading(true);
     async function getGraphSubmissions() {
       const q = query(submissionsCollectionRef, where("user", "==", username));
-      const top = query(q, orderBy("date", "asc"), limit(50));
+      const top = query(q, orderBy("when", "desc"), limit(50));
       const recentQuerySnapshot = await getDocs(top);
 
       const map = new Map();

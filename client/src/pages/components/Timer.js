@@ -210,7 +210,6 @@ function Timer({
           // calculate rank
           if (submission.language === language && submission.solution_id === leetcodeTitle) {
             // This user's submissions in this language and this problem
-            console.log("check");
             firstTime = false;
             if (submission.isBestSubmission) {
               // remove its status if the current one is best, it cant be the best anymore
@@ -273,6 +272,7 @@ function Timer({
         language: language,
         user_uid: user.uid,
         date: new Date().toLocaleString(),
+        when: Date.parse(new Date().toLocaleString()),
         isBestSubmission: isBestSubmission,
         rank: amountBetter,
         totalOpponents: totalOppo,
