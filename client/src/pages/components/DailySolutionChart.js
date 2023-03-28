@@ -27,8 +27,8 @@ export default function DailySolutionChart({ username }) {
           map.set(day, 1);
         }
       });
-      const mapArray = Array.from(map);
-
+      let mapArray = Array.from(map);
+      mapArray = mapArray.reverse();
       setGraphData({
         labels: mapArray.map((data) => data[0]),
 
@@ -67,7 +67,7 @@ export default function DailySolutionChart({ username }) {
                 display: false,
               },
               ticks: {
-                stepSize: 25,
+                stepSize: 1,
                 display: true,
                 beginAtZero: true,
                 suggestedMin: 0,

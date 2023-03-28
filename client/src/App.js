@@ -7,6 +7,7 @@ import Leaderboard from "./pages/Leaderboard.js";
 import Solutions from "./pages/Solutions.js";
 import UserLogin from "./pages/components/UserLogin";
 import Profile from "./pages/components/Profile";
+import Settings from "./pages/Settings";
 import { Routes, Route, Link } from "react-router-dom";
 import Footer from "./pages/components/Footer";
 
@@ -80,6 +81,7 @@ function App() {
             <Route path="/login" element={<UserLogin user={user} setUser={setUser} />} />
             <Route path="/profile/:username" element={<Profile setId={setId} />} />
             <Route path="/solutions/:givenLanguage/:number" element={<Home user={user} givenId={id} />} />
+            <Route path="/settings" element={<Settings />} />
           </Routes>
         </Box>
         <Footer />

@@ -38,12 +38,15 @@ export default function CodeSettings({
   javaRange,
   pythonRange,
   setId,
+  changeLastId,
 }) {
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
   const displayLimit = wordLimit === 50000 ? "# Lines" : wordLimit;
   const displayId = id === "" || id === undefined ? "# ID" : id;
   function test(e) {
+    console.log(e.target.value);
+    changeLastId(e.target.value);
     setId(e.target.value);
   }
   return (
@@ -84,11 +87,11 @@ export default function CodeSettings({
 
                   <ModalBody>
                     <FormControl>
-                      <FormLabel>Word Limit</FormLabel>
+                      <FormLabel>Line Limit</FormLabel>
                       <Input
                         ref={initialRef}
                         className="maxWordsForm"
-                        placeholder={`Enter a word limit (e.g. 40)`}
+                        placeholder={`Enter a line limit (e.g. 5)`}
                         type="text"
                         onChange={(e) => handleWordLimit(e.target.value)}
                       />
@@ -154,7 +157,7 @@ export default function CodeSettings({
                   {displayId}{" "}
                 </Button>
                 <div className="trashButton">
-                  <Button maxWidth={"10px"} bgColor="transparent" onClick={() => setId("")}>
+                  <Button maxWidth={"10px"} bgColor="transparent" onClick={(e) => test(e)}>
                     <div className="trashIcon">
                       <ion-icon name="trash-sharp"></ion-icon>
                     </div>

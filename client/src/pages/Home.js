@@ -160,7 +160,9 @@ function App({ user, givenId }) {
 
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
+        if (doc.data().lastId) setId(doc.data().lastId);
+        if (doc.data().lineLimit) setWordLimit(doc.data().lineLimit);
+
         if (!givenLanguage) Restart(doc.data().lastLanguage, "");
         else Restart(givenLanguage, "");
       });
@@ -178,7 +180,24 @@ function App({ user, givenId }) {
       await updateDoc(doc(db, "users", user.uid), {
         lastLanguage: codingLanguage,
       });
-  } // not used rn
+  }
+
+  async function changeLastId(id) {
+    if (id === undefined) id = "";
+    if (user)
+      await updateDoc(doc(db, "users", user.uid), {
+        lastId: id,
+      });
+  }
+
+  async function changeLineLimit(limit) {
+    if (user)
+      await updateDoc(doc(db, "users", user.uid), {
+        lineLimit: limit,
+      });
+  }
+
+  // not used rn
 
   function Restart(codingLanguage, maxWords, retrySame) {
     let s = "";
@@ -285,11 +304,20 @@ function App({ user, givenId }) {
     // solution range
     ////////////////////////// C++
     let codeLang = cppCode;
+    if (wordLimit !== null && wordLimit !== undefined && wordLimit !== "") {
+      maxWords = wordLimit;
+    }
 
-    if (maxWords === "" || maxWords === undefined) {
+    if (maxWords === "" || maxWords === undefined || maxWords === 50000) {
       maxWords = 50000;
-      setWordLimit(50000);
-    } else setWordLimit(maxWords);
+      if (wordLimit === null || wordLimit === undefined) {
+        console.log("word limit is " + wordLimit);
+        setWordLimit(50000);
+      }
+    } else {
+      console.log("huh: " + maxWords);
+      setWordLimit(maxWords);
+    }
 
     let numSolutions = 0;
     for (let i = 0; i < codeLang.length; i++) {
@@ -305,7 +333,6 @@ function App({ user, givenId }) {
       let solutionSize = countNumberOfLines(selectedCode, codeLang);
 
       if (solutionSize <= maxWords) numSolutions++;
-      console.log(solutionSize + " HEKRLDADKS " + numSolutions);
     }
     if (maxWords === "") setCppRange("ALL");
     else setCppRange(numSolutions);
@@ -673,6 +700,7 @@ function App({ user, givenId }) {
   function handleWordLimit(val) {
     if (val === "") setWordLimit(50000);
     else setWordLimit(val);
+    changeLineLimit(val);
 
     // solution range
     ////////////////////////// C++
@@ -785,6 +813,7 @@ function App({ user, givenId }) {
                     javaRange={javaRange}
                     pythonRange={pythonRange}
                     setId={setId}
+                    changeLastId={changeLastId}
                   />
                 )}
               </Box>

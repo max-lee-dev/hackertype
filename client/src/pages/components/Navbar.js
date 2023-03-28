@@ -37,6 +37,9 @@ export default function Navbar() {
       <Box fontWeight={"200"}>
         <ul>
           <li>
+            <NavLink to="/settings">&lt;settings&gt;</NavLink>
+          </li>
+          <li>
             <NavLink to="/solutions">&lt;solutions&gt;</NavLink>
           </li>
           <li>
