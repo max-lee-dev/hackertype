@@ -6,16 +6,19 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+import { Box, Center, Text, Stack, Divider, Input, Button, Form } from "@chakra-ui/react";
 import { auth } from "./firebase.js";
 import { db } from "./firebase";
 import { getFirestore, doc, addDoc, getDocs, setDoc, collection } from "firebase/firestore";
 export default function UserLogin({ user, setUser }) {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [loginErrorMessage, setLoginErrorMessage] = useState("");
+  const [registerErrorMessage, setRegisterErrorMessage] = useState("");
   const [users, setUsers] = useState([]);
   const usersRef = collection(db, "users");
 
@@ -44,7 +47,8 @@ export default function UserLogin({ user, setUser }) {
     window.location.reload();
   }
 
-  async function register() {
+  async function register(e) {
+    e.preventDefault();
     try {
       let ok = true;
       //eslint-disable-next-line
@@ -53,17 +57,22 @@ export default function UserLogin({ user, setUser }) {
           ok = false;
         }
       });
-      if (!ok) return setErrorMessage("Username already in use");
+      if (!ok) return setRegisterErrorMessage("Username already in use");
 
       if (username === "") {
-        setErrorMessage("Username cannot be empty");
+        setRegisterErrorMessage("Username cannot be empty");
         return;
       }
+      if (registerPassword !== confirmPassword) {
+        setRegisterErrorMessage("Passwords do not match");
+        return;
+      }
+
       const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
       await updateProfile(auth.currentUser, { displayName: username }).catch((err) => console.log(err));
 
       console.log(auth.currentUser.uid);
-      setErrorMessage("");
+      setRegisterErrorMessage("");
       createNewUser(auth.currentUser.uid);
     } catch (error) {
       console.log(error.message);
@@ -71,38 +80,39 @@ export default function UserLogin({ user, setUser }) {
         error.message === "Firebase: Error (auth/invalid-email)." ||
         error.message === "Firebase: Error (auth/internal-error)."
       ) {
-        setErrorMessage("Invalid email");
+        setRegisterErrorMessage("Invalid email");
       } else if (
         error.message === "Firebase: Password should be at least 6 characters (auth/weak-password)."
       ) {
-        setErrorMessage("Password should be at least 6 characters");
+        setRegisterErrorMessage("Password should be at least 6 characters");
       } else if (error.message === "Firebase: Error (auth/email-already-in-use).") {
-        setErrorMessage("Email already in use");
+        setRegisterErrorMessage("Email already in use");
       }
     }
   }
-  async function login() {
+  async function login(e) {
+    e.preventDefault();
     try {
       const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
 
       console.log(user);
-      setErrorMessage("");
+      setLoginErrorMessage("");
     } catch (error) {
       if (
         error.message === "Firebase: Error (auth/user-not-found)." ||
         error.message === "Firebase: Error (auth/invalid-email)."
       ) {
-        setErrorMessage("Invalid email");
+        setLoginErrorMessage("Invalid email");
       } else if (
         error.message === "Firebase: Error (auth/internal-error)." ||
         error.message === "Firebase: Error (auth/wrong-password)."
       ) {
-        setErrorMessage("Incorrect password");
+        setLoginErrorMessage("Incorrect password");
       } else if (
         error.message ===
         "Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests)."
       ) {
-        setErrorMessage(`Too many failed login attempts to ${loginEmail}. Please try again later.`);
+        setLoginErrorMessage(`Too many failed login attempts to ${loginEmail}. Please try again later.`);
       }
       console.log(error.message);
     }
@@ -113,60 +123,85 @@ export default function UserLogin({ user, setUser }) {
     window.location.reload();
   }
   return (
-    <div className="App maintext">
-      <div>
-        <h3> Register User </h3>
+    <Center>
+      {" "}
+      <Box paddingTop="75px" className="whiteText mainFont" width="50%">
+        <Center>
+          <Box>
+            <Stack direction="row">
+              <form onSubmit={register}>
+                <Box width="40%">
+                  <Text paddingBottom="25px" className="font500" fontSize="24px">
+                    {" "}
+                    register user{" "}
+                  </Text>
 
-        <input
-          className="correct"
-          placeholder="Username"
-          onChange={(event) => {
-            setUsername(event.target.value);
-          }}
-        />
-        <input
-          className="correct"
-          placeholder="Email"
-          onChange={(event) => {
-            setRegisterEmail(event.target.value);
-          }}
-        />
-        <input
-          className="correct"
-          placeholder="Password"
-          type="password"
-          onChange={(event) => {
-            setRegisterPassword(event.target.value);
-          }}
-        />
-
-        <button onClick={register}>Sign Up</button>
-      </div>
-
-      <div>
-        <h3> Login </h3>
-        <input
-          className="correct"
-          placeholder="Email"
-          onChange={(event) => {
-            setLoginEmail(event.target.value);
-          }}
-        />
-        <input
-          className="correct"
-          placeholder="Password"
-          type="password"
-          onChange={(event) => {
-            setLoginPassword(event.target.value);
-          }}
-        />
-        <button onClick={login}>Log In</button>
-      </div>
-      <div>
-        {user && user.displayName && <h3> User Logged in: {user.displayName}</h3>}
-        <p className="currentIncorrect">{errorMessage}</p>
-        {user && user.email && <button onClick={signout}>Signout</button>}
-      </div>
-    </div>
+                  <Input
+                    placeholder="Username"
+                    onChange={(event) => {
+                      setUsername(event.target.value);
+                    }}
+                  />
+                  <Input
+                    placeholder="Email"
+                    onChange={(event) => {
+                      setRegisterEmail(event.target.value);
+                    }}
+                  />
+                  <Input
+                    placeholder="Password"
+                    type="password"
+                    onChange={(event) => {
+                      setRegisterPassword(event.target.value);
+                    }}
+                  />
+                  <Input
+                    placeholder="Confirm Password"
+                    type="password"
+                    onChange={(event) => {
+                      setConfirmPassword(event.target.value);
+                    }}
+                  />
+                  <Center>
+                    <p className="currentIncorrect">{registerErrorMessage}</p>
+                  </Center>
+                  <Center>
+                    <Button marginTop="20px" type="submit" backgroundColor={"#555"} onClick={register}>
+                      Sign Up
+                    </Button>
+                  </Center>
+                </Box>
+              </form>
+              <Box width="35%">
+                <form onSubmit={login}>
+                  <Text fontSize="24px" paddingBottom={"25px"} className="font500">
+                    {" "}
+                    log in{" "}
+                  </Text>
+                  <Input
+                    placeholder="Email"
+                    onChange={(event) => {
+                      setLoginEmail(event.target.value);
+                    }}
+                  />
+                  <Input
+                    placeholder="Password"
+                    type="password"
+                    onChange={(event) => {
+                      setLoginPassword(event.target.value);
+                    }}
+                  />
+                  <Center>
+                    <Button marginTop="20px" bgColor={"#555"} type="submit" onClick={login}>
+                      Log In
+                    </Button>
+                  </Center>
+                </form>
+              </Box>
+            </Stack>
+          </Box>
+        </Center>
+      </Box>
+    </Center>
   );
 }

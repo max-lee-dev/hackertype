@@ -326,9 +326,10 @@ html::-webkit-scrollbar-track {
     padding: 0 1rem;
     display: flex;
     gap: 1rem;
-    width: 100%;
+    width: 70%;
     position: fixed;
     background-color: rgb(14,14,16); /* Black w/opacity/see-through */
+    z-index: 1;
 }
 
 .nav a {
@@ -344,6 +345,7 @@ html::-webkit-scrollbar-track {
 .nav a.active:not(.site-title) {
     color: #ffffff;
     text-shadow: 0 0 5px #fff, 0 0 5px #fff, 0 0 42px #0fa, 0 0 92px #0fa,0 0 92px #0fa;
+    
 }
 
 .nav ul {

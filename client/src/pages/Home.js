@@ -244,6 +244,7 @@ function App({ user, givenId }) {
   }
   function randomCode(codingLanguage, solutionSize, id) {
     let codeLang = javaCode;
+
     id--;
     if (codingLanguage === "C++")
       codeLang = cppCode; // C++ CRASHING RN PROB CAUSE COMMENTS (theyt end in smth sus)
@@ -308,6 +309,8 @@ function App({ user, givenId }) {
     // solution range
     ////////////////////////// C++
     let codeLang = cppCode;
+    let cppSolutions = 0;
+    let javaSolutions = 0;
     if (wordLimit !== null && wordLimit !== undefined && wordLimit !== "") {
       maxWords = wordLimit;
     }
@@ -324,6 +327,7 @@ function App({ user, givenId }) {
     }
 
     let numSolutions = 0;
+    console.log("test1");
     for (let i = 0; i < codeLang.length; i++) {
       let selectedCode = "";
 
@@ -334,10 +338,13 @@ function App({ user, givenId }) {
         return 0;
       });
       //
+
       let solutionSize = countNumberOfLines(selectedCode, codeLang);
 
       if (solutionSize <= maxWords) numSolutions++;
     }
+    cppSolutions = numSolutions;
+    console.log("test3");
     if (maxWords === "") setCppRange("ALL");
     else setCppRange(numSolutions);
     ////////////////////////// JAVA
@@ -354,10 +361,12 @@ function App({ user, givenId }) {
         return 0;
       });
       //
+
       let solutionSize = countNumberOfLines(selectedCode, codeLang);
 
       if (solutionSize <= maxWords) numSolutions++;
     }
+    javaSolutions = numSolutions;
     if (maxWords === "") setJavaRange("ALL");
     else setJavaRange(numSolutions);
     numSolutions = 0;
@@ -400,7 +409,13 @@ function App({ user, givenId }) {
       if (solutionSize <= maxWords) numSolutions++;
     }
 
-    if (numSolutions === 0) {
+    if (codingLanguage === "Python" && numSolutions === 0) {
+      return `Must have atleast 1 solution`;
+    }
+    if (codingLanguage === "Java" && javaSolutions === 0) {
+      return `Must have atleast 1 solution`;
+    }
+    if (codingLanguage === "C++" && cppSolutions === 0) {
       return `Must have atleast 1 solution`;
     }
     let funcRawCode = randomCode(codingLanguage, numSolutions, id);
@@ -423,6 +438,7 @@ function App({ user, givenId }) {
 
       return console.log();
     });
+    console.log("test2");
     funcWordBank = finalCode;
     setWordsLeft(funcWordBank.length);
     setSolutionWordCount(funcWordBank.length);
@@ -527,6 +543,7 @@ function App({ user, givenId }) {
     setPreGeneratedLineIndex(preGeneratedLineIndexArray);
     setNewWordBank(funcWordBank);
     setWhiteSpace(funcWhiteSpace);
+    console.log("did i make it");
   }
 
   useEffect(() => {
