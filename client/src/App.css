@@ -18,6 +18,8 @@ html::-webkit-scrollbar-thumb:hover {
     background-color: rgba(0,0, 0, 0);
 }
 
+
+
 .mainFont {
     font-family: 'Fira Code', monospace;
 }
@@ -316,8 +318,7 @@ html::-webkit-scrollbar-track {
 .nav {
     font-family: 'Fira Code', monospace;
     font-weight: 600;
-    background-color: rgb(24,24,27);
-    color: white;
+    color: rgb(161, 161, 161);
     display: flex;
     justify-content: space-between;
     align-items: stretch;
@@ -325,6 +326,9 @@ html::-webkit-scrollbar-track {
     padding: 0 1rem;
     display: flex;
     gap: 1rem;
+    width: 100%;
+    position: fixed;
+    background-color: rgb(14,14,16); /* Black w/opacity/see-through */
 }
 
 .nav a {
@@ -337,6 +341,11 @@ html::-webkit-scrollbar-track {
    
 }
 
+.nav a.active:not(.site-title) {
+    color: #ffffff;
+    text-shadow: 0 0 5px #fff, 0 0 5px #fff, 0 0 42px #0fa, 0 0 92px #0fa,0 0 92px #0fa;
+}
+
 .nav ul {
     padding: 0;
     margin: 0;
@@ -347,12 +356,12 @@ html::-webkit-scrollbar-track {
 }
 
 .nav li:active {
-    background-color: #555;
 }
 
 
 .nav li:hover {
-    background-color: #333;
+    color: white;
+    
 }
 
 

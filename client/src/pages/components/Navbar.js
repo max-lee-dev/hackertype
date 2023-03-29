@@ -20,9 +20,9 @@ export default function Navbar() {
   //eslint-disable-next-line
   return (
     <nav className="nav">
-      <div className="Logo">
+      <Box className="Logo whiteText">
         <NavLink to="/" className="site-title">
-          hackertype
+          <Box className="Logo"> hackertype </Box>
         </NavLink>
         <NavLink to="/" className="site-title">
           <Text color="#FFCD29" marginLeft="-12px">
@@ -32,7 +32,7 @@ export default function Navbar() {
             dev
           </Text>
         </NavLink>
-      </div>
+      </Box>
 
       <Box fontWeight={"200"}>
         <ul>
@@ -52,12 +52,7 @@ export default function Navbar() {
             <Stack direction="row">
               {!user && (
                 <NavLink to="/login">
-                  <Text
-                    className="glow"
-                    marginTop="12px"
-                    fontSize="16px"
-                    paddingRight="5px"
-                    textColor="#FFCD29">
+                  <Text marginTop="12px" fontSize="16px" paddingRight="5px" textColor="">
                     &lt;log in&gt;
                   </Text>
                 </NavLink>
@@ -66,18 +61,14 @@ export default function Navbar() {
                 <Box fontSize="40px">
                   <NavLink to={`/profile/${user.displayName}`}>
                     <li>
-                      <Text
-                        className="glow"
-                        marginTop="12px"
-                        fontSize="16px"
-                        paddingRight="5px"
-                        textColor="#FFCD29">
+                      <Text marginTop="12px" fontSize="16px" paddingRight="5px" textColor="">
                         &lt;{user.displayName}&gt;
                       </Text>
                     </li>
                   </NavLink>
                 </Box>
               )}
+              @
             </Stack>
           </li>
         </ul>

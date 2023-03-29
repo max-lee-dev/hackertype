@@ -50,7 +50,7 @@ export default function CodeSettings({
     setId(e.target.value);
   }
   return (
-    <div className="codingSettings">
+    <div>
       {!startCounting && (
         <Center width="900px" height="100px">
           <Stack isInline>

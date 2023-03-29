@@ -1,11 +1,11 @@
 import React from "react";
-import { Heading, Text, ListItem, List } from "@chakra-ui/react";
+import { Heading, Text, ListItem, List, Box } from "@chakra-ui/react";
 
 import {} from "@chakra-ui/icons";
 
 export default function About() {
   return (
-    <div className="aboutContainer">
+    <Box className="aboutContainer" paddingTop="75px">
       <Heading size="xl">About</Heading>
       <Text>
         HackerType is a simple typing website that practices your coding speed using LeetCode solutions
@@ -34,6 +34,6 @@ export default function About() {
       <br />
       <Heading size="xl">Follow Updates</Heading>
       <a href="https://github.com/max-lee-dev/hackertype">GitHub</a>
-    </div>
+    </Box>
   );
 }

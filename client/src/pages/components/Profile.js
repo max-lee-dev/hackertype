@@ -104,7 +104,7 @@ export default function Profile({ setId }) {
 
   return (
     <Center>
-      <Box className="profileContainer">
+      <Box className="profileContainer" paddingTop="30px">
         <Box className="userTitleContainer">
           <Box className="userTitleCard whiteText">
             <Box className="userTitle mainFont font500">
@@ -223,10 +223,10 @@ export default function Profile({ setId }) {
         <Center>
           <Box paddingTop="60px">
             <Box className="submissionContentContainer whiteText">
-              <Box className="submissionContainer" width="100%" marginLeft={"44px"}>
+              <Box className="submissionContainer" width="100%" marginLeft={"0px"}>
                 <Box className="submissionCard mainFont">
                   <Stack direction="row" spacing="2">
-                    <Box className="mainFont font500" width="100%">
+                    <Box className="mainFont font500" width="100%" marginLeft={"-35px"}>
                       {!loading && (
                         <Text fontSize="28px" fontWeight={"300"} paddingLeft={"22px"}>
                           recent
@@ -244,7 +244,7 @@ export default function Profile({ setId }) {
 
                     <Divider
                       orientation="vertical"
-                      border={"20px solid"}
+                      border={"22px solid"}
                       borderColor="transparent"
                       variant="none"
                     />

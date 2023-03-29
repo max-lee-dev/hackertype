@@ -149,31 +149,35 @@ function App({ user, givenId }) {
         setThisSolutionPR(submission.wpm);
       });
     }
-  }, [submissions, []]);
+  }, [submissions]);
 
   // if given a solution id, load the pr
 
-  useEffect(() => {
-    setLoading(true);
-    async function getUserSettings() {
-      const q = query(collection(db, "users"), where("uid", "==", user.uid));
+  useEffect(
+    () => {
+      setLoading(true);
+      async function getUserSettings() {
+        const q = query(collection(db, "users"), where("uid", "==", user.uid));
 
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        if (doc.data().lastId) setId(doc.data().lastId);
-        if (doc.data().lineLimit) setWordLimit(doc.data().lineLimit);
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          if (doc.data().lastId) setId(doc.data().lastId);
+          if (doc.data().lineLimit) setWordLimit(doc.data().lineLimit);
 
-        if (!givenLanguage) Restart(doc.data().lastLanguage, "");
+          if (!givenLanguage) Restart(doc.data().lastLanguage, "");
+          else Restart(givenLanguage, "");
+        });
+      }
+      if (user) getUserSettings().then(() => setLoading(false));
+      if (!user) {
+        if (!givenLanguage) Restart("Java", "");
         else Restart(givenLanguage, "");
-      });
-    }
-    if (user) getUserSettings().then(() => setLoading(false));
-    if (!user) {
-      if (!givenLanguage) Restart("Java", "");
-      else Restart(givenLanguage, "");
-      setLoading(false);
-    }
-  }, [user]);
+        setLoading(false);
+      }
+    },
+    [user],
+    []
+  );
 
   async function changeLastLanguage(codingLanguage) {
     if (user)
@@ -793,8 +797,8 @@ function App({ user, givenId }) {
       <Box className="container">
         <Center>
           <Box className="content">
-            <Box className="codingSettings">
-              <Box>
+            <Box>
+              <Box className="codingSettings">
                 {!loading && (
                   <CodeSettings
                     startCounting={startCounting}
