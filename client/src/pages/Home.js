@@ -94,7 +94,6 @@ function App({ user, givenId }) {
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
 
   const { givenLanguage, number } = useParams();
-  console.log("num: " + number);
   const inputElement = useRef(null);
   const [submitted, setSubmitted] = useState(false);
   const [userInput, setUserInput] = useState("");
@@ -318,16 +317,13 @@ function App({ user, givenId }) {
     if (maxWords === "" || maxWords === undefined || maxWords === 50000) {
       maxWords = 50000;
       if (wordLimit === null || wordLimit === undefined) {
-        console.log("word limit is " + wordLimit);
         setWordLimit(50000);
       }
     } else {
-      console.log("huh: " + maxWords);
       setWordLimit(maxWords);
     }
 
     let numSolutions = 0;
-    console.log("test1");
     for (let i = 0; i < codeLang.length; i++) {
       let selectedCode = "";
 
@@ -344,7 +340,6 @@ function App({ user, givenId }) {
       if (solutionSize <= maxWords) numSolutions++;
     }
     cppSolutions = numSolutions;
-    console.log("test3");
     if (maxWords === "") setCppRange("ALL");
     else setCppRange(numSolutions);
     ////////////////////////// JAVA
@@ -438,7 +433,6 @@ function App({ user, givenId }) {
 
       return console.log();
     });
-    console.log("test2");
     funcWordBank = finalCode;
     setWordsLeft(funcWordBank.length);
     setSolutionWordCount(funcWordBank.length);
@@ -543,7 +537,6 @@ function App({ user, givenId }) {
     setPreGeneratedLineIndex(preGeneratedLineIndexArray);
     setNewWordBank(funcWordBank);
     setWhiteSpace(funcWhiteSpace);
-    console.log("did i make it");
   }
 
   useEffect(() => {

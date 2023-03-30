@@ -92,11 +92,12 @@ export default function UserLogin({ user, setUser }) {
   }
   async function login(e) {
     e.preventDefault();
+
     try {
       const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
 
-      console.log(user);
       setLoginErrorMessage("");
+      window.location.replace("/");
     } catch (error) {
       if (
         error.message === "Firebase: Error (auth/user-not-found)." ||
@@ -191,6 +192,9 @@ export default function UserLogin({ user, setUser }) {
                       setLoginPassword(event.target.value);
                     }}
                   />
+                  <Center>
+                    <p className="currentIncorrect">{loginErrorMessage}</p>
+                  </Center>
                   <Center>
                     <Button marginTop="20px" bgColor={"#555"} type="submit" onClick={login}>
                       Log In

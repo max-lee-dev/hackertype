@@ -314,6 +314,9 @@ html::-webkit-scrollbar-track {
     text-shadow: 0px 0px 10px rgb(240, 229, 23), 0px 0px 5px rgb(252, 252, 25);
   }
   
+  .settingsNavButton {
+    color: rgb(146, 0, 0);
+  }
 
 .nav {
     font-family: 'Fira Code', monospace;
@@ -342,7 +345,7 @@ html::-webkit-scrollbar-track {
    
 }
 
-.nav a.active:not(.site-title) {
+.nav a.active:not(.site-title):not(.settingsNavButton) {
     color: #ffffff;
     text-shadow: 0 0 5px #fff, 0 0 5px #fff, 0 0 42px #0fa, 0 0 92px #0fa,0 0 92px #0fa;
     
@@ -435,6 +438,8 @@ html::-webkit-scrollbar-track {
     --maintext: rgb(244,244,244);
 }
 
+
+
 .container {
     flex-wrap: wrap;
     overflow-wrap: break-word;
@@ -452,6 +457,15 @@ html::-webkit-scrollbar-track {
     
 
     
+}
+
+.searchModal button {
+    background-color: transparent;
+    color: gray;
+}
+.searchModal button:hover {
+    background-color: transparent;
+    color: rgb(244, 244, 244);
 }
 
 

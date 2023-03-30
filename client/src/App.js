@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import NavBar from "./pages/components/Navbar.js";
 import About from "./pages/About.js";
 import Leaderboard from "./pages/Leaderboard.js";
-import Solutions from "./pages/Solutions.js";
 import UserLogin from "./pages/components/UserLogin";
 import Profile from "./pages/components/Profile";
 import Settings from "./pages/Settings";
@@ -15,7 +14,7 @@ import { db } from "./pages/components/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
-import { ChakraProvider, extendTheme, Box } from "@chakra-ui/react";
+import { ChakraProvider, extendTheme, Box, useDisclosure } from "@chakra-ui/react";
 
 function App() {
   const [submissions, setSubmissions] = useState([]);
@@ -23,6 +22,8 @@ function App() {
   const [user, setUser] = useState({});
   const [id, setId] = useState("");
   const [users, setUsers] = useState([]);
+  const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
+
   const auth = getAuth();
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -63,12 +64,26 @@ function App() {
         900: "#1a202c",
       },
     },
+    components: {
+      Button: {
+        baseStyle: {
+          _focus: {
+            boxShadow: "none",
+            outline: "none",
+            color: "white",
+          },
+          _hover: {
+            color: "white",
+          },
+        },
+      },
+    },
   });
 
   return (
     <>
       <ChakraProvider theme={theme}>
-        <NavBar />
+        <NavBar isSearchOpen={isSearchOpen} onSearchClose={onSearchClose} onSearchOpen={onSearchOpen} />
         <Box minHeight="90vh">
           <Routes>
             <Route path="/" element={<Home user={user} givenId={id} />} />
@@ -77,7 +92,6 @@ function App() {
               path="/leaderboard"
               element={<Leaderboard submissions={submissions} loading={loading} />}
             />
-            <Route path="/solutions" element={<Solutions />} />
             <Route path="/login" element={<UserLogin user={user} setUser={setUser} />} />
             <Route path="/profile/:username" element={<Profile setId={setId} />} />
             <Route path="/solutions/:givenLanguage/:number" element={<Home user={user} givenId={id} />} />

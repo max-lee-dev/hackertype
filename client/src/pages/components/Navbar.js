@@ -2,12 +2,35 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { auth } from "./firebase";
 import logo from "./assets/favicon.ico";
+import SearchModal from "../SearchModal";
 
-import { Text, Stack, Box, Center } from "@chakra-ui/react";
-export default function Navbar() {
+import {
+  Text,
+  Box,
+  Divider,
+  Center,
+  ModalFooter,
+  Modal,
+  ModalBody,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  FormControl,
+  Input,
+  FormHelperText,
+  FormLabel,
+  Button,
+  Stack,
+  useDisclosure,
+} from "@chakra-ui/react";
+export default function Navbar({ isSearchOpen, onSearchClose, onSearchOpen }) {
   const [user, setUser] = useState(null);
+  const initialRef = React.useRef(null);
+  const finalRef = React.useRef(null);
 
   auth.onAuthStateChanged((user) => {
+    if (isSearchOpen) return;
     if (user) {
       setUser(user);
     } else {
@@ -35,11 +58,12 @@ export default function Navbar() {
               </Text>
             </NavLink>
           </Box>
-
           <Box fontWeight={"200"}>
             <ul>
               <li>
-                <NavLink to="/settings">&lt;settings&gt;</NavLink>
+                <NavLink className="settingsNavButton" onClick={onSearchOpen}>
+                  <Text color="#a1a1a1">&lt;search&gt;</Text>
+                </NavLink>
               </li>
               <li>
                 <NavLink to="/solutions">&lt;solutions&gt;</NavLink>
@@ -70,13 +94,13 @@ export default function Navbar() {
                       </NavLink>
                     </Box>
                   )}
-                  @
                 </Stack>
               </li>
             </ul>
           </Box>
         </nav>
       </Box>
+      <SearchModal isSearchOpen={isSearchOpen} onSearchClose={onSearchClose} />
     </Center>
   );
 }
