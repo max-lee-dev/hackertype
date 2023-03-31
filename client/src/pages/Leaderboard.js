@@ -73,19 +73,25 @@ export default function Leaderboard() {
             <Box paddingLeft="50px" paddingTop="30px">
               {loading && <Text className="whiteText">loading...</Text>}
               <Stack direction="column">
-                {top.map((solution) => (
-                  <Box>
-                    <Text fontSize="25px" className="grayText font400">
-                      {solution.solution_id}
-                    </Text>
-                    <Text fontSize="22px" className="grayText font400">
-                      {solution.wr_user}
-
-                      {solution.wr_wpm}
-                    </Text>
-                    {!loading && solution.wr_graph && <WpmLineChart givenData={solution.wr_graph} />}
-                  </Box>
-                ))}
+                {!loading &&
+                  top.map((solution) => (
+                    <Box>
+                      <Text fontSize="25px" className="whiteText font500">
+                        {solution.solution_id}
+                      </Text>
+                      <Text fontSize="22px" className="grayText font400">
+                        {solution.wr_user}
+                      </Text>
+                      {solution.wr_wpm && (
+                        <Text fontSize="22px" className="grayText font400">
+                          {solution.wr_wpm} WPM
+                        </Text>
+                      )}
+                      <Box width="50%">
+                        {solution.wr_graph && <WpmLineChart givenData={solution.wr_graph} />}
+                      </Box>
+                    </Box>
+                  ))}
               </Stack>
             </Box>
           </Box>
