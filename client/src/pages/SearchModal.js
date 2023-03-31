@@ -21,7 +21,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 
-import { query, collection, getDocs } from "firebase/firestore";
+import { query, collection, getDocs, orderBy } from "firebase/firestore";
 import { db } from "./components/firebase";
 import Submission from "./components/Submission";
 
@@ -32,6 +32,7 @@ export default function SeachModal({ isSearchOpen, onSearchClose }) {
   const [userList, setUserList] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [solutionList, setSolutionList] = useState([]);
+  const [selectedLanguage, setSelectedLanguage] = useState("Java");
 
   useEffect(() => {
     setLoading(true);
@@ -43,7 +44,7 @@ export default function SeachModal({ isSearchOpen, onSearchClose }) {
       const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach((doc) => {
-        if (tempArr.length > 5) return;
+        if (tempArr.length > 4) return;
         const displayName = doc.data().displayName.toLowerCase();
         const userInputLower = userInput.toLowerCase();
         if (userInput === "") tempArr.push(doc.data());
@@ -54,12 +55,13 @@ export default function SeachModal({ isSearchOpen, onSearchClose }) {
 
     async function getSolutionList() {
       const tempArr = [];
-      const q = query(collection(db, "submissions"));
+      const q = query(collection(db, "solutions"));
+      const sortedQ = query(q, orderBy("solutionNum", "asc"));
 
-      const querySnapshot = await getDocs(q);
+      const querySnapshot = await getDocs(sortedQ);
 
       querySnapshot.forEach((doc) => {
-        if (tempArr.length > 5) return;
+        if (tempArr.length > 4) return;
         const displayName = doc.data().solution_id.toLowerCase();
         const userInputLower = userInput.toLowerCase();
         if (userInput === "") tempArr.push(doc);
@@ -125,7 +127,11 @@ export default function SeachModal({ isSearchOpen, onSearchClose }) {
                     </Box>
                     {loading && <Text>loading...</Text>}
                     {solutionList.map((sol) => (
-                      <Text>{sol.data().solution_id}</Text>
+                      <Box paddingTop="10px">
+                        <Link textDecoration={"underline"} href={`/solutions/Java/${sol.data().solutionNum}`}>
+                          {sol.data().solution_id}
+                        </Link>
+                      </Box>
                     ))}
                   </Box>
                 </Box>

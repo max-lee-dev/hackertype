@@ -256,10 +256,36 @@ function App({ user, givenId }) {
     if (codeLang[id] === null) {
       setError("Not a valid solution ID!");
     }
+    // const solutions = collection(db, "pythonSolutions");
+    // async function getSolutions() {
+    //   for (let i = 0; i < codeLang.length; i++) {
+    //     let curID = "";
+    //     let solutionNum = 0;
+    //     if (codeLang[i]) {
+    //       console.log("? : " + codeLang[i]);
+    //       codeLang[i].map((codeInfo) => {
+    //         curID = codeInfo.id;
+    //         return 0;
+    //       });
+    //       const stringArr = curID.split(".");
+    //       solutionNum = parseInt(stringArr[0]);
+    //     }
+
+    //     if (curID !== "")
+    //       await addDoc(solutions, {
+    //         solution_id: curID,
+    //         solutionNum: solutionNum,
+    //         language: codingLanguage,
+    //       });
+    //   }
+    // }
+    // getSolutions();
+
     while (true) {
       var randInt = Math.floor(Math.random() * codeLang.length);
       var pulledCode = codeLang[randInt]; // contains /**  in java
       pulledCode = codeLang[randInt];
+
       while (pulledCode === null || (solutionSize !== 1 && pulledCode === lastCode)) {
         randInt = Math.floor(Math.random() * codeLang.length);
         pulledCode = codeLang[randInt];
@@ -802,6 +828,7 @@ function App({ user, givenId }) {
     preGeneratedLineIndex[currentLine + amountOfLinesToRender - 1] === undefined
       ? 1000000
       : preGeneratedLineIndex[currentLine + amountOfLinesToRender - 1];
+
   return (
     <Box className="body">
       <Box className="container">

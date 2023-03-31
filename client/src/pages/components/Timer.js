@@ -29,7 +29,6 @@ function Timer({
   const [newAcc, setNewAcc] = useState(0);
   const [rank, setRank] = useState(1);
   const [totalOpponents, setTotalOpponents] = useState(1);
-  console.log("START: " + startCounting);
   let totalCorrectChars = 0;
   for (let i = 0; i < correctCharacterArray.length; i++) {
     totalCorrectChars += correctCharacterArray[i];
@@ -79,7 +78,6 @@ function Timer({
   }, []);
 
   if (!pause && startCounting) {
-    console.log(wpmGraph);
     if (wpm === "Infinity") return <p className="wpm mainFont">{0}</p>;
     return <Text className="wpm mainFont">{wpm}</Text>;
   } else if (pause) {
@@ -255,11 +253,14 @@ function Timer({
             if (firstTime) addNewOpponent(submission, totalOppo);
             return "";
           });
+
+        if (amountBetter === 1) {
+          updateBestSubmission(language, wpmGraph);
+        }
         setTotalOpponents(totalOppo);
         setRank(amountBetter);
       }
       const avgWpm = (totalWpm / testsCompleted).toFixed(0);
-      console.log(avgWpm);
       await updateDoc(doc(db, "users", user?.uid), {
         tests_completed: increment(1),
         average_wpm: avgWpm,
@@ -298,6 +299,60 @@ function Timer({
         tests_started: increment(1), // this runs twice for some reason lol
       });
       setAddedOne(true);
+    }
+  }
+
+  async function updateBestSubmission(language, wpmGraph) {
+    if (user) {
+      if (language === "C++") {
+        const solutionsRef = collection(db, "cppSolutions");
+        const solutionSnapshot = await getDocs(solutionsRef);
+        const thisSubmission = solutionSnapshot.docs.filter(function (solution) {
+          return solution.data().solution_id === leetcodeTitle;
+        });
+
+        thisSubmission.map((submission) => {
+          updateDoc(doc(db, "cppSolutions", submission.id), {
+            wr_user: user.displayName,
+            wr_wpm: finalWPM,
+            wr_date: new Date().toLocaleString(),
+            wr_graph: wpmGraph,
+          });
+          return "";
+        });
+      } else if (language === "Java") {
+        const solutionsRef = collection(db, "javaSolutions");
+        const solutionSnapshot = await getDocs(solutionsRef);
+        const thisSubmission = solutionSnapshot.docs.filter(function (solution) {
+          return solution.data().solution_id === leetcodeTitle;
+        });
+
+        thisSubmission.map((submission) => {
+          updateDoc(doc(db, "javaSolutions", submission.id), {
+            wr_user: user.displayName,
+            wr_wpm: finalWPM,
+            wr_date: new Date().toLocaleString(),
+            wr_graph: wpmGraph,
+          });
+          return "";
+        });
+      } else if (language === "Python") {
+        const solutionsRef = collection(db, "pythonSolutions");
+        const solutionSnapshot = await getDocs(solutionsRef);
+        const thisSubmission = solutionSnapshot.docs.filter(function (solution) {
+          return solution.data().solution_id === leetcodeTitle;
+        });
+
+        thisSubmission.map((submission) => {
+          updateDoc(doc(db, "pythonSolutions", submission.id), {
+            wr_user: user.displayName,
+            wr_wpm: finalWPM,
+            wr_date: new Date().toLocaleString(),
+            wr_graph: wpmGraph,
+          });
+          return "";
+        });
+      }
     }
   }
 }

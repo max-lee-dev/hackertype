@@ -65,9 +65,7 @@ export default function Navbar({ isSearchOpen, onSearchClose, onSearchOpen }) {
                   <Text color="#a1a1a1">&lt;search&gt;</Text>
                 </NavLink>
               </li>
-              <li>
-                <NavLink to="/solutions">&lt;solutions&gt;</NavLink>
-              </li>
+
               <li>
                 <NavLink to="/leaderboard">&lt;leaderboard&gt;</NavLink>
               </li>

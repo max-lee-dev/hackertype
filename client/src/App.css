@@ -351,6 +351,21 @@ html::-webkit-scrollbar-track {
     
 }
 
+.standardButton button {
+    color: gray;
+    background-color: transparent;
+}
+
+.standardButton button:hover {
+    color: var(--maintext);
+    background-color: transparent;
+}
+
+.standardButton button:active {
+    color: gray;
+    background-color: transparent;
+}
+
 .nav ul {
     padding: 0;
     margin: 0;
