@@ -83,7 +83,7 @@ export default function Leaderboard() {
 
                       {solution.wr_wpm}
                     </Text>
-                    {solution.wr_graph && <WpmLineChart givenData={solution.wr_graph} />}
+                    {!loading && solution.wr_graph && <WpmLineChart givenData={solution.wr_graph} />}
                   </Box>
                 ))}
               </Stack>
