@@ -55,7 +55,7 @@ export default function SeachModal({ isSearchOpen, onSearchClose }) {
 
     async function getSolutionList() {
       const tempArr = [];
-      const q = query(collection(db, "solutions"));
+      const q = query(collection(db, "javaSolutions"));
       const sortedQ = query(q, orderBy("solutionNum", "asc"));
 
       const querySnapshot = await getDocs(sortedQ);
