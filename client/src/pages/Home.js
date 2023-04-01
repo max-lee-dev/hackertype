@@ -105,7 +105,7 @@ function App({ user, givenId }) {
   const [javaRange, setJavaRange] = useState("ALL");
   const [cppRange, setCppRange] = useState("ALL");
   const [pythonRange, setPythonRange] = useState("ALL");
-  const [wordLimit, setWordLimit] = useState(5);
+  const [wordLimit, setWordLimit] = useState(50000);
   const [wordBank, setNewWordBank] = useState([]);
   const [whiteSpace, setWhiteSpace] = useState([]);
   const [language, setLanguage] = useState("");
@@ -126,7 +126,6 @@ function App({ user, givenId }) {
   const submissionsCollectionRef = collection(db, "submissions");
   const [id, setId] = useState(number);
   const [amountOfLinesToRender, setAmountOfLinesToRender] = useState(5);
-  const [userLineLimit, setUserLineLimit] = useState(5);
 
   const [finished, setFinished] = useState(false);
   useEffect(() => {
@@ -165,7 +164,6 @@ function App({ user, givenId }) {
           if (number && doc.data().lineLimit) setWordLimit("");
           else if (doc.data().lineLimit) {
             givenLineLimit = doc.data().lineLimit;
-            setUserLineLimit(doc.data().lineLimit);
             setWordLimit(doc.data().lineLimit);
           }
 
@@ -183,10 +181,6 @@ function App({ user, givenId }) {
     [user],
     []
   );
-
-  useEffect(() => {
-    if (userLineLimit) setAmountOfLinesToRender(userLineLimit);
-  }, [userLineLimit]);
 
   async function changeLastLanguage(codingLanguage) {
     if (user)
@@ -344,7 +338,6 @@ function App({ user, givenId }) {
   function Reset(codingLanguage, maxWords, id) {
     // solution range
     ////////////////////////// C++
-    console.log("GIVEN LIEN LIMIT: " + wordLimit);
     let codeLang = cppCode;
     let cppSolutions = 0;
     let javaSolutions = 0;
