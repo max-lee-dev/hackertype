@@ -161,7 +161,7 @@ function App({ user, givenId }) {
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
           if (doc.data().lastId) setId(doc.data().lastId);
-          if (number && doc.data().lineLimit) setWordLimit(null);
+          if (number && doc.data().lineLimit) setWordLimit("");
           else if (doc.data().lineLimit) setWordLimit(doc.data().lineLimit);
 
           if (!givenLanguage) Restart(doc.data().lastLanguage, "");
