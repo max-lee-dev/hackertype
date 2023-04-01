@@ -113,7 +113,7 @@ export default function SeachModal({ isSearchOpen, onSearchClose }) {
                 <Box width="100%">
                   <Box paddingTop="15px">
                     <Box width="50%">
-                      <Text fontSize="32px">users</Text>
+                      {!loading && userList.length > 0 && <Text fontSize="32px">users</Text>}
                     </Box>
                     {userList.map((user) => (
                       <Box paddingTop="10px">
@@ -123,7 +123,7 @@ export default function SeachModal({ isSearchOpen, onSearchClose }) {
                       </Box>
                     ))}
                     <Box paddingTop="20px" width="50%">
-                      <Text fontSize="32px">solutions</Text>
+                      {!loading && solutionList.length > 0 && <Text fontSize="32px">solutions</Text>}
                     </Box>
                     {loading && <Text>loading...</Text>}
                     {solutionList.map((sol) => (

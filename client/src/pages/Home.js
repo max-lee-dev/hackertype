@@ -161,7 +161,8 @@ function App({ user, givenId }) {
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
           if (doc.data().lastId) setId(doc.data().lastId);
-          if (doc.data().lineLimit) setWordLimit(doc.data().lineLimit);
+          if (number && doc.data().lineLimit) setWordLimit(null);
+          else if (doc.data().lineLimit) setWordLimit(doc.data().lineLimit);
 
           if (!givenLanguage) Restart(doc.data().lastLanguage, "");
           else Restart(givenLanguage, "");
@@ -204,6 +205,11 @@ function App({ user, givenId }) {
 
   function Restart(codingLanguage, maxWords, retrySame) {
     let s = "";
+    if (number) {
+      changeLineLimit(32);
+      maxWords = "";
+    }
+    console.log(maxWords);
     changeLastLanguage(codingLanguage);
     if (retrySame === undefined) {
       // if not retrying same code (typically)
