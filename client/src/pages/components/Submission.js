@@ -15,9 +15,11 @@ export default function Submission({ uid }) {
     color = "#2b5599";
   }
   let solutionNumber = "";
+
   useEffect(() => {
     setLoading(true);
     async function getSubmission() {
+      console.log("what");
       const subRef = doc(db, "submissions", uid);
       const docSnap = await getDoc(subRef);
       if (docSnap.exists()) {
@@ -37,6 +39,9 @@ export default function Submission({ uid }) {
   async function redirect() {
     window.location.replace(`/solutions/${submission.language}/${solutionNumber}`);
   }
+  if (loading) {
+    return <div></div>;
+  }
 
   return (
     <div className="individualSubmissionContainer">
@@ -52,7 +57,7 @@ export default function Submission({ uid }) {
                 </Box>
               </Tooltip>
               <Box width="100%" textAlign="left">
-                <Tooltip label={submission.date} placement="top">
+                <Tooltip label={submission.date[0] + " " + submission.date[1]} placement="top">
                   <Text
                     onClick={redirect}
                     fontSize=""

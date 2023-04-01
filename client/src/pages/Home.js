@@ -105,7 +105,7 @@ function App({ user, givenId }) {
   const [javaRange, setJavaRange] = useState("ALL");
   const [cppRange, setCppRange] = useState("ALL");
   const [pythonRange, setPythonRange] = useState("ALL");
-  const [wordLimit, setWordLimit] = useState(50000);
+  const [wordLimit, setWordLimit] = useState(5);
   const [wordBank, setNewWordBank] = useState([]);
   const [whiteSpace, setWhiteSpace] = useState([]);
   const [language, setLanguage] = useState("");
@@ -126,6 +126,7 @@ function App({ user, givenId }) {
   const submissionsCollectionRef = collection(db, "submissions");
   const [id, setId] = useState(number);
   const [amountOfLinesToRender, setAmountOfLinesToRender] = useState(5);
+  const [userLineLimit, setUserLineLimit] = useState(5);
 
   const [finished, setFinished] = useState(false);
   useEffect(() => {
@@ -157,15 +158,19 @@ function App({ user, givenId }) {
       setLoading(true);
       async function getUserSettings() {
         const q = query(collection(db, "users"), where("uid", "==", user.uid));
-
+        let givenLineLimit = 0;
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
           if (doc.data().lastId) setId(doc.data().lastId);
           if (number && doc.data().lineLimit) setWordLimit("");
-          else if (doc.data().lineLimit) setWordLimit(doc.data().lineLimit);
+          else if (doc.data().lineLimit) {
+            givenLineLimit = doc.data().lineLimit;
+            setUserLineLimit(doc.data().lineLimit);
+            setWordLimit(doc.data().lineLimit);
+          }
 
-          if (!givenLanguage) Restart(doc.data().lastLanguage, "");
-          else Restart(givenLanguage, "");
+          if (!givenLanguage) Restart(doc.data().lastLanguage, givenLineLimit);
+          else Restart(givenLanguage, givenLineLimit);
         });
       }
       if (user) getUserSettings().then(() => setLoading(false));
@@ -178,6 +183,10 @@ function App({ user, givenId }) {
     [user],
     []
   );
+
+  useEffect(() => {
+    if (userLineLimit) setAmountOfLinesToRender(userLineLimit);
+  }, [userLineLimit]);
 
   async function changeLastLanguage(codingLanguage) {
     if (user)
@@ -335,6 +344,7 @@ function App({ user, givenId }) {
   function Reset(codingLanguage, maxWords, id) {
     // solution range
     ////////////////////////// C++
+    console.log("GIVEN LIEN LIMIT: " + wordLimit);
     let codeLang = cppCode;
     let cppSolutions = 0;
     let javaSolutions = 0;
@@ -864,7 +874,13 @@ function App({ user, givenId }) {
 
             <Box className="inputContainer">
               <Box className="leetcodeTitle">
-                {loading && <p>Loading...</p>}
+                {loading && (
+                  <Box fontSize="100px">
+                    <ion-spinner></ion-spinner>
+                    <ion-spinner color="primary"></ion-spinner>
+                    <ion-spinner color="secondary"></ion-spinner>
+                  </Box>
+                )}
                 {!startCounting && <p className="mainFont">{leetcodeTitle}</p>}
               </Box>
               <Box id="timer">
@@ -889,7 +905,6 @@ function App({ user, givenId }) {
 
               <Box className="textContainer">
                 <p className="error"> {error}</p>
-                {console.log(loading)}
                 <Box>
                   <Box className="userInputContainer">
                     {!startCounting && !loading && (

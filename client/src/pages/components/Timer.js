@@ -3,7 +3,7 @@ import { addDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import { collection, increment, updateDoc, doc, getDocs } from "firebase/firestore";
 import { StarIcon } from "@chakra-ui/icons";
-import { Text, Box, Center, Stack, Divider, useDisclosure, Button } from "@chakra-ui/react";
+import { Text, Box, Center, Stack, Divider, useDisclosure, Button, Tooltip } from "@chakra-ui/react";
 import LeaderboardModal from "./LeaderboardModal";
 import WpmLineChart from "./WpmLineChart";
 
@@ -149,7 +149,16 @@ function Timer({
               </Box>
               <Box>
                 <Text>
-                  {rank}/{totalOpponents}
+                  {user && (
+                    <Box>
+                      {rank}/{totalOpponents}
+                    </Box>
+                  )}
+                  {!user && (
+                    <Tooltip label="Log in to find rank">
+                      <Box>?/{countOpponents()}</Box>
+                    </Tooltip>
+                  )}
                 </Text>
                 <Text color="grey" fontSize="18px">
                   {" "}
@@ -208,6 +217,23 @@ function Timer({
     );
   }
 
+  function countOpponents() {
+    let totalOppo = 0;
+    submissions
+      .filter(function (submission) {
+        return (
+          submission.isBestSubmission === true &&
+          submission.language === language &&
+          submission.solution_id === leetcodeTitle
+        );
+      })
+      .map((submission) => {
+        console.log("test");
+        totalOppo++;
+      });
+    return totalOppo;
+  }
+
   async function createSubmission() {
     if (user) {
       let totalWpm = parseInt(finalWPM); // database doesnt update during this func so start with the current wpm
@@ -246,46 +272,74 @@ function Timer({
       });
       let amountBetter = 1;
       let totalOppo = 1;
+      // first update last one,
+
       if (isBestSubmission) {
-        // first update last one,
         oldBestSubmission.map((submission) => {
           updateDoc(doc(db, "submissions", submission.id), {
             isBestSubmission: false,
           });
           return "";
         });
-
-        submissions
-          .filter(function (submission) {
-            return (
-              submission.isBestSubmission === true &&
-              submission.user !== user.displayName &&
-              submission.language === language &&
-              submission.solution_id === leetcodeTitle
-            );
-          })
-          .map((submission) => {
-            totalOppo++;
-            if (parseInt(submission.wpm) > parseInt(finalWPM)) {
-              amountBetter++;
-            } else {
-              decreaseRank(submission);
-            }
-            if (firstTime) addNewOpponent(submission, totalOppo);
-            return "";
-          });
-
-        if (amountBetter === 1) {
-          updateBestSubmission(language, wpmGraph);
-        }
-        setTotalOpponents(totalOppo);
-        setRank(amountBetter);
       }
+
+      submissions
+        .filter(function (submission) {
+          return (
+            submission.isBestSubmission === true &&
+            submission.user !== user.displayName &&
+            submission.language === language &&
+            submission.solution_id === leetcodeTitle
+          );
+        })
+        .map((submission) => {
+          totalOppo++;
+          if (parseInt(submission.wpm) > parseInt(finalWPM)) {
+            amountBetter++;
+          } else {
+            if (isBestSubmission) decreaseRank(submission);
+          }
+          if (firstTime && isBestSubmission) addNewOpponent(submission, totalOppo);
+          return "";
+        });
+
+      if (amountBetter === 1) {
+        updateBestSubmission(language, wpmGraph);
+      }
+      setTotalOpponents(totalOppo);
+      setRank(amountBetter);
+
       const avgWpm = (totalWpm / testsCompleted).toFixed(0);
       await updateDoc(doc(db, "users", user?.uid), {
         tests_completed: increment(1),
         average_wpm: avgWpm,
       });
+
+      function createDate() {
+        var d = new Date().toLocaleString();
+        const convert = new Date(d);
+        const UTCDate = convert.toUTCString();
+        const dateArray = [];
+        var time = UTCDate.split(" ")[4];
+        var timezone = UTCDate.split(" ")[5];
+
+        const date = new Date(UTCDate);
+        var dd = date.getDate();
+        var mm = date.getMonth() + 1;
+        var yyyy = date.getFullYear();
+        if (dd < 10) {
+          dd = "0" + dd;
+        }
+        if (mm < 10) {
+          mm = "0" + mm;
+        }
+        dateArray[0] = mm + "/" + dd + "/" + yyyy;
+        dateArray[1] = time;
+        dateArray[2] = timezone;
+        console.log(dateArray);
+        return dateArray;
+      }
+
       await addDoc(submissionsCollectionRef, {
         solution_id: leetcodeTitle,
         user: user.displayName,
@@ -293,8 +347,8 @@ function Timer({
         acc: newAcc,
         language: language,
         user_uid: user.uid,
-        date: new Date().toLocaleString(),
-        when: Date.parse(new Date().toLocaleString()),
+        date: createDate(),
+        when: Date.parse(new Date()),
         isBestSubmission: isBestSubmission,
         rank: amountBetter,
         totalOpponents: totalOppo,

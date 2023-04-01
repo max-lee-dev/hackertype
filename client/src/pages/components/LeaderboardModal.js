@@ -38,6 +38,7 @@ export default function LeaderboardModal({
   const [userList, setUserList] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [solutionList, setSolutionList] = useState([]);
+  const [dateArrs, setDateArrs] = useState([]);
 
   const titleArray = givenSolName.split(".");
 
@@ -48,7 +49,7 @@ export default function LeaderboardModal({
 
     async function getSolutionList() {
       const tempArr = [];
-
+      const dateArrs = [];
       const q = query(collection(db, "submissions"));
 
       const thisLanguage = query(q, where("language", "==", selectedLanguage));
@@ -64,13 +65,39 @@ export default function LeaderboardModal({
       querySnapshot.forEach((doc) => {
         console.log("HO: " + doc.data());
         tempArr.push(doc.data());
+        const thisDate = new Date(doc.data().date);
+        const UTCDate = thisDate.toUTCString();
+        dateArrs.push(formatDate(UTCDate));
       });
+      setDateArrs(dateArrs);
       setSolutionList(tempArr);
     }
 
     getSolutionList().then(() => setLoading(false));
   }, [userInput, isLeaderboardOpen]);
+  function formatDate(d) {
+    console.log("My dfate:" + d);
+    const dateArray = [];
+    var time = d.split(" ")[4];
+    var timezone = d.split(" ")[5];
 
+    const date = new Date(d);
+    var exactTime = date.getUTCMilliseconds();
+    console.log("ecaxt time: " + exactTime);
+    var dd = date.getDate();
+    var mm = date.getMonth() + 1;
+    var yyyy = date.getFullYear();
+    if (dd < 10) {
+      dd = "0" + dd;
+    }
+    if (mm < 10) {
+      mm = "0" + mm;
+    }
+    dateArray[0] = mm + "/" + dd + "/" + yyyy;
+    dateArray[1] = time;
+    dateArray[2] = timezone;
+    return dateArray;
+  }
   return (
     <Center>
       <Modal
@@ -119,7 +146,7 @@ export default function LeaderboardModal({
                     {loading && <Text>Loading...</Text>}
                     {!loading && (
                       <Box paddingTop="0px">
-                        {solutionList.map((sol) => (
+                        {solutionList.map((sol, i) => (
                           <Box paddingBottom="30px">
                             <Box display="flex" fontSize="20px">
                               <Box width="25%">
@@ -135,7 +162,14 @@ export default function LeaderboardModal({
                               </Box>
 
                               <Box width="25%">
-                                <Text>{sol.date}</Text>
+                                <HStack>
+                                  <Text>
+                                    {sol.date[0]} {sol.date[1]}
+                                  </Text>
+                                  <Text fontSize="16px" color="gray">
+                                    {sol.date[2]}
+                                  </Text>
+                                </HStack>
                               </Box>
                             </Box>
                           </Box>

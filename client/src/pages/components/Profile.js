@@ -59,9 +59,7 @@ export default function Profile({ setId }) {
       const top = query(q, orderBy("when", "desc"), limit(5));
       const recentQuerySnapshot = await getDocs(top);
       const tempArray = [];
-      console.log(top);
       recentQuerySnapshot.forEach((doc) => {
-        console.log(Date.parse(doc.data().date));
         tempArray.push(doc.id);
       });
       setRecentSubmissions(tempArray);
@@ -95,6 +93,7 @@ export default function Profile({ setId }) {
     getUserSettings();
     getBestSubmissions();
     getRecentSubmissions().then(() => setLoading(false));
+    console.log("ho");
   }, [username]);
 
   const submissionsCollectionRef = collection(db, "submissions");
