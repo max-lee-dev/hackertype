@@ -205,11 +205,7 @@ function App({ user, givenId }) {
 
   function Restart(codingLanguage, maxWords, retrySame) {
     let s = "";
-    if (number) {
-      changeLineLimit(32);
-      maxWords = "";
-    }
-    console.log(maxWords);
+
     changeLastLanguage(codingLanguage);
     if (retrySame === undefined) {
       // if not retrying same code (typically)
