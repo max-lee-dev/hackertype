@@ -3,7 +3,8 @@ import { addDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import { collection, increment, updateDoc, doc, getDocs } from "firebase/firestore";
 import { StarIcon } from "@chakra-ui/icons";
-import { Text, Box, Center, Stack, Divider } from "@chakra-ui/react";
+import { Text, Box, Center, Stack, Divider, useDisclosure, Button } from "@chakra-ui/react";
+import LeaderboardModal from "./LeaderboardModal";
 import WpmLineChart from "./WpmLineChart";
 
 function Timer({
@@ -29,6 +30,11 @@ function Timer({
   const [newAcc, setNewAcc] = useState(0);
   const [rank, setRank] = useState(1);
   const [totalOpponents, setTotalOpponents] = useState(1);
+  const {
+    isOpen: isLeaderboardOpen,
+    onClose: onLeaderboardClose,
+    onOpen: onLeaderboardOpen,
+  } = useDisclosure();
   let totalCorrectChars = 0;
   for (let i = 0; i < correctCharacterArray.length; i++) {
     totalCorrectChars += correctCharacterArray[i];
@@ -181,7 +187,22 @@ function Timer({
                 </Box>
               </Box>
             </Stack>
+
+            <LeaderboardModal
+              isLeaderboardOpen={isLeaderboardOpen}
+              onLeaderboardClose={onLeaderboardClose}
+              givenSolName={leetcodeTitle}
+              selectedLanguage={language}
+            />
           </Center>
+          <Box className="standardButton">
+            <Button onClick={() => onLeaderboardOpen()}>
+              <Text fontSize="12px">view leaderboard</Text>
+              <Box paddingLeft="10px" fontSize="24px">
+                <ion-icon name="podium"></ion-icon>
+              </Box>
+            </Button>
+          </Box>
         </Box>
       </Box>
     );

@@ -52,15 +52,17 @@ export default function Submission({ uid }) {
                 </Box>
               </Tooltip>
               <Box width="100%" textAlign="left">
-                <Text
-                  onClick={redirect}
-                  fontSize=""
-                  paddingBottom="14px"
-                  paddingLeft="6px"
-                  className="soltitle whiteText font500"
-                  _hover={{ cursor: "pointer" }}>
-                  {submission.solution_id}
-                </Text>
+                <Tooltip label={submission.date} placement="top">
+                  <Text
+                    onClick={redirect}
+                    fontSize=""
+                    paddingBottom="14px"
+                    paddingLeft="6px"
+                    className="soltitle whiteText font500"
+                    _hover={{ cursor: "pointer" }}>
+                    {submission.solution_id}
+                  </Text>
+                </Tooltip>
               </Box>
             </Stack>
           </Box>

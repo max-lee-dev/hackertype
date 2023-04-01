@@ -53,6 +53,11 @@ export default function WpmLineChart({ givenData }) {
                 suggestedMin: 0,
               },
             },
+            x: {
+              ticks: {
+                stepSize: 5,
+              },
+            },
           },
           plugins: {
             title: {
