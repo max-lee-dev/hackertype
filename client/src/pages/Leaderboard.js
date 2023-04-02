@@ -4,6 +4,7 @@ import { orderBy, where, query, collection, getDocs } from "@firebase/firestore"
 import { Center, Stack, Text, Box, Button, HStack, Input, Divider, useDisclosure } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import LeaderboardModal from "./components/LeaderboardModal";
+import Section from "./components/Section";
 
 import WpmLineChart from "./components/WpmLineChart";
 export default function Leaderboard() {
@@ -69,69 +70,75 @@ export default function Leaderboard() {
   }
 
   return (
-    <Center>
-      <Box className="profileContainer">
-        <Box className="userTitle mainFont font500">
-          <Box>
-            <Box width="100%" paddingTop="80px" className="whiteText">
-              <HStack>
-                <Text fontSize="56px">leaderboard</Text>
+    <Section delay={0.1}>
+      <Center>
+        <Box className="profileContainer">
+          <Box className="userTitle mainFont font500">
+            <Box>
+              <Box width="100%" paddingTop="80px" className="whiteText">
+                <HStack>
+                  <Text fontSize="56px">leaderboard</Text>
 
-                <Box paddingLeft="50%">
-                  <Box className="standardButton" bgColor="" width="100%">
-                    <HStack>
-                      <SearchIcon
-                        fontSize="24px"
-                        onClick={() => {
-                          setLanguage("Java");
-                        }}
-                      />
-                      <Input
-                        borderColor={"transparent"}
-                        type="text"
-                        placeholder="search for a solution"
-                        onChange={(e) => setUserInput(e.target.value)}></Input>
-                    </HStack>
-                  </Box>
-                </Box>
-              </HStack>
-            </Box>
-            <Box width="100%" paddingTop="8px" className="font400 standardButton whiteText">
-              <Button onClick={() => setLanguage("C++")}>
-                <Text fontSize="22px" className={language === "C++" ? "whiteText" : ""}>
-                  C++
-                </Text>
-              </Button>
-              <Button onClick={() => setLanguage("Java")}>
-                <Text fontSize="22px" className={language === "Java" ? "whiteText" : ""}>
-                  Java
-                </Text>
-              </Button>
-              <Button onClick={() => setLanguage("Python")}>
-                <Text fontSize="22px" className={language === "Python" ? "whiteText" : ""}>
-                  Python
-                </Text>
-              </Button>
-            </Box>
-
-            <Box paddingLeft="30px" paddingTop="30px">
-              <Box paddingTop="24px" paddingLeft="54px">
-                {loading && <Box className="loader"></Box>}
-              </Box>
-              <Stack direction="column">
-                {!loading &&
-                  top.map((solution) => (
-                    <Box paddingTop="24px" className="standardButton grayText font300" minH="50px" bgColor="">
+                  <Box paddingLeft="50%">
+                    <Box className="standardButton" bgColor="" width="100%">
                       <HStack>
-                        <Button onClick={() => showLeaderboardModal(solution.solution_id)}>
-                          <Text
-                            fontSize="25px"
-                            className={selectedCode === solution.solution_id ? "whiteText" : ""}>
-                            {solution.solution_id}
-                          </Text>
-                        </Button>
+                        <SearchIcon
+                          fontSize="24px"
+                          onClick={() => {
+                            setLanguage("Java");
+                          }}
+                        />
+                        <Input
+                          borderColor={"transparent"}
+                          type="text"
+                          placeholder="search for a solution"
+                          onChange={(e) => setUserInput(e.target.value)}></Input>
                       </HStack>
-                      {/* {selectedCode === solution.solution_id && (
+                    </Box>
+                  </Box>
+                </HStack>
+              </Box>
+              <Box width="100%" paddingTop="8px" className="font400 standardButton whiteText">
+                <Button onClick={() => setLanguage("C++")}>
+                  <Text fontSize="22px" className={language === "C++" ? "whiteText" : ""}>
+                    C++
+                  </Text>
+                </Button>
+                <Button onClick={() => setLanguage("Java")}>
+                  <Text fontSize="22px" className={language === "Java" ? "whiteText" : ""}>
+                    Java
+                  </Text>
+                </Button>
+                <Button onClick={() => setLanguage("Python")}>
+                  <Text fontSize="22px" className={language === "Python" ? "whiteText" : ""}>
+                    Python
+                  </Text>
+                </Button>
+              </Box>
+
+              <Box paddingLeft="30px" paddingTop="30px">
+                <Box paddingTop="24px" paddingLeft="54px">
+                  {loading && <Box className="loader"></Box>}
+                </Box>
+                <Section delay={0.3}>
+                  <Stack direction="column">
+                    {!loading &&
+                      top.map((solution) => (
+                        <Box
+                          paddingTop="24px"
+                          className="standardButton grayText font300"
+                          minH="50px"
+                          bgColor="">
+                          <HStack>
+                            <Button onClick={() => showLeaderboardModal(solution.solution_id)}>
+                              <Text
+                                fontSize="25px"
+                                className={selectedCode === solution.solution_id ? "whiteText" : ""}>
+                                {solution.solution_id}
+                              </Text>
+                            </Button>
+                          </HStack>
+                          {/* {selectedCode === solution.solution_id && (
                         <Box paddingLeft="13px" width="100%" paddingTop={"5px"}>
                           <HStack justifyContent={"space-between"}>
                             <Box paddingTop="10px">
@@ -174,19 +181,21 @@ export default function Leaderboard() {
                           </HStack>
                         </Box>
                       )} */}
-                    </Box>
-                  ))}
-              </Stack>
+                        </Box>
+                      ))}
+                  </Stack>
+                </Section>
+              </Box>
             </Box>
           </Box>
         </Box>
-      </Box>
-      <LeaderboardModal
-        isLeaderboardOpen={isLeaderboardOpen}
-        onLeaderboardClose={onLeaderboardClose}
-        givenSolName={selectedGraphCode}
-        selectedLanguage={language}
-      />
-    </Center>
+        <LeaderboardModal
+          isLeaderboardOpen={isLeaderboardOpen}
+          onLeaderboardClose={onLeaderboardClose}
+          givenSolName={selectedGraphCode}
+          selectedLanguage={language}
+        />
+      </Center>
+    </Section>
   );
 }

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <Box marginTop="110px" bgColor={""} display="flex" justifyContent={"center"}>
+    <Box paddingLeft="50px" marginTop="110px" bgColor={""} display="flex" justifyContent={"center"}>
       <Box fontSize="40px">
         <Link to="https://github.com/max-lee-dev/hackertype">
           <Center>

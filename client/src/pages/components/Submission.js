@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { query, collection, where, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "./firebase";
-import { Stack, Text, Tooltip, Badge, Button, Box } from "@chakra-ui/react";
+import { Stack, Text, Tooltip, Badge, Button, Box, useDisclosure, Divider } from "@chakra-ui/react";
+import LeaderboardModal from "./LeaderboardModal";
 
 export default function Submission({ uid }) {
   const [submission, setSubmission] = useState({});
   const [loading, setLoading] = useState(true);
+  const {
+    isOpen: isLeaderboardOpen,
+    onClose: onLeaderboardClose,
+    onOpen: onLeaderboardOpen,
+  } = useDisclosure();
   let color = "green";
   if (submission.language === "Python") {
     color = "#c9b900";
@@ -56,7 +62,7 @@ export default function Submission({ uid }) {
                   </Text>
                 </Box>
               </Tooltip>
-              <Box width="100%" textAlign="left">
+              <Box width="100%" textAlign="left" display={"flex"}>
                 <Tooltip label={submission.date[0] + " " + submission.date[1]} placement="top">
                   <Text
                     onClick={redirect}
@@ -71,8 +77,21 @@ export default function Submission({ uid }) {
               </Box>
             </Stack>
           </Box>
-
+          <Divider orientation="vertical" width="5px" />
           <Stack direction="row" spacing="10px">
+            <Box>
+              <Button
+                fontSize="24px"
+                backgroundColor="transparent"
+                _active={{ backgroundColor: "transparent" }}
+                _hover={{ color: "white" }}
+                color="grey"
+                width="50px"
+                paddingBottom="16px"
+                onClick={() => onLeaderboardOpen()}>
+                <ion-icon name="podium"></ion-icon>
+              </Button>
+            </Box>
             <Tooltip label="WPM" placement="top">
               <Text userSelect={"none"}>{submission.wpm} WPM</Text>
             </Tooltip>
@@ -83,6 +102,12 @@ export default function Submission({ uid }) {
               </Text>
             </Tooltip>
           </Stack>
+          <LeaderboardModal
+            isLeaderboardOpen={isLeaderboardOpen}
+            onLeaderboardClose={onLeaderboardClose}
+            givenSolName={submission.solution_id}
+            selectedLanguage={submission.language}
+          />
         </div>
       </div>
     </div>

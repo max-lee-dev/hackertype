@@ -62,39 +62,35 @@ export default function CodeSettings({
         {!startCounting && (
           <Box borderRadius={"15px"} className="mainFont" width="100%" marginTop="30px" bgColor="transparent">
             <Stack direction="row" justifyContent="space-between" spacing="5">
-              <Box>
-                <HStack>
-                  <VStack spacing="-2" fontSize="13px" className="grayText">
-                    <IconButton
-                      marginTop={"8px"}
-                      width={"50px"}
-                      className="standardButton"
-                      fontSize="20px"
-                      _hover={{ color: "white" }}
-                      _active={{ background: "transparent" }}
-                      icon={<EditIcon />}
-                      variant="outline"
-                      borderColor="transparent"
-                      colorScheme="whiteAlpha"
-                      onClick={onWordsOpen}></IconButton>
-                    <Text>{displayLimit}</Text>
-                  </VStack>
-                  <VStack spacing="-2" fontSize="13px" className="grayText">
-                    <IconButton
-                      marginTop={"8px"}
-                      width={"50px"}
-                      className="standardButton"
-                      fontSize="20px"
-                      _hover={{ color: "white" }}
-                      _active={{ background: "transparent" }}
-                      icon={<Search2Icon />}
-                      variant="outline"
-                      borderColor="transparent"
-                      colorScheme="whiteAlpha"
-                      onClick={onSearchOpen}></IconButton>
-                    <Text>{displayId}</Text>
-                  </VStack>
-                </HStack>
+              <Box display="flex">
+                <VStack spacing="-2" fontSize="13px" className="grayText">
+                  <IconButton
+                    width={"50px"}
+                    className="standardButton"
+                    fontSize="20px"
+                    _hover={{ color: "white" }}
+                    _active={{ background: "transparent" }}
+                    icon={<EditIcon />}
+                    variant="outline"
+                    borderColor="transparent"
+                    colorScheme="whiteAlpha"
+                    onClick={onWordsOpen}></IconButton>
+                  <Text>{displayLimit}</Text>
+                </VStack>
+                <VStack spacing="-2" fontSize="13px" className="grayText">
+                  <IconButton
+                    width={"50px"}
+                    className="standardButton"
+                    fontSize="20px"
+                    _hover={{ color: "white" }}
+                    _active={{ background: "transparent" }}
+                    icon={<Search2Icon />}
+                    variant="outline"
+                    borderColor="transparent"
+                    colorScheme="whiteAlpha"
+                    onClick={onSearchOpen}></IconButton>
+                  <Text marginTop="0x">{displayId}</Text>
+                </VStack>
               </Box>
 
               <Box className="standardButton" marginBottom="50px">
@@ -257,6 +253,7 @@ export default function CodeSettings({
   }
 
   function trashSearchButton() {
+    changeLastId("");
     setId("");
     onSearchClose();
   }

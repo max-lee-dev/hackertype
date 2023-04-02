@@ -9,6 +9,7 @@ import StoredInput from "./components/StoredInput.js";
 import Letter from "./components/Letter.js";
 import { useParams } from "react-router-dom";
 import { FaCrown } from "react-icons/fa";
+import Section from "./components/Section.js";
 import {
   getFirestore,
   doc,
@@ -843,224 +844,226 @@ function App({ user, givenId }) {
       : preGeneratedLineIndex[currentLine + amountOfLinesToRender - 1];
 
   return (
-    <Box className="body">
-      <Box className="container">
-        <Center>
-          <Box className="content">
-            <Center>
-              <Box width="100%">
-                {!loading && (
-                  <CodeSettings
-                    startCounting={startCounting}
-                    id={id}
-                    language={language}
-                    isSearchOpen={isSearchOpen}
-                    onSearchOpen={onSearchOpen}
-                    onSearchClose={onSearchClose}
-                    isWordsOpen={isWordsOpen}
-                    onWordsOpen={onWordsOpen}
-                    onWordsClose={onWordsClose}
-                    wordLimit={wordLimit}
-                    handleWordLimit={handleWordLimit}
-                    Restart={Restart}
-                    cppRange={cppRange}
-                    javaRange={javaRange}
-                    pythonRange={pythonRange}
-                    setId={setId}
-                    changeLastId={changeLastId}
-                    leetcodeTitle={leetcodeTitle}
-                  />
-                )}
-              </Box>
-            </Center>
-
-            <Box className="inputContainer">
-              <Box className="leetcodeTitle" paddingTop="0px">
-                <Box paddingLeft="10px" paddingTop="10px">
-                  {loading && (
-                    <Center>
-                      <Box className="loader"></Box>
-                    </Center>
+    <Section delay={0.15}>
+      <Box className="body">
+        <Box className="container">
+          <Center>
+            <Box className="content">
+              <Center>
+                <Box width="100%">
+                  {!loading && (
+                    <CodeSettings
+                      startCounting={startCounting}
+                      id={id}
+                      language={language}
+                      isSearchOpen={isSearchOpen}
+                      onSearchOpen={onSearchOpen}
+                      onSearchClose={onSearchClose}
+                      isWordsOpen={isWordsOpen}
+                      onWordsOpen={onWordsOpen}
+                      onWordsClose={onWordsClose}
+                      wordLimit={wordLimit}
+                      handleWordLimit={handleWordLimit}
+                      Restart={Restart}
+                      cppRange={cppRange}
+                      javaRange={javaRange}
+                      pythonRange={pythonRange}
+                      setId={setId}
+                      changeLastId={changeLastId}
+                      leetcodeTitle={leetcodeTitle}
+                    />
                   )}
                 </Box>
-                {!startCounting && !loading && (
-                  <Box className="mainFont">
-                    <Center>
-                      <HStack spacing="0">
-                        <Text className="mainFont font500">{leetcodeTitle}</Text>
-                        <Box>
-                          <Button
-                            fontSize="24px"
-                            backgroundColor="transparent"
-                            _active={{ backgroundColor: "transparent" }}
-                            _hover={{ color: "white" }}
-                            color="grey"
-                            width="50px"
-                            onClick={() => onLeaderboardOpen()}>
-                            <ion-icon name="podium"></ion-icon>
-                          </Button>
-                        </Box>
-                      </HStack>
-                    </Center>
-                  </Box>
-                )}
-              </Box>
-              <Box id="timer">
-                {startCounting && (
-                  <Timer
-                    codeID={leetcodeTitle}
-                    language={language}
-                    startCounting={startCounting}
-                    pause={finished}
-                    correctWords={correctWordArray.filter(Boolean).length}
-                    totalWords={wordBank.length}
-                    correctCharacterArray={correctCharsArray}
-                    submitted={submitted}
-                    leetcodeTitle={leetcodeTitle}
-                    setSubmitted={setSubmitted}
-                    user={user}
-                    thisSolutionPR={thisSolutionPR}
-                    setThisSolutionPR={setThisSolutionPR}
-                  />
-                )}
-              </Box>
+              </Center>
 
-              <Box className="textContainer">
-                <p className="error"> {error}</p>
-                <Box>
-                  <Box className="userInputContainer">
-                    {!startCounting && !loading && (
-                      <Text className="mainFont" fontWeight="100" paddingLeft="5px" color="gray">
-                        {preGeneratedLineIndex.length} lines
-                      </Text>
-                    )}
-                    <Stack justifyContent="center" direction="row">
-                      {!finished && <Divider orientation="vertical" width="56px" />}
-
-                      {!finished && !loading && (
-                        <input
-                          className="textInput"
-                          type="text"
-                          onPaste={(e) => {
-                            e.preventDefault();
-                            return false;
-                          }}
-                          value={userInput}
-                          onChange={(e) => processInput(e)}
-                          onKeyDown={handleKeyDown}
-                          autoFocus
-                          spellCheck={false}
-                          ref={inputElement}
-                        />
-                      )}
-
-                      <Box>
-                        {!loading && (
-                          <IconButton
-                            _hover={{ backgroundColor: "transparent" }}
-                            color="whiteAlpha.700"
-                            boxSize="12"
-                            backgroundColor="transparent"
-                            icon={<RepeatIcon />}
-                            onClick={() => Restart(language, wordLimit)}></IconButton>
-                        )}
-                      </Box>
-                    </Stack>
-                  </Box>
-                  <Center>
-                    <Box width="90px" className="font100 mainFont whiteText no-select">
+              <Box className="inputContainer">
+                <Box className="leetcodeTitle" paddingTop="0px">
+                  <Box paddingLeft="10px" paddingTop="10px">
+                    {loading && (
                       <Center>
-                        <Center>
-                          <Box width="300px">
-                            <Stack direction={["row"]}>
-                              {user && (
-                                <Center>
-                                  <Tooltip label="Your personal best" placement="top">
-                                    <Box width="100px" marginLeft="103px">
-                                      <Center>
-                                        {user && !startCounting && !loading && (
-                                          <HStack>
-                                            <p className="grayText font500">{thisSolutionPR} WPM </p>
-                                            <FaCrown color="gray" />
-                                          </HStack>
-                                        )}
-                                      </Center>
-                                    </Box>
-                                  </Tooltip>
-                                </Center>
-                              )}
-                              <Box color="gray" fontSize="14px" paddingLeft="44px">
-                                <HStack>
-                                  {!loading && !user && !startCounting && (
-                                    <Box className="underline">
-                                      <a href="/login">log in</a>
-                                    </Box>
-                                  )}
-                                  {!loading && !user && !startCounting && <p>to save your data</p>}
-                                </HStack>
-                              </Box>
-                            </Stack>
+                        <Box className="loader"></Box>
+                      </Center>
+                    )}
+                  </Box>
+                  {!startCounting && !loading && (
+                    <Box className="mainFont">
+                      <Center>
+                        <HStack spacing="0">
+                          <Text className="mainFont font500">{leetcodeTitle}</Text>
+                          <Box>
+                            <Button
+                              fontSize="24px"
+                              backgroundColor="transparent"
+                              _active={{ backgroundColor: "transparent" }}
+                              _hover={{ color: "white" }}
+                              color="grey"
+                              width="50px"
+                              onClick={() => onLeaderboardOpen()}>
+                              <ion-icon name="podium"></ion-icon>
+                            </Button>
                           </Box>
-                        </Center>
+                        </HStack>
                       </Center>
                     </Box>
-                  </Center>
+                  )}
                 </Box>
-              </Box>
+                <Box id="timer">
+                  {startCounting && (
+                    <Timer
+                      codeID={leetcodeTitle}
+                      language={language}
+                      startCounting={startCounting}
+                      pause={finished}
+                      correctWords={correctWordArray.filter(Boolean).length}
+                      totalWords={wordBank.length}
+                      correctCharacterArray={correctCharsArray}
+                      submitted={submitted}
+                      leetcodeTitle={leetcodeTitle}
+                      setSubmitted={setSubmitted}
+                      user={user}
+                      thisSolutionPR={thisSolutionPR}
+                      setThisSolutionPR={setThisSolutionPR}
+                    />
+                  )}
+                </Box>
 
-              <Box className="text">
-                <pre
-                  style={{
-                    whiteSpace: "pre-wrap",
-                  }}>
-                  {!finished &&
-                    wordBank.map((word, index) => {
-                      if (!startCounting || (index > renderIndex && index < renderLimit)) {
-                        let s = "";
-                        if (index !== wordBank.length - 1) {
-                          for (let i = 0; i < whiteSpace[index]; i++) {
-                            s += "  ";
+                <Box className="textContainer">
+                  <p className="error"> {error}</p>
+                  <Box>
+                    <Box className="userInputContainer">
+                      {!startCounting && !loading && (
+                        <Text className="mainFont" fontWeight="100" paddingLeft="5px" color="gray">
+                          {preGeneratedLineIndex.length} lines
+                        </Text>
+                      )}
+                      <Stack justifyContent="center" direction="row">
+                        {!finished && <Divider orientation="vertical" width="56px" />}
+
+                        {!finished && !loading && (
+                          <input
+                            className="textInput"
+                            type="text"
+                            onPaste={(e) => {
+                              e.preventDefault();
+                              return false;
+                            }}
+                            value={userInput}
+                            onChange={(e) => processInput(e)}
+                            onKeyDown={handleKeyDown}
+                            autoFocus
+                            spellCheck={false}
+                            ref={inputElement}
+                          />
+                        )}
+
+                        <Box>
+                          {!loading && (
+                            <IconButton
+                              _hover={{ backgroundColor: "transparent" }}
+                              color="whiteAlpha.700"
+                              boxSize="12"
+                              backgroundColor="transparent"
+                              icon={<RepeatIcon />}
+                              onClick={() => Restart(language, wordLimit)}></IconButton>
+                          )}
+                        </Box>
+                      </Stack>
+                    </Box>
+                    <Center>
+                      <Box width="90px" className="font100 mainFont whiteText no-select">
+                        <Center>
+                          <Center>
+                            <Box width="300px">
+                              <Stack direction={["row"]}>
+                                {user && (
+                                  <Center>
+                                    <Tooltip label="Your personal best" placement="top">
+                                      <Box width="100px" marginLeft="103px">
+                                        <Center>
+                                          {user && !startCounting && !loading && (
+                                            <HStack>
+                                              <p className="grayText font500">{thisSolutionPR} WPM </p>
+                                              <FaCrown color="gray" />
+                                            </HStack>
+                                          )}
+                                        </Center>
+                                      </Box>
+                                    </Tooltip>
+                                  </Center>
+                                )}
+                                <Box color="gray" fontSize="14px" paddingLeft="44px">
+                                  <HStack>
+                                    {!loading && !user && !startCounting && (
+                                      <Box className="underline">
+                                        <a href="/login">log in</a>
+                                      </Box>
+                                    )}
+                                    {!loading && !user && !startCounting && <p>to save your data</p>}
+                                  </HStack>
+                                </Box>
+                              </Stack>
+                            </Box>
+                          </Center>
+                        </Center>
+                      </Box>
+                    </Center>
+                  </Box>
+                </Box>
+
+                <Box className="text">
+                  <pre
+                    style={{
+                      whiteSpace: "pre-wrap",
+                    }}>
+                    {!finished &&
+                      wordBank.map((word, index) => {
+                        if (!startCounting || (index > renderIndex && index < renderLimit)) {
+                          let s = "";
+                          if (index !== wordBank.length - 1) {
+                            for (let i = 0; i < whiteSpace[index]; i++) {
+                              s += "  ";
+                            }
                           }
+                          return (
+                            <span key={index} className="displayText">
+                              {s}
+                              <Word
+                                text={word}
+                                active={index === activeWordIndex}
+                                correct={correctWordArray[index]}
+                                thisWordIndex={index}
+                              />
+                            </span>
+                          );
                         }
-                        return (
-                          <span key={index} className="displayText">
-                            {s}
-                            <Word
-                              text={word}
-                              active={index === activeWordIndex}
-                              correct={correctWordArray[index]}
-                              thisWordIndex={index}
-                            />
-                          </span>
-                        );
-                      }
-                      return "";
-                    })}
-                </pre>
+                        return "";
+                      })}
+                  </pre>
+                </Box>
+                {startCounting && !finished && (
+                  <p className="mainFont active whiteText">
+                    {preGeneratedLineIndex.length - currentLine} more lines...
+                  </p>
+                )}
               </Box>
-              {startCounting && !finished && (
-                <p className="mainFont active whiteText">
-                  {preGeneratedLineIndex.length - currentLine} more lines...
-                </p>
-              )}
             </Box>
+          </Center>
+          <Box id="userInput">
+            {!newUser && !finished && (
+              <Text fontSize="16px" className="grayText mainFont font300">
+                [Tab] + [Enter] to Restart Test
+              </Text>
+            )}
           </Box>
-        </Center>
-        <Box id="userInput">
-          {!newUser && !finished && (
-            <Text fontSize="16px" className="grayText mainFont font300">
-              [Tab] + [Enter] to Restart Test
-            </Text>
-          )}
         </Box>
+        <LeaderboardModal
+          isLeaderboardOpen={isLeaderboardOpen}
+          onLeaderboardClose={onLeaderboardClose}
+          givenSolName={leetcodeTitle}
+          selectedLanguage={language}
+        />
       </Box>
-      <LeaderboardModal
-        isLeaderboardOpen={isLeaderboardOpen}
-        onLeaderboardClose={onLeaderboardClose}
-        givenSolName={leetcodeTitle}
-        selectedLanguage={language}
-      />
-    </Box>
+    </Section>
   );
 }
 
