@@ -346,6 +346,36 @@ html::-webkit-scrollbar-track {
    
 }
 
+.underline {
+    text-decoration: underline;
+
+}
+
+.loader {
+    border: 8px solid #464646;
+    border-radius: 50%;
+    border-top: 8px solid #FFCD29;
+    width: 60px;
+    height: 60px;
+    -webkit-animation: spin 1s linear infinite; /* Safari */
+    animation: spin 1s linear infinite;
+  }
+  
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+.lbButton button:active {
+    background-color: transparent;
+}
+
 .nav a.active:not(.site-title):not(.settingsNavButton) {
     color: #ffffff;
     text-shadow: 0 0 5px #fff, 0 0 5px #fff, 0 0 42px #0fa, 0 0 92px #0fa,0 0 92px #0fa;

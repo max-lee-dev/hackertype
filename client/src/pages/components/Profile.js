@@ -107,13 +107,14 @@ export default function Profile({ setId }) {
         <Box className="userTitleContainer">
           <Box className="userTitleCard whiteText">
             <Box className="userTitle mainFont font500">
-              <HStack>
+              <HStack spacing="-1">
                 {!loading && !profileUserData && <Text fontSize="56px">User not found...</Text>}
                 <Text fontSize="56px">{profileUserData?.displayName}</Text>
                 {!loading && username === user?.displayName && (
                   <Button
-                    _hover={{ bgColor: "transparent" }}
-                    marginTop="10px"
+                    color={"#FFCD29"}
+                    _hover={{ bgColor: "transparent", color: "white" }}
+                    marginTop="20px"
                     fontSize="40px"
                     bgColor="transparent"
                     onClick={signout}>
@@ -176,7 +177,13 @@ export default function Profile({ setId }) {
             </Stack>
           </Box>
         </Box>
-
+        <Box paddingTop="24px">
+          {loading && (
+            <Center>
+              <Box className="loader"></Box>
+            </Center>
+          )}
+        </Box>
         <Box className="graphContentContainer">
           <Box width="50%">
             <Box className="graphContainer">
@@ -187,15 +194,17 @@ export default function Profile({ setId }) {
               </Center>
 
               <Center>
-                <Text
-                  alignSelf="center"
-                  paddingLeft="20px"
-                  color="gray"
-                  fontSize="15px"
-                  className="mainFont"
-                  fontWeight="200">
-                  submission history
-                </Text>
+                {!loading && (
+                  <Text
+                    alignSelf="center"
+                    paddingLeft="20px"
+                    color="gray"
+                    fontSize="15px"
+                    className="mainFont"
+                    fontWeight="200">
+                    submission history
+                  </Text>
+                )}
               </Center>
             </Box>
           </Box>
@@ -207,15 +216,17 @@ export default function Profile({ setId }) {
                 </Box>
               </Center>
               <Center>
-                <Text
-                  alignSelf="center"
-                  paddingLeft="20px"
-                  color="gray"
-                  fontSize="15px"
-                  className="mainFont"
-                  fontWeight="200">
-                  daily submissions
-                </Text>
+                {!loading && (
+                  <Text
+                    alignSelf="center"
+                    paddingLeft="20px"
+                    color="gray"
+                    fontSize="15px"
+                    className="mainFont"
+                    fontWeight="200">
+                    daily submissions
+                  </Text>
+                )}
               </Center>
             </Box>
           </Box>
@@ -269,10 +280,6 @@ export default function Profile({ setId }) {
             </Box>
           </Box>
         </Center>
-
-        <Box className="aboutContainer">
-          <Center>{loading && <Box className="site-title">Loading...</Box>}</Center>
-        </Box>
 
         {/* {!loading && profileUserData && <Box className = 'about'>
                                         <h1>WPM: {profileUserData?.wpm}</h1>

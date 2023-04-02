@@ -107,14 +107,16 @@ export default function SeachModal({ isSearchOpen, onSearchClose }) {
                 />
               </FormControl>
             </Box>
+
             <Box className="whiteText mainFont">
               <HStack className="whiteText mainFont"></HStack>
               <Box display="flex">
                 <Box width="100%">
                   <Box paddingTop="15px">
                     <Box width="50%">
-                      {!loading && userList.length > 0 && <Text fontSize="32px">users</Text>}
+                      {(loading || userList.length > 0) && <Text fontSize="32px">users</Text>}
                     </Box>
+                    <Box paddingTop="24px">{loading && <Box className="loader"></Box>}</Box>
                     {userList.map((user) => (
                       <Box paddingTop="10px">
                         <Link textDecoration={"underline"} href={`/profile/${user.displayName}`}>
@@ -123,9 +125,11 @@ export default function SeachModal({ isSearchOpen, onSearchClose }) {
                       </Box>
                     ))}
                     <Box paddingTop="20px" width="50%">
-                      {!loading && solutionList.length > 0 && <Text fontSize="32px">solutions</Text>}
+                      {(loading || solutionList.length > 0) && <Text fontSize="32px">solutions</Text>}
                     </Box>
-                    {loading && <Text>loading...</Text>}
+                    <Box paddingTop="24px">
+                      {loading && solutionList.length === 0 && <Box className="loader"></Box>}
+                    </Box>
                     {solutionList.map((sol) => (
                       <Box paddingTop="10px">
                         <Link textDecoration={"underline"} href={`/solutions/Java/${sol.data().solutionNum}`}>

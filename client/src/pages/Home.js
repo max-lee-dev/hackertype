@@ -34,7 +34,10 @@ import {
   Tooltip,
   Text,
   Box,
+  Button,
+  HStack,
 } from "@chakra-ui/react";
+import LeaderboardModal from "./components/LeaderboardModal.js";
 import { RepeatIcon, StarIcon } from "@chakra-ui/icons";
 
 // figure out how to get new text every reload
@@ -92,6 +95,11 @@ function countNumberOfLines(funcRawCode, codingLanguage) {
 function App({ user, givenId }) {
   const { isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen } = useDisclosure();
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
+  const {
+    isOpen: isLeaderboardOpen,
+    onClose: onLeaderboardClose,
+    onOpen: onLeaderboardOpen,
+  } = useDisclosure();
 
   const { givenLanguage, number } = useParams();
   const inputElement = useRef(null);
@@ -867,15 +875,35 @@ function App({ user, givenId }) {
             </Center>
 
             <Box className="inputContainer">
-              <Box className="leetcodeTitle">
-                {loading && (
-                  <Box fontSize="100px">
-                    <ion-spinner></ion-spinner>
-                    <ion-spinner color="primary"></ion-spinner>
-                    <ion-spinner color="secondary"></ion-spinner>
+              <Box className="leetcodeTitle" paddingTop="10px">
+                <Box paddingTop="24px">
+                  {loading && (
+                    <Center>
+                      <Box className="loader"></Box>
+                    </Center>
+                  )}
+                </Box>
+                {!startCounting && !loading && (
+                  <Box className="mainFont">
+                    <Center>
+                      <HStack spacing="0">
+                        <Text className="mainFont font500">{leetcodeTitle}</Text>
+                        <Box>
+                          <Button
+                            fontSize="24px"
+                            backgroundColor="transparent"
+                            _active={{ backgroundColor: "transparent" }}
+                            _hover={{ color: "white" }}
+                            color="grey"
+                            width="50px"
+                            onClick={() => onLeaderboardOpen()}>
+                            <ion-icon name="podium"></ion-icon>
+                          </Button>
+                        </Box>
+                      </HStack>
+                    </Center>
                   </Box>
                 )}
-                {!startCounting && <p className="mainFont">{leetcodeTitle}</p>}
               </Box>
               <Box id="timer">
                 {startCounting && (
@@ -902,7 +930,7 @@ function App({ user, givenId }) {
                 <Box>
                   <Box className="userInputContainer">
                     {!startCounting && !loading && (
-                      <Text className="mainFont" color="white">
+                      <Text className="mainFont" fontWeight="100" paddingLeft="5px" color="gray">
                         {preGeneratedLineIndex.length} lines
                       </Text>
                     )}
@@ -961,14 +989,16 @@ function App({ user, givenId }) {
                                   </Tooltip>
                                 </Center>
                               )}
-
-                              {!loading && !user && !startCounting && (
-                                <a className="whiteUnderline padLeft" href="/login">
-                                  {" "}
-                                  Log in
-                                </a>
-                              )}
-                              {!loading && !user && !startCounting && <p>to save your data</p>}
+                              <Box color="gray" fontSize="14px" paddingLeft="44px">
+                                <HStack>
+                                  {!loading && !user && !startCounting && (
+                                    <Box className="underline">
+                                      <a href="/login">log in</a>
+                                    </Box>
+                                  )}
+                                  {!loading && !user && !startCounting && <p>to save your data</p>}
+                                </HStack>
+                              </Box>
                             </Stack>
                           </Box>
                         </Center>
@@ -1017,7 +1047,7 @@ function App({ user, givenId }) {
           </Box>
         </Center>
         <Box id="userInput">
-          {!newUser && (
+          {!newUser && !finished && (
             <p className="grayText mainFont font500">
               Tab + Enter to Restart Test
               <br />
@@ -1025,6 +1055,12 @@ function App({ user, givenId }) {
           )}
         </Box>
       </Box>
+      <LeaderboardModal
+        isLeaderboardOpen={isLeaderboardOpen}
+        onLeaderboardClose={onLeaderboardClose}
+        givenSolName={leetcodeTitle}
+        selectedLanguage={language}
+      />
     </Box>
   );
 }

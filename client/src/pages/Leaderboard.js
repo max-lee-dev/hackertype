@@ -115,7 +115,9 @@ export default function Leaderboard() {
             </Box>
 
             <Box paddingLeft="30px" paddingTop="30px">
-              {loading && <Text className="whiteText">loading...</Text>}
+              <Box paddingTop="24px" paddingLeft="54px">
+                {loading && <Box className="loader"></Box>}
+              </Box>
               <Stack direction="column">
                 {!loading &&
                   top.map((solution) => (

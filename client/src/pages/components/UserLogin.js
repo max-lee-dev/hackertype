@@ -126,7 +126,7 @@ export default function UserLogin({ user, setUser }) {
   return (
     <Center>
       {" "}
-      <Box paddingTop="75px" className="whiteText mainFont" width="50%">
+      <Box paddingTop="75px" className="whiteText standardButton mainFont" width="50%">
         <Center>
           <Box>
             <Stack direction="row">
@@ -167,7 +167,7 @@ export default function UserLogin({ user, setUser }) {
                     <p className="currentIncorrect">{registerErrorMessage}</p>
                   </Center>
                   <Center>
-                    <Button marginTop="20px" type="submit" backgroundColor={"#555"} onClick={register}>
+                    <Button marginTop="10px" type="submit" backgroundColor={"#555"} onClick={register}>
                       Sign Up
                     </Button>
                   </Center>
@@ -196,7 +196,7 @@ export default function UserLogin({ user, setUser }) {
                     <p className="currentIncorrect">{loginErrorMessage}</p>
                   </Center>
                   <Center>
-                    <Button marginTop="20px" bgColor={"#555"} type="submit" onClick={login}>
+                    <Button marginTop="10px" bgColor={"#555"} type="submit" onClick={login}>
                       Log In
                     </Button>
                   </Center>

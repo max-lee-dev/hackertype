@@ -63,8 +63,9 @@ export default function CodeSettings({
           <Box borderRadius={"15px"} className="mainFont" width="100%" marginTop="15px" bgColor="#19191a">
             <Stack direction="row" justifyContent="space-between" spacing="5">
               <Box>
-                <VStack spacing="0">
+                <VStack spacing="-2" fontSize="13px" className="grayText">
                   <IconButton
+                    marginTop={"8px"}
                     width={"50px"}
                     className="standardButton"
                     fontSize="20px"
@@ -75,9 +76,7 @@ export default function CodeSettings({
                     borderColor="transparent"
                     colorScheme="whiteAlpha"
                     onClick={onWordsOpen}></IconButton>
-                  <Text fontSize="13px" className="grayText">
-                    {displayLimit}
-                  </Text>
+                  <Text>{displayLimit}</Text>
                 </VStack>
               </Box>
 
@@ -133,47 +132,49 @@ export default function CodeSettings({
           onClose={onWordsClose}>
           <ModalOverlay />
           <ModalContent backgroundColor="#0e0e10">
-            <ModalHeader className="mainFont" color="white">
-              Line Limit
-              <ModalCloseButton />
-            </ModalHeader>
+            <form>
+              <ModalHeader className="mainFont" color="white">
+                Line Limit
+                <ModalCloseButton />
+              </ModalHeader>
 
-            <ModalBody>
-              <Box className="mainFont whiteText">
-                <FormControl>
-                  <Input
-                    ref={initialRef}
-                    className="maxWordsForm"
-                    placeholder={`Enter a line limit (e.g. 5)`}
-                    type="text"
-                    onChange={(e) => handleWordLimit(e.target.value)}
-                  />
+              <ModalBody>
+                <Box className="mainFont whiteText">
+                  <FormControl>
+                    <Input
+                      ref={initialRef}
+                      className="maxWordsForm"
+                      placeholder={`Enter a line limit (e.g. 5)`}
+                      type="text"
+                      onChange={(e) => handleWordLimit(e.target.value)}
+                    />
 
-                  <FormHelperText></FormHelperText>
-                </FormControl>
-              </Box>
-              <Box className="trashButton">
-                <Button maxWidth={"10px"} bgColor="transparent" onClick={() => trashButton()}>
-                  <Box className="trashIcon">
-                    <ion-icon name="trash-sharp"></ion-icon>
-                  </Box>
-                </Button>
-              </Box>
-            </ModalBody>
+                    <FormHelperText></FormHelperText>
+                  </FormControl>
+                </Box>
+                <Box className="trashButton">
+                  <Button maxWidth={"10px"} bgColor="transparent" onClick={() => trashButton()}>
+                    <Box className="trashIcon">
+                      <ion-icon name="trash-sharp"></ion-icon>
+                    </Box>
+                  </Button>
+                </Box>
+              </ModalBody>
 
-            <ModalFooter>
-              <Box>
-                <Button
-                  _hover={{ background: "" }}
-                  width="50%"
-                  color="white"
-                  backgroundColor="transparent"
-                  type="submit"
-                  onClick={() => closeLimitModal()}>
-                  <CheckIcon />
-                </Button>
-              </Box>
-            </ModalFooter>
+              <ModalFooter>
+                <Box>
+                  <Button
+                    _hover={{ background: "" }}
+                    width="50%"
+                    color="white"
+                    backgroundColor="transparent"
+                    type="submit"
+                    onClick={(e) => closeLimitModal(e)}>
+                    <CheckIcon />
+                  </Button>
+                </Box>
+              </ModalFooter>
+            </form>
           </ModalContent>
         </Modal>
       </Box>
@@ -185,7 +186,8 @@ export default function CodeSettings({
     onWordsClose();
   }
 
-  function closeLimitModal() {
+  function closeLimitModal(e) {
+    e.preventDefault();
     onWordsClose();
     console.log("id: " + id);
     Restart(language === "" ? "Java" : language, wordLimit, id === "" ? undefined : id);
