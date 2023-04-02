@@ -1048,10 +1048,9 @@ function App({ user, givenId }) {
         </Center>
         <Box id="userInput">
           {!newUser && !finished && (
-            <p className="grayText mainFont font500">
-              Tab + Enter to Restart Test
-              <br />
-            </p>
+            <Text fontSize="16px" className="grayText mainFont font300">
+              [Tab] + [Enter] to Restart Test
+            </Text>
           )}
         </Box>
       </Box>
