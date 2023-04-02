@@ -30,7 +30,7 @@ export default function WpmLineChart({ givenData }) {
             scaleShowLabels: false,
             pointBackgroundColor: "#FFCD29",
             pointRadius: 1,
-            pointHitRadius: 50,
+            pointHitRadius: 100,
           },
         ],
       });
@@ -46,16 +46,16 @@ export default function WpmLineChart({ givenData }) {
         options={{
           scales: {
             y: {
+              beginAtZero: true,
               ticks: {
-                stepSize: 25,
+                stepSize: 50,
                 display: true,
                 beginAtZero: true,
-                suggestedMin: 0,
               },
             },
             x: {
               ticks: {
-                stepSize: 5,
+                stepSize: 10,
               },
             },
           },

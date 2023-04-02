@@ -34,7 +34,7 @@ export default function LineChart({ username }) {
             scaleShowLabels: false,
             pointBackgroundColor: "#FFCD29",
             pointRadius: 1,
-            pointHitRadius: 50,
+            pointHitRadius: 100,
           },
         ],
       });
@@ -50,11 +50,9 @@ export default function LineChart({ username }) {
         options={{
           scales: {
             y: {
+              beginAtZero: true,
               ticks: {
-                stepSize: 25,
-                display: true,
-                beginAtZero: true,
-                suggestedMin: 0,
+                stepSize: 50,
               },
               gridLines: {
                 display: false,

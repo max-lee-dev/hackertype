@@ -18,8 +18,8 @@ export default function DailySolutionChart({ username }) {
       const map = new Map();
 
       recentQuerySnapshot.forEach((doc) => {
-        var myDate = new Date(doc.data().date);
-        var dateArr = myDate.toDateString().split(" ");
+        var dateArr = doc.data().date;
+
         var day = dateArr[0];
         if (map.has(day)) {
           map.set(day, map.get(day) + 1);
@@ -43,7 +43,7 @@ export default function DailySolutionChart({ username }) {
             scaleShowLabels: false,
             pointBackgroundColor: "#FFCD29",
             pointRadius: 1,
-            pointHitRadius: 50,
+            pointHitRadius: 100,
           },
         ],
       });
@@ -59,6 +59,7 @@ export default function DailySolutionChart({ username }) {
         options={{
           scales: {
             y: {
+              beginAtZero: true,
               display: true,
               grid: {
                 display: false,
@@ -69,7 +70,7 @@ export default function DailySolutionChart({ username }) {
               ticks: {
                 stepSize: 1,
                 display: true,
-                beginAtZero: true,
+
                 suggestedMin: 0,
               },
             },

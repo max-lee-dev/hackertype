@@ -16,13 +16,19 @@ import {
   ModalFooter,
   Button,
   Stack,
+  HStack,
   Tooltip,
+  IconButton,
+  Text,
+  Box,
+  VStack,
 } from "@chakra-ui/react";
 
 import { Search2Icon, EditIcon, CheckIcon } from "@chakra-ui/icons";
 
 export default function CodeSettings({
   startCounting,
+  leetcodeTitle,
   id,
   language,
   isSearchOpen,
@@ -40,9 +46,10 @@ export default function CodeSettings({
   setId,
   changeLastId,
 }) {
+  const lcNumber = leetcodeTitle.split(".")[0];
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
-  const displayLimit = wordLimit === 50000 ? "# Lines" : wordLimit;
+  const displayLimit = wordLimit === 50000 ? "" : wordLimit;
   const displayId = id === "" || id === undefined ? "# ID" : id;
   function test(e) {
     console.log(e.target.value);
@@ -50,164 +57,133 @@ export default function CodeSettings({
     setId(e.target.value);
   }
   return (
-    <div>
-      {!startCounting && (
-        <Center width="900px" height="100px">
-          <Stack isInline>
-            <Stack>
-              <Stack direction="row">
-                <Button
-                  minWidth={"125px"}
-                  className="wordLimitButton"
-                  size="xl"
-                  leftIcon={<EditIcon />}
-                  variant="outline"
-                  colorScheme="whiteAlpha"
-                  onClick={onWordsOpen}>
-                  {displayLimit}
-                </Button>
-                <div className="trashButton">
-                  <Button maxWidth={"10px"} bgColor="transparent" onClick={() => handleWordLimit("")}>
-                    <div className="trashIcon">
-                      <ion-icon name="trash-sharp"></ion-icon>
-                    </div>
-                  </Button>
-                </div>
-              </Stack>
-              <Modal
-                initialFocusRef={initialRef}
-                finalFocusRef={finalRef}
-                isOpen={isWordsOpen}
-                onClose={onWordsClose}>
-                <ModalOverlay />
-                <ModalContent>
-                  <ModalHeader>
-                    <ModalCloseButton />
-                  </ModalHeader>
+    <Center>
+      <Box width="90%">
+        {!startCounting && (
+          <Box borderRadius={"15px"} className="mainFont" width="100%" marginTop="15px" bgColor="#19191a">
+            <Stack direction="row" justifyContent="space-between" spacing="5">
+              <Box>
+                <VStack spacing="0">
+                  <IconButton
+                    width={"50px"}
+                    className="standardButton"
+                    fontSize="20px"
+                    _hover={{ color: "white" }}
+                    _active={{ background: "transparent" }}
+                    icon={<EditIcon />}
+                    variant="outline"
+                    borderColor="transparent"
+                    colorScheme="whiteAlpha"
+                    onClick={onWordsOpen}></IconButton>
+                  <Text fontSize="13px" className="grayText">
+                    {displayLimit}
+                  </Text>
+                </VStack>
+              </Box>
 
-                  <ModalBody>
-                    <FormControl>
-                      <FormLabel>Line Limit</FormLabel>
-                      <Input
-                        ref={initialRef}
-                        className="maxWordsForm"
-                        placeholder={`Enter a line limit (e.g. 5)`}
-                        type="text"
-                        onChange={(e) => handleWordLimit(e.target.value)}
-                      />
-
-                      <FormHelperText></FormHelperText>
-                    </FormControl>
-                  </ModalBody>
-
-                  <ModalFooter>
-                    <Button
-                      width="500px"
-                      backgroundColor="#bdf2c9"
-                      type="submit"
-                      onClick={() => closeLimitModal()}>
-                      <CheckIcon />
+              <Box className="standardButton" marginBottom="50px">
+                <HStack>
+                  <Box>
+                    <Button _hover={{ bg: "#a0a0a0" }} onClick={() => Restart("C++", wordLimit)}>
+                      <Text color={language === "C++" ? "white" : ""}> C++</Text>
                     </Button>
-                  </ModalFooter>
-                </ModalContent>
-              </Modal>
-            </Stack>
-
-            <Divider
-              orientation="vertical"
-              size="xl"
-              width="50px"
-              borderRadius="full"
-              borderColor={"white"}
-            />
-
-            <div className="languageSettings">
-              <Button
-                _hover={{ bg: "#a0a0a0" }}
-                backgroundColor={language === "C++" ? "" : "#404040"}
-                onClick={() => Restart("C++", wordLimit)}>
-                C++ {cppRange}
-              </Button>
-              <Button
-                _hover={{ bg: "#a0a0a0" }}
-                backgroundColor={language === "Java" ? "" : "#404040"}
-                onClick={() => Restart("Java", wordLimit)}>
-                Java {javaRange}
-              </Button>
-              <Button
-                _hover={{ bg: "#a0a0a0" }}
-                backgroundColor={language === "Python" ? "" : "#404040"}
-                onClick={() => Restart("Python", wordLimit)}>
-                Python {pythonRange}
-              </Button>
-            </div>
-            <Divider orientation="vertical" size="xl" width="50px" />
-
-            <Stack>
-              <Stack direction="row">
-                <Button
-                  className="wordSearchButton"
-                  size="xl"
-                  minWidth={"125px"}
-                  leftIcon={<Search2Icon />}
-                  variant="outline"
-                  colorScheme="whiteAlpha"
-                  onClick={onSearchOpen}>
-                  {" "}
-                  {displayId}{" "}
-                </Button>
-                <div className="trashButton">
-                  <Button maxWidth={"10px"} bgColor="transparent" onClick={(e) => test(e)}>
-                    <div className="trashIcon">
-                      <ion-icon name="trash-sharp"></ion-icon>
-                    </div>
-                  </Button>
-                </div>
-              </Stack>
-              <Modal
-                initialFocusRef={initialRef}
-                finalFocusRef={finalRef}
-                isOpen={isSearchOpen}
-                onClose={onSearchClose}>
-                <ModalOverlay />
-                <ModalContent>
-                  <ModalHeader>
-                    <ModalCloseButton />
-                  </ModalHeader>
-
-                  <ModalBody>
-                    <FormControl>
-                      <FormLabel>Solution Search</FormLabel>
-                      <Input
-                        ref={initialRef}
-                        className="maxWordsForm"
-                        placeholder={`Enter an ID (e.g. 455)`}
-                        type="text"
-                        onChange={(e) => test(e)}
-                      />
-
-                      <FormHelperText></FormHelperText>
-                    </FormControl>
-                  </ModalBody>
-
-                  <ModalFooter>
+                    <Center>
+                      <Text fontSize="14px" fontWeight="300" className="grayText">
+                        {cppRange}
+                      </Text>
+                    </Center>
+                  </Box>
+                  <Box>
                     <Button
-                      id="search-close"
-                      width="500px"
-                      backgroundColor="#bdf2c9"
-                      type="submit"
-                      onClick={() => closeSearchModal()}>
-                      <CheckIcon />
+                      _hover={{ bg: "#a0a0a0" }}
+                      backgroundColor={language === "Java" ? "" : "#404040"}
+                      onClick={() => Restart("Java", wordLimit)}>
+                      <Text color={language === "Java" ? "white" : ""}> Java</Text>
                     </Button>
-                  </ModalFooter>
-                </ModalContent>
-              </Modal>
+                    <Center>
+                      <Text fontSize="14px" fontWeight="300" className="grayText">
+                        {javaRange}
+                      </Text>
+                    </Center>
+                  </Box>
+                  <Box>
+                    <Button
+                      _active={{ color: "#a0a0a0" }}
+                      _hover={{ bg: "#a0a0a0" }}
+                      backgroundColor={language === "Python" ? "" : "#404040"}
+                      onClick={() => Restart("Python", wordLimit)}>
+                      <Text color={language === "Python" ? "white" : ""}> Python</Text>
+                    </Button>
+                    <Center>
+                      <Text fontSize="14px" fontWeight="300" className="grayText">
+                        {pythonRange}
+                      </Text>
+                    </Center>
+                  </Box>
+                </HStack>
+              </Box>
             </Stack>
-          </Stack>
-        </Center>
-      )}
-    </div>
+          </Box>
+        )}
+
+        <Modal
+          initialFocusRef={initialRef}
+          finalFocusRef={finalRef}
+          isOpen={isWordsOpen}
+          onClose={onWordsClose}>
+          <ModalOverlay />
+          <ModalContent backgroundColor="#0e0e10">
+            <ModalHeader className="mainFont" color="white">
+              Line Limit
+              <ModalCloseButton />
+            </ModalHeader>
+
+            <ModalBody>
+              <Box className="mainFont whiteText">
+                <FormControl>
+                  <Input
+                    ref={initialRef}
+                    className="maxWordsForm"
+                    placeholder={`Enter a line limit (e.g. 5)`}
+                    type="text"
+                    onChange={(e) => handleWordLimit(e.target.value)}
+                  />
+
+                  <FormHelperText></FormHelperText>
+                </FormControl>
+              </Box>
+              <Box className="trashButton">
+                <Button maxWidth={"10px"} bgColor="transparent" onClick={() => trashButton()}>
+                  <Box className="trashIcon">
+                    <ion-icon name="trash-sharp"></ion-icon>
+                  </Box>
+                </Button>
+              </Box>
+            </ModalBody>
+
+            <ModalFooter>
+              <Box>
+                <Button
+                  _hover={{ background: "" }}
+                  width="50%"
+                  color="white"
+                  backgroundColor="transparent"
+                  type="submit"
+                  onClick={() => closeLimitModal()}>
+                  <CheckIcon />
+                </Button>
+              </Box>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Box>
+    </Center>
   );
+
+  function trashButton() {
+    handleWordLimit("");
+    onWordsClose();
+  }
 
   function closeLimitModal() {
     onWordsClose();

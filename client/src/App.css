@@ -342,6 +342,7 @@ html::-webkit-scrollbar-track {
     display: flex;
     align-items: center;
     padding: .25rem;
+    width: 100%;
    
 }
 

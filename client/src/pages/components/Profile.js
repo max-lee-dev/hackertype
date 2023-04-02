@@ -2,7 +2,7 @@ import React from "react";
 
 import { signOut, getAuth } from "firebase/auth";
 import { auth } from "./firebase";
-import { Button, Center, Stack, Divider, Text, Box } from "@chakra-ui/react";
+import { Button, Center, Stack, Divider, Text, Box, HStack } from "@chakra-ui/react";
 
 import { Line } from "react-chartjs-2";
 import LineChart from "./LineChart";
@@ -107,23 +107,24 @@ export default function Profile({ setId }) {
         <Box className="userTitleContainer">
           <Box className="userTitleCard whiteText">
             <Box className="userTitle mainFont font500">
-              {!loading && !profileUserData && <Text fontSize="56px">User not found...</Text>}
-              <Text fontSize="56px">{profileUserData?.displayName}</Text>
-
+              <HStack>
+                {!loading && !profileUserData && <Text fontSize="56px">User not found...</Text>}
+                <Text fontSize="56px">{profileUserData?.displayName}</Text>
+                {!loading && username === user?.displayName && (
+                  <Button
+                    _hover={{ bgColor: "transparent" }}
+                    marginTop="10px"
+                    fontSize="40px"
+                    bgColor="transparent"
+                    onClick={signout}>
+                    <ion-icon name="log-out-outline"></ion-icon>
+                  </Button>
+                )}
+              </HStack>
               {profileUserData && (
                 <Text fontSize="22px" className="grayText font400">
                   joined {dateArr[1]} {dateArr[2]}, {dateArr[3]}
                 </Text>
-              )}
-              {!loading && username === user?.displayName && (
-                <Button
-                  width={"75px"}
-                  marginTop="10px"
-                  fontSize="13px"
-                  bgColor="transparent"
-                  onClick={signout}>
-                  sign out
-                </Button>
               )}
             </Box>{" "}
             <Box className="signoutButton"></Box>

@@ -839,8 +839,8 @@ function App({ user, givenId }) {
       <Box className="container">
         <Center>
           <Box className="content">
-            <Box>
-              <Box className="codingSettings">
+            <Center>
+              <Box width="100%">
                 {!loading && (
                   <CodeSettings
                     startCounting={startCounting}
@@ -860,10 +860,11 @@ function App({ user, givenId }) {
                     pythonRange={pythonRange}
                     setId={setId}
                     changeLastId={changeLastId}
+                    leetcodeTitle={leetcodeTitle}
                   />
                 )}
               </Box>
-            </Box>
+            </Center>
 
             <Box className="inputContainer">
               <Box className="leetcodeTitle">
@@ -925,10 +926,13 @@ function App({ user, givenId }) {
                         />
                       )}
 
-                      <Box className="restartDiv">
+                      <Box>
                         {!loading && (
                           <IconButton
+                            _hover={{ backgroundColor: "transparent" }}
+                            color="whiteAlpha.700"
                             boxSize="12"
+                            backgroundColor="transparent"
                             icon={<RepeatIcon />}
                             onClick={() => Restart(language, wordLimit)}></IconButton>
                         )}
