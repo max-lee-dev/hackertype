@@ -70,7 +70,7 @@ export default function Leaderboard() {
   }
 
   return (
-    <Section delay={0.1}>
+    <Section delay={0.2}>
       <Center>
         <Box className="profileContainer">
           <Box className="userTitle mainFont font500">

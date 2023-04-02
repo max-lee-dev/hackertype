@@ -113,7 +113,7 @@ export default function LeaderboardModal({
           <ModalHeader>
             <Box className="searchModal">
               <Text className="whiteText mainFont whiteUnderline" fontSize="32px">
-                <Link href={`solutions/${selectedLanguage}/${solutionNumber}`}>{givenSolName}</Link>
+                <Link href={`/solutions/${selectedLanguage}/${solutionNumber}`}>{givenSolName}</Link>
               </Text>
               <Text>
                 <Text className="grayText mainFont" fontSize="32px">

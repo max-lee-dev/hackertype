@@ -18,9 +18,14 @@ export default function About() {
 
             <Section delay={0.1}>
               <Text mt="2" fontWeight="300" fontSize="xl">
-                HackerType is a simple typing test that allows you to test your typing speed and accuracy.
-                This was an independent project that I created to learn more about React and Firebase for the
-                first time. After enjoying the process of improving typing speed on{" "}
+                HackerType is a simple typing test that allows you to test your programming/coding speed and
+                accuracy using{" "}
+                <Link textDecor={"underline"} href="https://leetcode.com/" isExternal>
+                  LeetCode
+                </Link>{" "}
+                solutions meant to emulate lines of C++, Java, and Python code —— not for memorizing LeetCode
+                solutions. This was a personal project that was created to learn more about React and Firebase
+                for the first time. After enjoying the process of improving typing speed on{" "}
                 <Link textDecor={"underline"} isExternal href="https://monkeytype.com">
                   MonkeyType
                 </Link>
@@ -39,16 +44,16 @@ export default function About() {
 
             <Section delay={0.2}>
               <Text mt="2" fontWeight="300" fontSize="m">
-                The word set is a collection of{" "}
+                The{" "}
                 <Link textDecor={"underline"} href="https://leetcode.com/" isExternal>
                   LeetCode
                 </Link>{" "}
-                solutions that were webscraped from{" "}
+                solutions were webscraped from{" "}
                 <Link textDecor={"underline"} href="https://walkccc.me/LeetCode/" isExternal>
                   walkccc.me
                 </Link>
                 . Currently, HackerType contains 450+ solutions for C++, Java, and Python. I plan to add more
-                accordingly if it seems necessary.
+                solutions if requested.
               </Text>
             </Section>
           </Section>
@@ -81,7 +86,7 @@ export default function About() {
                 <Link href="mailto:maxplee8@gmail.com">
                   <strong>maxplee8@gmail.com</strong>
                 </Link>
-                .
+                . Feedback is much appreciated and I am open to learning how to improve upon my first project.
               </Text>
             </Section>
           </Section>

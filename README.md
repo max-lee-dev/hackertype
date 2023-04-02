@@ -8,6 +8,7 @@
 
 ## Todo:
 
+- check if past pr beat them, if they did, then don't lower their rank
 - Show what rank a guest would have gotten
 - World Record for each solution
 - Improved search solution modal
