@@ -60,7 +60,7 @@ export default function CodeSettings({
     <Center>
       <Box width="90%">
         {!startCounting && (
-          <Box borderRadius={"15px"} className="mainFont" width="100%" marginTop="15px" bgColor="#19191a">
+          <Box borderRadius={"15px"} className="mainFont" width="100%" marginTop="15px" bgColor="transparent">
             <Stack direction="row" justifyContent="space-between" spacing="5">
               <Box>
                 <VStack spacing="-2" fontSize="13px" className="grayText">

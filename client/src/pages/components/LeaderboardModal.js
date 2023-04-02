@@ -18,6 +18,8 @@ import {
   Button,
   useDisclosure,
   HStack,
+  VStack,
+  Tooltip,
   Link,
 } from "@chakra-ui/react";
 
@@ -135,6 +137,9 @@ export default function LeaderboardModal({
 
                       <Box width="25%">
                         <Text fontSize="32px">wpm</Text>
+                        <Text marginTop="-10px" fontSize="18px">
+                          acc
+                        </Text>
                       </Box>
                       <Box width="25%">
                         <Text fontSize="32px">rank</Text>
@@ -145,9 +150,9 @@ export default function LeaderboardModal({
                     </Box>
                     {loading && <Text>Loading...</Text>}
                     {!loading && (
-                      <Box paddingTop="0px">
+                      <Box paddingTop="5px">
                         {solutionList.map((sol, i) => (
-                          <Box paddingBottom="30px">
+                          <Box paddingBottom="20px">
                             <Box display="flex" fontSize="20px">
                               <Box width="25%">
                                 <Link textDecoration={"underline"} href={`/profile/${sol.user}`}>
@@ -156,6 +161,13 @@ export default function LeaderboardModal({
                               </Box>
                               <Box width="25%">
                                 <Text>{sol.wpm}</Text>
+                                <Tooltip label="accuracy" placement="left">
+                                  <Box width="15%">
+                                    <Text fontSize="14px" color="gray">
+                                      {sol.acc}%
+                                    </Text>
+                                  </Box>
+                                </Tooltip>
                               </Box>
                               <Box width="25%">
                                 <Text>#{sol.rank}</Text>

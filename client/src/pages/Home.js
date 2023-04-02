@@ -8,6 +8,7 @@ import CodeSettings from "./components/CodeSettings.js";
 import StoredInput from "./components/StoredInput.js";
 import Letter from "./components/Letter.js";
 import { useParams } from "react-router-dom";
+import { FaCrown } from "react-icons/fa";
 import {
   getFirestore,
   doc,
@@ -876,7 +877,7 @@ function App({ user, givenId }) {
 
             <Box className="inputContainer">
               <Box className="leetcodeTitle" paddingTop="10px">
-                <Box paddingTop="24px">
+                <Box paddingLeft="10px" paddingTop="24px">
                   {loading && (
                     <Center>
                       <Box className="loader"></Box>
@@ -976,15 +977,15 @@ function App({ user, givenId }) {
                               {user && (
                                 <Center>
                                   <Tooltip label="Your personal best" placement="top">
-                                    <Box width="100px" marginLeft="99px">
-                                      {user && !startCounting && !loading && (
-                                        <p className="grayText font500">{thisSolutionPR} WPM </p>
-                                      )}
-                                      {!loading && user && !startCounting && (
-                                        <Box className="podiumIcon">
-                                          <ion-icon name="podium"></ion-icon>
-                                        </Box>
-                                      )}
+                                    <Box width="100px" marginLeft="103px">
+                                      <Center>
+                                        {user && !startCounting && !loading && (
+                                          <HStack>
+                                            <p className="grayText font500">{thisSolutionPR} WPM </p>
+                                            <FaCrown color="gray" />
+                                          </HStack>
+                                        )}
+                                      </Center>
                                     </Box>
                                   </Tooltip>
                                 </Center>
