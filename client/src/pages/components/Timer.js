@@ -156,7 +156,7 @@ function Timer({
                   )}
                   {!user && (
                     <Tooltip label="Log in to find rank">
-                      <Box>?/{countOpponents()}</Box>
+                      <Box>?/{countOpponents() + 1}</Box>
                     </Tooltip>
                   )}
                 </Text>
