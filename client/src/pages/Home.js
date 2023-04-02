@@ -173,7 +173,6 @@ function App({ user, givenId }) {
           if (number && doc.data().lineLimit) setWordLimit("");
           else if (doc.data().lineLimit) {
             givenLineLimit = doc.data().lineLimit;
-            setWordLimit(doc.data().lineLimit);
           }
 
           if (!givenLanguage) Restart(doc.data().lastLanguage, givenLineLimit);
@@ -876,8 +875,8 @@ function App({ user, givenId }) {
             </Center>
 
             <Box className="inputContainer">
-              <Box className="leetcodeTitle" paddingTop="10px">
-                <Box paddingLeft="10px" paddingTop="24px">
+              <Box className="leetcodeTitle" paddingTop="0px">
+                <Box paddingLeft="10px" paddingTop="10px">
                   {loading && (
                     <Center>
                       <Box className="loader"></Box>
