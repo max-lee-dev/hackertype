@@ -49,6 +49,25 @@ export default function Submission({ uid }) {
     return <div></div>;
   }
 
+  function formatDate(when) {
+    const now = Date.parse(Date());
+
+    const timeDiffInMs = Math.abs(now - when);
+    const timeDiffInDays = Math.floor(timeDiffInMs / (1000 * 60 * 60 * 24));
+    const timeDiffInHours = Math.floor(timeDiffInMs / (1000 * 60 * 60));
+    const timeDiffInMinutes = Math.floor(timeDiffInMs / (1000 * 60));
+
+    if (timeDiffInDays > 0) {
+      return `${timeDiffInDays} days ago`;
+    } else if (timeDiffInHours > 0) {
+      return `${timeDiffInHours} hours ago`;
+    } else if (timeDiffInMinutes > 0) {
+      return `${timeDiffInMinutes} minutes ago`;
+    } else {
+      return "just now";
+    }
+  }
+
   return (
     <div className="individualSubmissionContainer">
       <div className="submissionText">
@@ -63,7 +82,7 @@ export default function Submission({ uid }) {
                 </Box>
               </Tooltip>
               <Box width="100%" textAlign="left" display={"flex"}>
-                <Tooltip label={submission.date[0] + " " + submission.date[1]} placement="top">
+                <Tooltip label={submission.date[0] + " " + formatDate(submission.when)} placement="top">
                   <Text
                     onClick={redirect}
                     fontSize=""

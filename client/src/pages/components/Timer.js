@@ -294,10 +294,13 @@ function Timer({
         })
         .map((submission) => {
           totalOppo++;
+
+          // find if old pr was already better than opponents pr
+
           if (parseInt(submission.wpm) > parseInt(finalWPM)) {
             amountBetter++;
           } else {
-            if (isBestSubmission) decreaseRank(submission);
+            if (isBestSubmission && parseInt(actualPR) <= parseInt(submission.wpm)) decreaseRank(submission);
           }
           if (firstTime && isBestSubmission) addNewOpponent(submission, totalOppo);
           return "";
@@ -316,27 +319,45 @@ function Timer({
       });
 
       function createDate() {
-        var d = new Date().toLocaleString();
-        const convert = new Date(d);
+        const convert = new Date();
         const UTCDate = convert.toUTCString();
         const dateArray = [];
+        var month = UTCDate.split(" ")[2];
+        var monthNum = "0";
+        if (month === "Jan") {
+          monthNum += 1;
+        } else if (month === "Feb") {
+          monthNum += 2;
+        } else if (month === "Mar") {
+          monthNum += 3;
+        } else if (month === "Apr") {
+          monthNum += 4;
+        } else if (month === "May") {
+          monthNum += 5;
+        } else if (month === "Jun") {
+          monthNum += 6;
+        } else if (month === "Jul") {
+          monthNum += 7;
+        } else if (month === "Aug") {
+          monthNum += 8;
+        } else if (month === "Sep") {
+          monthNum += 9;
+        } else if (month === "Oct") {
+          monthNum = 10;
+        } else if (month === "Nov") {
+          monthNum = 11;
+        } else if (month === "Dec") {
+          monthNum = 12;
+        }
+        var day = UTCDate.split(" ")[1];
+        var year = UTCDate.split(" ")[3];
         var time = UTCDate.split(" ")[4];
         var timezone = UTCDate.split(" ")[5];
+        var date = monthNum + "/" + day + "/" + year;
 
-        const date = new Date(UTCDate);
-        var dd = date.getDate();
-        var mm = date.getMonth() + 1;
-        var yyyy = date.getFullYear();
-        if (dd < 10) {
-          dd = "0" + dd;
-        }
-        if (mm < 10) {
-          mm = "0" + mm;
-        }
-        dateArray[0] = mm + "/" + dd + "/" + yyyy;
+        dateArray[0] = date;
         dateArray[1] = time;
         dateArray[2] = timezone;
-        console.log(dateArray);
         return dateArray;
       }
 

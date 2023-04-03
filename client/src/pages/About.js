@@ -11,7 +11,7 @@ export default function About() {
         <Box paddingLeft="25px" width="70%">
           <Section delay={0.05}>
             <Heading as="h1" size="2xl" mt="10">
-              <Text color="gray" className="mainFont">
+              <Text fontWeight="500" color="gray" className="mainFont">
                 about
               </Text>
             </Heading>
@@ -37,7 +37,7 @@ export default function About() {
 
           <Section delay={0.1}>
             <Heading as="h2" fontSize="24px" mt="20">
-              <Text color="gray" fontWeight={500} className="mainFont">
+              <Text color="gray" fontWeight={400} className="mainFont">
                 word set
               </Text>
             </Heading>
@@ -60,7 +60,7 @@ export default function About() {
 
           <Section delay={0.2}>
             <Heading as="h2" fontSize="24px" mt="20">
-              <Text color="gray" fontWeight={500} className="mainFont">
+              <Text color="gray" fontWeight={400} className="mainFont">
                 wpm calculation
               </Text>
             </Heading>
@@ -75,7 +75,7 @@ export default function About() {
 
           <Section delay={0.3}>
             <Heading as="h2" fontSize="24px" mt="20">
-              <Text color="gray" fontWeight={500} className="mainFont">
+              <Text color="gray" fontWeight={400} className="mainFont">
                 contact
               </Text>
             </Heading>

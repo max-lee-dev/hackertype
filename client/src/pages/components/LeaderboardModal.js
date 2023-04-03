@@ -55,7 +55,6 @@ export default function LeaderboardModal({
       const q = query(collection(db, "submissions"));
 
       const thisLanguage = query(q, where("language", "==", selectedLanguage));
-      console.log("hi");
 
       const thisSolution = query(thisLanguage, where("solution_id", "==", givenSolName));
 
@@ -65,11 +64,10 @@ export default function LeaderboardModal({
       const querySnapshot = await getDocs(sortedQ);
 
       querySnapshot.forEach((doc) => {
-        console.log("HO: " + doc.data());
         tempArr.push(doc.data());
         const thisDate = new Date(doc.data().date);
         const UTCDate = thisDate.toUTCString();
-        dateArrs.push(formatDate(UTCDate));
+        dateArrs.push(formatDate(doc.data().when));
       });
       setDateArrs(dateArrs);
       setSolutionList(tempArr);
@@ -77,29 +75,25 @@ export default function LeaderboardModal({
 
     getSolutionList().then(() => setLoading(false));
   }, [userInput, isLeaderboardOpen]);
-  function formatDate(d) {
-    console.log("My dfate:" + d);
-    const dateArray = [];
-    var time = d.split(" ")[4];
-    var timezone = d.split(" ")[5];
+  function formatDate(when) {
+    const now = Date.parse(Date());
 
-    const date = new Date(d);
-    var exactTime = date.getUTCMilliseconds();
-    console.log("ecaxt time: " + exactTime);
-    var dd = date.getDate();
-    var mm = date.getMonth() + 1;
-    var yyyy = date.getFullYear();
-    if (dd < 10) {
-      dd = "0" + dd;
+    const timeDiffInMs = Math.abs(now - when);
+    const timeDiffInDays = Math.floor(timeDiffInMs / (1000 * 60 * 60 * 24));
+    const timeDiffInHours = Math.floor(timeDiffInMs / (1000 * 60 * 60));
+    const timeDiffInMinutes = Math.floor(timeDiffInMs / (1000 * 60));
+
+    if (timeDiffInDays > 0) {
+      return `${timeDiffInDays} days ago`;
+    } else if (timeDiffInHours > 0) {
+      return `${timeDiffInHours} hours ago`;
+    } else if (timeDiffInMinutes > 0) {
+      return `${timeDiffInMinutes} minutes ago`;
+    } else {
+      return "just now";
     }
-    if (mm < 10) {
-      mm = "0" + mm;
-    }
-    dateArray[0] = mm + "/" + dd + "/" + yyyy;
-    dateArray[1] = time;
-    dateArray[2] = timezone;
-    return dateArray;
   }
+
   return (
     <Center>
       <Modal
@@ -109,7 +103,7 @@ export default function LeaderboardModal({
         finalFocusRef={finalRef}
         size="6xl">
         <ModalOverlay />
-        <ModalContent backgroundColor="#0e0e10" minHeight={"500px"}>
+        <ModalContent backgroundColor="#0e0e10" minHeight={"800px"}>
           <ModalHeader>
             <Box className="searchModal">
               <Text className="whiteText mainFont whiteUnderline" fontSize="32px">
@@ -150,10 +144,10 @@ export default function LeaderboardModal({
                     </Box>
                     {loading && <Text>Loading...</Text>}
                     {!loading && (
-                      <Box paddingTop="5px">
+                      <Box paddingTop="5px" overflow="auto" height="520px">
                         {solutionList.map((sol, i) => (
                           <Box paddingBottom="20px">
-                            <Box display="flex" fontSize="20px">
+                            <Box display="flex" fontSize="24px">
                               <Box width="25%">
                                 <Link textDecoration={"underline"} href={`/profile/${sol.user}`}>
                                   <Text>{sol.user}</Text>
@@ -176,12 +170,22 @@ export default function LeaderboardModal({
                               <Box width="25%">
                                 <HStack>
                                   <Text>
-                                    {sol.date[0]} {sol.date[1]}
-                                  </Text>
-                                  <Text fontSize="16px" color="gray">
-                                    {sol.date[2]}
+                                    {sol.date[0]}
+                                    <HStack>
+                                      <Text fontSize="18px" color="gray">
+                                        {" "}
+                                        {dateArrs[i]}
+                                      </Text>
+                                    </HStack>
                                   </Text>
                                 </HStack>
+                                <Tooltip label="UTC" placement="left">
+                                  <Text fontWeight="200" color="gray" fontSize="14px">
+                                    {" "}
+                                    <Text></Text>
+                                    {sol.date[1]}
+                                  </Text>
+                                </Tooltip>
                               </Box>
                             </Box>
                           </Box>
