@@ -4,13 +4,13 @@
 
 ##
 
-![Screenshot](/client/public/hackertypewithbigbro.png)
-![Screenshot](/client/public/profilepage.png)
+![Screenshot](/client/public/hackertype4.png)
+![Screenshot](/client/public/profilepage2.png)
+![Screenshot](/client/public/ledaerboard.png)
 ![Screenshot](/client/public/wpmgraph.png)
 
 ## Todo:
 
-- check if past pr beat them, if they did, then don't lower their rank
 - Show what rank a guest would have gotten
 - World Record for each solution
 - Improved search solution modal

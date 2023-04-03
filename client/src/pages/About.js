@@ -67,8 +67,8 @@ export default function About() {
 
             <Section delay={0.3}>
               <Text mt="2" fontWeight="300" fontSize="m">
-                The amount of words are based on the number of characters typed divided by 4.7 (the average
-                word length). Like MonkeyType, spaces are counted as characters.
+                The amount of words are based on the number of characters (spaces counted) typed divided by
+                4.7 (the average word length).
               </Text>
             </Section>
           </Section>
@@ -86,7 +86,7 @@ export default function About() {
                 <Link href="mailto:maxplee8@gmail.com">
                   <strong>maxplee8@gmail.com</strong>
                 </Link>
-                . Feedback is much appreciated and I am open to learning how to improve upon my first project.
+                .
               </Text>
             </Section>
           </Section>
