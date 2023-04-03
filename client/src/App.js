@@ -13,7 +13,7 @@ import Footer from "./pages/components/Footer";
 import { db } from "./pages/components/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-
+import { Analytics } from "@vercel/analytics/react";
 import { ChakraProvider, extendTheme, Box, useDisclosure } from "@chakra-ui/react";
 
 function App() {
@@ -100,6 +100,7 @@ function App() {
         </Box>
         <Footer />
       </ChakraProvider>
+      <Analytics />
     </>
   );
 }

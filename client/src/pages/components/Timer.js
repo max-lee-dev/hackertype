@@ -3,9 +3,22 @@ import { addDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import { collection, increment, updateDoc, doc, getDocs } from "firebase/firestore";
 import { StarIcon } from "@chakra-ui/icons";
-import { Text, Box, Center, Stack, Divider, useDisclosure, Button, Tooltip } from "@chakra-ui/react";
+import {
+  Text,
+  Box,
+  Center,
+  Stack,
+  Divider,
+  useDisclosure,
+  Button,
+  Tooltip,
+  IconButton,
+  HStack,
+} from "@chakra-ui/react";
 import LeaderboardModal from "./LeaderboardModal";
 import WpmLineChart from "./WpmLineChart";
+import Section from "./Section";
+import { RepeatIcon } from "@chakra-ui/icons";
 
 function Timer({
   language,
@@ -19,6 +32,8 @@ function Timer({
   pause,
   totalWords,
   correctCharacterArray,
+  wordLimit,
+  Restart,
 }) {
   const [timeElapsed, setTimeElapsed] = useState(0);
   const actualPR = thisSolutionPR;
@@ -98,122 +113,148 @@ function Timer({
     const isPR = user ? parseInt(finalWPM) > parseInt(actualPR) : false;
     // specify language using BADGES (CHAKRA)
     return (
-      <Box className="aboutContainer mainFont">
-        <Text>{leetcodeTitle}</Text>
-        {isPR && (
-          <Box>
-            <Center>
-              <Stack direction="row">
-                <StarIcon fontSize="24px" paddingTop="10px" />
-                <Text className="glow" color="yellow.300">
-                  NEW PR!
-                </Text>
-              </Stack>
-            </Center>
-          </Box>
-        )}
+      <Section delay={0.15}>
+        <Box className="aboutContainer mainFont">
+          <Text>{leetcodeTitle}</Text>
+          {isPR && (
+            <Box>
+              <Center>
+                <Stack direction="row">
+                  <StarIcon fontSize="24px" paddingTop="10px" />
+                  <Text className="glow" color="yellow.300">
+                    NEW PR!
+                  </Text>
+                </Stack>
+              </Center>
+            </Box>
+          )}
 
-        <Center>
-          <Box style={{ width: 750 }}>
-            <WpmLineChart givenData={wpmGraph} />
-          </Box>
-        </Center>
-        <Center>
-          <Text
-            userSelect="none"
-            alignSelf="center"
-            color="gray"
-            fontSize="15px"
-            className="mainFont"
-            fontWeight="200">
-            wpm graph
-          </Text>
-        </Center>
-
-        <Box paddingTop="24px" className="mainFont" fontSize="44px">
           <Center>
-            <Stack direction="row" spacing="10">
-              <Box>
-                <Text>{finalWPM}</Text>
-                <Text color="grey" fontSize="18px">
-                  {" "}
-                  WPM
-                </Text>
-              </Box>
-              <Box>
-                <Text>{acc}%</Text>
-                <Text color="grey" fontSize="18px">
-                  {" "}
-                  accuracy
-                </Text>
-              </Box>
-              <Box>
-                <Text>
-                  {user && (
-                    <Box>
-                      {rank}/{totalOpponents}
-                    </Box>
-                  )}
-                  {!user && (
-                    <Tooltip label="Log in to find rank">
-                      <Box>?/{countOpponents() + 1}</Box>
-                    </Tooltip>
-                  )}
-                </Text>
-                <Text color="grey" fontSize="18px">
-                  {" "}
-                  rank
-                </Text>
-              </Box>
-              <Box paddingTop="10px">
-                <Divider
-                  orientation="vertical"
-                  height="20"
-                  border={"1px solid"}
-                  borderColor="white"
-                  variant="none"
-                />
-              </Box>
-              <Box fontWeight={300} color="grey">
-                <Box>
-                  {!isPR && (
-                    <Box>
-                      <Text>{actualPR}</Text>
-                      <Text color="grey" fontSize="18px">
-                        pr
-                      </Text>
-                    </Box>
-                  )}
-
-                  {user && isPR && (
-                    <Box>
-                      <Text>{actualPR}</Text>
-                      <Text color="grey" fontSize="18px">
-                        old pr
-                      </Text>
-                    </Box>
-                  )}
-                </Box>
-              </Box>
-            </Stack>
-
-            <LeaderboardModal
-              isLeaderboardOpen={isLeaderboardOpen}
-              onLeaderboardClose={onLeaderboardClose}
-              givenSolName={leetcodeTitle}
-              selectedLanguage={language}
-            />
+            <Box style={{ width: 750 }}>
+              <WpmLineChart givenData={wpmGraph} />
+            </Box>
           </Center>
-          <Box className="standardButton">
-            <Button onClick={() => onLeaderboardOpen()}>
-              <Text fontSize="12px">view leaderboard</Text>
-              <Box paddingLeft="10px" fontSize="24px">
-                <ion-icon name="podium"></ion-icon>
-              </Box>
-            </Button>
+          <Center>
+            <Text
+              userSelect="none"
+              alignSelf="center"
+              color="gray"
+              fontSize="15px"
+              className="mainFont"
+              fontWeight="200">
+              wpm graph
+            </Text>
+          </Center>
+
+          <Box paddingTop="24px" className="mainFont" fontSize="44px">
+            <Center>
+              <Stack direction="row" spacing="10">
+                <Box>
+                  <Text>{finalWPM}</Text>
+                  <Text color="grey" fontSize="18px">
+                    {" "}
+                    WPM
+                  </Text>
+                </Box>
+                <Box>
+                  <Text>{acc}%</Text>
+                  <Text color="grey" fontSize="18px">
+                    {" "}
+                    accuracy
+                  </Text>
+                </Box>
+                <Box>
+                  <Text>
+                    {user && (
+                      <Box>
+                        {rank}/{totalOpponents}
+                      </Box>
+                    )}
+                    {!user && (
+                      <Tooltip label="Log in to find rank">
+                        <Box>?/{countOpponents() + 1}</Box>
+                      </Tooltip>
+                    )}
+                  </Text>
+                  <Text color="grey" fontSize="18px">
+                    {" "}
+                    rank
+                  </Text>
+                </Box>
+                <Box paddingTop="10px">
+                  <Divider
+                    orientation="vertical"
+                    height="20"
+                    border={"1px solid"}
+                    borderColor="white"
+                    variant="none"
+                  />
+                </Box>
+                <Box fontWeight={300} color="grey">
+                  <Box>
+                    {!isPR && (
+                      <Box>
+                        <Text>{actualPR}</Text>
+                        <Text color="grey" fontSize="18px">
+                          pr
+                        </Text>
+                      </Box>
+                    )}
+
+                    {user && isPR && (
+                      <Box>
+                        <Text>{actualPR}</Text>
+                        <Text color="grey" fontSize="18px">
+                          old pr
+                        </Text>
+                      </Box>
+                    )}
+                  </Box>
+                </Box>
+              </Stack>
+
+              <LeaderboardModal
+                isLeaderboardOpen={isLeaderboardOpen}
+                onLeaderboardClose={onLeaderboardClose}
+                givenSolName={leetcodeTitle}
+                selectedLanguage={language}
+              />
+            </Center>
+            <Box className="standardButton">
+              <Button onClick={() => onLeaderboardOpen()}>
+                <Text fontSize="12px">view leaderboard</Text>
+                <Box paddingLeft="10px" fontSize="24px">
+                  <ion-icon name="podium"></ion-icon>
+                </Box>
+              </Button>
+            </Box>
           </Box>
         </Box>
-      </Box>
+        <Center>
+          <Box>
+            <HStack className="mainFont standardButton">
+              <Box>
+                <Button
+                  _hover={{ backgroundColor: "transparent" }}
+                  color="whiteAlpha.700"
+                  backgroundColor="transparent"
+                  onClick={() => Restart(language, wordLimit, "retry")}>
+                  Retry Test
+                </Button>
+              </Box>
+              <Box>
+                <Button
+                  _hover={{ backgroundColor: "transparent" }}
+                  color="whiteAlpha.700"
+                  backgroundColor="transparent"
+                  onClick={() => Restart(language, wordLimit)}>
+                  <Text>New Test</Text>
+                </Button>
+              </Box>
+            </HStack>
+          </Box>
+        </Center>
+      </Section>
     );
   }
 

@@ -712,6 +712,11 @@ function App({ user, givenId }) {
   function processInput(e) {
     setStartCounting(true);
     const value = e.target.value;
+
+    // instant end if last word is correct
+    const trimmedLastWord = wordBank[activeWordIndex].replace("\n", "");
+    if (activeWordIndex === wordBank.length - 1 && value.trim() === trimmedLastWord) setFinished(true);
+
     if (value.endsWith(" ") && value.length > 1) {
       setActiveWordIndex((index) => index + 1);
       setUserInput("");
@@ -925,6 +930,8 @@ function App({ user, givenId }) {
                           user={user}
                           thisSolutionPR={thisSolutionPR}
                           setThisSolutionPR={setThisSolutionPR}
+                          wordLimit={wordLimit}
+                          Restart={Restart}
                         />
                       )}
                     </Box>
@@ -959,7 +966,7 @@ function App({ user, givenId }) {
                             )}
 
                             <Box>
-                              {!loading && (
+                              {!loading && !finished && (
                                 <IconButton
                                   _hover={{ backgroundColor: "transparent" }}
                                   color="whiteAlpha.700"
