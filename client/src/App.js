@@ -11,7 +11,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import Footer from "./pages/components/Footer";
 
 import { db } from "./pages/components/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { Analytics } from "@vercel/analytics/react";
 import { ChakraProvider, extendTheme, Box, useDisclosure } from "@chakra-ui/react";
@@ -20,6 +20,7 @@ function App() {
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
+  const [userData, setUserData] = useState({});
   const [id, setId] = useState("");
   const [users, setUsers] = useState([]);
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
@@ -35,6 +36,18 @@ function App() {
     });
     //eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    async function getUserSettings() {
+      const q = query(collection(db, "users"), where("uid", "==", user.uid));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setUserData(doc.data());
+      });
+    }
+    getUserSettings().then(() => setLoading(false));
+  }, [user]);
 
   const usersCollectionRef = collection(db, "users");
   useEffect(() => {
@@ -80,29 +93,32 @@ function App() {
     },
   });
 
-  return (
-    <>
-      <ChakraProvider theme={theme}>
-        <NavBar isSearchOpen={isSearchOpen} onSearchClose={onSearchClose} onSearchOpen={onSearchOpen} />
-        <Box minHeight="90vh">
-          <Routes>
-            <Route path="/" element={<Home user={user} givenId={id} />} />
-            <Route path="/about" element={<About />} />
-            <Route
-              path="/leaderboard"
-              element={<Leaderboard submissions={submissions} loading={loading} />}
-            />
-            <Route path="/login" element={<UserLogin user={user} setUser={setUser} />} />
-            <Route path="/profile/:username" element={<Profile setId={setId} />} />
-            <Route path="/solutions/:givenLanguage/:number" element={<Home user={user} givenId={id} />} />
-            <Route path="/settings" element={<Settings />} />
-          </Routes>
-        </Box>
-        <Footer />
-      </ChakraProvider>
-      <Analytics />
-    </>
-  );
+  if (userData && !loading) {
+    console.log(userData.lastId);
+    return (
+      <>
+        <ChakraProvider theme={theme}>
+          <NavBar isSearchOpen={isSearchOpen} onSearchClose={onSearchClose} onSearchOpen={onSearchOpen} />
+          <Box minHeight="90vh">
+            <Routes>
+              <Route path="/" element={<Home user={user} givenId={userData.lastId} />} />
+              <Route path="/about" element={<About />} />
+              <Route
+                path="/leaderboard"
+                element={<Leaderboard submissions={submissions} loading={loading} />}
+              />
+              <Route path="/login" element={<UserLogin user={user} setUser={setUser} />} />
+              <Route path="/profile/:username" element={<Profile setId={setId} />} />
+              <Route path="/solutions/:givenLanguage/:number" element={<Home user={user} givenId={id} />} />
+              <Route path="/settings" element={<Settings />} />
+            </Routes>
+          </Box>
+          <Footer />
+        </ChakraProvider>
+        <Analytics />
+      </>
+    );
+  }
 }
 
 export default App;

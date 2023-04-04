@@ -104,6 +104,12 @@ function App({ user, givenId }) {
   } = useDisclosure();
 
   const { givenLanguage, number } = useParams();
+
+  let chosenID = "";
+  console.log("givenId", givenId);
+  if (number) chosenID = number;
+  else if (givenId) chosenID = givenId;
+
   const inputElement = useRef(null);
   const [submitted, setSubmitted] = useState(false);
   const [userInput, setUserInput] = useState("");
@@ -134,7 +140,7 @@ function App({ user, givenId }) {
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const submissionsCollectionRef = collection(db, "submissions");
-  const [id, setId] = useState(number);
+  const [id, setId] = useState(chosenID);
   const [amountOfLinesToRender, setAmountOfLinesToRender] = useState(5);
 
   const [finished, setFinished] = useState(false);
