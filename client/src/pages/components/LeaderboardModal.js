@@ -142,7 +142,8 @@ export default function LeaderboardModal({
                         <Text fontSize="32px">date</Text>
                       </Box>
                     </Box>
-                    {loading && <Text>Loading...</Text>}
+                    {loading && solutionList.length > 0 && <Text>Loading...</Text>}
+                    {solutionList.length === 0 && <Text>no submissions yet...</Text>}
                     {!loading && (
                       <Box paddingTop="5px" overflow="auto" height="520px">
                         {solutionList.map((sol, i) => (

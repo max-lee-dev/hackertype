@@ -171,8 +171,10 @@ function Timer({
                       </Box>
                     )}
                     {!user && (
-                      <Tooltip label="Log in to find rank">
-                        <Box>?/{countOpponents() + 1}</Box>
+                      <Tooltip label="Rank not saved">
+                        <Box>
+                          {countOpponents(finalWPM)[0]}/{countOpponents(finalWPM)[1] + 1}
+                        </Box>
                       </Tooltip>
                     )}
                   </Text>
@@ -258,8 +260,10 @@ function Timer({
     );
   }
 
-  function countOpponents() {
+  function countOpponents(wpm) {
     let totalOppo = 0;
+    let rank = 1;
+    const array = [];
     submissions
       .filter(function (submission) {
         return (
@@ -269,10 +273,13 @@ function Timer({
         );
       })
       .map((submission) => {
-        console.log("test");
+        if (submission.wpm > wpm) rank++;
+
         totalOppo++;
       });
-    return totalOppo;
+    array[0] = rank;
+    array[1] = totalOppo;
+    return array;
   }
 
   async function createSubmission() {

@@ -141,9 +141,34 @@ function App({ user, givenId }) {
   const [loading, setLoading] = useState(true);
   const submissionsCollectionRef = collection(db, "submissions");
   const [id, setId] = useState(chosenID);
+  const [myLanguage, setMyLanguage] = useState(givenLanguage);
   const [amountOfLinesToRender, setAmountOfLinesToRender] = useState(5);
 
   const [finished, setFinished] = useState(false);
+
+  // detect key press
+  useEffect(() => {
+    function handleKeyDown(e) {
+      console.log(myLanguage);
+      if (e.keyCode === 9) {
+        e.preventDefault();
+        var input = document.getElementById("textInput");
+        console.log(language);
+        const mylang = language;
+        Restart(mylang, wordLimit);
+        input.focus();
+        input.select();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    // Don't forget to clean up
+    return function cleanup() {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [language]);
+
   useEffect(() => {
     const getSubmissions = async () => {
       const data = await getDocs(submissionsCollectionRef);
@@ -248,6 +273,7 @@ function App({ user, givenId }) {
       inputElement.current.focus();
     }
     setSubmitted(false);
+    console.log(codingLanguage);
     setLanguage(codingLanguage);
     setRenderIndex(-1);
     setNewUser(false);
@@ -876,6 +902,7 @@ function App({ user, givenId }) {
                           startCounting={startCounting}
                           id={id}
                           language={language}
+                          setLanguage={setLanguage}
                           isSearchOpen={isSearchOpen}
                           onSearchOpen={onSearchOpen}
                           onSearchClose={onSearchClose}
@@ -956,6 +983,7 @@ function App({ user, givenId }) {
 
                             {!finished && !loading && (
                               <input
+                                id="textInput"
                                 className="textInput"
                                 type="text"
                                 onPaste={(e) => {
@@ -966,6 +994,8 @@ function App({ user, givenId }) {
                                 onChange={(e) => processInput(e)}
                                 onKeyDown={handleKeyDown}
                                 autoFocus
+                                autoComplete="off"
+                                onfocus="this.select()"
                                 spellCheck={false}
                                 ref={inputElement}
                               />
@@ -1066,7 +1096,7 @@ function App({ user, givenId }) {
               <Box id="userInput">
                 {!newUser && !finished && (
                   <Text fontSize="16px" className="grayText mainFont font300">
-                    [Tab] + [Enter] to Restart Test
+                    [Tab] to Restart Test
                   </Text>
                 )}
               </Box>

@@ -527,10 +527,6 @@ html::-webkit-scrollbar-track {
     background-color: #555;
 }
 
-.restartDiv {
-    padding-left: 0px;
-    order: 1;
-}
 .restartDiv button {
     background-color: rgba(0, 0, 0, 0.2);
     color: aliceblue;
