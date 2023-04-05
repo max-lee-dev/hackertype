@@ -94,7 +94,7 @@ function countNumberOfLines(funcRawCode, codingLanguage) {
   return lineCount;
 }
 
-function App({ user, givenId }) {
+function App({ user, givenId, settingsRenderLimit }) {
   const { isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen } = useDisclosure();
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
   const {
@@ -104,11 +104,12 @@ function App({ user, givenId }) {
   } = useDisclosure();
 
   const { givenLanguage, number } = useParams();
+  const solutionGenerationLineLimit = useRef(50000);
 
-  let chosenID = "";
-  console.log("givenId", givenId);
-  if (number) chosenID = number;
-  else if (givenId) chosenID = givenId;
+  const chosenID = useRef(number);
+
+  const givenLineRenderLimit = useRef(5);
+  if (settingsRenderLimit) givenLineRenderLimit.current = settingsRenderLimit;
 
   const inputElement = useRef(null);
   const [submitted, setSubmitted] = useState(false);
@@ -121,7 +122,7 @@ function App({ user, givenId }) {
   const [javaRange, setJavaRange] = useState("ALL");
   const [cppRange, setCppRange] = useState("ALL");
   const [pythonRange, setPythonRange] = useState("ALL");
-  const [wordLimit, setWordLimit] = useState(50000);
+  const [wordLimit, setWordLimit] = useState(solutionGenerationLineLimit.current);
   const [wordBank, setNewWordBank] = useState([]);
   const [whiteSpace, setWhiteSpace] = useState([]);
   const [language, setLanguage] = useState("");
@@ -140,20 +141,28 @@ function App({ user, givenId }) {
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const submissionsCollectionRef = collection(db, "submissions");
-  const [id, setId] = useState(chosenID);
-  const [myLanguage, setMyLanguage] = useState(givenLanguage);
-  const [amountOfLinesToRender, setAmountOfLinesToRender] = useState(5);
+  const [id, setId] = useState(chosenID.current);
+  const [amountOfLinesToRender, setAmountOfLinesToRender] = useState(settingsRenderLimit);
+  const [retriveingData, setRetriveingData] = useState(true);
 
   const [finished, setFinished] = useState(false);
 
   // detect key press
   useEffect(() => {
+    setLoading(true);
+    if (user) {
+      if (!retriveingData) {
+        Restart(language, wordLimit);
+        setLoading(false);
+      }
+    }
+  }, [user, retriveingData]);
+
+  useEffect(() => {
     function handleKeyDown(e) {
-      console.log(myLanguage);
       if (e.keyCode === 9) {
         e.preventDefault();
         var input = document.getElementById("textInput");
-        console.log(language);
         const mylang = language;
         Restart(mylang, wordLimit);
         input.focus();
@@ -195,27 +204,37 @@ function App({ user, givenId }) {
 
   useEffect(
     () => {
-      setLoading(true);
+      setRetriveingData(true);
       async function getUserSettings() {
         const q = query(collection(db, "users"), where("uid", "==", user.uid));
         let givenLineLimit = 0;
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-          if (doc.data().lastId) setId(doc.data().lastId);
-          if (number && doc.data().lineLimit) setWordLimit("");
-          else if (doc.data().lineLimit) {
+          if (number) {
+            chosenID.current = number;
+            setId(number);
+          } else if (doc.data().lastId) {
+            chosenID.current = doc.data().lastId;
+            setId(doc.data().lastId);
+          }
+
+          if (number && doc.data().lineLimit) {
+            setWordLimit("");
+          } else if (doc.data().lineLimit) {
+            solutionGenerationLineLimit.current = doc.data().lineLimit;
             givenLineLimit = doc.data().lineLimit;
+            setWordLimit(doc.data().lineLimit);
           }
 
           if (!givenLanguage) Restart(doc.data().lastLanguage, givenLineLimit);
           else Restart(givenLanguage, givenLineLimit);
         });
       }
-      if (user) getUserSettings().then(() => setLoading(false));
+      if (user) getUserSettings().then(() => setRetriveingData(false));
       if (!user) {
         if (!givenLanguage) Restart("Java", "");
         else Restart(givenLanguage, "");
-        setLoading(false);
+        setRetriveingData(false);
       }
     },
     [user],
@@ -273,7 +292,6 @@ function App({ user, givenId }) {
       inputElement.current.focus();
     }
     setSubmitted(false);
-    console.log(codingLanguage);
     setLanguage(codingLanguage);
     setRenderIndex(-1);
     setNewUser(false);
@@ -995,7 +1013,6 @@ function App({ user, givenId }) {
                                 onKeyDown={handleKeyDown}
                                 autoFocus
                                 autoComplete="off"
-                                onfocus="this.select()"
                                 spellCheck={false}
                                 ref={inputElement}
                               />
@@ -1066,7 +1083,7 @@ function App({ user, givenId }) {
                               let s = "";
                               if (index !== wordBank.length - 1) {
                                 for (let i = 0; i < whiteSpace[index]; i++) {
-                                  s += "  ";
+                                  s += "    ";
                                 }
                               }
                               return (

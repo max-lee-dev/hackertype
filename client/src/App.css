@@ -320,15 +320,14 @@ html::-webkit-scrollbar-track {
 
 .nav {
     font-family: 'Fira Code', monospace;
-    font-weight: 600;
+    font-weight: 400;
     color: rgb(161, 161, 161);
     display: flex;
     justify-content: space-between;
     align-items: stretch;
     gap: 2rem;
-    padding: 0 1rem;
     display: flex;
-    gap: 1rem;
+    padding-top:3rem;
     width: 70%;
     position: fixed;
     background-color: rgb(14,14,16); /* Black w/opacity/see-through */
@@ -398,6 +397,7 @@ html::-webkit-scrollbar-track {
 }
 
 .nav ul {
+    
     padding: 0;
     margin: 0;
     height: 100%;
@@ -433,6 +433,10 @@ html::-webkit-scrollbar-track {
 
 .active {
     color:rgb(222, 222, 222) !important;
+}
+
+.displayText {
+    user-select: none;
 }
 
 

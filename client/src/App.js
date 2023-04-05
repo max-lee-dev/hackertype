@@ -101,7 +101,10 @@ function App() {
           <NavBar isSearchOpen={isSearchOpen} onSearchClose={onSearchClose} onSearchOpen={onSearchOpen} />
           <Box minHeight="90vh">
             <Routes>
-              <Route path="/" element={<Home user={user} givenId={userData.lastId} />} />
+              <Route
+                path="/"
+                element={<Home user={user} givenId={userData.lastId} settingsRenderLimit={2} />}
+              />
               <Route path="/about" element={<About />} />
               <Route
                 path="/leaderboard"
