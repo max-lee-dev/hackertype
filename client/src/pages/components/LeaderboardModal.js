@@ -147,7 +147,7 @@ export default function LeaderboardModal({
                     {!loading && (
                       <Box paddingTop="5px" overflow="auto" height="520px">
                         {solutionList.map((sol, i) => (
-                          <Box paddingBottom="20px">
+                          <Box key={i} paddingBottom="20px">
                             <Box display="flex" fontSize="24px">
                               <Box width="25%">
                                 <Link textDecoration={"underline"} href={`/profile/${sol.user}`}>

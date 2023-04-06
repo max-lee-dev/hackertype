@@ -25,7 +25,7 @@ import { query, collection, getDocs, orderBy } from "firebase/firestore";
 import { db } from "./components/firebase";
 import Submission from "./components/Submission";
 
-export default function SeachModal({ isSearchOpen, onSearchClose }) {
+export default function SearchModal({ isSearchOpen, onSearchClose }) {
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
   const [loading, setLoading] = useState(false);
@@ -117,8 +117,8 @@ export default function SeachModal({ isSearchOpen, onSearchClose }) {
                       {(loading || userList.length > 0) && <Text fontSize="32px">users</Text>}
                     </Box>
                     <Box paddingTop="24px">{loading && <Box className="loader"></Box>}</Box>
-                    {userList.map((user) => (
-                      <Box paddingTop="10px">
+                    {userList.map((user, i) => (
+                      <Box key={i} paddingTop="10px">
                         <Link textDecoration={"underline"} href={`/profile/${user.displayName}`}>
                           {user.displayName}
                         </Link>
@@ -130,8 +130,8 @@ export default function SeachModal({ isSearchOpen, onSearchClose }) {
                     <Box paddingTop="24px">
                       {loading && solutionList.length === 0 && <Box className="loader"></Box>}
                     </Box>
-                    {solutionList.map((sol) => (
-                      <Box paddingTop="10px">
+                    {solutionList.map((sol, i) => (
+                      <Box key={i} paddingTop="10px">
                         <Link textDecoration={"underline"} href={`/solutions/Java/${sol.data().solutionNum}`}>
                           {sol.data().solution_id}
                         </Link>

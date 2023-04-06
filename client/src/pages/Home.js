@@ -94,7 +94,7 @@ function countNumberOfLines(funcRawCode, codingLanguage) {
   return lineCount;
 }
 
-function App({ user, givenId, settingsRenderLimit }) {
+function App({ user, givenId, config, settingsRenderLimit }) {
   const { isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen } = useDisclosure();
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
   const {
@@ -112,6 +112,7 @@ function App({ user, givenId, settingsRenderLimit }) {
   if (settingsRenderLimit) givenLineRenderLimit.current = settingsRenderLimit;
 
   const inputElement = useRef(null);
+
   const [submitted, setSubmitted] = useState(false);
   const [userInput, setUserInput] = useState("");
   const [startCounting, setStartCounting] = useState(false);
@@ -142,19 +143,18 @@ function App({ user, givenId, settingsRenderLimit }) {
   const [loading, setLoading] = useState(true);
   const submissionsCollectionRef = collection(db, "submissions");
   const [id, setId] = useState(chosenID.current);
-  const [amountOfLinesToRender, setAmountOfLinesToRender] = useState(settingsRenderLimit);
+  const [amountOfLinesToRender, setAmountOfLinesToRender] = useState(config["linesDisplayed"]);
   const [retriveingData, setRetriveingData] = useState(true);
 
   const [finished, setFinished] = useState(false);
 
-  // detect key press
   useEffect(() => {
-    setLoading(true);
-    if (user) {
-      if (!retriveingData) {
+    if (!retriveingData) {
+      if (user) {
+        setLoading(true);
         Restart(language, wordLimit);
-        setLoading(false);
       }
+      setLoading(false);
     }
   }, [user, retriveingData]);
 
@@ -202,9 +202,11 @@ function App({ user, givenId, settingsRenderLimit }) {
 
   // if given a solution id, load the pr
 
+  // RETRIEVE DATA
   useEffect(
     () => {
       setRetriveingData(true);
+
       async function getUserSettings() {
         const q = query(collection(db, "users"), where("uid", "==", user.uid));
         let givenLineLimit = 0;
@@ -893,7 +895,9 @@ function App({ user, givenId, settingsRenderLimit }) {
     else setPythonRange(numSolutions);
   }
 
-  const renderLimit =
+  // numLines stays the same, when i use amuount of lines to render and make it a constant, it works but when i make it linesDisplayed it changes despite being the same value
+  const numLines = config["linesDisplayed"];
+  let renderLimit =
     preGeneratedLineIndex[currentLine + amountOfLinesToRender - 1] === undefined
       ? 1000000
       : preGeneratedLineIndex[currentLine + amountOfLinesToRender - 1];
@@ -1039,18 +1043,20 @@ function App({ user, givenId, settingsRenderLimit }) {
                                   <Stack direction={["row"]}>
                                     {user && (
                                       <Center>
-                                        <Tooltip label="Your personal best" placement="top">
-                                          <Box width="100px" marginLeft="103px">
-                                            <Center>
-                                              {user && !startCounting && !loading && (
-                                                <HStack>
-                                                  <p className="grayText font500">{thisSolutionPR} WPM </p>
-                                                  <FaCrown color="gray" />
-                                                </HStack>
-                                              )}
-                                            </Center>
-                                          </Box>
-                                        </Tooltip>
+                                        {user && !startCounting && !loading && (
+                                          <Tooltip label="Your personal best" placement="top">
+                                            <Box width="100px" marginLeft="103px">
+                                              <Center>
+                                                {user && !startCounting && !loading && (
+                                                  <HStack>
+                                                    <p className="grayText font500">{thisSolutionPR} WPM </p>
+                                                    <FaCrown color="gray" />
+                                                  </HStack>
+                                                )}
+                                              </Center>
+                                            </Box>
+                                          </Tooltip>
+                                        )}
                                       </Center>
                                     )}
                                     <Box color="gray" fontSize="14px" paddingLeft="44px">
@@ -1071,37 +1077,42 @@ function App({ user, givenId, settingsRenderLimit }) {
                         </Center>
                       </Box>
                     </Box>
-
-                    <Box className="text">
-                      <pre
-                        style={{
-                          whiteSpace: "pre-wrap",
-                        }}>
-                        {!finished &&
-                          wordBank.map((word, index) => {
-                            if (!startCounting || (index > renderIndex && index < renderLimit)) {
-                              let s = "";
-                              if (index !== wordBank.length - 1) {
-                                for (let i = 0; i < whiteSpace[index]; i++) {
-                                  s += "    ";
+                    <Center>
+                      <Box className="text" fontSize={config["fontSize"]}>
+                        <pre
+                          style={{
+                            whiteSpace: "pre-wrap",
+                          }}>
+                          {!finished &&
+                            wordBank.map((word, index) => {
+                              if (!startCounting || (index > renderIndex && index < renderLimit)) {
+                                let s = "";
+                                let tabSize = "";
+                                for (let i = 0; i < config["tabSize"]; i++) {
+                                  tabSize += " ";
                                 }
+                                if (index !== wordBank.length - 1) {
+                                  for (let i = 0; i < whiteSpace[index]; i++) {
+                                    s += tabSize;
+                                  }
+                                }
+                                return (
+                                  <span key={index} className="displayText">
+                                    {s}
+                                    <Word
+                                      text={word}
+                                      active={index === activeWordIndex}
+                                      correct={correctWordArray[index]}
+                                      thisWordIndex={index}
+                                    />
+                                  </span>
+                                );
                               }
-                              return (
-                                <span key={index} className="displayText">
-                                  {s}
-                                  <Word
-                                    text={word}
-                                    active={index === activeWordIndex}
-                                    correct={correctWordArray[index]}
-                                    thisWordIndex={index}
-                                  />
-                                </span>
-                              );
-                            }
-                            return "";
-                          })}
-                      </pre>
-                    </Box>
+                              return "";
+                            })}
+                        </pre>
+                      </Box>
+                    </Center>
                     {startCounting && !finished && (
                       <p className="mainFont active whiteText">
                         {preGeneratedLineIndex.length - currentLine} more lines...

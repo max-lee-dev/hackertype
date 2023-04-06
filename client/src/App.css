@@ -565,8 +565,8 @@ html::-webkit-scrollbar-track {
 
 .text {
     margin-top: 25px;
+    width: 70%;
     border-color: black;
-    font-size: 200%;
     font-family: 'Inconsolata', sans-serif;
 
 }
