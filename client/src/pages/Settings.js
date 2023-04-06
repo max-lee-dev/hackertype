@@ -50,7 +50,11 @@ export default function Settings() {
                     </Text>
 
                     <Box width="10%" fontSize="30px">
-                      <Input name="fontSize" onChange={handleChange} type="text"></Input>
+                      <Input
+                        value={stateConfig["fontSize"]}
+                        name="fontSize"
+                        onChange={handleChange}
+                        type="text"></Input>
                     </Box>
                   </Box>
                   <Box paddingBottom="3rem" display="flex" justifyContent={"space-between"}>
@@ -76,7 +80,11 @@ export default function Settings() {
                       number of lines displayed while typing
                     </Text>
                     <Box width="10%" fontSize="30px">
-                      <Input name="linesDisplayed" onChange={handleChange} type="text"></Input>
+                      <Input
+                        value={stateConfig["linesDisplayed"]}
+                        name="linesDisplayed"
+                        onChange={handleChange}
+                        type="text"></Input>
                     </Box>
                   </Box>
                 </Box>

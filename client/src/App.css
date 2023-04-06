@@ -599,6 +599,19 @@ html::-webkit-scrollbar-track {
     text-align: center;
 }
 
+.cursor {
+    box-shadow: 3px 0 0 0 white;
+    animation: blink 0.9s infinite;
+
+
+}
+
+@keyframes blink {
+    0% { box-shadow: 3px 0 0 0 transparent; }
+    50% { box-shadow: 3px 0 0 0 white; }
+    100% { box-shadow: 3px 0 0 0 transparent;}
+}
+
 .textContainer input:focus {
     text-align: center;
     background-color: rgba(244,244,244, 0.12);
