@@ -52,6 +52,7 @@ export default function Settings() {
                     <Box width="10%" fontSize="30px">
                       <Input
                         value={stateConfig["fontSize"]}
+                        autoComplete="off"
                         name="fontSize"
                         onChange={handleChange}
                         type="text"></Input>
@@ -67,6 +68,7 @@ export default function Settings() {
                     <Box width="10%" fontSize="30px">
                       <Input
                         value={stateConfig["tabSize"]}
+                        autoComplete="off"
                         name="tabSize"
                         onChange={handleChange}
                         type="text"></Input>
@@ -83,6 +85,7 @@ export default function Settings() {
                       <Input
                         value={stateConfig["linesDisplayed"]}
                         name="linesDisplayed"
+                        autoComplete="off"
                         onChange={handleChange}
                         type="text"></Input>
                     </Box>

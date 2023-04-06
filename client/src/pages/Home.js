@@ -148,6 +148,7 @@ function App({ user, givenId }) {
   const [id, setId] = useState(chosenID.current);
   const [amountOfLinesToRender, setAmountOfLinesToRender] = useState(parseInt(config["linesDisplayed"]));
   const [retriveingData, setRetriveingData] = useState(true);
+  const [inputSelected, setInputSelected] = useState(false);
 
   const [finished, setFinished] = useState(false);
 
@@ -163,6 +164,8 @@ function App({ user, givenId }) {
 
   useEffect(() => {
     function handleKeyDown(e) {
+      console.log(document.activeElement);
+      console.log(document.activeElement === document.getElementById("textInput"));
       if (e.keyCode === 9) {
         e.preventDefault();
         var input = document.getElementById("textInput");
@@ -180,6 +183,16 @@ function App({ user, givenId }) {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [language]);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", function (e) {
+      if (e.target.id === "textInput") {
+        setInputSelected(true);
+      } else {
+        setInputSelected(false);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const getSubmissions = async () => {
@@ -296,6 +309,7 @@ function App({ user, givenId }) {
     if (inputElement.current) {
       inputElement.current.focus();
     }
+    setInputSelected(true);
     setSubmitted(false);
     setLanguage(codingLanguage);
     setRenderIndex(-1);
@@ -663,6 +677,7 @@ function App({ user, givenId }) {
           hasReturn={hasReturn}
           activeWordIndex={activeWordIndex}
           thisWordIndex={thisWordIndex}
+          inputSelected={inputSelected}
         />
       );
     });
@@ -719,6 +734,7 @@ function App({ user, givenId }) {
       setControllPress(false);
       return "";
     }
+
     if (e.key === "Enter" && inputElement.current.type === document.activeElement.type) {
       if (wordBank[activeWordIndex].substring(wordBank[activeWordIndex].length - 1) === "\n") {
         setCorrectWordArray((data) => {
@@ -991,7 +1007,6 @@ function App({ user, givenId }) {
                         />
                       )}
                     </Box>
-
                     <Box className="textContainer">
                       <p className="error"> {error}</p>
                       <Box>
@@ -1003,37 +1018,6 @@ function App({ user, givenId }) {
                           )}
                           <Stack justifyContent="center" direction="row">
                             {!finished && <Divider orientation="vertical" width="56px" />}
-
-                            {!finished && !loading && (
-                              <input
-                                id="textInput"
-                                className="textInput"
-                                type="text"
-                                onPaste={(e) => {
-                                  e.preventDefault();
-                                  return false;
-                                }}
-                                value={userInput}
-                                onChange={(e) => processInput(e)}
-                                onKeyDown={handleKeyDown}
-                                autoFocus
-                                autoComplete="off"
-                                spellCheck={false}
-                                ref={inputElement}
-                              />
-                            )}
-
-                            <Box>
-                              {!loading && !finished && (
-                                <IconButton
-                                  _hover={{ backgroundColor: "transparent" }}
-                                  color="whiteAlpha.700"
-                                  boxSize="12"
-                                  backgroundColor="transparent"
-                                  icon={<RepeatIcon />}
-                                  onClick={() => Restart(language, wordLimit)}></IconButton>
-                              )}
-                            </Box>
                           </Stack>
                         </Box>
                         <Center>
@@ -1078,7 +1062,28 @@ function App({ user, givenId }) {
                         </Center>
                       </Box>
                     </Box>
-                    <Center>
+
+                    <Center position="relative">
+                      {!finished && !loading && (
+                        <input
+                          zIndex="100"
+                          id="textInput"
+                          className="textInput"
+                          type="text"
+                          onPaste={(e) => {
+                            e.preventDefault();
+                            return false;
+                          }}
+                          value={userInput}
+                          onChange={(e) => processInput(e)}
+                          onKeyDown={handleKeyDown}
+                          autoFocus
+                          autoComplete="off"
+                          spellCheck={false}
+                          ref={inputElement}
+                          position="absolute"
+                        />
+                      )}
                       <Box className="text" fontSize={config["fontSize"]}>
                         <pre
                           style={{
@@ -1120,6 +1125,19 @@ function App({ user, givenId }) {
                       </p>
                     )}
                   </Box>
+                </Box>
+              </Center>
+              <Center>
+                <Box>
+                  {!loading && !finished && (
+                    <IconButton
+                      _hover={{ backgroundColor: "transparent" }}
+                      color="whiteAlpha.700"
+                      boxSize="12"
+                      backgroundColor="transparent"
+                      icon={<RepeatIcon />}
+                      onClick={() => Restart(language, wordLimit)}></IconButton>
+                  )}
                 </Box>
               </Center>
               <Box id="userInput">

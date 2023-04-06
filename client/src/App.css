@@ -581,15 +581,18 @@ html::-webkit-scrollbar-track {
     background-color: transparent;
     user-select: none;
     outline: none;
-    width: 25%;
-    height: 50px;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    position: absolute;
     text-align: center;
-    background-color: rgba(244,244,244, 0.12);
     border-radius: 10px;
     font-size: 30px;
     border-radius: 10px;
     border: 0px;
-    color: rgb(244,244,244);
+    caret-color: transparent;
+
+    color: transparent;
     
     font-family: 'Fira Code', monospace;
     
@@ -599,17 +602,36 @@ html::-webkit-scrollbar-track {
     text-align: center;
 }
 
+.hide {
+    color: transparent;
+}
+
+.behindCursor {
+    box-shadow: -3px 0 0 0 white;
+    animation: blinkbehind 1s infinite;
+}
+
+@keyframes blinkbehind {
+    0% { box-shadow: -3px 0 0 0 white; }
+    25% { box-shadow: -3px 0 0 0 white;}
+    50% { box-shadow: -3px 0 0 0 transparent; }
+    75% { box-shadow: -3px 0 0 0 white;}
+    100% { box-shadow: -3px 0 0 0 white;}
+}
+
 .cursor {
     box-shadow: 3px 0 0 0 white;
-    animation: blink 0.9s infinite;
+    animation: blink 1s infinite;
 
 
 }
 
 @keyframes blink {
-    0% { box-shadow: 3px 0 0 0 transparent; }
-    50% { box-shadow: 3px 0 0 0 white; }
-    100% { box-shadow: 3px 0 0 0 transparent;}
+    0% { box-shadow: 3px 0 0 0 white; }
+    25% { box-shadow: 3px 0 0 0 white;}
+    50% { box-shadow: 3px 0 0 0 transparent; }
+    75% { box-shadow: 3px 0 0 0 white;}
+    100% { box-shadow: 3px 0 0 0 white;}
 }
 
 .textContainer input:focus {

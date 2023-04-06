@@ -26,6 +26,23 @@ function App() {
 
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
 
+  const [stateConfig, setStateConfig] = useState(() => getConfigValues());
+
+  function getConfigValues() {
+    const config = localStorage.getItem("config");
+    if (!config) {
+      return {
+        fontSize: 30,
+        tabSize: 4,
+        linesDisplayed: 5,
+      };
+    }
+    return JSON.parse(config);
+  }
+
+  useEffect(() => {
+    localStorage.setItem("config", JSON.stringify(stateConfig));
+  }, [stateConfig]);
   const auth = getAuth();
   useEffect(() => {
     auth.onAuthStateChanged((user) => {

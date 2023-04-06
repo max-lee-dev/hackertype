@@ -11,15 +11,20 @@ export default function Letter(props) {
     wordCorrect,
     activeWordIndex,
     thisWordIndex,
+    inputSelected,
   } = props;
   const userChar = userInput.charAt(idx);
   const isLastChar = idx === displayWord.length - 1;
   const currentCharacter = idx === userInput.length - 1;
   let correct = char === userChar;
 
-  console.log("y: " + idx);
-
   if (userChar === "" || !active) correct = null;
+
+  // add blinking indicator on the first letter
+  if (inputSelected && idx === 0 && active && userInput.length === 0) {
+    if (isLastChar) return <span className="behindCursor displayText">{char} </span>;
+    return <span className="behindCursor active">{char}</span>;
+  }
 
   // if user goes over the word length
   if (active) {
@@ -53,7 +58,6 @@ export default function Letter(props) {
     if (active) {
       if (hasReturn && isLastChar) return <span className="currentCorrect displayText">{char}</span>;
       if (isLastChar) {
-        if (currentCharacter) return <span className="currentCorrect displayText cursor">{char} </span>;
         return <span className="currentCorrect displayText">{char} </span>;
       }
       if (currentCharacter) return <span className="correct displayText cursor">{char}</span>;
