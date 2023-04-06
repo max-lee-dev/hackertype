@@ -167,6 +167,7 @@ function App({ user, givenId }) {
       console.log(document.activeElement);
       console.log(document.activeElement === document.getElementById("textInput"));
       if (e.keyCode === 9) {
+        console.log(id);
         e.preventDefault();
         var input = document.getElementById("textInput");
         const mylang = language;
@@ -250,8 +251,10 @@ function App({ user, givenId }) {
       }
       if (user) getUserSettings().then(() => setRetriveingData(false));
       if (!user) {
-        if (!givenLanguage) Restart("Java", "");
-        else Restart(givenLanguage, "");
+        if (!givenLanguage) {
+          setLanguage("Java");
+          Restart("Java", "");
+        } else Restart(givenLanguage, "");
         setRetriveingData(false);
       }
     },
@@ -387,7 +390,7 @@ function App({ user, givenId }) {
       });
 
       let numLines = countNumberOfLines(selectedCode, codingLanguage);
-
+      console.log("w");
       if (numLines <= wordLimit) break;
 
       if (id !== undefined && !isNaN(id)) break;
@@ -470,6 +473,7 @@ function App({ user, givenId }) {
 
       if (solutionSize <= maxWords) numSolutions++;
     }
+
     javaSolutions = numSolutions;
     if (maxWords === "") setJavaRange("ALL");
     else setJavaRange(numSolutions);
@@ -514,13 +518,13 @@ function App({ user, givenId }) {
     }
 
     if (codingLanguage === "Python" && numSolutions === 0) {
-      return `Must have atleast 1 solution`;
+      return `No solutions found for ${codingLanguage} with ${maxWords} lines`;
     }
     if (codingLanguage === "Java" && javaSolutions === 0) {
-      return `Must have atleast 1 solution`;
+      return `No solutions found for ${codingLanguage} with ${maxWords} lines`;
     }
     if (codingLanguage === "C++" && cppSolutions === 0) {
-      return `Must have atleast 1 solution`;
+      return `No solutions found for ${codingLanguage} with ${maxWords} lines`;
     }
     let funcRawCode = randomCode(codingLanguage, numSolutions, id);
     let funcWordBank = [];

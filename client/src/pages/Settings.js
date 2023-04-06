@@ -10,6 +10,7 @@ export default function Settings() {
         fontSize: 30,
         tabSize: 4,
         linesDisplayed: 5,
+        lineLimit: 50000,
       };
     }
     return JSON.parse(config);
@@ -33,7 +34,7 @@ export default function Settings() {
         <Center>
           <Box width="100%" paddingTop="50px" className="whiteText">
             <Text color="gray" fontSize="66px">
-              settings (wip)
+              settings
             </Text>
             <Box>
               <Box>
@@ -96,9 +97,7 @@ export default function Settings() {
                 themes
               </Text>
               <Box paddingLeft="5rem">
-                <Box paddingBottom="3rem" display="flex" justifyContent={"space-between"}>
-                  wip
-                </Box>
+                <Box paddingBottom="3rem" display="flex" justifyContent={"space-between"}></Box>
               </Box>
             </Box>
 

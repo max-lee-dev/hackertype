@@ -35,6 +35,7 @@ function App() {
         fontSize: 30,
         tabSize: 4,
         linesDisplayed: 5,
+        lineLimit: 50000,
       };
     }
     return JSON.parse(config);
@@ -102,10 +103,6 @@ function App() {
           _focus: {
             boxShadow: "none",
             outline: "none",
-            color: "white",
-          },
-          _hover: {
-            color: "white",
           },
         },
       },

@@ -91,7 +91,7 @@ export default function Navbar({ isSearchOpen, onSearchClose, onSearchOpen }) {
                   <Stack direction="row">
                     {!user && (
                       <NavLink to="/login">
-                        <Text marginTop="12px" fontSize="16px" paddingRight="5px" textColor="">
+                        <Text marginTop="16px" fontSize="16px" paddingRight="5px" textColor="">
                           &lt;log in&gt;
                         </Text>
                       </NavLink>

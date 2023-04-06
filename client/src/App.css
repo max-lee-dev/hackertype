@@ -319,6 +319,7 @@ html::-webkit-scrollbar-track {
   }
 
 .nav {
+    z-index: 50;
     font-family: 'Fira Code', monospace;
     font-weight: 400;
     color: rgb(161, 161, 161);
@@ -331,7 +332,6 @@ html::-webkit-scrollbar-track {
     width: 70%;
     position: fixed;
     background-color: rgb(14,14,16); /* Black w/opacity/see-through */
-    z-index: 1;
 }
 
 .nav a {
@@ -585,7 +585,6 @@ html::-webkit-scrollbar-track {
     height: 100%;
     z-index: 5;
     position: absolute;
-    text-align: center;
     border-radius: 10px;
     font-size: 30px;
     border-radius: 10px;

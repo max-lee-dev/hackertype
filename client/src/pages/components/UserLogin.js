@@ -6,10 +6,10 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { Box, Center, Text, Stack, Divider, Input, Button, Form } from "@chakra-ui/react";
-import { auth } from "./firebase.js";
+import { Box, Center, Text, Stack, Divider, Input, Button, Form, VStack } from "@chakra-ui/react";
+import { auth, signInWithGoogle } from "./firebase.js";
 import { db } from "./firebase";
-import { getFirestore, doc, addDoc, getDocs, setDoc, collection } from "firebase/firestore";
+import { getFirestore, doc, addDoc, getDocs, setDoc, collection, query, where } from "firebase/firestore";
 export default function UserLogin({ user, setUser }) {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
@@ -20,6 +20,7 @@ export default function UserLogin({ user, setUser }) {
   const [loginErrorMessage, setLoginErrorMessage] = useState("");
   const [registerErrorMessage, setRegisterErrorMessage] = useState("");
   const [users, setUsers] = useState([]);
+  const [loginPage, setLoginPage] = useState(true);
   const usersRef = collection(db, "users");
 
   useEffect(() => {
@@ -37,14 +38,13 @@ export default function UserLogin({ user, setUser }) {
   });
 
   async function createNewUser(uid) {
-    console.log("creating new user");
     await setDoc(doc(db, "users", uid), {
       displayName: username,
       email: registerEmail,
       account_created: new Date().toLocaleString(),
       uid: uid,
     });
-    window.location.reload();
+    window.location.replace(`/profile/${username}`);
   }
 
   async function register(e) {
@@ -119,89 +119,127 @@ export default function UserLogin({ user, setUser }) {
     }
   }
 
-  async function signout() {
-    await signOut(auth);
-    window.location.reload();
-  }
   return (
     <Center>
       {" "}
-      <Box paddingTop="75px" className="whiteText standardButton mainFont" width="50%">
+      <Box paddingTop="75px" className="whiteText  mainFont" width="50%">
         <Center>
           <Box>
             <Stack direction="row">
-              <form onSubmit={register}>
-                <Box width="40%">
-                  <Text paddingBottom="25px" className="font500" fontSize="24px">
-                    {" "}
-                    register user{" "}
-                  </Text>
-
-                  <Input
-                    placeholder="Username"
-                    onChange={(event) => {
-                      setUsername(event.target.value);
-                    }}
-                  />
-                  <Input
-                    placeholder="Email"
-                    onChange={(event) => {
-                      setRegisterEmail(event.target.value);
-                    }}
-                  />
-                  <Input
-                    placeholder="Password"
-                    type="password"
-                    onChange={(event) => {
-                      setRegisterPassword(event.target.value);
-                    }}
-                  />
-                  <Input
-                    placeholder="Confirm Password"
-                    type="password"
-                    onChange={(event) => {
-                      setConfirmPassword(event.target.value);
-                    }}
-                  />
-                  <Center>
-                    <p className="currentIncorrect">{registerErrorMessage}</p>
-                  </Center>
-                  <Center>
-                    <Button marginTop="10px" type="submit" backgroundColor={"#555"} onClick={register}>
-                      Sign Up
-                    </Button>
-                  </Center>
+              <Center>
+                <Box width="50%">
+                  {!loginPage && (
+                    <Box>
+                      <Button
+                        marginTop="10px"
+                        _hover={{ bgColor: "#777" }}
+                        bgColor={"#222"}
+                        onClick={() => setLoginPage(true)}>
+                        log in
+                      </Button>
+                      <Button
+                        marginTop="10px"
+                        bgColor={"#777"}
+                        _hover={{ bgColor: "#777" }}
+                        onClick={() => setLoginPage(false)}>
+                        {" "}
+                        sign up{" "}
+                      </Button>
+                      <form onSubmit={register}>
+                        <Box width="100%">
+                          <Input
+                            placeholder="Username"
+                            onChange={(event) => {
+                              setUsername(event.target.value);
+                            }}
+                          />
+                          <Input
+                            placeholder="Email"
+                            onChange={(event) => {
+                              setRegisterEmail(event.target.value);
+                            }}
+                          />
+                          <Input
+                            placeholder="Password"
+                            type="password"
+                            onChange={(event) => {
+                              setRegisterPassword(event.target.value);
+                            }}
+                          />
+                          <Input
+                            placeholder="Confirm Password"
+                            type="password"
+                            onChange={(event) => {
+                              setConfirmPassword(event.target.value);
+                            }}
+                          />
+                          <Center>
+                            <p className="currentIncorrect">{registerErrorMessage}</p>
+                          </Center>
+                          <Center className="standardButton">
+                            <Button
+                              marginTop="10px"
+                              type="submit"
+                              backgroundColor={"#555"}
+                              onClick={register}>
+                              Sign Up
+                            </Button>
+                          </Center>
+                        </Box>
+                      </form>
+                    </Box>
+                  )}
                 </Box>
-              </form>
-              <Box width="35%">
-                <form onSubmit={login}>
-                  <Text fontSize="24px" paddingBottom={"25px"} className="font500">
-                    {" "}
-                    log in{" "}
-                  </Text>
-                  <Input
-                    placeholder="Email"
-                    onChange={(event) => {
-                      setLoginEmail(event.target.value);
-                    }}
-                  />
-                  <Input
-                    placeholder="Password"
-                    type="password"
-                    onChange={(event) => {
-                      setLoginPassword(event.target.value);
-                    }}
-                  />
-                  <Center>
-                    <p className="currentIncorrect">{loginErrorMessage}</p>
-                  </Center>
-                  <Center>
-                    <Button marginTop="10px" bgColor={"#555"} type="submit" onClick={login}>
-                      Log In
-                    </Button>
-                  </Center>
-                </form>
-              </Box>
+              </Center>
+              <Center>
+                <Box width="50%">
+                  {loginPage && (
+                    <Box>
+                      <Button
+                        marginTop="10px"
+                        _hover={{ bgColor: "#777" }}
+                        bgColor={"#777"}
+                        onClick={() => setLoginPage(true)}>
+                        {" "}
+                        log in{" "}
+                      </Button>
+                      <Button
+                        marginTop="10px"
+                        bgColor={"#333"}
+                        _hover={{ bgColor: "#777" }}
+                        type="submit"
+                        onClick={() => setLoginPage(false)}>
+                        sign up
+                      </Button>
+                      <form onSubmit={login}>
+                        <Input
+                          placeholder="Email"
+                          onChange={(event) => {
+                            setLoginEmail(event.target.value);
+                          }}
+                        />
+                        <Input
+                          placeholder="Password"
+                          type="password"
+                          onChange={(event) => {
+                            setLoginPassword(event.target.value);
+                          }}
+                        />
+                        <Center>
+                          <p className="currentIncorrect">{loginErrorMessage}</p>
+                        </Center>
+                        <Center className="standardButton">
+                          <VStack>
+                            <Button marginTop="10px" bgColor={"#555"} type="submit" onClick={login}>
+                              Log In
+                            </Button>
+                          </VStack>
+                        </Center>
+                      </form>
+                    </Box>
+                  )}
+                </Box>
+              </Center>
             </Stack>
           </Box>
         </Center>
