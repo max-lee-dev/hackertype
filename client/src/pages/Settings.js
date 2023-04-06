@@ -1,26 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Text, Box, Center, Button, HStack, VStack, Input } from "@chakra-ui/react";
-export default function Settings({ config, setConfig }) {
+export default function Settings() {
+  const [stateConfig, setStateConfig] = useState(() => getConfigValues());
+
+  function getConfigValues() {
+    const config = localStorage.getItem("config");
+    if (!config) {
+      return {
+        fontSize: 30,
+        tabSize: 4,
+        linesDisplayed: 5,
+      };
+    }
+    return JSON.parse(config);
+  }
+
   useEffect(() => {
-    localStorage.setItem("config", JSON.stringify(config));
-  }, [config]);
+    localStorage.setItem("config", JSON.stringify(stateConfig));
+  }, [stateConfig]);
 
   function handleChange(event) {
     const { name, value } = event.target;
-    setConfig((prevState) => ({
+    setStateConfig((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-  }
-
-  function handleLocalStorage(type, value) {
-    var names = [];
-    names[0] = value;
-    localStorage.setItem("names", JSON.stringify(names));
-
-    //...
-    var storedNames = JSON.parse(localStorage.getItem("names"));
-    console.log(storedNames[0]);
   }
 
   return (
@@ -57,7 +61,11 @@ export default function Settings({ config, setConfig }) {
                       number of spaces for each indent in the word set
                     </Text>
                     <Box width="10%" fontSize="30px">
-                      <Input name="tabSize" onChange={handleChange} type="text"></Input>
+                      <Input
+                        value={stateConfig["tabSize"]}
+                        name="tabSize"
+                        onChange={handleChange}
+                        type="text"></Input>
                     </Box>
                   </Box>
                   <Box paddingBottom="3rem" display="flex" justifyContent={"space-between"}>

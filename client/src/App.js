@@ -23,23 +23,7 @@ function App() {
   const [userData, setUserData] = useState({});
   const [id, setId] = useState("");
   const [users, setUsers] = useState([]);
-  const [config, setConfig] = useState(() => getConfigValues());
 
-  function getConfigValues() {
-    const config = localStorage.getItem("config");
-    if (!config) {
-      return {
-        fontSize: 30,
-        tabSize: 4,
-        linesDisplayed: 2,
-      };
-    }
-    return JSON.parse(config);
-  }
-
-  useEffect(() => {
-    localStorage.setItem("config", JSON.stringify(config));
-  }, [config]);
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
 
   const auth = getAuth();
@@ -119,7 +103,7 @@ function App() {
           <NavBar isSearchOpen={isSearchOpen} onSearchClose={onSearchClose} onSearchOpen={onSearchOpen} />
           <Box minHeight="90vh">
             <Routes>
-              <Route path="/" element={<Home user={user} givenId={userData.lastId} config={config} />} />
+              <Route path="/" element={<Home user={user} givenId={userData.lastId} />} />
               <Route path="/about" element={<About />} />
               <Route
                 path="/leaderboard"
@@ -127,11 +111,8 @@ function App() {
               />
               <Route path="/login" element={<UserLogin user={user} setUser={setUser} />} />
               <Route path="/profile/:username" element={<Profile setId={setId} />} />
-              <Route
-                path="/solutions/:givenLanguage/:number"
-                element={<Home user={user} config={config} givenId={id} />}
-              />
-              <Route path="/settings" element={<Settings setConfig={setConfig} />} />
+              <Route path="/solutions/:givenLanguage/:number" element={<Home user={user} givenId={id} />} />
+              <Route path="/settings" element={<Settings />} />
             </Routes>
           </Box>
           <Footer />

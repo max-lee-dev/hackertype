@@ -10,6 +10,7 @@ import Letter from "./components/Letter.js";
 import { useParams } from "react-router-dom";
 import { FaCrown } from "react-icons/fa";
 import Section from "./components/Section.js";
+
 import {
   getFirestore,
   doc,
@@ -94,7 +95,7 @@ function countNumberOfLines(funcRawCode, codingLanguage) {
   return lineCount;
 }
 
-function App({ user, givenId, config, settingsRenderLimit }) {
+function App({ user, givenId }) {
   const { isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen } = useDisclosure();
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
   const {
@@ -109,7 +110,9 @@ function App({ user, givenId, config, settingsRenderLimit }) {
   const chosenID = useRef(number);
 
   const givenLineRenderLimit = useRef(5);
-  if (settingsRenderLimit) givenLineRenderLimit.current = settingsRenderLimit;
+
+  const storedConfig = localStorage.getItem("config");
+  const config = JSON.parse(storedConfig);
 
   const inputElement = useRef(null);
 
@@ -143,7 +146,7 @@ function App({ user, givenId, config, settingsRenderLimit }) {
   const [loading, setLoading] = useState(true);
   const submissionsCollectionRef = collection(db, "submissions");
   const [id, setId] = useState(chosenID.current);
-  const [amountOfLinesToRender, setAmountOfLinesToRender] = useState(config["linesDisplayed"]);
+  const [amountOfLinesToRender, setAmountOfLinesToRender] = useState(parseInt(config["linesDisplayed"]));
   const [retriveingData, setRetriveingData] = useState(true);
 
   const [finished, setFinished] = useState(false);
@@ -895,8 +898,6 @@ function App({ user, givenId, config, settingsRenderLimit }) {
     else setPythonRange(numSolutions);
   }
 
-  // numLines stays the same, when i use amuount of lines to render and make it a constant, it works but when i make it linesDisplayed it changes despite being the same value
-  const numLines = config["linesDisplayed"];
   let renderLimit =
     preGeneratedLineIndex[currentLine + amountOfLinesToRender - 1] === undefined
       ? 1000000
