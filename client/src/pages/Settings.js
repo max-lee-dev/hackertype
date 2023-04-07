@@ -11,7 +11,7 @@ export default function Settings() {
         fontSize: 30,
         tabSize: 4,
         linesDisplayed: 5,
-        showLIVEWPM: true,
+        showLiveWPM: true,
         showLinesLeft: true,
         retrySame: false,
       };
@@ -33,6 +33,17 @@ export default function Settings() {
       ...prevState,
       [name]: value,
     }));
+  }
+
+  function resetSettings() {
+    setStateConfig({
+      fontSize: 30,
+      tabSize: 4,
+      linesDisplayed: 5,
+      showLiveWPM: true,
+      showLinesLeft: true,
+      retrySame: false,
+    });
   }
 
   return (
@@ -144,8 +155,11 @@ export default function Settings() {
                   </Box>
                 </Section>
               </Box>
-
-              <Text fontSize="22px" className="grayText font400"></Text>
+              <Center className="standardButton">
+                <Button fontSize="22px" className=" grayText font400" onClick={() => resetSettings()}>
+                  Reset to default
+                </Button>
+              </Center>
             </Box>
           </Center>
         </Box>

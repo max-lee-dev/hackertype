@@ -617,6 +617,10 @@ cursor: none;
     animation: blinkbehind 1s infinite;
 }
 
+.nounderline {
+    text-decoration-color: transparent;
+}
+
 @keyframes blinkbehind {
     0% { box-shadow: -3px 0 0 0 white; }
     25% { box-shadow: -3px 0 0 0 white;}

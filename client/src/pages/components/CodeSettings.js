@@ -76,92 +76,99 @@ export default function CodeSettings({
             <Stack direction="row" justifyContent="space-between" spacing="5">
               <Box display="flex">
                 <HStack spacing="-1">
-                  <VStack spacing="-2" fontSize="12px" className="grayText">
-                    <IconButton
-                      className="standardButton"
-                      fontSize="20px"
-                      _hover={{ color: "white" }}
-                      _active={{ background: "transparent" }}
-                      icon={<EditIcon />}
-                      variant="outline"
-                      borderColor="transparent"
-                      name="retrySame"
-                      colorScheme="whiteAlpha"
-                      onClick={onWordsOpen}></IconButton>
+                  <Tooltip label="Line limit">
+                    <VStack spacing="-2" fontSize="12px" className="grayText">
+                      <IconButton
+                        className="standardButton"
+                        fontSize="20px"
+                        _hover={{ color: "white" }}
+                        _active={{ background: "transparent" }}
+                        icon={<EditIcon />}
+                        variant="outline"
+                        borderColor="transparent"
+                        name="retrySame"
+                        colorScheme="whiteAlpha"
+                        onClick={onWordsOpen}></IconButton>
 
-                    <Text color={displayLimit ? "gray" : "transparent"}>
-                      {!displayLimit ? "all" : displayLimit}
-                    </Text>
-                  </VStack>
-                  <Box paddingBottom="6px">
-                    {retrySame && (
-                      <VStack spacing="-2" fontSize="13px" className="grayText">
-                        <IconButton
-                          width={"50px"}
-                          className="standardButton"
-                          fontSize="20px"
-                          _hover={{ color: "white" }}
-                          _active={{ background: "transparent" }}
-                          variant="outline"
-                          borderColor="transparent"
-                          colorScheme="whiteAlpha"
-                          name="retrySame"
-                          onClick={(e) => handleChange("retrySame", false, "bool")}>
-                          <Box color="#FFCD29">
-                            <ion-icon name="lock-closed"></ion-icon>
-                          </Box>
-                        </IconButton>
-                      </VStack>
-                    )}
-                    {!retrySame && (
-                      <VStack spacing="-2" fontSize="13px" className="grayText">
-                        <IconButton
-                          width={"50px"}
-                          className="standardButton"
-                          fontSize="20px"
-                          _hover={{ color: "white" }}
-                          _active={{ background: "transparent" }}
-                          variant="outline"
-                          borderColor="transparent"
-                          colorScheme="whiteAlpha"
-                          name="retrySame"
-                          onClick={(e) => handleChange("retrySame", true, "bool")}>
-                          <Box>
-                            <ion-icon name="lock-open"></ion-icon>
-                          </Box>
-                        </IconButton>
-                      </VStack>
-                    )}
-                  </Box>
+                      <Text color={displayLimit ? "gray" : "transparent"}>
+                        {!displayLimit ? "all" : displayLimit}
+                      </Text>
+                    </VStack>
+                  </Tooltip>
+                  <Tooltip label="Lock solution">
+                    <Box paddingBottom="6px">
+                      {retrySame && (
+                        <VStack spacing="-2" fontSize="13px" className="grayText">
+                          <IconButton
+                            width={"50px"}
+                            className="standardButton"
+                            fontSize="20px"
+                            _hover={{ color: "white" }}
+                            _active={{ background: "transparent" }}
+                            variant="outline"
+                            borderColor="transparent"
+                            colorScheme="whiteAlpha"
+                            name="retrySame"
+                            onClick={(e) => handleChange("retrySame", false, "bool")}>
+                            <Box color="#FFCD29">
+                              <ion-icon name="lock-closed"></ion-icon>
+                            </Box>
+                          </IconButton>
+                        </VStack>
+                      )}
+                      {!retrySame && (
+                        <VStack spacing="-2" fontSize="13px" className="grayText">
+                          <IconButton
+                            width={"50px"}
+                            className="standardButton"
+                            fontSize="20px"
+                            _hover={{ color: "white" }}
+                            _active={{ background: "transparent" }}
+                            variant="outline"
+                            borderColor="transparent"
+                            colorScheme="whiteAlpha"
+                            name="retrySame"
+                            onClick={(e) => handleChange("retrySame", true, "bool")}>
+                            <Box>
+                              <ion-icon name="lock-open"></ion-icon>
+                            </Box>
+                          </IconButton>
+                        </VStack>
+                      )}
+                    </Box>
+                  </Tooltip>
                 </HStack>
 
                 <Box paddingBottom="10px">
                   <HStack spacing="4">
-                    <NavLink
-                      to="/settings"
-                      className="standardButton"
-                      _hover={{ color: "white" }}
-                      _active={{ background: "transparent" }}
-                      variant="outline"
-                      borderColor="transparent"
-                      colorScheme="gray">
-                      <Box fontSize="28px" marginTop="0.7rem" color="gray" _hover={{ color: "white" }}>
-                        <ion-icon name="cog"></ion-icon>
-                      </Box>
-                    </NavLink>
-
-                    <NavLink
-                      onClick={onSearchOpen}
-                      className="standardButton"
-                      _hover={{ color: "white" }}
-                      _active={{ background: "transparent" }}
-                      variant="outline"
-                      borderColor="transparent"
-                      colorScheme="gray">
-                      <Box fontSize="28px" marginTop="0.7rem" color="gray" _hover={{ color: "white" }}>
-                        <ion-icon name="search-outline"></ion-icon>
-                      </Box>
-                    </NavLink>
+                    <Tooltip label="Settings">
+                      <NavLink
+                        to="/settings"
+                        className="standardButton"
+                        _hover={{ color: "white" }}
+                        _active={{ background: "transparent" }}
+                        variant="outline"
+                        borderColor="transparent"
+                        colorScheme="gray">
+                        <Box fontSize="28px" marginTop="0.7rem" color="gray" _hover={{ color: "white" }}>
+                          <ion-icon name="cog"></ion-icon>
+                        </Box>
+                      </NavLink>
+                    </Tooltip>
+                    <Tooltip label="Search">
+                      <NavLink
+                        onClick={onSearchOpen}
+                        className="standardButton"
+                        _hover={{ color: "white" }}
+                        _active={{ background: "transparent" }}
+                        variant="outline"
+                        borderColor="transparent"
+                        colorScheme="gray">
+                        <Box fontSize="28px" marginTop="0.7rem" color="gray" _hover={{ color: "white" }}>
+                          <ion-icon name="search-outline"></ion-icon>
+                        </Box>
+                      </NavLink>
+                    </Tooltip>
                   </HStack>
                 </Box>
               </Box>

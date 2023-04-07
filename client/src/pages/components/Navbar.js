@@ -5,7 +5,7 @@ import logo from "./assets/favicon.ico";
 import SearchModal from "../SearchModal";
 
 import { Text, Box, Divider, Center, HStack, Stack } from "@chakra-ui/react";
-export default function Navbar({ isSearchOpen, onSearchClose, onSearchOpen }) {
+export default function Navbar({ isSearchOpen, onSearchClose, onSearchOpen, setClickNav }) {
   const [user, setUser] = useState(null);
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
@@ -19,6 +19,14 @@ export default function Navbar({ isSearchOpen, onSearchClose, onSearchOpen }) {
     }
   });
 
+  function changeLocation() {
+    const currentLocation = window.location.pathname;
+    if (currentLocation === "/") {
+      console.log("hi");
+      window.location.replace(`/`);
+    }
+  }
+
   useEffect(() => {}, [user]);
 
   //eslint-disable-next-line
@@ -27,15 +35,15 @@ export default function Navbar({ isSearchOpen, onSearchClose, onSearchOpen }) {
       <Box width="100%">
         <Center>
           <nav className="nav">
-            <Box className="Logo whiteText">
-              <NavLink to="/" className="site-title">
+            <Box className="Logo whiteText" fontWeight="500">
+              <NavLink onClick={changeLocation} to="/" className="site-title">
                 <Box className="Logo"> hackertype </Box>
               </NavLink>
-              <NavLink to="/" className="site-title">
+              <NavLink onClick={changeLocation} to="/" className="site-title">
                 <Text color="#FFCD29" marginLeft="-12px">
                   .
                 </Text>
-                <Text color="#FFCD29" marginLeft="-5px">
+                <Text onClick={changeLocation} color="#FFCD29" marginLeft="-5px">
                   dev
                 </Text>
               </NavLink>

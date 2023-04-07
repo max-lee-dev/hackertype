@@ -40,12 +40,19 @@ export default function Letter(props) {
             </span>
           </span>
         );
-      return <span className="currentIncorrect underlineRed displayText">{char}</span>;
+      return (
+        <span
+          className={
+            correct ? "currentCorrect underlineRed displayText" : "currentIncorrect underlineRed displayText"
+          }>
+          {char}
+        </span>
+      );
     }
     if (userInput.length > displayWord.length) {
       if (isLastChar)
         return (
-          <span className="currentIncorrect underlineRed displayText">
+          <span className="currentIncorrect  displayText">
             <span
               className={
                 correct
@@ -54,9 +61,9 @@ export default function Letter(props) {
               }>
               {char}
             </span>
-            <span>
+            <span className="nounderline">
               <span className="currentIncorrect underlineRed displayText cursor">{cutoffLetters}</span>
-              <span className="currentIncorrect displayText"> </span>
+              <span className="currentIncorrect displayText "> </span>
             </span>
           </span>
         );

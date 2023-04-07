@@ -126,7 +126,10 @@ export default function LeaderboardModal({
                   <Box paddingTop="15px">
                     <Box display="flex" color="gray">
                       <Box width="25%">
-                        <Text fontSize="32px">users</Text>
+                        <Text fontSize="32px">rank</Text>
+                      </Box>
+                      <Box width="25%">
+                        <Text fontSize="32px">user</Text>
                       </Box>
 
                       <Box width="25%">
@@ -136,19 +139,19 @@ export default function LeaderboardModal({
                         </Text>
                       </Box>
                       <Box width="25%">
-                        <Text fontSize="32px">rank</Text>
-                      </Box>
-                      <Box width="25%">
                         <Text fontSize="32px">date</Text>
                       </Box>
                     </Box>
                     {loading && solutionList.length > 0 && <Text>Loading...</Text>}
-                    {solutionList.length === 0 && <Text>no submissions yet...</Text>}
+                    {solutionList.length === 0 && !loading && <Text>no submissions yet...</Text>}
                     {!loading && (
                       <Box paddingTop="5px" overflow="auto" height="520px">
                         {solutionList.map((sol, i) => (
                           <Box key={i} paddingBottom="20px">
                             <Box display="flex" fontSize="24px">
+                              <Box width="25%">
+                                <Text>#{sol.rank}</Text>
+                              </Box>
                               <Box width="25%">
                                 <Link textDecoration={"underline"} href={`/profile/${sol.user}`}>
                                   <Text>{sol.user}</Text>
@@ -163,9 +166,6 @@ export default function LeaderboardModal({
                                     </Text>
                                   </Box>
                                 </Tooltip>
-                              </Box>
-                              <Box width="25%">
-                                <Text>#{sol.rank}</Text>
                               </Box>
 
                               <Box width="25%">

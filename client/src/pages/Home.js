@@ -288,7 +288,6 @@ function App({ user, givenId }) {
 
   function Restart(codingLanguage, maxWords) {
     let s = "";
-    console.log("retrySame: " + codingLanguage);
     if (retrySame === false) {
       // if not retrying same code (typically)
 
@@ -311,7 +310,9 @@ function App({ user, givenId }) {
     if (inputElement.current) {
       inputElement.current.focus();
     }
-    const lcID = leetcodeTitle.split(".")[0];
+    const lcID = leetcodeTitle.split(".")[0].trim();
+    console.log("retrySame: " + lcID);
+
     if (retrySame) {
       Reset(codingLanguage, maxWords, lcID);
     }
@@ -344,7 +345,7 @@ function App({ user, givenId }) {
     var codeTitle = "";
 
     if (codeLang[id] === null) {
-      setError("Not a valid solution ID!");
+      setError(`This solution doesn't exist for ${codingLanguage}`);
     }
     // const solutions = collection(db, "pythonSolutions");
     // async function getSolutions() {
@@ -382,7 +383,7 @@ function App({ user, givenId }) {
       }
       if (id !== undefined && !isNaN(id)) {
         if (codeLang[parseInt(id)] === undefined) {
-          setError("Not a valid solution ID!");
+          setError(`This solution doesn't exist for ${codingLanguage}`);
         }
         pulledCode = codeLang[parseInt(id)];
       }
@@ -418,6 +419,7 @@ function App({ user, givenId }) {
       if (!found) setThisSolutionPR(0);
       setFindingPR(false);
     }
+    setError("");
     return selectedCode;
   }
 
@@ -523,13 +525,13 @@ function App({ user, givenId }) {
     }
 
     if (codingLanguage === "Python" && numSolutions === 0) {
-      return `No solutions found for ${codingLanguage} with ${maxWords} lines`;
+      return `No solutions found for ${codingLanguage} with <= ${maxWords} lines`;
     }
     if (codingLanguage === "Java" && javaSolutions === 0) {
-      return `No solutions found for ${codingLanguage} with ${maxWords} lines`;
+      return `No solutions found for ${codingLanguage} with <= ${maxWords} lines`;
     }
     if (codingLanguage === "C++" && cppSolutions === 0) {
-      return `No solutions found for ${codingLanguage} with ${maxWords} lines`;
+      return `No solutions found for ${codingLanguage} with <= ${maxWords} lines`;
     }
     let funcRawCode = randomCode(codingLanguage, numSolutions, id);
     let funcWordBank = [];
@@ -989,18 +991,20 @@ function App({ user, givenId }) {
                           <Center>
                             <HStack spacing="0">
                               <Text className="mainFont font500">{leetcodeTitle}</Text>
-                              <Box>
-                                <Button
-                                  fontSize="24px"
-                                  backgroundColor="transparent"
-                                  _active={{ backgroundColor: "transparent" }}
-                                  _hover={{ color: "white" }}
-                                  color="grey"
-                                  width="50px"
-                                  onClick={() => onLeaderboardOpen()}>
-                                  <ion-icon name="podium"></ion-icon>
-                                </Button>
-                              </Box>
+                              <Tooltip label="View leaderboard">
+                                <Box>
+                                  <Button
+                                    fontSize="24px"
+                                    backgroundColor="transparent"
+                                    _active={{ backgroundColor: "transparent" }}
+                                    _hover={{ color: "white" }}
+                                    color="grey"
+                                    width="50px"
+                                    onClick={() => onLeaderboardOpen()}>
+                                    <ion-icon name="podium"></ion-icon>
+                                  </Button>
+                                </Box>
+                              </Tooltip>
                             </HStack>
                           </Center>
                         </Box>
