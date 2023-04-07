@@ -181,7 +181,7 @@ function App({ user, givenId }) {
     return function cleanup() {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [language, retrySame]);
+  }, [language, retrySame, wordLimit]);
 
   useEffect(() => {
     document.addEventListener("mousedown", function (e) {
@@ -288,7 +288,7 @@ function App({ user, givenId }) {
 
   function Restart(codingLanguage, maxWords) {
     let s = "";
-    console.log("retrySame: " + retrySame);
+    console.log("retrySame: " + codingLanguage);
     if (retrySame === false) {
       // if not retrying same code (typically)
 
@@ -311,7 +311,10 @@ function App({ user, givenId }) {
     if (inputElement.current) {
       inputElement.current.focus();
     }
-
+    const lcID = leetcodeTitle.split(".")[0];
+    if (retrySame) {
+      Reset(codingLanguage, maxWords, lcID);
+    }
     setId("");
     setInputSelected(true);
     setSubmitted(false);
@@ -391,7 +394,6 @@ function App({ user, givenId }) {
       });
 
       let numLines = countNumberOfLines(selectedCode, codingLanguage);
-      console.log("w");
       if (numLines <= wordLimit) break;
 
       if (id !== undefined && !isNaN(id)) break;
