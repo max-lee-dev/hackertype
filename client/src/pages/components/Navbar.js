@@ -22,7 +22,6 @@ export default function Navbar({ isSearchOpen, onSearchClose, onSearchOpen, setC
   function changeLocation() {
     const currentLocation = window.location.pathname;
     if (currentLocation === "/") {
-      console.log("hi");
       window.location.replace(`/`);
     }
   }
