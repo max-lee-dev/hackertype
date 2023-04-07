@@ -13,6 +13,7 @@ export default function Settings() {
         linesDisplayed: 5,
         showLIVEWPM: true,
         showLinesLeft: true,
+        retrySame: false,
       };
     }
     return JSON.parse(config);

@@ -28,19 +28,25 @@ function App() {
 
   const [stateConfig, setStateConfig] = useState(() => getConfigValues());
 
-  function getConfigValues() {
-    const config = localStorage.getItem("config");
-    if (config["retrySame"] === undefined) {
-      return {
-        fontSize: 30,
-        tabSize: 4,
-        linesDisplayed: 5,
-        showLiveWPM: true,
-        showLinesLeft: true,
-        retrySame: false,
-      };
+  // thank you samyok
+  function parseJSON(str) {
+    try {
+      return JSON.parse(str);
+    } catch (e) {
+      return {};
     }
-    return JSON.parse(config);
+  }
+
+  function getConfigValues() {
+    const config = parseJSON(localStorage.getItem("config"));
+    const defaultConfig = {
+      fontSize: 30,
+      tabSize: 4,
+      linesDisplayed: 5,
+      showLiveWPM: true,
+      showLinesLeft: true,
+    };
+    return { ...defaultConfig, ...config };
   }
 
   useEffect(() => {
