@@ -53,7 +53,7 @@ export default function Navbar({ isSearchOpen, onSearchClose, onSearchOpen }) {
                   <Stack direction="row">
                     {!user && (
                       <NavLink to="/login">
-                        <Text marginTop="16px" fontSize="16px" paddingRight="5px" textColor="">
+                        <Text marginTop="12px" fontSize="16px" paddingRight="5px" textColor="">
                           &lt;log in&gt;
                         </Text>
                       </NavLink>
@@ -62,7 +62,7 @@ export default function Navbar({ isSearchOpen, onSearchClose, onSearchOpen }) {
                       <Box fontSize="40px" paddingTop="3px">
                         <NavLink to={`/profile/${user.displayName}`}>
                           <li>
-                            <Text marginTop="12px" fontSize="16px" paddingRight="5px" textColor="">
+                            <Text marginTop="9px" fontSize="16px" paddingRight="5px" textColor="">
                               &lt;{user.displayName}&gt;
                             </Text>
                           </li>
