@@ -596,6 +596,10 @@ html::-webkit-scrollbar-track {
     
 }
 
+.nocursor {
+cursor: none; 
+}
+
 .textInput input {
     user-select: none;
 }

@@ -165,11 +165,6 @@ function App({ user, givenId }) {
   }, [user, retriveingData]);
 
   useEffect(() => {
-    if (startCounting) document.body.style.cursor = "none";
-    else document.body.style.cursor = "default";
-  }, [startCounting]);
-
-  useEffect(() => {
     function handleKeyDown(e) {
       if (e.keyCode === 9) {
         e.preventDefault();
@@ -1087,12 +1082,12 @@ function App({ user, givenId }) {
                       </Box>
                     </Box>
 
-                    <Center position="relative" className="textInput">
+                    <Center position="relative">
                       {!finished && !loading && (
                         <input
                           zIndex="100"
                           id="textInput"
-                          className="textInput"
+                          className={startCounting ? "textInput nocursor" : "textInput"}
                           type="text"
                           onPaste={(e) => {
                             e.preventDefault();
