@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { auth } from "./firebase";
 import {
   Center,
@@ -54,17 +54,17 @@ export default function CodeSettings({
   const finalRef = React.useRef(null);
   const displayLimit = wordLimit === 50000 ? "" : wordLimit;
   const displayId = id === "" || id === undefined ? "" : id;
-  const [retry, setRetry] = React.useState(false);
   function test(e) {
     console.log(e.target.value);
     changeLastId(e.target.value);
     setId(e.target.value);
   }
 
-  useEffect(() => {
-    console.log("w");
-    setRetrySame(retry);
-  }, [retry]);
+  function handleChange(name, value, bool) {
+    value = value === "true" || value === true;
+
+    setRetrySame(value);
+  }
 
   return (
     <Center>
@@ -83,42 +83,51 @@ export default function CodeSettings({
                     icon={<EditIcon />}
                     variant="outline"
                     borderColor="transparent"
+                    name="retrySame"
                     colorScheme="whiteAlpha"
                     onClick={onWordsOpen}></IconButton>
                   <Text>{displayLimit}</Text>
                 </VStack>
-                {retry && (
-                  <VStack spacing="-2" fontSize="13px" className="grayText">
-                    <IconButton
-                      width={"50px"}
-                      className="standardButton"
-                      fontSize="20px"
-                      _hover={{ color: "white" }}
-                      _active={{ background: "transparent" }}
-                      variant="outline"
-                      borderColor="transparent"
-                      colorScheme="whiteAlpha"
-                      onClick={() => setRetry(false)}>
-                      <ion-icon name="lock-closed"></ion-icon>
-                    </IconButton>
-                  </VStack>
-                )}
-                {!retry && (
-                  <VStack spacing="-2" fontSize="13px" className="grayText">
-                    <IconButton
-                      width={"50px"}
-                      className="standardButton"
-                      fontSize="20px"
-                      _hover={{ color: "white" }}
-                      _active={{ background: "transparent" }}
-                      variant="outline"
-                      borderColor="transparent"
-                      colorScheme="whiteAlpha"
-                      onClick={() => setRetry(true)}>
-                      <ion-icon name="lock-open"></ion-icon>
-                    </IconButton>
-                  </VStack>
-                )}
+                <Box paddingTop="2px">
+                  {retrySame && (
+                    <VStack spacing="-2" fontSize="13px" className="grayText">
+                      <IconButton
+                        width={"50px"}
+                        className="standardButton"
+                        fontSize="20px"
+                        _hover={{ color: "white" }}
+                        _active={{ background: "transparent" }}
+                        variant="outline"
+                        borderColor="transparent"
+                        colorScheme="whiteAlpha"
+                        name="retrySame"
+                        onClick={(e) => handleChange("retrySame", false, "bool")}>
+                        <Box color="#FFCD29">
+                          <ion-icon name="lock-closed"></ion-icon>
+                        </Box>
+                      </IconButton>
+                    </VStack>
+                  )}
+                  {!retrySame && (
+                    <VStack spacing="-2" fontSize="13px" className="grayText">
+                      <IconButton
+                        width={"50px"}
+                        className="standardButton"
+                        fontSize="20px"
+                        _hover={{ color: "white" }}
+                        _active={{ background: "transparent" }}
+                        variant="outline"
+                        borderColor="transparent"
+                        colorScheme="whiteAlpha"
+                        name="retrySame"
+                        onClick={(e) => handleChange("retrySame", true, "bool")}>
+                        <Box>
+                          <ion-icon name="lock-open"></ion-icon>
+                        </Box>
+                      </IconButton>
+                    </VStack>
+                  )}
+                </Box>
               </Box>
 
               <Box className="standardButton" marginBottom="50px">
@@ -128,9 +137,11 @@ export default function CodeSettings({
                       <Text color={language === "C++" ? "white" : ""}> C++</Text>
                     </Button>
                     <Center>
-                      <Text fontSize="14px" fontWeight="300" className="grayText">
-                        {cppRange}
-                      </Text>
+                      <Tooltip label={`Picking from ${cppRange} C++ solutions`}>
+                        <Text fontSize="14px" fontWeight="300" className="grayText">
+                          {cppRange}
+                        </Text>
+                      </Tooltip>
                     </Center>
                   </Box>
                   <Box>
@@ -141,9 +152,11 @@ export default function CodeSettings({
                       <Text color={language === "Java" ? "white" : ""}> Java</Text>
                     </Button>
                     <Center>
-                      <Text fontSize="14px" fontWeight="300" className="grayText">
-                        {javaRange}
-                      </Text>
+                      <Tooltip label={`Picking from ${javaRange} Java solutions`}>
+                        <Text fontSize="14px" fontWeight="300" className="grayText">
+                          {javaRange}
+                        </Text>
+                      </Tooltip>
                     </Center>
                   </Box>
                   <Box>
@@ -155,9 +168,11 @@ export default function CodeSettings({
                       <Text color={language === "Python" ? "white" : ""}> Python</Text>
                     </Button>
                     <Center>
-                      <Text fontSize="14px" fontWeight="300" className="grayText">
-                        {pythonRange}
-                      </Text>
+                      <Tooltip label={`Picking from ${pythonRange} Python solutions`}>
+                        <Text fontSize="14px" fontWeight="300" className="grayText">
+                          {pythonRange}
+                        </Text>
+                      </Tooltip>
                     </Center>
                   </Box>
                 </HStack>

@@ -579,7 +579,6 @@ html::-webkit-scrollbar-track {
 
 .textInput {
     background-color: transparent;
-    user-select: none;
     outline: none;
     width: 100%;
     height: 100%;
@@ -595,6 +594,10 @@ html::-webkit-scrollbar-track {
     
     font-family: 'Fira Code', monospace;
     
+}
+
+.textInput input {
+    user-select: none;
 }
 
 .textContainer {

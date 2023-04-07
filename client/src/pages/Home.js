@@ -165,12 +165,16 @@ function App({ user, givenId }) {
   }, [user, retriveingData]);
 
   useEffect(() => {
+    if (startCounting) document.body.style.cursor = "none";
+    else document.body.style.cursor = "default";
+  }, [startCounting]);
+
+  useEffect(() => {
     function handleKeyDown(e) {
       if (e.keyCode === 9) {
         e.preventDefault();
         var input = document.getElementById("textInput");
 
-        console.log("WHGAT THE FUCK : " + retrySame);
         Restart(language, wordLimit);
         input.select();
       }
@@ -182,7 +186,7 @@ function App({ user, givenId }) {
     return function cleanup() {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [language]);
+  }, [language, retrySame]);
 
   useEffect(() => {
     document.addEventListener("mousedown", function (e) {
@@ -231,13 +235,15 @@ function App({ user, givenId }) {
           if (number) {
             chosenID.current = number;
             setId(number);
+            setRetrySame(true);
           } else if (doc.data().lastId) {
             chosenID.current = doc.data().lastId;
             setId(doc.data().lastId);
+            setRetrySame(true);
           }
 
           if (number && doc.data().lineLimit) {
-            setWordLimit("");
+            setWordLimit(50000);
           } else if (doc.data().lineLimit) {
             solutionGenerationLineLimit.current = doc.data().lineLimit;
             givenLineLimit = doc.data().lineLimit;
@@ -287,9 +293,7 @@ function App({ user, givenId }) {
 
   function Restart(codingLanguage, maxWords) {
     let s = "";
-
-    changeLastLanguage(codingLanguage);
-    console.log("retrYL :" + retrySame);
+    console.log("retrySame: " + retrySame);
     if (retrySame === false) {
       // if not retrying same code (typically)
 
@@ -312,6 +316,8 @@ function App({ user, givenId }) {
     if (inputElement.current) {
       inputElement.current.focus();
     }
+
+    setId("");
     setInputSelected(true);
     setSubmitted(false);
     setLanguage(codingLanguage);
@@ -1081,7 +1087,7 @@ function App({ user, givenId }) {
                       </Box>
                     </Box>
 
-                    <Center position="relative">
+                    <Center position="relative" className="textInput">
                       {!finished && !loading && (
                         <input
                           zIndex="100"
@@ -1137,11 +1143,15 @@ function App({ user, givenId }) {
                         </pre>
                       </Box>
                     </Center>
-                    {startCounting && !finished && config["showLinesLeft"] && (
-                      <p className="mainFont active whiteText">
-                        {preGeneratedLineIndex.length - currentLine} more lines...
-                      </p>
-                    )}
+                    <Center>
+                      <Box paddingTop="1rem">
+                        {startCounting && !finished && config["showLinesLeft"] && (
+                          <p className="mainFont  grayText">
+                            {preGeneratedLineIndex.length - currentLine} more lines...
+                          </p>
+                        )}
+                      </Box>
+                    </Center>
                   </Box>
                 </Box>
               </Center>

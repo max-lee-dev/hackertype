@@ -30,13 +30,14 @@ function App() {
 
   function getConfigValues() {
     const config = localStorage.getItem("config");
-    if (!config["showLiveWPM"]) {
+    if (config["retrySame"] === undefined) {
       return {
         fontSize: 30,
         tabSize: 4,
         linesDisplayed: 5,
         showLiveWPM: true,
         showLinesLeft: true,
+        retrySame: false,
       };
     }
     return JSON.parse(config);

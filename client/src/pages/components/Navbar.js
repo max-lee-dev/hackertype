@@ -4,26 +4,7 @@ import { auth } from "./firebase";
 import logo from "./assets/favicon.ico";
 import SearchModal from "../SearchModal";
 
-import {
-  Text,
-  Box,
-  Divider,
-  Center,
-  ModalFooter,
-  Modal,
-  ModalBody,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  FormControl,
-  Input,
-  FormHelperText,
-  FormLabel,
-  Button,
-  Stack,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Text, Box, Divider, Center, HStack, Stack } from "@chakra-ui/react";
 export default function Navbar({ isSearchOpen, onSearchClose, onSearchOpen }) {
   const [user, setUser] = useState(null);
   const initialRef = React.useRef(null);
@@ -59,28 +40,35 @@ export default function Navbar({ isSearchOpen, onSearchClose, onSearchOpen }) {
                 </Text>
               </NavLink>
               <Divider marginLeft="10px" marginRight="10px" />
-              <NavLink
-                to="/settings"
-                className="standardButton"
-                _hover={{ color: "white" }}
-                _active={{ background: "transparent" }}
-                variant="outline"
-                borderColor="transparent"
-                colorScheme="gray">
-                <Box fontSize="28px" marginTop="0.7rem" color="gray" _hover={{ color: "white" }}>
-                  <ion-icon name="cog"></ion-icon>
-                </Box>
-              </NavLink>
+              <HStack spacing="3">
+                <NavLink
+                  to="/settings"
+                  className="standardButton"
+                  _hover={{ color: "white" }}
+                  _active={{ background: "transparent" }}
+                  variant="outline"
+                  borderColor="transparent"
+                  colorScheme="gray">
+                  <Box fontSize="28px" marginTop="0.7rem" color="gray" _hover={{ color: "white" }}>
+                    <ion-icon name="cog"></ion-icon>
+                  </Box>
+                </NavLink>
+                <NavLink
+                  onClick={onSearchOpen}
+                  className="standardButton"
+                  _hover={{ color: "white" }}
+                  _active={{ background: "transparent" }}
+                  variant="outline"
+                  borderColor="transparent"
+                  colorScheme="gray">
+                  <Box fontSize="28px" marginTop="0.7rem" color="gray" _hover={{ color: "white" }}>
+                    <ion-icon name="search-outline"></ion-icon>
+                  </Box>
+                </NavLink>
+              </HStack>
             </Box>
             <Box fontWeight={"100"}>
               <ul>
-                <li></li>
-                <li>
-                  <NavLink className="settingsNavButton" onClick={onSearchOpen}>
-                    <Text color="#a1a1a1">&lt;search&gt;</Text>
-                  </NavLink>
-                </li>
-
                 <li>
                   <NavLink to="/leaderboard">&lt;leaderboard&gt;</NavLink>
                 </li>
@@ -97,7 +85,7 @@ export default function Navbar({ isSearchOpen, onSearchClose, onSearchOpen }) {
                       </NavLink>
                     )}
                     {user && (
-                      <Box fontSize="40px">
+                      <Box fontSize="40px" paddingTop="3px">
                         <NavLink to={`/profile/${user.displayName}`}>
                           <li>
                             <Text marginTop="12px" fontSize="16px" paddingRight="5px" textColor="">
