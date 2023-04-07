@@ -34,6 +34,7 @@ function Timer({
   correctCharacterArray,
   wordLimit,
   Restart,
+  showLiveWPM,
 }) {
   const [timeElapsed, setTimeElapsed] = useState(0);
   const actualPR = thisSolutionPR;
@@ -99,8 +100,16 @@ function Timer({
   }, []);
 
   if (!pause && startCounting) {
-    if (wpm === "Infinity") return <p className="wpm mainFont">{0}</p>;
-    return <Text className="wpm mainFont">{wpm}</Text>;
+    return (
+      <Box className="timerContainer mainFont" minHeight={"15vh"}>
+        {showLiveWPM && (
+          <Box>
+            {wpm === "Infinity" && <Text className="wpm mainFont">{0}</Text>}
+            {wpm !== "Infinity" && <Text className="wpm mainFont">{wpm}</Text>}
+          </Box>
+        )}
+      </Box>
+    );
   } else if (pause) {
     const accuracy = (correctWords / totalWords || 0).toFixed(3) * 100;
     const acc = accuracy.toFixed(0);

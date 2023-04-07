@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { auth } from "./firebase";
 import {
   Center,
@@ -45,17 +45,27 @@ export default function CodeSettings({
   pythonRange,
   setId,
   changeLastId,
+
+  retrySame,
+  setRetrySame,
 }) {
   const lcNumber = leetcodeTitle.split(".")[0];
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
   const displayLimit = wordLimit === 50000 ? "" : wordLimit;
   const displayId = id === "" || id === undefined ? "" : id;
+  const [retry, setRetry] = React.useState(false);
   function test(e) {
     console.log(e.target.value);
     changeLastId(e.target.value);
     setId(e.target.value);
   }
+
+  useEffect(() => {
+    console.log("w");
+    setRetrySame(retry);
+  }, [retry]);
+
   return (
     <Center>
       <Box width="90%">
@@ -77,20 +87,38 @@ export default function CodeSettings({
                     onClick={onWordsOpen}></IconButton>
                   <Text>{displayLimit}</Text>
                 </VStack>
-                <VStack spacing="-2" fontSize="13px" className="grayText">
-                  <IconButton
-                    width={"50px"}
-                    className="standardButton"
-                    fontSize="20px"
-                    _hover={{ color: "white" }}
-                    _active={{ background: "transparent" }}
-                    icon={<Search2Icon />}
-                    variant="outline"
-                    borderColor="transparent"
-                    colorScheme="whiteAlpha"
-                    onClick={onSearchOpen}></IconButton>
-                  <Text marginTop="0x">{displayId}</Text>
-                </VStack>
+                {retry && (
+                  <VStack spacing="-2" fontSize="13px" className="grayText">
+                    <IconButton
+                      width={"50px"}
+                      className="standardButton"
+                      fontSize="20px"
+                      _hover={{ color: "white" }}
+                      _active={{ background: "transparent" }}
+                      variant="outline"
+                      borderColor="transparent"
+                      colorScheme="whiteAlpha"
+                      onClick={() => setRetry(false)}>
+                      <ion-icon name="lock-closed"></ion-icon>
+                    </IconButton>
+                  </VStack>
+                )}
+                {!retry && (
+                  <VStack spacing="-2" fontSize="13px" className="grayText">
+                    <IconButton
+                      width={"50px"}
+                      className="standardButton"
+                      fontSize="20px"
+                      _hover={{ color: "white" }}
+                      _active={{ background: "transparent" }}
+                      variant="outline"
+                      borderColor="transparent"
+                      colorScheme="whiteAlpha"
+                      onClick={() => setRetry(true)}>
+                      <ion-icon name="lock-open"></ion-icon>
+                    </IconButton>
+                  </VStack>
+                )}
               </Box>
 
               <Box className="standardButton" marginBottom="50px">

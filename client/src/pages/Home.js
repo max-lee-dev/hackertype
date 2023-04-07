@@ -149,6 +149,8 @@ function App({ user, givenId }) {
   const [amountOfLinesToRender, setAmountOfLinesToRender] = useState(parseInt(config["linesDisplayed"]));
   const [retriveingData, setRetriveingData] = useState(true);
   const [inputSelected, setInputSelected] = useState(false);
+  const [findingPR, setFindingPR] = useState(true);
+  const [retrySame, setRetrySame] = useState(false);
 
   const [finished, setFinished] = useState(false);
 
@@ -164,15 +166,12 @@ function App({ user, givenId }) {
 
   useEffect(() => {
     function handleKeyDown(e) {
-      console.log(document.activeElement);
-      console.log(document.activeElement === document.getElementById("textInput"));
       if (e.keyCode === 9) {
-        console.log(id);
         e.preventDefault();
         var input = document.getElementById("textInput");
-        const mylang = language;
-        Restart(mylang, wordLimit);
-        input.focus();
+
+        console.log("WHGAT THE FUCK : " + retrySame);
+        Restart(language, wordLimit);
         input.select();
       }
     }
@@ -286,11 +285,12 @@ function App({ user, givenId }) {
 
   // not used rn
 
-  function Restart(codingLanguage, maxWords, retrySame) {
+  function Restart(codingLanguage, maxWords) {
     let s = "";
 
     changeLastLanguage(codingLanguage);
-    if (retrySame === undefined) {
+    console.log("retrYL :" + retrySame);
+    if (retrySame === false) {
       // if not retrying same code (typically)
 
       if (id !== undefined && id !== "") {
@@ -403,6 +403,7 @@ function App({ user, givenId }) {
     if (!user) return selectedCode;
     if (user) {
       let found = false;
+      setFindingPR(true);
       submissions.map((submission) => {
         if (submission.user !== user.displayName) return "";
         if (submission.solution_id !== codeTitle) return "";
@@ -412,6 +413,7 @@ function App({ user, givenId }) {
         found = true;
       });
       if (!found) setThisSolutionPR(0);
+      setFindingPR(false);
     }
     return selectedCode;
   }
@@ -730,15 +732,6 @@ function App({ user, givenId }) {
       });
     }
 
-    if (e.key === "Control") setControllPress(true);
-    else setControllPress(false);
-
-    if (e.key === "Enter" && controlPress) {
-      Restart(language, wordLimit, leetcodeTitle);
-      setControllPress(false);
-      return "";
-    }
-
     if (e.key === "Enter" && inputElement.current.type === document.activeElement.type) {
       if (wordBank[activeWordIndex].substring(wordBank[activeWordIndex].length - 1) === "\n") {
         setCorrectWordArray((data) => {
@@ -961,10 +954,30 @@ function App({ user, givenId }) {
                           setId={setId}
                           changeLastId={changeLastId}
                           leetcodeTitle={leetcodeTitle}
+                          retrySame={retrySame}
+                          setRetrySame={setRetrySame}
                         />
                       )}
                     </Box>
                   </Center>
+                  {/* {retrySame && (
+                    <Box className="retrySame">
+                      <Center>
+                        <Box className="retrySameContainer">
+                          <Text className="mainFont font500">Retry Same Problem?</Text>
+                        </Box>
+                      </Center>
+                    </Box>
+                  )}
+                  {!retrySame && (
+                    <Box className="retrySame">
+                      <Center>
+                        <Box className="retrySameContainer">
+                          <Text className="mainFont font500">Retry Same NO?</Text>
+                        </Box>
+                      </Center>
+                    </Box>
+                  )} */}
 
                   <Box className="inputContainer">
                     <Box className="leetcodeTitle" paddingTop="0px">
@@ -1008,6 +1021,7 @@ function App({ user, givenId }) {
                           setThisSolutionPR={setThisSolutionPR}
                           wordLimit={wordLimit}
                           Restart={Restart}
+                          showLiveWPM={config["showLiveWPM"]}
                         />
                       )}
                     </Box>
@@ -1032,7 +1046,7 @@ function App({ user, givenId }) {
                                   <Stack direction={["row"]}>
                                     {user && (
                                       <Center>
-                                        {user && !startCounting && !loading && (
+                                        {user && !startCounting && !loading && !findingPR && (
                                           <Tooltip label="Your personal best" placement="top">
                                             <Box width="100px" marginLeft="103px">
                                               <Center>
@@ -1123,7 +1137,7 @@ function App({ user, givenId }) {
                         </pre>
                       </Box>
                     </Center>
-                    {startCounting && !finished && (
+                    {startCounting && !finished && config["showLinesLeft"] && (
                       <p className="mainFont active whiteText">
                         {preGeneratedLineIndex.length - currentLine} more lines...
                       </p>

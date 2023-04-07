@@ -70,7 +70,7 @@ export default function Leaderboard() {
   }
 
   return (
-    <Section delay={0.2}>
+    <Section delay={0.3}>
       <Center>
         <Box className="profileContainer">
           <Box className="userTitle mainFont font500">
@@ -120,7 +120,7 @@ export default function Leaderboard() {
                 <Box paddingTop="24px" paddingLeft="54px">
                   {loading && <Box className="loader"></Box>}
                 </Box>
-                <Section delay={0.3}>
+                <Section delay={0.5}>
                   <Stack direction="column">
                     {!loading &&
                       top.map((solution) => (

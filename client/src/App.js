@@ -30,12 +30,13 @@ function App() {
 
   function getConfigValues() {
     const config = localStorage.getItem("config");
-    if (!config) {
+    if (!config["showLiveWPM"]) {
       return {
         fontSize: 30,
         tabSize: 4,
         linesDisplayed: 5,
-        lineLimit: 50000,
+        showLiveWPM: true,
+        showLinesLeft: true,
       };
     }
     return JSON.parse(config);
