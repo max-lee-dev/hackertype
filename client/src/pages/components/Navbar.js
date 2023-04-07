@@ -40,32 +40,6 @@ export default function Navbar({ isSearchOpen, onSearchClose, onSearchOpen }) {
                 </Text>
               </NavLink>
               <Divider marginLeft="10px" marginRight="10px" />
-              <HStack spacing="3">
-                <NavLink
-                  to="/settings"
-                  className="standardButton"
-                  _hover={{ color: "white" }}
-                  _active={{ background: "transparent" }}
-                  variant="outline"
-                  borderColor="transparent"
-                  colorScheme="gray">
-                  <Box fontSize="28px" marginTop="0.7rem" color="gray" _hover={{ color: "white" }}>
-                    <ion-icon name="cog"></ion-icon>
-                  </Box>
-                </NavLink>
-                <NavLink
-                  onClick={onSearchOpen}
-                  className="standardButton"
-                  _hover={{ color: "white" }}
-                  _active={{ background: "transparent" }}
-                  variant="outline"
-                  borderColor="transparent"
-                  colorScheme="gray">
-                  <Box fontSize="28px" marginTop="0.7rem" color="gray" _hover={{ color: "white" }}>
-                    <ion-icon name="search-outline"></ion-icon>
-                  </Box>
-                </NavLink>
-              </HStack>
             </Box>
             <Box fontWeight={"100"}>
               <ul>

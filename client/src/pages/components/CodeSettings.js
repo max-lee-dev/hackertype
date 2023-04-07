@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { auth } from "./firebase";
+import SearchModal from "../SearchModal";
 import {
   Center,
   Input,
@@ -23,6 +24,7 @@ import {
   Box,
   VStack,
 } from "@chakra-ui/react";
+import { Link, NavLink } from "react-router-dom";
 
 import { Search2Icon, EditIcon, CheckIcon } from "@chakra-ui/icons";
 
@@ -73,60 +75,94 @@ export default function CodeSettings({
           <Box borderRadius={"15px"} className="mainFont" width="100%" marginTop="30px" bgColor="transparent">
             <Stack direction="row" justifyContent="space-between" spacing="5">
               <Box display="flex">
-                <VStack spacing="-2" fontSize="13px" className="grayText">
-                  <IconButton
-                    width={"50px"}
-                    className="standardButton"
-                    fontSize="20px"
-                    _hover={{ color: "white" }}
-                    _active={{ background: "transparent" }}
-                    icon={<EditIcon />}
-                    variant="outline"
-                    borderColor="transparent"
-                    name="retrySame"
-                    colorScheme="whiteAlpha"
-                    onClick={onWordsOpen}></IconButton>
-                  <Text>{displayLimit}</Text>
-                </VStack>
-                <Box paddingTop="2px">
-                  {retrySame && (
-                    <VStack spacing="-2" fontSize="13px" className="grayText">
-                      <IconButton
-                        width={"50px"}
-                        className="standardButton"
-                        fontSize="20px"
-                        _hover={{ color: "white" }}
-                        _active={{ background: "transparent" }}
-                        variant="outline"
-                        borderColor="transparent"
-                        colorScheme="whiteAlpha"
-                        name="retrySame"
-                        onClick={(e) => handleChange("retrySame", false, "bool")}>
-                        <Box color="#FFCD29">
-                          <ion-icon name="lock-closed"></ion-icon>
-                        </Box>
-                      </IconButton>
-                    </VStack>
-                  )}
-                  {!retrySame && (
-                    <VStack spacing="-2" fontSize="13px" className="grayText">
-                      <IconButton
-                        width={"50px"}
-                        className="standardButton"
-                        fontSize="20px"
-                        _hover={{ color: "white" }}
-                        _active={{ background: "transparent" }}
-                        variant="outline"
-                        borderColor="transparent"
-                        colorScheme="whiteAlpha"
-                        name="retrySame"
-                        onClick={(e) => handleChange("retrySame", true, "bool")}>
-                        <Box>
-                          <ion-icon name="lock-open"></ion-icon>
-                        </Box>
-                      </IconButton>
-                    </VStack>
-                  )}
+                <HStack spacing="-1">
+                  <VStack spacing="-2" fontSize="12px" className="grayText">
+                    <IconButton
+                      className="standardButton"
+                      fontSize="20px"
+                      _hover={{ color: "white" }}
+                      _active={{ background: "transparent" }}
+                      icon={<EditIcon />}
+                      variant="outline"
+                      borderColor="transparent"
+                      name="retrySame"
+                      colorScheme="whiteAlpha"
+                      onClick={onWordsOpen}></IconButton>
+
+                    <Text color={displayLimit ? "gray" : "transparent"}>
+                      {!displayLimit ? "all" : displayLimit}
+                    </Text>
+                  </VStack>
+                  <Box paddingBottom="6px">
+                    {retrySame && (
+                      <VStack spacing="-2" fontSize="13px" className="grayText">
+                        <IconButton
+                          width={"50px"}
+                          className="standardButton"
+                          fontSize="20px"
+                          _hover={{ color: "white" }}
+                          _active={{ background: "transparent" }}
+                          variant="outline"
+                          borderColor="transparent"
+                          colorScheme="whiteAlpha"
+                          name="retrySame"
+                          onClick={(e) => handleChange("retrySame", false, "bool")}>
+                          <Box color="#FFCD29">
+                            <ion-icon name="lock-closed"></ion-icon>
+                          </Box>
+                        </IconButton>
+                      </VStack>
+                    )}
+                    {!retrySame && (
+                      <VStack spacing="-2" fontSize="13px" className="grayText">
+                        <IconButton
+                          width={"50px"}
+                          className="standardButton"
+                          fontSize="20px"
+                          _hover={{ color: "white" }}
+                          _active={{ background: "transparent" }}
+                          variant="outline"
+                          borderColor="transparent"
+                          colorScheme="whiteAlpha"
+                          name="retrySame"
+                          onClick={(e) => handleChange("retrySame", true, "bool")}>
+                          <Box>
+                            <ion-icon name="lock-open"></ion-icon>
+                          </Box>
+                        </IconButton>
+                      </VStack>
+                    )}
+                  </Box>
+                </HStack>
+
+                <Box paddingBottom="10px">
+                  <HStack spacing="4">
+                    <NavLink
+                      to="/settings"
+                      className="standardButton"
+                      _hover={{ color: "white" }}
+                      _active={{ background: "transparent" }}
+                      variant="outline"
+                      borderColor="transparent"
+                      colorScheme="gray">
+                      <Box fontSize="28px" marginTop="0.7rem" color="gray" _hover={{ color: "white" }}>
+                        <ion-icon name="cog"></ion-icon>
+                      </Box>
+                    </NavLink>
+
+                    <NavLink
+                      onClick={onSearchOpen}
+                      className="standardButton"
+                      _hover={{ color: "white" }}
+                      _active={{ background: "transparent" }}
+                      variant="outline"
+                      borderColor="transparent"
+                      colorScheme="gray">
+                      <Box fontSize="28px" marginTop="0.7rem" color="gray" _hover={{ color: "white" }}>
+                        <ion-icon name="search-outline"></ion-icon>
+                      </Box>
+                    </NavLink>
+                  </HStack>
                 </Box>
               </Box>
 
@@ -233,59 +269,7 @@ export default function CodeSettings({
             </form>
           </ModalContent>
         </Modal>
-
-        <Modal
-          initialFocusRef={initialRef}
-          finalFocusRef={finalRef}
-          isOpen={isSearchOpen}
-          onClose={onSearchClose}>
-          <ModalOverlay />
-          <ModalContent backgroundColor="#0e0e10">
-            <form>
-              <ModalHeader className="mainFont" color="white">
-                ID Search
-                <ModalCloseButton />
-              </ModalHeader>
-
-              <ModalBody>
-                <Box className="mainFont whiteText">
-                  <FormControl>
-                    <Input
-                      ref={initialRef}
-                      className="maxWordsForm"
-                      placeholder={`Enter an ID (e.g. 124)`}
-                      type="text"
-                      onChange={(e) => test(e)}
-                    />
-
-                    <FormHelperText></FormHelperText>
-                  </FormControl>
-                </Box>
-                <Box className="trashButton">
-                  <Button maxWidth={"10px"} bgColor="transparent" onClick={() => trashSearchButton()}>
-                    <Box className="trashIcon">
-                      <ion-icon name="trash-sharp"></ion-icon>
-                    </Box>
-                  </Button>
-                </Box>
-              </ModalBody>
-
-              <ModalFooter>
-                <Box>
-                  <Button
-                    _hover={{ background: "" }}
-                    width="50%"
-                    color="white"
-                    backgroundColor="transparent"
-                    type="submit"
-                    onClick={(e) => closeSearchModal(e)}>
-                    <CheckIcon />
-                  </Button>
-                </Box>
-              </ModalFooter>
-            </form>
-          </ModalContent>
-        </Modal>
+        <SearchModal isSearchOpen={isSearchOpen} onSearchClose={onSearchClose} />
       </Box>
     </Center>
   );
