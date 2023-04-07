@@ -33,9 +33,11 @@ export default function Letter(props) {
     if (hasReturn && userInput.length >= displayWord.length) {
       if (isLastChar)
         return (
-          <span className="currentIncorrect underlineRed displayText">
-            {cutoffLettersPlusOne}
-            {char}
+          <span>
+            <span className="currentIncorrect underlineRed displayText cursor">{cutoffLettersPlusOne}</span>
+            <span className="currentIncorrect displayText">
+              <br />
+            </span>
           </span>
         );
       return <span className="currentIncorrect underlineRed displayText">{char}</span>;
@@ -52,7 +54,10 @@ export default function Letter(props) {
               }>
               {char}
             </span>
-            <span className="currentIncorrect underlineRed displayText">{cutoffLetters} </span>
+            <span>
+              <span className="currentIncorrect underlineRed displayText cursor">{cutoffLetters}</span>
+              <span className="currentIncorrect displayText"> </span>
+            </span>
           </span>
         );
       return (
@@ -106,7 +111,14 @@ export default function Letter(props) {
   if (correct === false) {
     if (active) {
       if (hasReturn && isLastChar) return <span className="currentIncorrect displayText">{char}</span>;
-      if (isLastChar) return <span className="currentIncorrect displayText">{char} </span>;
+      if (isLastChar) {
+        return (
+          <span className="currentIncorrect displayText">
+            <span className="currentIncorrect displayText">{char}</span>
+            <span className="currentIncorrect displayText behindCursor"> </span>
+          </span>
+        );
+      }
       if (currentCharacter) return <span className="currentIncorrect displayText cursor">{char}</span>;
       return <span className="currentIncorrect displayText">{char}</span>;
     } else {
