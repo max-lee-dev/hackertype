@@ -427,8 +427,8 @@ html::-webkit-scrollbar-track {
 }
 
 .incorrect {
-    font-size: bold;
-    color: rgb(241, 83, 83) !important;
+    color: rgb(245, 141, 141) !important;
+
 }
 
 .active {

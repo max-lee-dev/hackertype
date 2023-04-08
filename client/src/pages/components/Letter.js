@@ -12,6 +12,7 @@ export default function Letter(props) {
     activeWordIndex,
     thisWordIndex,
     inputSelected,
+    storedInputArray,
   } = props;
   const userChar = userInput.charAt(idx);
   const isLastChar = idx === displayWord.length - 1;
@@ -19,6 +20,8 @@ export default function Letter(props) {
   let correct = char === userChar;
   const cutoffLetters = userInput.substring(displayWord.length);
   const cutoffLettersPlusOne = userInput.substring(displayWord.length - 1);
+  const wasntTyped = storedInputArray[thisWordIndex]?.length - 2 < idx;
+  const wasCorrect = storedInputArray[thisWordIndex]?.charAt(idx) === char;
 
   if (userChar === "" || !active) correct = null;
 
@@ -78,13 +81,43 @@ export default function Letter(props) {
     }
   }
 
-  // after we're done, display entire word as green or red
-  if (wordCorrect && activeWordIndex > thisWordIndex) {
-    if (isLastChar) return <span className="correct displayText">{char} </span>;
-    return <span className="correct displayText">{char}</span>;
-  } else if (!wordCorrect && activeWordIndex > thisWordIndex) {
-    if (isLastChar) return <span className="incorrect displayText">{char} </span>;
-    return <span className="incorrect displayText">{char}</span>;
+  // after we're done, display individual words, remember their state
+  if (activeWordIndex > thisWordIndex) {
+    if (storedInputArray[thisWordIndex].length - 1 > displayWord.length) {
+      if (isLastChar)
+        return (
+          <span className="incorrect displayText">
+            <span
+              className={
+                wasCorrect ? "underlineRed correct displayText" : "underlineRed incorrect displayText"
+              }>
+              {char}
+            </span>
+            <span className="underlineRed  incorrect displayText">
+              {storedInputArray[thisWordIndex].substring(
+                displayWord.length,
+                storedInputArray[thisWordIndex].length - 1
+              )}
+            </span>
+            <span> </span>
+          </span>
+        );
+      return (
+        <span
+          className={wasCorrect ? "underlineRed correct displayText" : "underlineRed incorrect displayText"}>
+          {char}
+        </span>
+      );
+    }
+
+    // if wasn't overflow, just render if they were correct or not
+    if (wasntTyped) {
+      if (isLastChar) return <span className=" displayText">{char} </span>;
+      return <span className="displayText">{char}</span>;
+    }
+    if (isLastChar)
+      return <span className={wasCorrect ? "correct displayText" : "incorrect displayText"}>{char} </span>;
+    return <span className={wasCorrect ? "correct displayText" : "incorrect displayText"}>{char}</span>;
   }
 
   // else if (!wordCorrect && active && userInput !== '') {

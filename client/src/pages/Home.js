@@ -688,6 +688,7 @@ function App({ user, givenId }) {
           activeWordIndex={activeWordIndex}
           thisWordIndex={thisWordIndex}
           inputSelected={inputSelected}
+          storedInputArray={storedInputArray}
         />
       );
     });
