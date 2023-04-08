@@ -4,19 +4,25 @@ import Section from "./components/Section";
 export default function Settings() {
   const [stateConfig, setStateConfig] = useState(() => getConfigValues());
 
-  function getConfigValues() {
-    const config = localStorage.getItem("config");
-    if (!config) {
-      return {
-        fontSize: 30,
-        tabSize: 4,
-        linesDisplayed: 5,
-        showLiveWPM: true,
-        showLinesLeft: true,
-        retrySame: false,
-      };
+  function parseJSON(str) {
+    try {
+      return JSON.parse(str);
+    } catch (e) {
+      return {};
     }
-    return JSON.parse(config);
+  }
+
+  function getConfigValues() {
+    const config = parseJSON(localStorage.getItem("config"));
+    const defaultConfig = {
+      fontSize: 30,
+      tabSize: 4,
+      linesDisplayed: 5,
+      showLiveWPM: true,
+      showLinesLeft: true,
+      language: "Java",
+    };
+    return { ...defaultConfig, ...config };
   }
 
   useEffect(() => {

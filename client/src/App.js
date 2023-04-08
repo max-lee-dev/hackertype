@@ -45,6 +45,7 @@ function App() {
       linesDisplayed: 5,
       showLiveWPM: true,
       showLinesLeft: true,
+      language: "Java",
     };
     return { ...defaultConfig, ...config };
   }

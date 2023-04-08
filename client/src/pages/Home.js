@@ -111,8 +111,50 @@ function App({ user, givenId }) {
 
   const givenLineRenderLimit = useRef(5);
 
+  //// CONFIG
   const storedConfig = localStorage.getItem("config");
   const config = JSON.parse(storedConfig);
+  const [stateConfig, setStateConfig] = useState(() => getConfigValues());
+
+  // thank you samyok
+  function parseJSON(str) {
+    try {
+      return JSON.parse(str);
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function getConfigValues() {
+    const config = parseJSON(localStorage.getItem("config"));
+    const defaultConfig = {
+      fontSize: 30,
+      tabSize: 4,
+      linesDisplayed: 5,
+      showLiveWPM: true,
+      showLinesLeft: true,
+      language: "Java",
+    };
+    return { ...defaultConfig, ...config };
+  }
+
+  function handleChange(event, bool) {
+    let { name, value } = event.target;
+    console.log(name, value);
+    const parseBoolean = (value) => value === "true" || value === true;
+
+    if (bool) value = !parseBoolean(stateConfig[name]);
+
+    setStateConfig((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }
+
+  useEffect(() => {
+    localStorage.setItem("config", JSON.stringify(stateConfig));
+  }, [stateConfig]);
+  //
 
   const inputElement = useRef(null);
 
@@ -129,7 +171,7 @@ function App({ user, givenId }) {
   const [wordLimit, setWordLimit] = useState(solutionGenerationLineLimit.current);
   const [wordBank, setNewWordBank] = useState([]);
   const [whiteSpace, setWhiteSpace] = useState([]);
-  const [language, setLanguage] = useState("");
+  const [language, setLanguage] = useState(config["language"]);
   const [newUser, setNewUser] = useState(true);
   const [lastCode, setLastCode] = useState([]);
   const [wordsLeft, setWordsLeft] = useState(0);
@@ -245,15 +287,19 @@ function App({ user, givenId }) {
             setWordLimit(doc.data().lineLimit);
           }
 
-          if (!givenLanguage) Restart(doc.data().lastLanguage, givenLineLimit);
-          else Restart(givenLanguage, givenLineLimit);
+          if (!givenLanguage) {
+            setLanguage(config["language"]);
+            Restart(config["language"], givenLineLimit);
+          } else {
+            setLanguage(givenLanguage);
+            Restart(givenLanguage, givenLineLimit);
+          }
         });
       }
       if (user) getUserSettings().then(() => setRetriveingData(false));
       if (!user) {
         if (!givenLanguage) {
-          setLanguage("Java");
-          Restart("Java", "");
+          Restart(config["language"], "");
         } else Restart(givenLanguage, "");
         setRetriveingData(false);
       }
@@ -262,12 +308,10 @@ function App({ user, givenId }) {
     []
   );
 
-  async function changeLastLanguage(codingLanguage) {
-    if (user)
-      await updateDoc(doc(db, "users", user.uid), {
-        lastLanguage: codingLanguage,
-      });
-  }
+  useEffect(() => {
+    console.log("wtf");
+    handleChange({ target: { name: "language", value: language } });
+  }, [language]);
 
   async function changeLastId(id) {
     if (id === undefined) id = "";
