@@ -286,9 +286,9 @@ function App({ user, givenId }) {
 
   // not used rn
 
-  function Restart(codingLanguage, maxWords) {
+  function Restart(codingLanguage, maxWords, tempRetry) {
     let s = "";
-    if (retrySame === false) {
+    if (retrySame === false && tempRetry === undefined) {
       // if not retrying same code (typically)
 
       if (id !== undefined && id !== "") {
@@ -827,6 +827,11 @@ function App({ user, givenId }) {
       });
     }
   }
+
+  // Rural overpopulation in the deacdes after independence led to soil depletion in many areas
+  // Along with this, there was heavy deforestation and overgrazing of the land
+  // This led to the loss of topsoil and the degradation of the land
+  // The land was no longer able to support the population, and the people were forced to migrate to the cities
 
   function handleWordLimit(val) {
     if (val === "") setWordLimit(50000);
