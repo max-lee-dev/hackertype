@@ -120,13 +120,6 @@ export default function Letter(props) {
     return <span className={wasCorrect ? "correct displayText" : "incorrect displayText"}>{char}</span>;
   }
 
-  // else if (!wordCorrect && active && userInput !== '') {
-  //         if(isLastChar) return <span className =  "currentIncorrect displayText">{char} </span>
-  //         return <span className="currentIncorrect displayText">{char}</span>
-  // }
-
-  // SHOW EACH CHARACTER MESSING UP vs SHOWING THE WHOLE WORD MESSING UP
-
   if (correct === true) {
     if (active) {
       if (hasReturn && isLastChar) return <span className="currentCorrect displayText">{char}</span>;
