@@ -85,7 +85,7 @@ function countNumberOfLines(funcRawCode, codingLanguage) {
       isCommenting = false;
     }
 
-    return console.log();
+    return "";
   });
   let lineCount = 0;
 
@@ -311,7 +311,6 @@ function App({ user, givenId }) {
       inputElement.current.focus();
     }
     const lcID = leetcodeTitle.split(".")[0].trim();
-    console.log("retrySame: " + lcID);
 
     if (retrySame) {
       Reset(codingLanguage, maxWords, lcID);
@@ -551,7 +550,7 @@ function App({ user, givenId }) {
         isCommenting = false;
       }
 
-      return console.log();
+      return "";
     });
     funcWordBank = finalCode;
     setWordsLeft(funcWordBank.length);
@@ -1038,7 +1037,7 @@ function App({ user, givenId }) {
                         <Box className="userInputContainer">
                           {!startCounting && !loading && (
                             <Text className="mainFont" fontWeight="100" paddingLeft="5px" color="gray">
-                              {preGeneratedLineIndex.length} lines
+                              {preGeneratedLineIndex.length + 1} lines
                             </Text>
                           )}
                           <Stack justifyContent="center" direction="row">
@@ -1116,7 +1115,11 @@ function App({ user, givenId }) {
                           }}>
                           {!finished &&
                             wordBank.map((word, index) => {
-                              if (!startCounting || (index > renderIndex && index < renderLimit)) {
+                              if (
+                                (!startCounting &&
+                                  (preGeneratedLineIndex.length < 10 || index < preGeneratedLineIndex[9])) ||
+                                (index > renderIndex && index < renderLimit)
+                              ) {
                                 let s = "";
                                 let tabSize = "";
                                 for (let i = 0; i < config["tabSize"]; i++) {
@@ -1142,15 +1145,28 @@ function App({ user, givenId }) {
                               return "";
                             })}
                         </pre>
+                        {preGeneratedLineIndex.length > 10 && !startCounting && !loading && (
+                          <Box>
+                            <Center>
+                              <Text color="gray" className="mainFont font300" fontSize="12px">
+                                {preGeneratedLineIndex.length - 10} more lines not shown...
+                              </Text>
+                            </Center>
+                          </Box>
+                        )}
                       </Box>
                     </Center>
                     <Center>
                       <Box paddingTop="1rem">
-                        {startCounting && !finished && config["showLinesLeft"] && (
-                          <p className="mainFont  grayText">
-                            {preGeneratedLineIndex.length - currentLine} more lines...
-                          </p>
-                        )}
+                        {preGeneratedLineIndex.length - currentLine + 1 - config["linesDisplayed"] > 0 &&
+                          startCounting &&
+                          !finished &&
+                          config["showLinesLeft"] && (
+                            <p className="mainFont  grayText">
+                              {preGeneratedLineIndex.length - currentLine + 1 - config["linesDisplayed"]} more
+                              lines left...
+                            </p>
+                          )}
                       </Box>
                     </Center>
                   </Box>
@@ -1160,9 +1176,8 @@ function App({ user, givenId }) {
                 <Box>
                   {!loading && !finished && (
                     <IconButton
-                      _hover={{ backgroundColor: "transparent" }}
-                      color="whiteAlpha.700"
-                      boxSize="12"
+                      _hover={{ backgroundColor: "whiteAlpha.100" }}
+                      color="whiteAlpha.800"
                       backgroundColor="transparent"
                       icon={<RepeatIcon />}
                       onClick={() => Restart(language, wordLimit)}></IconButton>
@@ -1171,7 +1186,7 @@ function App({ user, givenId }) {
               </Center>
               <Box id="userInput">
                 {!newUser && !finished && (
-                  <Text fontSize="16px" className="grayText mainFont font300">
+                  <Text fontSize="14px" className="grayText mainFont font300">
                     [Tab] to Restart Test
                   </Text>
                 )}

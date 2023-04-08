@@ -358,7 +358,6 @@ function Timer({
           if (parseInt(submission.wpm) > parseInt(finalWPM)) {
             amountBetter++;
           } else {
-            console.log("old rank: " + oldRank + " other rank: " + submission.rank);
             if (isBestSubmission && parseInt(oldRank) >= parseInt(submission.rank)) decreaseRank(submission);
           }
           if (firstTime && isBestSubmission) addNewOpponent(submission, totalOppo);
