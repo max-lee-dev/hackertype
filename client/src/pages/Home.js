@@ -717,6 +717,13 @@ function App({ user, givenId }) {
 
     const { text, active, correct, thisWordIndex } = props;
     const hasReturn = text.includes("\n");
+    let numReturns = 0;
+    if (hasReturn) {
+      for (let i = 0; i < text.length; i++) {
+        if (text.charAt(i) === "\n") numReturns++;
+      }
+    }
+
     const textArr = text.split("");
     return textArr.map((char, index) => {
       return (
@@ -733,6 +740,7 @@ function App({ user, givenId }) {
           thisWordIndex={thisWordIndex}
           inputSelected={inputSelected}
           storedInputArray={storedInputArray}
+          numReturns={numReturns}
         />
       );
     });
@@ -1199,7 +1207,7 @@ function App({ user, givenId }) {
                           <Box>
                             <Center>
                               <Text color="gray" className="mainFont font300" fontSize="12px">
-                                {preGeneratedLineIndex.length - 10} more lines not shown...
+                                {preGeneratedLineIndex.length + 1 - 10} more lines not shown...
                               </Text>
                             </Center>
                           </Box>

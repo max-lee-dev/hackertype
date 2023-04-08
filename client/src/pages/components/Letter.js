@@ -13,13 +13,14 @@ export default function Letter(props) {
     thisWordIndex,
     inputSelected,
     storedInputArray,
+    numReturns,
   } = props;
   const userChar = userInput.charAt(idx);
   const isLastChar = idx === displayWord.length - 1;
   const currentCharacter = idx === userInput.length - 1;
   let correct = char === userChar;
   const cutoffLetters = userInput.substring(displayWord.length);
-  const cutoffLettersPlusOne = userInput.substring(displayWord.length - 1);
+  const cutoffLettersPlusX = userInput.substring(displayWord.length - numReturns);
   const wasntTyped = storedInputArray[thisWordIndex]?.length - 2 < idx;
   const wasCorrect = storedInputArray[thisWordIndex]?.charAt(idx) === char;
 
@@ -33,11 +34,11 @@ export default function Letter(props) {
 
   // if user goes over the word length
   if (active) {
-    if (hasReturn && userInput.length >= displayWord.length) {
+    if (hasReturn && userInput.length > displayWord.length - numReturns) {
       if (isLastChar)
         return (
           <span>
-            <span className="currentIncorrect underlineRed displayText cursor">{cutoffLettersPlusOne}</span>
+            <span className="currentIncorrect underlineRed displayText cursor">{cutoffLettersPlusX}</span>
             <span className="currentIncorrect displayText">
               <br />
             </span>
