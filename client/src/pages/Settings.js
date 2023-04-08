@@ -12,6 +12,18 @@ export default function Settings() {
     }
   }
 
+  function resetSettings() {
+    setStateConfig({
+      fontSize: 30,
+      tabSize: 4,
+      linesDisplayed: 5,
+      showLiveWPM: true,
+      showLinesLeft: true,
+      retrySame: false,
+      language: "Java",
+    });
+  }
+
   function getConfigValues() {
     const config = parseJSON(localStorage.getItem("config"));
     const defaultConfig = {
@@ -39,17 +51,6 @@ export default function Settings() {
       ...prevState,
       [name]: value,
     }));
-  }
-
-  function resetSettings() {
-    setStateConfig({
-      fontSize: 30,
-      tabSize: 4,
-      linesDisplayed: 5,
-      showLiveWPM: true,
-      showLinesLeft: true,
-      retrySame: false,
-    });
   }
 
   return (
