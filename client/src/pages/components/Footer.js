@@ -11,7 +11,7 @@ export default function Footer() {
             <ion-icon name="logo-github"></ion-icon>
           </Center>
           <Text paddingTop="10px" paddingBottom="5px" className="mainFont" fontSize="12px" color="gray">
-            last updated 4/7/2023
+            last updated 4/8/2023
           </Text>
         </Link>
       </Box>
