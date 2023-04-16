@@ -8,12 +8,12 @@ export default function Letter(props) {
     userInput,
     active,
     hasReturn,
-    wordCorrect,
     activeWordIndex,
     thisWordIndex,
     inputSelected,
     storedInputArray,
     numReturns,
+    toggleBrackets,
   } = props;
   const userChar = userInput.charAt(idx);
   const isLastChar = idx === displayWord.length - 1;
@@ -23,6 +23,20 @@ export default function Letter(props) {
   const cutoffLettersPlusX = userInput.substring(displayWord.length - numReturns);
   const wasntTyped = storedInputArray[thisWordIndex]?.length - 2 < idx;
   const wasCorrect = storedInputArray[thisWordIndex]?.charAt(idx) === char;
+
+  const isBracket = char === ")" || char === "}" || char === "]";
+  if (isBracket && toggleBrackets) {
+    if (hasReturn && isLastChar) return <span className="currentCorrect displayText">{char}</span>;
+    if (isLastChar) {
+      return (
+        <span className="currentCorrect displayText">
+          <span className="currentCorrect displayText">{char}</span>
+          <span className="currentCorrect displayText"> </span>
+        </span>
+      );
+    }
+    return <span className="correct displayText">{char}</span>;
+  }
 
   if (userChar === "" || !active) correct = null;
 

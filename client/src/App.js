@@ -7,7 +7,7 @@ import Leaderboard from "./pages/Leaderboard.js";
 import UserLogin from "./pages/components/UserLogin";
 import Profile from "./pages/components/Profile";
 import Settings from "./pages/Settings";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Footer from "./pages/components/Footer";
 
 import { db } from "./pages/components/firebase";
@@ -22,10 +22,11 @@ function App() {
   const [user, setUser] = useState({});
   const [userData, setUserData] = useState({});
   const [id, setId] = useState("");
+  //eslint-disable-next-line
   const [users, setUsers] = useState([]);
 
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
-
+  //eslint-disable-next-line
   const [stateConfig, setStateConfig] = useState(() => getConfigValues());
 
   // thank you samyok
@@ -46,6 +47,7 @@ function App() {
       showLiveWPM: true,
       showLinesLeft: true,
       language: "Java",
+      toggleBrackets: false,
     };
     return { ...defaultConfig, ...config };
   }
@@ -85,6 +87,7 @@ function App() {
       setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
     getUsers();
+    //eslint-disable-next-line
   }, []);
 
   const submissionsCollectionRef = collection(db, "submissions");

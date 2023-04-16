@@ -11,29 +11,15 @@ import { useParams } from "react-router-dom";
 import { FaCrown } from "react-icons/fa";
 import Section from "./components/Section.js";
 
-import {
-  getFirestore,
-  doc,
-  updateDoc,
-  addDoc,
-  getDocs,
-  setDoc,
-  collection,
-  query,
-  where,
-} from "firebase/firestore";
-import { updateProfile } from "firebase/auth";
+import { doc, updateDoc, getDocs, collection, query, where } from "firebase/firestore";
 import { ref as sRef } from "firebase/storage";
-import { auth } from "./components/firebase.js";
 import { db } from "./components/firebase.js";
-import crown from "./components/assets/crown (2).png";
 import {
   Center,
   useDisclosure,
   IconButton,
   Stack,
   Divider,
-  Image,
   Tooltip,
   Text,
   Box,
@@ -41,7 +27,7 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import LeaderboardModal from "./components/LeaderboardModal.js";
-import { RepeatIcon, StarIcon } from "@chakra-ui/icons";
+import { RepeatIcon } from "@chakra-ui/icons";
 
 // figure out how to get new text every reload
 
@@ -66,6 +52,19 @@ function countReturns(text) {
     i = 0;
   while (true) {
     const r = text.indexOf("\n", i);
+    if (r !== -1) [count, i] = [count + 1, r + 1];
+    else return count;
+  }
+}
+
+function countBrackets(text) {
+  let count = 0,
+    i = 0;
+  while (true) {
+    let r = text.indexOf("}", i);
+    if (r === -1) r = text.indexOf("]", i);
+    if (r === -1) r = text.indexOf(")", i);
+
     if (r !== -1) [count, i] = [count + 1, r + 1];
     else return count;
   }
@@ -741,6 +740,7 @@ function App({ user, givenId }) {
           inputSelected={inputSelected}
           storedInputArray={storedInputArray}
           numReturns={numReturns}
+          toggleBrackets={config["toggleBrackets"]}
         />
       );
     });
@@ -775,6 +775,8 @@ function App({ user, givenId }) {
   Word = React.memo(Word);
 
   function handleKeyDown(e) {
+    const closingBrackets = [")", "}", "]"];
+
     if (e.key === "Backspace" && userInput === "" && activeWordIndex !== 0) {
       if (whiteSpace[activeWordIndex] !== undefined) {
         setRenderIndex(lineRenderIndex[currentLine - 1]);
@@ -793,12 +795,38 @@ function App({ user, givenId }) {
       if (wordBank[activeWordIndex].substring(wordBank[activeWordIndex].length - 1) === "\n") {
         setCorrectWordArray((data) => {
           const newResult = [...data];
-          newResult[activeWordIndex] =
-            userInput ===
-            wordBank[activeWordIndex].substring(
-              0,
-              wordBank[activeWordIndex].length - countReturns(wordBank[activeWordIndex])
-            );
+          // if toggle bracket, dont check for last char
+          if (
+            config["toggleBrackets"] &&
+            (wordBank[activeWordIndex].includes(")") ||
+              wordBank[activeWordIndex].includes("]") ||
+              wordBank[activeWordIndex].includes("}"))
+          ) {
+            if (
+              // if only char is closing brace give them auto correct
+              wordBank[activeWordIndex].substring(
+                0,
+                wordBank[activeWordIndex].length - countReturns(wordBank[activeWordIndex]) - 1
+              ).length === 0
+            ) {
+              newResult[activeWordIndex] = true;
+            }
+            newResult[activeWordIndex] =
+              userInput ===
+              wordBank[activeWordIndex].substring(
+                0,
+                wordBank[activeWordIndex].length -
+                  countReturns(wordBank[activeWordIndex]) -
+                  countBrackets(wordBank[activeWordIndex])
+              );
+          } else {
+            newResult[activeWordIndex] =
+              userInput ===
+              wordBank[activeWordIndex].substring(
+                0,
+                wordBank[activeWordIndex].length - countReturns(wordBank[activeWordIndex])
+              );
+          }
           return newResult;
         });
 
@@ -837,7 +865,6 @@ function App({ user, givenId }) {
   function processInput(e) {
     setStartCounting(true);
     const value = e.target.value;
-
     // instant end if last word is correct
     const trimmedLastWord = wordBank[activeWordIndex].replace("\n", "");
     if (activeWordIndex === wordBank.length - 1 && value.trim() === trimmedLastWord) setFinished(true);
@@ -845,10 +872,25 @@ function App({ user, givenId }) {
     if (value.endsWith(" ") && value.length > 1) {
       setActiveWordIndex((index) => index + 1);
       setUserInput("");
+
       setCorrectWordArray((data) => {
         const word = value.trim();
         const newResult = [...data];
-        newResult[activeWordIndex] = word === wordBank[activeWordIndex];
+        if (
+          config["toggleBrackets"] &&
+          (wordBank[activeWordIndex].includes(")") ||
+            wordBank[activeWordIndex].includes("]") ||
+            wordBank[activeWordIndex].includes("}"))
+        ) {
+          newResult[activeWordIndex] =
+            userInput ===
+            wordBank[activeWordIndex].substring(
+              0,
+              wordBank[activeWordIndex].length - countBrackets(wordBank[activeWordIndex])
+            );
+        } else {
+          newResult[activeWordIndex] = word === wordBank[activeWordIndex];
+        }
         return newResult;
       });
       if (wordBank[activeWordIndex].substring(wordBank[activeWordIndex].length - 1) === "\n") {

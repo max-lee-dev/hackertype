@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { auth } from "./firebase";
+import React from "react";
 import SearchModal from "../SearchModal";
 import {
   Center,
   Input,
-  Divider,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -12,7 +10,6 @@ import {
   ModalCloseButton,
   ModalBody,
   FormControl,
-  FormLabel,
   FormHelperText,
   ModalFooter,
   Button,
@@ -24,9 +21,9 @@ import {
   Box,
   VStack,
 } from "@chakra-ui/react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-import { Search2Icon, EditIcon, CheckIcon } from "@chakra-ui/icons";
+import { EditIcon, CheckIcon } from "@chakra-ui/icons";
 
 export default function CodeSettings({
   startCounting,
@@ -51,16 +48,9 @@ export default function CodeSettings({
   retrySame,
   setRetrySame,
 }) {
-  const lcNumber = leetcodeTitle.split(".")[0];
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
   const displayLimit = wordLimit === 50000 ? "" : wordLimit;
-  const displayId = id === "" || id === undefined ? "" : id;
-  function test(e) {
-    console.log(e.target.value);
-    changeLastId(e.target.value);
-    setId(e.target.value);
-  }
 
   function handleChange(name, value, bool) {
     value = value === "true" || value === true;
@@ -286,21 +276,9 @@ export default function CodeSettings({
     onWordsClose();
   }
 
-  function trashSearchButton() {
-    changeLastId("");
-    setId("");
-    onSearchClose();
-  }
-
   function closeLimitModal(e) {
     e.preventDefault();
     onWordsClose();
     Restart(language === "" ? "Java" : language, wordLimit, id === "" ? undefined : id);
-  }
-
-  function closeSearchModal(e) {
-    e.preventDefault();
-    onSearchClose();
-    Restart(language === "" ? "Java" : language, wordLimit, id === "" ? id : undefined);
   }
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, Box, Center, Button, HStack, VStack, Input } from "@chakra-ui/react";
+import { Text, Box, Center, Button, Input } from "@chakra-ui/react";
 import Section from "./components/Section";
 export default function Settings() {
   const [stateConfig, setStateConfig] = useState(() => getConfigValues());
@@ -21,6 +21,7 @@ export default function Settings() {
       showLinesLeft: true,
       retrySame: false,
       language: "Java",
+      toggleBrackets: false,
     });
   }
 
@@ -33,6 +34,7 @@ export default function Settings() {
       showLiveWPM: true,
       showLinesLeft: true,
       language: "Java",
+      toggleBrackets: false,
     };
     return { ...defaultConfig, ...config };
   }
@@ -114,6 +116,23 @@ export default function Settings() {
                               autoComplete="off"
                               onChange={handleChange}
                               type="text"></Input>
+                          </Box>
+                        </Box>
+                        <Box paddingBottom="3rem" display="flex" justifyContent={"space-between"}>
+                          <Text fontSize="18px" className="grayText font600">
+                            <Text color="white" fontSize="40px">
+                              toggle closing brackets
+                            </Text>
+                            automatically fill in closing brackets: ] } ) (a lil broken rn)
+                          </Text>
+                          <Box width="10%" fontSize="30px">
+                            <Button
+                              width="6.5vw"
+                              name="toggleBrackets"
+                              onClick={(e) => handleChange(e, true)}
+                              colorScheme={stateConfig["toggleBrackets"] ? "green" : "red"}>
+                              {stateConfig["toggleBrackets"] + ""}
+                            </Button>
                           </Box>
                         </Box>
                       </Box>
