@@ -19,6 +19,7 @@ import {
   IconButton,
   Text,
   Box,
+  Badge,
   VStack,
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
@@ -131,20 +132,23 @@ export default function CodeSettings({
 
                 <Box paddingBottom="10px">
                   <HStack spacing="4">
-                    <Tooltip label="Settings">
-                      <NavLink
-                        to="/settings"
-                        className="standardButton"
-                        _hover={{ color: "white" }}
-                        _active={{ background: "transparent" }}
-                        variant="outline"
-                        borderColor="transparent"
-                        colorScheme="gray">
-                        <Box fontSize="28px" marginTop="0.7rem" color="gray" _hover={{ color: "white" }}>
-                          <ion-icon name="cog"></ion-icon>
-                        </Box>
-                      </NavLink>
-                    </Tooltip>
+                    <Box>
+                      <Tooltip label="Settings">
+                        <NavLink
+                          to="/settings"
+                          className="standardButton"
+                          _hover={{ color: "white" }}
+                          _active={{ background: "transparent" }}
+                          variant="outline"
+                          borderColor="transparent"
+                          colorScheme="gray">
+                          <Box fontSize="28px" marginTop="0.7rem" color="gray" _hover={{ color: "white" }}>
+                            <ion-icon name="cog"></ion-icon>
+                          </Box>
+                        </NavLink>
+                      </Tooltip>
+                    </Box>
+
                     <Tooltip label="Search">
                       <NavLink
                         onClick={onSearchOpen}

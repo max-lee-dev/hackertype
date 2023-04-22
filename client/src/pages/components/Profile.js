@@ -2,7 +2,7 @@ import React from "react";
 
 import { signOut, getAuth } from "firebase/auth";
 import { auth } from "./firebase";
-import { Button, Center, Stack, Divider, Text, Box, HStack } from "@chakra-ui/react";
+import { Button, Center, Stack, Divider, Text, Box, HStack, Tooltip } from "@chakra-ui/react";
 
 import { Line } from "react-chartjs-2";
 import LineChart from "./LineChart";
@@ -98,9 +98,19 @@ export default function Profile({ setId }) {
   }, [username]);
 
   const submissionsCollectionRef = collection(db, "submissions");
+  var dateArr = profileUserData?.account_created.split(" ");
+  var dateString = "";
 
-  var date = new Date(profileUserData?.account_created);
-  var dateArr = date.toDateString().split(" ");
+  // pre update fix
+  if (profileUserData && dateArr.length === 3) {
+    // american
+    dateString = dateArr[0].substring(0, dateArr[0].length - 1);
+  } else if (profileUserData && !dateArr[2]) {
+    dateString = dateArr[1];
+    // vietnamese
+  } else if (profileUserData) {
+    dateString = dateArr[2] + " " + dateArr[1] + ", " + dateArr[3];
+  }
 
   return (
     <Section delay={0.1}>
@@ -114,20 +124,22 @@ export default function Profile({ setId }) {
                     {!loading && !profileUserData && <Text fontSize="56px">User not found...</Text>}
                     <Text fontSize="56px">{profileUserData?.displayName}</Text>
                     {!loading && username === user?.displayName && (
-                      <Button
-                        color={"#FFCD29"}
-                        _hover={{ bgColor: "transparent", color: "white" }}
-                        marginTop="20px"
-                        fontSize="40px"
-                        bgColor="transparent"
-                        onClick={signout}>
-                        <ion-icon name="log-out-outline"></ion-icon>
-                      </Button>
+                      <Tooltip label="Sign out" aria-label="A tooltip">
+                        <Button
+                          color={"#FFCD29"}
+                          _hover={{ bgColor: "transparent", color: "white" }}
+                          marginTop="20px"
+                          fontSize="40px"
+                          bgColor="transparent"
+                          onClick={signout}>
+                          <ion-icon name="log-out-outline"></ion-icon>
+                        </Button>
+                      </Tooltip>
                     )}
                   </HStack>
                   {profileUserData && (
                     <Text fontSize="22px" className="grayText font400">
-                      joined {dateArr[1]} {dateArr[2]}, {dateArr[3]}
+                      joined {dateString}
                     </Text>
                   )}
                 </Box>{" "}

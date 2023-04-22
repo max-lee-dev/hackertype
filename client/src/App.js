@@ -25,7 +25,6 @@ function App() {
   //eslint-disable-next-line
   const [users, setUsers] = useState([]);
 
-  const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
   //eslint-disable-next-line
   const [stateConfig, setStateConfig] = useState(() => getConfigValues());
 
@@ -126,7 +125,7 @@ function App() {
     return (
       <>
         <ChakraProvider theme={theme}>
-          <NavBar isSearchOpen={isSearchOpen} onSearchClose={onSearchClose} onSearchOpen={onSearchOpen} />
+          <NavBar />
           <Box minHeight="90vh">
             <Routes>
               <Route path="/" element={<Home user={user} givenId={userData.lastId} />} />

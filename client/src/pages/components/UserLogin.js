@@ -37,14 +37,63 @@ export default function UserLogin({ user, setUser }) {
     }
   });
 
-  async function createNewUser(uid) {
-    await setDoc(doc(db, "users", uid), {
-      displayName: username,
-      email: registerEmail,
-      account_created: new Date().toLocaleString(),
-      uid: uid,
-    });
-    window.location.replace(`/profile/${username}`);
+  async function createNewUser(uid, googleName, googleEmail) {
+    if (googleName) {
+      // if new user with google
+      await setDoc(doc(db, "users", uid), {
+        displayName: googleName,
+        email: googleEmail,
+        account_created: new Date().toUTCString(),
+        uid: uid,
+      });
+      window.location.replace(`/profile/${googleName}`);
+    } else {
+      await setDoc(doc(db, "users", uid), {
+        displayName: username,
+        email: registerEmail,
+        account_created: new Date().toUTCString(),
+        uid: uid,
+      });
+      window.location.replace(`/profile/${username}`);
+    }
+  }
+
+  function google() {
+    let login = false;
+    const userInfo = signInWithGoogle()
+      .then((result) => {
+        const name = result.user.displayName;
+        const email = result.user.email;
+        const uid = result.user.uid;
+        users.map((user) => {
+          if (user.uid === uid) {
+            login = true;
+          }
+        });
+        let tryThisName = name;
+
+        if (!login) {
+          let numDuplicates = 2;
+          while (true) {
+            let ok = true;
+            //eslint-disable-next-line
+            users.map((user) => {
+              if (user.displayName === tryThisName) {
+                ok = false;
+              }
+            });
+            if (ok) break;
+            tryThisName = `${tryThisName} (${numDuplicates})`;
+            numDuplicates++;
+            createNewUser(uid, tryThisName, email);
+          }
+        } else {
+          window.location.replace(`/profile/${name}`);
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   }
 
   async function register(e) {
@@ -227,6 +276,18 @@ export default function UserLogin({ user, setUser }) {
                         />
                         <Center>
                           <p className="currentIncorrect">{loginErrorMessage}</p>
+                        </Center>
+                        <Center>
+                          <VStack>
+                            <Box paddingTop="20px">
+                              <button onClick={signInWithGoogle} type="button" class="login-with-google-btn">
+                                Sign in with Google
+                              </button>
+                            </Box>
+                          </VStack>
+                        </Center>
+                        <Center>
+                          <Divider paddingTop="20px" width="50%" />
                         </Center>
                         <Center className="standardButton">
                           <VStack>

@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { auth } from "./firebase";
 import logo from "./assets/favicon.ico";
-import SearchModal from "../SearchModal";
+import ChangelogModal from "./ChangelogModal.js";
 
-import { Text, Box, Divider, Center, HStack, Stack } from "@chakra-ui/react";
-export default function Navbar({ isSearchOpen, onSearchClose, onSearchOpen, setClickNav }) {
+import { Text, Box, Divider, Center, Button, Stack, useDisclosure } from "@chakra-ui/react";
+export default function Navbar() {
+  const { isOpen: isChangeOpen, onClose: onChangeClose, onOpen: onChangeOpen } = useDisclosure();
+
   const [user, setUser] = useState(null);
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
   auth.onAuthStateChanged((user) => {
-    if (isSearchOpen) return;
     if (user) {
       setUser(user);
     } else {
@@ -25,8 +26,6 @@ export default function Navbar({ isSearchOpen, onSearchClose, onSearchOpen, setC
       window.location.replace(`/`);
     }
   }
-
-  useEffect(() => {}, [user]);
 
   //eslint-disable-next-line
   return (
@@ -83,7 +82,7 @@ export default function Navbar({ isSearchOpen, onSearchClose, onSearchOpen, setC
           </nav>
         </Center>
       </Box>
-      <SearchModal isSearchOpen={isSearchOpen} onSearchClose={onSearchClose} />
+      <ChangelogModal isChangeOpen={isChangeOpen} onChangeClose={onChangeClose} />
     </Center>
   );
 }
