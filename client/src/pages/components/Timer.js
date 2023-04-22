@@ -327,20 +327,22 @@ function Timer({
         }
         return "";
       });
-      let amountBetter = 1;
+      let myRank = 1;
       let totalOppo = 1;
       // first update last one,
-      let oldRank = 1;
+      let oldPR = 1;
+
       if (isBestSubmission) {
         oldBestSubmission.map((submission) => {
-          oldRank = parseInt(submission.rank);
+          oldPR = parseInt(submission.wpm);
           updateDoc(doc(db, "submissions", submission.id), {
             isBestSubmission: false,
           });
           return "";
         });
       }
-
+      // AMOUNT BETTER = RANK
+      // totalOppo = TOTAL
       submissions
         .filter(function (submission) {
           return (
@@ -356,19 +358,26 @@ function Timer({
           // find if old pr was already better than opponents pr
 
           if (parseInt(submission.wpm) > parseInt(finalWPM)) {
-            amountBetter++;
+            myRank++;
           } else {
-            if (isBestSubmission && parseInt(oldRank) >= parseInt(submission.rank)) decreaseRank(submission);
+            // if we're better than this submission
+
+            if (isBestSubmission && parseInt(finalWPM) >= parseInt(submission.wpm)) {
+              console.log("we're better than this submission");
+              decreaseRank(submission);
+            }
           }
+
+          // handles total opponents, unrelated to rank
           if (firstTime && isBestSubmission) addNewOpponent(submission, totalOppo);
           return "";
         });
 
-      if (amountBetter === 1) {
+      if (myRank === 1) {
         updateBestSubmission(language, wpmGraph);
       }
       setTotalOpponents(totalOppo);
-      setRank(amountBetter);
+      setRank(myRank);
 
       const avgWpm = (totalWpm / testsCompleted).toFixed(0);
       await updateDoc(doc(db, "users", user?.uid), {
@@ -429,7 +438,7 @@ function Timer({
         date: createDate(),
         when: Date.parse(new Date()),
         isBestSubmission: isBestSubmission,
-        rank: amountBetter,
+        rank: myRank,
         totalOpponents: totalOppo,
       });
     }
