@@ -330,11 +330,11 @@ function Timer({
       let myRank = 1;
       let totalOppo = 1;
       // first update last one,
-      let oldPR = 1;
+      let oldRank = 1;
 
       if (isBestSubmission) {
         oldBestSubmission.map((submission) => {
-          oldPR = parseInt(submission.wpm);
+          oldRank = parseInt(submission.rank);
           updateDoc(doc(db, "submissions", submission.id), {
             isBestSubmission: false,
           });
@@ -361,8 +361,13 @@ function Timer({
             myRank++;
           } else {
             // if we're better than this submission
-
-            if (isBestSubmission && parseInt(finalWPM) >= parseInt(submission.wpm)) {
+            // if we werent already better as well
+            if (
+              isBestSubmission &&
+              !firstTime &&
+              parseInt(oldRank) >= parseInt(submission.rank) &&
+              parseInt(finalWPM) >= parseInt(submission.wpm)
+            ) {
               console.log("we're better than this submission");
               decreaseRank(submission);
             }

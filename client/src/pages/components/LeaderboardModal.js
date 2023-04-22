@@ -26,6 +26,7 @@ import {
 import { query, collection, getDocs, orderBy, where } from "firebase/firestore";
 import { db } from "./firebase";
 import Submission from "./Submission";
+import { getAuth } from "firebase/auth";
 
 export default function LeaderboardModal({
   isLeaderboardOpen,
@@ -41,10 +42,22 @@ export default function LeaderboardModal({
   const [userInput, setUserInput] = useState("");
   const [solutionList, setSolutionList] = useState([]);
   const [dateArrs, setDateArrs] = useState([]);
+  const [user, setUser] = useState({});
 
   const titleArray = givenSolName.split(".");
 
   const solutionNumber = parseInt(titleArray[0]);
+  const auth = getAuth();
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+    //eslint-disable-next-line
+  }, []);
   useEffect(() => {
     setLoading(true);
     setUserList([]);
@@ -194,6 +207,62 @@ export default function LeaderboardModal({
                       </Box>
                     )}
                   </Box>
+                  {!loading && user && (
+                    <Box>
+                      {solutionList.map((sol, i) => (
+                        <Box>
+                          {sol.user === user.displayName && (
+                            <Box paddingTop="0px">
+                              <Text className="mainFont" color="#FFCD29">
+                                YOU
+                              </Text>
+                              <Box display="flex" fontSize="24px">
+                                <Box width="25%">
+                                  <Text>#{sol.rank}</Text>
+                                </Box>
+                                <Box width="25%">
+                                  <Link textDecoration={"underline"} href={`/profile/${sol.user}`}>
+                                    <Text>{sol.user}</Text>
+                                  </Link>
+                                </Box>
+                                <Box width="25%">
+                                  <Text>{sol.wpm}</Text>
+                                  <Tooltip label="accuracy" placement="left">
+                                    <Box width="15%">
+                                      <Text fontSize="14px" color="gray">
+                                        {sol.acc}%
+                                      </Text>
+                                    </Box>
+                                  </Tooltip>
+                                </Box>
+
+                                <Box width="25%">
+                                  <HStack>
+                                    <Text>
+                                      {sol.date[0]}
+                                      <HStack>
+                                        <Text fontSize="18px" color="gray">
+                                          {" "}
+                                          {dateArrs[i]}
+                                        </Text>
+                                      </HStack>
+                                    </Text>
+                                  </HStack>
+                                  <Tooltip label="UTC" placement="left">
+                                    <Text fontWeight="200" color="gray" fontSize="14px">
+                                      {" "}
+                                      <Text></Text>
+                                      {sol.date[1]}
+                                    </Text>
+                                  </Tooltip>
+                                </Box>
+                              </Box>
+                            </Box>
+                          )}
+                        </Box>
+                      ))}
+                    </Box>
+                  )}
                 </Box>
               </Box>
             </Box>

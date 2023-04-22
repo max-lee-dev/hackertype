@@ -4,8 +4,8 @@ import { Link, NavLink } from "react-router-dom";
 import ChangelogModal from "./ChangelogModal.js";
 export default function Footer() {
   const { isOpen: isChangeOpen, onClose: onChangeClose, onOpen: onChangeOpen } = useDisclosure();
-  const lastUpdateTime = 1682132786000;
-  // console.log(Date.parse(new Date()));
+  const lastUpdateTime = 1682141339000;
+  //console.log(Date.parse(new Date()));
   const seenUpdate = localStorage.getItem("lastCheckedUpdate") > lastUpdateTime;
   function open() {
     onChangeOpen();
@@ -14,14 +14,14 @@ export default function Footer() {
   return (
     <Box marginTop="110px" bgColor={""} display="flex" justifyContent={"center"}>
       <HStack spacing="0">
-        <Box fontSize="40px">
+        <Box fontSize="36px">
           <Link to="https://github.com/max-lee-dev/hackertype">
             <Center>
               <ion-icon name="logo-github"></ion-icon>
             </Center>
           </Link>
         </Box>
-        <Box paddingTop="12px" fontSize="34px" paddingLeft="50px" className="mainFont">
+        <Box paddingTop="12px" fontSize="30px" paddingLeft="50px" className="mainFont">
           <Tooltip label="Change log">
             <NavLink onClick={open}>
               <VStack>
