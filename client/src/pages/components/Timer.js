@@ -330,7 +330,7 @@ function Timer({
       let myRank = 1;
       let totalOppo = 1;
       // first update last one,
-      let oldRank = 1;
+      let oldRank = -1; // if -1, then no old rank
 
       if (isBestSubmission) {
         oldBestSubmission.map((submission) => {
@@ -364,9 +364,8 @@ function Timer({
             // if we werent already better as well
             if (
               isBestSubmission &&
-              !firstTime &&
-              parseInt(oldRank) >= parseInt(submission.rank) &&
-              parseInt(finalWPM) >= parseInt(submission.wpm)
+              parseInt(finalWPM) >= parseInt(submission.wpm) &&
+              (firstTime || parseInt(oldRank) >= parseInt(submission.rank))
             ) {
               console.log("we're better than this submission");
               decreaseRank(submission);
