@@ -207,11 +207,11 @@ export default function LeaderboardModal({
                       </Box>
                     )}
                   </Box>
-                  {!loading && user && (
+                  {!loading && (
                     <Box>
                       {solutionList.map((sol, i) => (
                         <Box>
-                          {sol.user === user.displayName && (
+                          {sol.user === user?.displayName && (
                             <Box paddingTop="0px">
                               <Text className="mainFont" color="#FFCD29">
                                 YOU
