@@ -47,7 +47,7 @@ function App() {
       showLinesLeft: true,
       language: "Java",
       toggleBrackets: false,
-      update3: false,
+      lastCheckedUpdate: 0,
     };
     return { ...defaultConfig, ...config };
   }

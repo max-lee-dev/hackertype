@@ -46,6 +46,7 @@ export default function UserLogin({ user, setUser }) {
         account_created: new Date().toUTCString(),
         uid: uid,
       });
+      console.log("new user created");
     } else {
       await setDoc(doc(db, "users", uid), {
         displayName: username,
@@ -53,11 +54,12 @@ export default function UserLogin({ user, setUser }) {
         account_created: new Date().toUTCString(),
         uid: uid,
       });
-      window.location.replace(`/profile/${username}`);
+
+      // window.location.replace(`/profile/${username}`);
     }
   }
 
-  function google() {
+  function google(e) {
     let login = false;
     const userInfo = signInWithGoogle()
       .then((result) => {
@@ -87,18 +89,14 @@ export default function UserLogin({ user, setUser }) {
             createNewUser(uid, tryThisName, email);
           }
         }
-        console.log("huh");
 
-        window.location.replace(`/profile/${name}`);
+        console.log("huh");
       })
       .catch((error) => {
         console.log(error.message);
       });
+    e.prefevntDefault();
   }
-
-  useEffect(() => {
-    if (user) window.location.replace(`/`);
-  }, [user]);
 
   async function register(e) {
     e.preventDefault();
@@ -284,7 +282,7 @@ export default function UserLogin({ user, setUser }) {
                         <Center>
                           <VStack>
                             <Box paddingTop="20px">
-                              <button onClick={signInWithGoogle} type="button" class="login-with-google-btn">
+                              <button onClick={(e) => google(e)} type="button" class="login-with-google-btn">
                                 Sign in with Google
                               </button>
                             </Box>
