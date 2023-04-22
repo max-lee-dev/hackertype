@@ -47,6 +47,7 @@ function App() {
       showLinesLeft: true,
       language: "Java",
       toggleBrackets: false,
+      update3: false,
     };
     return { ...defaultConfig, ...config };
   }
@@ -126,7 +127,7 @@ function App() {
       <>
         <ChakraProvider theme={theme}>
           <NavBar />
-          <Box minHeight="90vh">
+          <Box minHeight="80vh">
             <Routes>
               <Route path="/" element={<Home user={user} givenId={userData.lastId} />} />
               <Route path="/about" element={<About />} />

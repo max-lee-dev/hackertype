@@ -21,64 +21,15 @@ import {
   Link,
 } from "@chakra-ui/react";
 
-import { query, collection, getDocs, orderBy } from "firebase/firestore";
-import { db } from ".//firebase";
-
-export default function ChangelogModal({ isSearchOpen, onSearchClose }) {
+export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
-  const [loading, setLoading] = useState(false);
-  const [userList, setUserList] = useState([]);
-  const [userInput, setUserInput] = useState("");
-  const [solutionList, setSolutionList] = useState([]);
-  const [selectedLanguage, setSelectedLanguage] = useState("Java");
-
-  useEffect(() => {
-    setLoading(true);
-    setUserList([]);
-    async function getUserList() {
-      const tempArr = [];
-      const q = query(collection(db, "users"));
-
-      const querySnapshot = await getDocs(q);
-
-      querySnapshot.forEach((doc) => {
-        if (tempArr.length > 4) return;
-        const displayName = doc.data().displayName.toLowerCase();
-        const userInputLower = userInput.toLowerCase();
-        if (userInput === "") tempArr.push(doc.data());
-        else if (displayName.includes(userInputLower)) tempArr.push(doc.data());
-      });
-      setUserList(tempArr);
-    }
-
-    async function getSolutionList() {
-      const tempArr = [];
-      const q = query(collection(db, "javaSolutions"));
-      const sortedQ = query(q, orderBy("solutionNum", "asc"));
-
-      const querySnapshot = await getDocs(sortedQ);
-
-      querySnapshot.forEach((doc) => {
-        if (tempArr.length > 4) return;
-        const displayName = doc.data().solution_id.toLowerCase();
-        const userInputLower = userInput.toLowerCase();
-        if (userInput === "") tempArr.push(doc);
-        else if (displayName.includes(userInputLower)) tempArr.push(doc);
-        console.log(doc.id);
-      });
-      setSolutionList(tempArr);
-    }
-
-    getSolutionList();
-    getUserList().then(() => setLoading(false));
-  }, [userInput, isSearchOpen]);
-
+  console.log(isChangeOpen);
   return (
-    <Center>
+    <>
       <Modal
-        isOpen={isSearchOpen}
-        onClose={closeModal}
+        isOpen={isChangeOpen}
+        onClose={onChangeClose}
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
         size="6xl">
@@ -87,57 +38,26 @@ export default function ChangelogModal({ isSearchOpen, onSearchClose }) {
           <ModalHeader>
             <Box className="searchModal">
               <Text className="whiteText mainFont" fontSize="32px">
-                search
+                changelog
               </Text>
               <ModalCloseButton />
             </Box>
           </ModalHeader>
 
           <ModalBody>
-            <Box paddingBottom="25px">
-              <FormControl className="whiteText mainFont">
-                <Input
-                  _selected={{ outline: "none" }}
-                  _focus={{ outline: "none" }}
-                  ref={initialRef}
-                  placeholder={`search a solution/username`}
-                  type="text"
-                  onChange={(e) => setUserInput(e.target.value)}
-                />
-              </FormControl>
-            </Box>
-
-            <Box className="whiteText mainFont">
-              <HStack className="whiteText mainFont"></HStack>
-              <Box display="flex">
-                <Box width="100%">
+            <Box height="520px" overflow="auto">
+              <Box paddingBottom="25px">
+                <Text className="whiteText mainFont">
+                  <b>4/21/2023</b>
+                  <Text>
+                    hi! excited to see all of the new users on the site! i know there are certain bugs with
+                    leaderboard rankings and currently working on it! but right now heres a small update :)
+                  </Text>
                   <Box paddingTop="15px">
-                    <Box width="50%">
-                      {(loading || userList.length > 0) && <Text fontSize="32px">users</Text>}
-                    </Box>
-                    <Box paddingTop="24px">{loading && <Box className="loader"></Box>}</Box>
-                    {userList.map((user, i) => (
-                      <Box key={i} paddingTop="10px">
-                        <Link textDecoration={"underline"} href={`/profile/${user.displayName}`}>
-                          {user.displayName}
-                        </Link>
-                      </Box>
-                    ))}
-                    <Box paddingTop="20px" width="50%">
-                      {(loading || solutionList.length > 0) && <Text fontSize="32px">solutions</Text>}
-                    </Box>
-                    <Box paddingTop="24px">
-                      {loading && solutionList.length === 0 && <Box className="loader"></Box>}
-                    </Box>
-                    {solutionList.map((sol, i) => (
-                      <Box key={i} paddingTop="10px">
-                        <Link textDecoration={"underline"} href={`/solutions/Java/${sol.data().solutionNum}`}>
-                          {sol.data().solution_id}
-                        </Link>
-                      </Box>
-                    ))}
+                    <Text>- added a changelog page</Text>
+                    <Text>- added google auth sign in</Text>
                   </Box>
-                </Box>
+                </Text>
               </Box>
             </Box>
           </ModalBody>
@@ -145,12 +65,6 @@ export default function ChangelogModal({ isSearchOpen, onSearchClose }) {
           <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
-    </Center>
+    </>
   );
-
-  function closeModal() {
-    onSearchClose();
-    setUserInput("");
-    setUserList([]);
-  }
 }

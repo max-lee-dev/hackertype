@@ -6,19 +6,18 @@ import ChangelogModal from "./ChangelogModal.js";
 
 import { Text, Box, Divider, Center, Button, Stack, useDisclosure } from "@chakra-ui/react";
 export default function Navbar() {
-  const { isOpen: isChangeOpen, onClose: onChangeClose, onOpen: onChangeOpen } = useDisclosure();
-
   const [user, setUser] = useState(null);
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
-
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      setUser(user);
-    } else {
-      setUser(null);
-    }
-  });
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+  }, [auth]);
 
   function changeLocation() {
     const currentLocation = window.location.pathname;
@@ -82,7 +81,6 @@ export default function Navbar() {
           </nav>
         </Center>
       </Box>
-      <ChangelogModal isChangeOpen={isChangeOpen} onChangeClose={onChangeClose} />
     </Center>
   );
 }

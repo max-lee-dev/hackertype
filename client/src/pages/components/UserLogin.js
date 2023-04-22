@@ -46,7 +46,6 @@ export default function UserLogin({ user, setUser }) {
         account_created: new Date().toUTCString(),
         uid: uid,
       });
-      window.location.replace(`/profile/${googleName}`);
     } else {
       await setDoc(doc(db, "users", uid), {
         displayName: username,
@@ -87,14 +86,19 @@ export default function UserLogin({ user, setUser }) {
             numDuplicates++;
             createNewUser(uid, tryThisName, email);
           }
-        } else {
-          window.location.replace(`/profile/${name}`);
         }
+        console.log("huh");
+
+        window.location.replace(`/profile/${name}`);
       })
       .catch((error) => {
         console.log(error.message);
       });
   }
+
+  useEffect(() => {
+    if (user) window.location.replace(`/`);
+  }, [user]);
 
   async function register(e) {
     e.preventDefault();
@@ -303,6 +307,13 @@ export default function UserLogin({ user, setUser }) {
               </Center>
             </Stack>
           </Box>
+        </Center>
+        <Center>
+          {user && (
+            <Text paddingTop="24px" fontSize="24px">
+              Signed in as: {user.displayName}
+            </Text>
+          )}
         </Center>
       </Box>
     </Center>
