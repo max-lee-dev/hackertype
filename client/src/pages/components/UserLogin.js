@@ -46,7 +46,7 @@ export default function UserLogin({ user, setUser }) {
         account_created: new Date().toUTCString(),
         uid: uid,
       });
-      console.log("new user created");
+      window.location.replace(`/profile/${googleName}`);
     } else {
       await setDoc(doc(db, "users", uid), {
         displayName: username,
@@ -55,11 +55,12 @@ export default function UserLogin({ user, setUser }) {
         uid: uid,
       });
 
-      // window.location.replace(`/profile/${username}`);
+      window.location.replace(`/profile/${username}`);
     }
+    console.log("new user created");
   }
 
-  function google(e) {
+  function google() {
     let login = false;
     const userInfo = signInWithGoogle()
       .then((result) => {
@@ -83,19 +84,21 @@ export default function UserLogin({ user, setUser }) {
                 ok = false;
               }
             });
-            if (ok) break;
+            if (ok) {
+              createNewUser(uid, tryThisName, email);
+              break;
+            }
             tryThisName = `${tryThisName} (${numDuplicates})`;
             numDuplicates++;
-            createNewUser(uid, tryThisName, email);
           }
         }
-
-        console.log("huh");
+        if (login) {
+          window.location.replace(`/`);
+        }
       })
       .catch((error) => {
         console.log(error.message);
       });
-    e.prefevntDefault();
   }
 
   async function register(e) {
@@ -282,8 +285,8 @@ export default function UserLogin({ user, setUser }) {
                         <Center>
                           <VStack>
                             <Box paddingTop="20px">
-                              <button type="button" class="login-with-google-btn">
-                                Sign in with Google (currently broken...)
+                              <button onClick={google} type="button" class="login-with-google-btn">
+                                Sign in with Google
                               </button>
                             </Box>
                           </VStack>
