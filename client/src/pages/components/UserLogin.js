@@ -282,8 +282,8 @@ export default function UserLogin({ user, setUser }) {
                         <Center>
                           <VStack>
                             <Box paddingTop="20px">
-                              <button onClick={(e) => google(e)} type="button" class="login-with-google-btn">
-                                Sign in with Google
+                              <button type="button" class="login-with-google-btn">
+                                Sign in with Google (currently broken...)
                               </button>
                             </Box>
                           </VStack>
