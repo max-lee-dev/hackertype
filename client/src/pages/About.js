@@ -10,14 +10,14 @@ export default function About() {
       <Center>
         <Box paddingLeft="25px" width="70%">
           <Section delay={0.05}>
-            <Heading as="h1" size="2xl" mt="10">
+            <Heading as="h1" size="xl" mt="10">
               <Text fontWeight="500" color="gray" className="mainFont">
                 about
               </Text>
             </Heading>
 
             <Section delay={0.1}>
-              <Text mt="2" fontWeight="300" fontSize="xl">
+              <Text mt="2" fontWeight="300" fontSize="18px">
                 HackerType is a simple typing test that allows you to test your programming/coding speed and
                 accuracy using{" "}
                 <Link textDecor={"underline"} href="https://leetcode.com/" isExternal>
@@ -27,7 +27,7 @@ export default function About() {
                 solutions. This was a personal project that was created to learn more about React and Firebase
                 for the first time. After enjoying the process of improving typing speed on{" "}
                 <Link textDecor={"underline"} isExternal href="https://monkeytype.com">
-                  monkeytype
+                  MonkeyType
                 </Link>
                 , I wanted to have the same experience for programming but couldn't find any for my liking ——
                 so I made my own. I hope you enjoy using HackerType!

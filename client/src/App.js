@@ -40,13 +40,14 @@ function App() {
   function getConfigValues() {
     const config = parseJSON(localStorage.getItem("config"));
     const defaultConfig = {
-      fontSize: 30,
+      fontSize: 24,
       tabSize: 4,
       linesDisplayed: 5,
       showLiveWPM: true,
       showLinesLeft: true,
       language: "Java",
       toggleBrackets: false,
+      font: "Inconsolata",
       lastCheckedUpdate: 0,
     };
     return { ...defaultConfig, ...config };

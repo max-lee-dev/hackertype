@@ -34,13 +34,16 @@ export default function Navbar() {
           <nav className="nav">
             <Box className="Logo whiteText" fontWeight="500">
               <NavLink onClick={changeLocation} to="/" className="site-title">
-                <Box className="Logo"> hackertype </Box>
+                <Box fontSize="24px" className="Logo">
+                  {" "}
+                  hackertype{" "}
+                </Box>
               </NavLink>
               <NavLink onClick={changeLocation} to="/" className="site-title">
-                <Text color="#FFCD29" marginLeft="-12px">
+                <Text fontSize="24px" color="#FFCD29" marginLeft="-11px">
                   .
                 </Text>
-                <Text onClick={changeLocation} color="#FFCD29" marginLeft="-5px">
+                <Text fontSize="23px" onClick={changeLocation} color="#FFCD29" marginLeft="-4px">
                   dev
                 </Text>
               </NavLink>
@@ -58,7 +61,7 @@ export default function Navbar() {
                   <Stack direction="row">
                     {!user && (
                       <NavLink to="/login">
-                        <Text marginTop="12px" fontSize="16px" paddingRight="5px" textColor="">
+                        <Text marginTop="6px" fontSize="16px" paddingRight="5px" textColor="">
                           &lt;log in&gt;
                         </Text>
                       </NavLink>
@@ -67,7 +70,7 @@ export default function Navbar() {
                       <Box fontSize="40px" paddingTop="3px">
                         <NavLink to={`/profile/${user.displayName}`}>
                           <li>
-                            <Text marginTop="9px" fontSize="16px" paddingRight="5px" textColor="">
+                            <Text marginTop="3px" fontSize="16px" paddingRight="5px" textColor="">
                               &lt;{user.displayName}&gt;
                             </Text>
                           </li>

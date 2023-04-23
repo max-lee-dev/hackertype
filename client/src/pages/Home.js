@@ -356,8 +356,18 @@ function App({ user, givenId }) {
     const lcID = leetcodeTitle.split(".")[0].trim();
 
     if (retrySame) {
+      if (user && !finished) {
+        submissions.map((submission) => {
+          if (submission.user !== user.displayName) return "";
+          if (submission.solution_id !== leetcodeTitle) return "";
+          if (submission.language !== language) return "";
+          if (!submission.isBestSubmission) return "";
+          setThisSolutionPR(submission.wpm);
+        });
+      }
       Reset(codingLanguage, maxWords, lcID);
     }
+
     setId("");
     setInputSelected(true);
     setSubmitted(false);
@@ -458,7 +468,10 @@ function App({ user, givenId }) {
         setThisSolutionPR(submission.wpm);
         found = true;
       });
-      if (!found) setThisSolutionPR(0);
+      if (!found && !retrySame) {
+        console.log("test");
+        setThisSolutionPR(0);
+      }
       setFindingPR(false);
     }
     setError("");
@@ -869,7 +882,11 @@ function App({ user, givenId }) {
     const trimmedLastWord = wordBank[activeWordIndex].replace("\n", "");
     if (activeWordIndex === wordBank.length - 1 && value.trim() === trimmedLastWord) setFinished(true);
 
-    if (value.endsWith(" ") && value.length > 1) {
+    if (
+      value.endsWith(" ") &&
+      value.length > 1 &&
+      wordBank[activeWordIndex].charAt(wordBank[activeWordIndex].length - 1) !== "\n"
+    ) {
       setActiveWordIndex((index) => index + 1);
       setUserInput("");
 
@@ -1089,7 +1106,9 @@ function App({ user, givenId }) {
                         <Box className="mainFont">
                           <Center>
                             <HStack spacing="0">
-                              <Text className="mainFont font500">{leetcodeTitle}</Text>
+                              <Text fontSize="24px" className="mainFont font500">
+                                {leetcodeTitle}
+                              </Text>
                               <Tooltip label="View leaderboard">
                                 <Box>
                                   <Button
@@ -1128,6 +1147,7 @@ function App({ user, givenId }) {
                           wordLimit={wordLimit}
                           Restart={Restart}
                           showLiveWPM={config["showLiveWPM"]}
+                          config={config}
                         />
                       )}
                     </Box>
@@ -1208,7 +1228,7 @@ function App({ user, givenId }) {
                           position="absolute"
                         />
                       )}
-                      <Box className="text" fontSize={config["fontSize"]}>
+                      <Box className="text" fontWeight={500} fontSize={config["fontSize"]}>
                         <pre
                           style={{
                             whiteSpace: "pre-wrap",
@@ -1231,7 +1251,11 @@ function App({ user, givenId }) {
                                   }
                                 }
                                 return (
-                                  <span key={index} className="displayText">
+                                  <Box
+                                    as="span"
+                                    key={index}
+                                    className="displayText"
+                                    fontFamily={config["font"]}>
                                     {s}
                                     <Word
                                       text={word}
@@ -1239,7 +1263,7 @@ function App({ user, givenId }) {
                                       correct={correctWordArray[index]}
                                       thisWordIndex={index}
                                     />
-                                  </span>
+                                  </Box>
                                 );
                               }
                               return "";
@@ -1285,7 +1309,7 @@ function App({ user, givenId }) {
                 </Box>
               </Center>
               <Box id="userInput">
-                {!newUser && !finished && (
+                {!newUser && !finished && !startCounting && (
                   <Text fontSize="14px" className="grayText mainFont font300">
                     [Tab] to Restart Test
                   </Text>

@@ -5,8 +5,10 @@ import {
   signOut,
   signInWithEmailAndPassword,
   updateProfile,
+  signInWithPopup,
 } from "firebase/auth";
-import { Box, Center, Text, Stack, Divider, Input, Button, Form, VStack } from "@chakra-ui/react";
+import { gitProvider } from "./firebase.js";
+import { Box, Center, Text, Stack, Divider, Input, Button, Form, VStack, IconButton } from "@chakra-ui/react";
 import { auth, signInWithGoogle } from "./firebase.js";
 import { db } from "./firebase";
 import { getFirestore, doc, addDoc, getDocs, setDoc, collection, query, where } from "firebase/firestore";
@@ -60,6 +62,50 @@ export default function UserLogin({ user, setUser }) {
     console.log("new user created");
   }
 
+  function github() {
+    let login = false;
+
+    signInWithPopup(auth, gitProvider)
+      .then((result) => {
+        const name = result.user.displayName;
+        const email = result.user.email;
+        const uid = result.user.uid;
+        setLoginErrorMessage(result);
+        users.map((user) => {
+          if (user.uid === uid) {
+            login = true;
+          }
+        });
+        let tryThisName = name;
+
+        if (!login) {
+          let numDuplicates = 2;
+          while (true) {
+            let ok = true;
+            //eslint-disable-next-line
+            users.map((user) => {
+              if (user.displayName === tryThisName) {
+                ok = false;
+              }
+            });
+            if (ok) {
+              createNewUser(uid, tryThisName, email);
+              break;
+            }
+            tryThisName = `${tryThisName} (${numDuplicates})`;
+            numDuplicates++;
+          }
+        }
+        if (login) {
+          window.location.replace(`/`);
+        }
+      })
+      .catch((err) => {
+        setLoginErrorMessage(err.message);
+        console.log(err.message);
+      });
+  }
+
   function google() {
     let login = false;
     const userInfo = signInWithGoogle()
@@ -97,6 +143,7 @@ export default function UserLogin({ user, setUser }) {
         }
       })
       .catch((error) => {
+        setLoginErrorMessage(error.message);
         console.log(error.message);
       });
   }
@@ -284,10 +331,33 @@ export default function UserLogin({ user, setUser }) {
                         </Center>
                         <Center>
                           <VStack>
+                            {/* <Box paddingTop="20px">
+                              <Button
+                                onClick={github}
+                                className="loginFont"
+                                bgColor="white"
+                                color="#2f0505"
+                                borderRadius={"3px"}
+                                minHeight="45px">
+                                <Box fontSize="24px" paddingRight="10px" paddingTop="5px">
+                                  <ion-icon name="logo-github"></ion-icon>
+                                </Box>
+                                Sign in with GitHub
+                              </Button>
+                            </Box> */}
                             <Box paddingTop="20px">
-                              <button onClick={google} type="button" class="login-with-google-btn">
+                              <Button
+                                onClick={google}
+                                className="loginFont"
+                                bgColor="white"
+                                color="#2f0505"
+                                borderRadius={"3px"}
+                                minHeight="45px">
+                                <Box fontSize="24px" paddingRight="10px" paddingTop="5px">
+                                  <ion-icon name="logo-google"></ion-icon>
+                                </Box>
                                 Sign in with Google
-                              </button>
+                              </Button>
                             </Box>
                           </VStack>
                         </Center>
@@ -311,9 +381,12 @@ export default function UserLogin({ user, setUser }) {
         </Center>
         <Center>
           {user && (
-            <Text paddingTop="24px" fontSize="24px">
-              Signed in as: {user.displayName}
-            </Text>
+            <Box className="standardButton">
+              <Text paddingTop="24px" fontSize="24px">
+                Signed in as: {user.displayName}
+              </Text>
+              <Button onClick={() => signOut(auth)}>Sign out</Button>
+            </Box>
           )}
         </Center>
       </Box>

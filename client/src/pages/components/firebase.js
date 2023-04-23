@@ -1,6 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import { GithubAuthProvider } from "firebase/auth";
+
+export const gitProvider = new GithubAuthProvider();
 
 const firebaseConfig = {
   apiKey: "AIzaSyD8REai_maBKqw882b90K2LEDunwOpNkoM",

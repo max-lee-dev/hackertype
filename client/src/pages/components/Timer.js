@@ -35,6 +35,7 @@ function Timer({
   wordLimit,
   Restart,
   showLiveWPM,
+  config,
 }) {
   const [timeElapsed, setTimeElapsed] = useState(0);
   const actualPR = thisSolutionPR;
@@ -51,6 +52,7 @@ function Timer({
     onClose: onLeaderboardClose,
     onOpen: onLeaderboardOpen,
   } = useDisclosure();
+
   let totalCorrectChars = 0;
   for (let i = 0; i < correctCharacterArray.length; i++) {
     totalCorrectChars += correctCharacterArray[i];
@@ -98,14 +100,13 @@ function Timer({
 
     //eslint-disable-next-line
   }, []);
-
   if (!pause && startCounting) {
     return (
-      <Box className="timerContainer mainFont" minHeight={"15vh"}>
+      <Box className="timerContainer " fontFamily={config["font"]} minHeight={"15vh"}>
         {showLiveWPM && (
           <Box>
-            {wpm === "Infinity" && <Text className="wpm mainFont">{0}</Text>}
-            {wpm !== "Infinity" && <Text className="wpm mainFont">{wpm}</Text>}
+            {wpm === "Infinity" && <Text className="wpm">{0}</Text>}
+            {wpm !== "Infinity" && <Text className="wpm">{wpm}</Text>}
           </Box>
         )}
       </Box>
@@ -123,7 +124,7 @@ function Timer({
     // specify language using BADGES (CHAKRA)
     return (
       <Section delay={0.15}>
-        <Box className="aboutContainer mainFont">
+        <Box className="aboutContainer mainFont" paddingTop="30px">
           <Text>{leetcodeTitle}</Text>
           {isPR && (
             <Box>
