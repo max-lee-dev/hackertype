@@ -22,6 +22,7 @@ function App() {
   const [user, setUser] = useState({});
   const [userData, setUserData] = useState({});
   const [id, setId] = useState("");
+  const [gitLogin, setGitLogin] = useState(false);
   //eslint-disable-next-line
   const [users, setUsers] = useState([]);
 
@@ -127,7 +128,7 @@ function App() {
     return (
       <>
         <ChakraProvider theme={theme}>
-          <NavBar />
+          <NavBar gitLogin={gitLogin} />
           <Box minHeight="80vh">
             <Routes>
               <Route path="/" element={<Home user={user} givenId={userData.lastId} />} />
@@ -136,7 +137,10 @@ function App() {
                 path="/leaderboard"
                 element={<Leaderboard submissions={submissions} loading={loading} />}
               />
-              <Route path="/login" element={<UserLogin user={user} setUser={setUser} />} />
+              <Route
+                path="/login"
+                element={<UserLogin setGitLogin={setGitLogin} user={user} setUser={setUser} />}
+              />
               <Route path="/profile/:username" element={<Profile setId={setId} />} />
               <Route path="/solutions/:givenLanguage/:number" element={<Home user={user} givenId={id} />} />
               <Route path="/settings" element={<Settings />} />

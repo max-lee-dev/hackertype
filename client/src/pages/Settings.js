@@ -147,7 +147,7 @@ export default function Settings() {
                             <Text fontSize="18px" className="grayText font600">
                               <Box display="flex" className="standardButton">
                                 <Text color="white" fontSize="40px">
-                                  fonts
+                                  font family
                                 </Text>
                               </Box>
                               font for the word set

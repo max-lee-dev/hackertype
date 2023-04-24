@@ -158,7 +158,7 @@ export default function LeaderboardModal({
                     {loading && solutionList.length > 0 && <Text>Loading...</Text>}
                     {solutionList.length === 0 && !loading && <Text>no submissions yet...</Text>}
                     {!loading && (
-                      <Box paddingTop="5px" overflow="auto" height="520px">
+                      <Box paddingTop="5px" overflow="auto" height="520px" className="scroll">
                         {solutionList.map((sol, i) => (
                           <Box key={i} paddingBottom="20px">
                             <Box display="flex" fontSize="24px">

@@ -183,7 +183,7 @@ function Timer({
                     {!user && (
                       <Tooltip label="Rank not saved">
                         <Box>
-                          {countOpponents(finalWPM)[0]}/{countOpponents(finalWPM)[1] + 1}
+                          {rank}/{countOpponents(finalWPM)[1] + 1}
                         </Box>
                       </Tooltip>
                     )}
@@ -446,6 +446,24 @@ function Timer({
         rank: myRank,
         totalOpponents: totalOppo,
       });
+    } else {
+      let myRank = 1;
+      submissions
+        .filter(function (submission) {
+          return (
+            submission.isBestSubmission === true &&
+            submission.language === language &&
+            submission.solution_id === leetcodeTitle
+          );
+        })
+        .map((submission) => {
+          // find if old pr was already better than opponents pr
+
+          if (parseInt(submission.wpm) > parseInt(finalWPM)) {
+            myRank++;
+          }
+        });
+      setRank(myRank);
     }
   }
 

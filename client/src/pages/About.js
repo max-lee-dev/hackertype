@@ -27,7 +27,7 @@ export default function About() {
                 solutions. This was a personal project that was created to learn more about React and Firebase
                 for the first time. After enjoying the process of improving typing speed on{" "}
                 <Link textDecor={"underline"} isExternal href="https://monkeytype.com">
-                  MonkeyType
+                  monkeytype
                 </Link>
                 , I wanted to have the same experience for programming but couldn't find any for my liking ——
                 so I made my own. I hope you enjoy using HackerType!

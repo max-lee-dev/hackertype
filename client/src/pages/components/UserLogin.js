@@ -12,7 +12,7 @@ import { Box, Center, Text, Stack, Divider, Input, Button, Form, VStack, IconBut
 import { auth, signInWithGoogle } from "./firebase.js";
 import { db } from "./firebase";
 import { getFirestore, doc, addDoc, getDocs, setDoc, collection, query, where } from "firebase/firestore";
-export default function UserLogin({ user, setUser }) {
+export default function UserLogin({ setGitLogin, user, setUser }) {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -48,6 +48,7 @@ export default function UserLogin({ user, setUser }) {
         account_created: new Date().toUTCString(),
         uid: uid,
       });
+      if (auth) updateProfile(auth.currentUser, { displayName: googleName }).catch((err) => console.log(err));
       window.location.replace(`/profile/${googleName}`);
     } else {
       await setDoc(doc(db, "users", uid), {
@@ -62,15 +63,16 @@ export default function UserLogin({ user, setUser }) {
     console.log("new user created");
   }
 
-  function github() {
+  async function github() {
     let login = false;
 
-    signInWithPopup(auth, gitProvider)
+    const res = signInWithPopup(auth, gitProvider)
       .then((result) => {
-        const name = result.user.displayName;
+        const name = result.user.reloadUserInfo.screenName;
         const email = result.user.email;
         const uid = result.user.uid;
-        setLoginErrorMessage(result);
+        console.log(result);
+
         users.map((user) => {
           if (user.uid === uid) {
             login = true;
@@ -90,10 +92,17 @@ export default function UserLogin({ user, setUser }) {
             });
             if (ok) {
               createNewUser(uid, tryThisName, email);
+
               break;
             }
-            tryThisName = `${tryThisName} (${numDuplicates})`;
+            tryThisName = `${name} (${numDuplicates})`;
             numDuplicates++;
+          }
+          if (auth) {
+            setGitLogin(true);
+            updateProfile(auth.currentUser, { displayName: result.user.reloadUserInfo.screenName }).catch(
+              (err) => console.log(err)
+            );
           }
         }
         if (login) {
@@ -330,8 +339,8 @@ export default function UserLogin({ user, setUser }) {
                           <p className="currentIncorrect">{loginErrorMessage}</p>
                         </Center>
                         <Center>
-                          <VStack>
-                            {/* <Box paddingTop="20px">
+                          <VStack spacing="3">
+                            <Box paddingTop="10px">
                               <Button
                                 onClick={github}
                                 className="loginFont"
@@ -344,8 +353,8 @@ export default function UserLogin({ user, setUser }) {
                                 </Box>
                                 Sign in with GitHub
                               </Button>
-                            </Box> */}
-                            <Box paddingTop="20px">
+                            </Box>
+                            <Box>
                               <Button
                                 onClick={google}
                                 className="loginFont"
