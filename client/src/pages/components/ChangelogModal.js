@@ -18,7 +18,6 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
   const finalRef = React.useRef(null);
   const addedGreen = "#37c47b";
   const fixedYellow = "#ffe91f";
-  console.log(isChangeOpen);
   return (
     <>
       <Modal
@@ -32,7 +31,7 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
           <ModalHeader>
             <Box className="searchModal">
               <Text className="whiteText mainFont" fontSize="32px">
-                changelog
+                change log
               </Text>
               <ModalCloseButton />
             </Box>
