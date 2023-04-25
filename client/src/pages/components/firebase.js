@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "@firebase/firestore";
+import { getFirestore, connectFirestoreEmulator } from "@firebase/firestore";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
-import { GithubAuthProvider } from "firebase/auth";
+import { GithubAuthProvider, connectAuthEmulator } from "firebase/auth";
 
 export const gitProvider = new GithubAuthProvider();
 
@@ -22,3 +22,8 @@ export const auth = getAuth(firebaseApp);
 const provider = new GoogleAuthProvider();
 
 export const signInWithGoogle = () => signInWithPopup(auth, provider);
+if (window.location.hostname === "localhost") {
+  connectFirestoreEmulator(db, "localhost", 8080);
+
+  connectAuthEmulator(auth, "http://localhost:9099");
+}
