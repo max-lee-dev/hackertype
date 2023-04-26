@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Text, Box, Center, Button, Input } from "@chakra-ui/react";
+import { Text, Box, Center, Button, Input, background } from "@chakra-ui/react";
 import Section from "./components/Section";
-export default function Settings() {
+export default function Settings({ setUpdatedConfig, setThemeBackground }) {
   const [stateConfig, setStateConfig] = useState(() => getConfigValues());
   const [displaySample, setDisplaySample] = useState(true);
+  const [lastTheme, setLastTheme] = useState(stateConfig["theme"]);
 
   function parseJSON(str) {
     try {
@@ -14,16 +15,27 @@ export default function Settings() {
   }
 
   function resetSettings() {
+    // this is so stupid
+    setThemeBackground("#0e0e10");
+
     setStateConfig({
       fontSize: 24,
       tabSize: 4,
       linesDisplayed: 5,
       showLiveWPM: true,
       showLinesLeft: true,
-      retrySame: false,
       language: "Java",
       toggleBrackets: false,
       font: "Inconsolata",
+      lastCheckedUpdate: 0,
+
+      // theme
+      theme: "dark",
+      themeBackground: "#0e0e10",
+      mainText: "#ffffff",
+      caretColor: "#ffffff",
+      correctText: "#d6d4d4",
+      incorrectText: "#fabbbb",
     });
   }
 
@@ -38,14 +50,25 @@ export default function Settings() {
       language: "Java",
       toggleBrackets: false,
       font: "Inconsolata",
+      lastCheckedUpdate: 0,
+
+      // theme
+      theme: "dark",
+      themeBackground: "#0e0e10",
+      mainText: "#ffffff",
+      caretColor: "#ffffff",
+      correctText: "#d6d4d4",
+      incorrectText: "#fabbbb",
     };
+
     return { ...defaultConfig, ...config };
   }
 
   useEffect(() => {
+    setUpdatedConfig(stateConfig);
     localStorage.setItem("config", JSON.stringify(stateConfig));
   }, [stateConfig]);
-
+  const configTheme = stateConfig["theme"];
   function handleChange(event, bool, font, settingName) {
     let { name, value } = event.target;
     const parseBoolean = (value) => value === "true" || value === true;
@@ -60,10 +83,77 @@ export default function Settings() {
       ...prevState,
       [name]: value,
     }));
+    console.log(stateConfig["theme"]);
+  }
+
+  var root = document.querySelector(":root");
+  useEffect(() => {
+    console.log("what");
+    root.style.setProperty("background-color", stateConfig["themeBackground"]);
+    root.style.setProperty("--caretColor", stateConfig["caretColor"]);
+    root.style.setProperty("--correctText", stateConfig["correctText"]);
+    root.style.setProperty("--incorrectText", stateConfig["incorrectText"]);
+  }, [stateConfig["themeBackground"]]);
+
+  function changeTheme(theme) {
+    switch (theme) {
+      case "dark":
+        darkTheme();
+        break;
+      case "light":
+        lightTheme();
+        break;
+      default:
+        console.log("error");
+    }
+  }
+
+  function darkTheme(temp) {
+    if (!temp) setLastTheme("dark");
+    let tempTheme = temp ? "temp" : "theme";
+
+    const background = "#0e0e10";
+
+    setStateConfig((prevState) => ({
+      ...prevState,
+      [tempTheme]: "dark",
+      ["themeBackground"]: background,
+      ["transparentText"]: "#ffffff",
+      ["mainText"]: "#ffffff",
+      ["caretColor"]: "#ffffff",
+      ["correctText"]: "#d6d4d4",
+      ["incorrectText"]: "#fabbbb",
+
+      // ["themeButton"]: "#ffffff",
+      // ["themeButtonHover"]: "#ffffff",
+      // ["themeButtonActive"]: "#ffffff",
+      // ["themeButtonFocus"]: "#ffffff",
+      // ["themeButtonDisabled"]: "#ffffff",
+    }));
+    setThemeBackground(background);
+  }
+
+  function lightTheme(temp) {
+    if (!temp) setLastTheme("light");
+    let tempTheme = temp ? "temp" : "theme";
+
+    const background = "#ededed";
+
+    setStateConfig((prevState) => ({
+      ...prevState,
+      [tempTheme]: "light",
+      ["themeBackground"]: background,
+      ["transparentText"]: "#000000",
+      ["mainText"]: "#0e0e10",
+      ["caretColor"]: "#0e0e10",
+      ["correctText"]: "#302d2d",
+      ["incorrectText"]: "#fabbbb",
+    }));
+    setThemeBackground(background);
   }
 
   return (
-    <Section delay={0.1}>
+    <Section delay={0.1} bgColor="red">
       <Center>
         <Box width="70%" className=" mainFont font500">
           <Center>
@@ -78,7 +168,7 @@ export default function Settings() {
                       <Box paddingLeft="5rem">
                         <Box paddingBottom="3rem" display="flex" justifyContent={"space-between"}>
                           <Text fontSize="18px" className="grayText font600">
-                            <Text color="white" fontSize="40px">
+                            <Text color={stateConfig["mainText"]} fontSize="40px">
                               font size
                             </Text>
                             character size for the word set
@@ -95,7 +185,7 @@ export default function Settings() {
                         </Box>
                         <Box paddingBottom="3rem" display="flex" justifyContent={"space-between"}>
                           <Text fontSize="18px" className="grayText font600">
-                            <Text color="white" fontSize="40px">
+                            <Text color={stateConfig["mainText"]} fontSize="40px">
                               tab size
                             </Text>
                             number of spaces for each indent in the word set
@@ -111,7 +201,7 @@ export default function Settings() {
                         </Box>
                         <Box paddingBottom="3rem" display="flex" justifyContent={"space-between"}>
                           <Text fontSize="18px" className="grayText font600">
-                            <Text color="white" fontSize="40px">
+                            <Text color={stateConfig["mainText"]} fontSize="40px">
                               lines displayed
                             </Text>
                             number of lines displayed while typing
@@ -127,7 +217,7 @@ export default function Settings() {
                         </Box>
                         <Box paddingBottom="3rem" display="flex" justifyContent={"space-between"}>
                           <Text fontSize="18px" className="grayText font600">
-                            <Text color="white" fontSize="40px">
+                            <Text color={stateConfig["mainText"]} fontSize="40px">
                               toggle closing brackets
                             </Text>
                             automatically fill in closing brackets: ] } ) (a lil broken rn)
@@ -146,7 +236,7 @@ export default function Settings() {
                           <Box display="flex" justifyContent={"space-between"}>
                             <Text fontSize="18px" className="grayText font600">
                               <Box display="flex" className="standardButton">
-                                <Text color="white" fontSize="40px">
+                                <Text color={stateConfig["mainText"]} fontSize="40px">
                                   font family
                                 </Text>
                               </Box>
@@ -158,7 +248,7 @@ export default function Settings() {
                             <Box paddingRight="10px">
                               <Box width="10%" fontSize="30px">
                                 <Button
-                                  width="6.5vw"
+                                  minWidth="6.5vw"
                                   name="font"
                                   value="Inconsolata"
                                   onClick={(e) => handleChange(e, false, "Inconsolata", "font")}
@@ -172,7 +262,7 @@ export default function Settings() {
                             <Box paddingRight="10px">
                               <Box width="10%" fontSize="30px">
                                 <Button
-                                  width="6.5vw"
+                                  minWidth="6.5vw"
                                   name="font"
                                   value="Fira Code"
                                   onClick={(e) => handleChange(e, false, "Fira Code", "font")}
@@ -181,10 +271,11 @@ export default function Settings() {
                                 </Button>
                               </Box>
                             </Box>
+
                             <Box paddingRight="10px">
                               <Box width="10%" fontSize="30px">
                                 <Button
-                                  width="6.5vw"
+                                  minWidth="6.5vw"
                                   name="font"
                                   value="IBM Plex Serif"
                                   onClick={(e) => handleChange(e, false, "IBM Plex Serif", "font")}
@@ -196,7 +287,7 @@ export default function Settings() {
                             <Box paddingRight="10px">
                               <Box width="10%" fontSize="30px">
                                 <Button
-                                  width="6.5vw"
+                                  minWidth="6.5vw"
                                   name="font"
                                   value="Roboto"
                                   onClick={(e) => handleChange(e, false, "Roboto", "font")}
@@ -208,7 +299,7 @@ export default function Settings() {
                             <Box paddingRight="10px">
                               <Box width="10%" fontSize="30px">
                                 <Button
-                                  width="6.5vw"
+                                  minWidth="6.5vw"
                                   name="font"
                                   value="Poppins"
                                   onClick={(e) => handleChange(e, false, "Poppins", "font")}
@@ -220,7 +311,7 @@ export default function Settings() {
                             <Box paddingRight="10px">
                               <Box width="10%" fontSize="30px">
                                 <Button
-                                  width="6.5vw"
+                                  minWidth="6.5vw"
                                   name="font"
                                   value="Inter"
                                   onClick={(e) => handleChange(e, false, "Inter", "font")}
@@ -282,7 +373,7 @@ export default function Settings() {
                   <Box paddingLeft="5rem">
                     <Box paddingBottom="3rem" display="flex" justifyContent={"space-between"}>
                       <Text fontSize="18px" className="grayText font600">
-                        <Text color="white" fontSize="40px">
+                        <Text color={stateConfig["mainText"]} fontSize="40px">
                           live WPM display
                         </Text>
                         words per minute displayed while typing
@@ -299,7 +390,7 @@ export default function Settings() {
                     </Box>
                     <Box paddingBottom="3rem" display="flex" justifyContent={"space-between"}>
                       <Text fontSize="18px" className="grayText font600">
-                        <Text color="white" fontSize="40px">
+                        <Text color={stateConfig["mainText"]} fontSize="40px">
                           show lines left
                         </Text>
                         show the number of lines left while typing
@@ -312,6 +403,51 @@ export default function Settings() {
                           colorScheme={stateConfig["showLinesLeft"] ? "green" : "red"}>
                           {stateConfig["showLinesLeft"] + ""}
                         </Button>
+                      </Box>
+                    </Box>
+                    <Box>
+                      <Box display="flex" justifyContent={"space-between"}>
+                        <Text fontSize="18px" className="grayText font600">
+                          <Box display="flex" className="standardButton">
+                            <Text color={stateConfig["mainText"]} fontSize="40px">
+                              themes (wip)
+                            </Text>
+                          </Box>
+                          customize the colors for the website
+                        </Text>
+                      </Box>
+
+                      <Box width="100%" flexWrap={"wrap"} display="flex">
+                        <Box paddingRight="10px">
+                          <Box width="10%" fontSize="30px">
+                            <Button
+                              width="6.5vw"
+                              name="theme"
+                              value="dark"
+                              onMouseEnter={() => darkTheme("temp")}
+                              onMouseLeave={() => changeTheme(lastTheme)}
+                              onClick={() => darkTheme()}
+                              colorScheme={stateConfig["theme"] === "dark" ? "green" : "red"}>
+                              <Text fontSize="20px" paddingBottom="1px" fontFamily="Inconsolata">
+                                dark
+                              </Text>
+                            </Button>
+                          </Box>
+                        </Box>
+                        <Box paddingRight="10px">
+                          <Box width="10%" fontSize="30px">
+                            <Button
+                              width="6.5vw"
+                              name="theme"
+                              value="Fira Code"
+                              onMouseEnter={() => lightTheme("temp")}
+                              onMouseLeave={() => changeTheme(lastTheme)}
+                              onClick={() => lightTheme()}
+                              colorScheme={stateConfig["theme"] === "light" ? "green" : "red"}>
+                              <Text fontFamily="Fira Code"> light</Text>
+                            </Button>
+                          </Box>
+                        </Box>
                       </Box>
                     </Box>
                   </Box>

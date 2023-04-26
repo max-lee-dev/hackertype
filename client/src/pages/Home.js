@@ -1048,7 +1048,7 @@ function App({ user, givenId }) {
       )}
       {!loading && (
         <Section delay={0.15}>
-          <Box className="body">
+          <Box className="body" bgColor={config["themeBackground"]}>
             <Box className="container">
               <Center>
                 <Box className="content">
@@ -1077,6 +1077,7 @@ function App({ user, givenId }) {
                           leetcodeTitle={leetcodeTitle}
                           retrySame={retrySame}
                           setRetrySame={setRetrySame}
+                          config={config}
                         />
                       )}
                     </Box>
@@ -1106,7 +1107,7 @@ function App({ user, givenId }) {
                         <Box className="mainFont">
                           <Center>
                             <HStack spacing="0">
-                              <Text fontSize="24px" className="mainFont font500">
+                              <Text fontSize="24px" color={config["mainText"]} className="mainFont font500">
                                 {leetcodeTitle}
                               </Text>
                               <Tooltip label="View leaderboard">
@@ -1224,6 +1225,8 @@ function App({ user, givenId }) {
                           autoFocus
                           autoComplete="off"
                           spellCheck={false}
+                          autoCapitalize="none"
+                          autoCorrect="off"
                           ref={inputElement}
                           position="absolute"
                         />

@@ -352,7 +352,6 @@ html::-webkit-scrollbar-track {
     padding-top:3rem;
     width: 70%;
     position: fixed;
-    background-color: rgb(14,14,16); /* Black w/opacity/see-through */
 }
 
 .nav a {
@@ -444,17 +443,15 @@ html::-webkit-scrollbar-track {
 
 .correct {
     font-size: bold;
-    color: rgb(124, 197, 124) !important;
+    color: var(--correctText) !important;
 }
 
 .incorrect {
-    color: rgb(245, 141, 141) !important;
+    color: var(--incorrectText) !important;
 
 }
 
-.active {
-    color:rgb(222, 222, 222) !important;
-}
+
 
 .displayText {
     user-select: none;
@@ -595,7 +592,10 @@ html::-webkit-scrollbar-track {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 :root {
-    background-color: rgb(14,14,16);
+    background-color: --chakra-colors-brand-100;
+    --correctText: #d6d4d4;
+    --incorrectText: #fabbbb;
+    --caretColor: rgb(244,244,244);
     --maintext: rgb(244,244,244);
 }
 
@@ -735,26 +735,26 @@ cursor: none;
 }
 
 @keyframes blinkbehind {
-    0% { box-shadow: -3px 0 0 0 white; }
-    25% { box-shadow: -3px 0 0 0 white;}
+    0% { box-shadow: -3px 0 0 0 var(--caretColor); }
+    25% { box-shadow: -3px 0 0 0 var(--caretColor);}
     50% { box-shadow: -3px 0 0 0 transparent; }
-    75% { box-shadow: -3px 0 0 0 white;}
-    100% { box-shadow: -3px 0 0 0 white;}
+    75% { box-shadow: -3px 0 0 0 var(--caretColor);}
+    100% { box-shadow: -3px 0 0 0 var(--caretColor);}
 }
 
 .cursor {
-    box-shadow: 3px 0 0 0 white;
+    box-shadow: 3px 0 0 0 var(--caretColor);
     animation: blink 1s infinite;
 
 
 }
 
 @keyframes blink {
-    0% { box-shadow: 3px 0 0 0 white; }
-    25% { box-shadow: 3px 0 0 0 white;}
+    0% { box-shadow: 3px 0 0 0 var(--caretColor); }
+    25% { box-shadow: 3px 0 0 0 var(--caretColor);}
     50% { box-shadow: 3px 0 0 0 transparent; }
-    75% { box-shadow: 3px 0 0 0 white;}
-    100% { box-shadow: 3px 0 0 0 white;}
+    75% { box-shadow: 3px 0 0 0 var(--caretColor);}
+    100% { box-shadow: 3px 0 0 0 var(--caretColor);}
 }
 
 .textContainer input:focus {
@@ -928,7 +928,7 @@ cursor: none;
 .currentCorrect {
     /* color: rgb(124, 197, 124);
     font-weight: bold; */
-    color:rgb(124, 197, 124) !important;
+    color:var(--correctText) !important;
 }
 
 .underlineRed {
@@ -937,7 +937,7 @@ cursor: none;
 }
 
 .currentIncorrect {
-    color: rgb(245, 141, 141) !important;
+    color:var(--incorrectText) !important;
 }
 
 .maintext {

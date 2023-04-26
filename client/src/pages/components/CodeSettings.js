@@ -48,6 +48,7 @@ export default function CodeSettings({
 
   retrySame,
   setRetrySame,
+  config,
 }) {
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
@@ -171,7 +172,7 @@ export default function CodeSettings({
                 <HStack>
                   <Box>
                     <Button _hover={{ bg: "#a0a0a0" }} onClick={() => Restart("C++", wordLimit)}>
-                      <Text color={language === "C++" ? "white" : ""}> C++</Text>
+                      <Text color={language === "C++" ? config["mainText"] : ""}> C++</Text>
                     </Button>
                     <Center>
                       <Tooltip label={`Picking from ${cppRange} C++ solutions`}>
@@ -186,7 +187,7 @@ export default function CodeSettings({
                       _hover={{ bg: "#a0a0a0" }}
                       backgroundColor={language === "Java" ? "" : "#404040"}
                       onClick={() => Restart("Java", wordLimit)}>
-                      <Text color={language === "Java" ? "white" : ""}> Java</Text>
+                      <Text color={language === "Java" ? config["mainText"] : ""}> Java</Text>
                     </Button>
                     <Center>
                       <Tooltip label={`Picking from ${javaRange} Java solutions`}>
@@ -202,7 +203,7 @@ export default function CodeSettings({
                       _hover={{ bg: "#a0a0a0" }}
                       backgroundColor={language === "Python" ? "" : "#404040"}
                       onClick={() => Restart("Python", wordLimit)}>
-                      <Text color={language === "Python" ? "white" : ""}> Python</Text>
+                      <Text color={language === "Python" ? config["mainText"] : ""}> Python</Text>
                     </Button>
                     <Center>
                       <Tooltip label={`Picking from ${pythonRange} Python solutions`}>

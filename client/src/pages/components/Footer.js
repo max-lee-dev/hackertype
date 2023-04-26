@@ -12,7 +12,7 @@ export default function Footer() {
     localStorage.setItem("lastCheckedUpdate", Date.parse(new Date()));
   }
   return (
-    <Box marginTop="110px" bgColor={""} display="flex" justifyContent={"center"}>
+    <Box paddingTop="110px" display="flex" justifyContent={"center"}>
       <HStack spacing="0">
         <Box fontSize="36px">
           <Link to="https://github.com/max-lee-dev/hackertype">

@@ -22,8 +22,3 @@ export const auth = getAuth(firebaseApp);
 const provider = new GoogleAuthProvider();
 
 export const signInWithGoogle = () => signInWithPopup(auth, provider);
-if (window.location.hostname === "localhost") {
-  connectFirestoreEmulator(db, "localhost", 8080);
-
-  connectAuthEmulator(auth, "http://localhost:9099");
-}

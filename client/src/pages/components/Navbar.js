@@ -5,8 +5,9 @@ import logo from "./assets/favicon.ico";
 import ChangelogModal from "./ChangelogModal.js";
 
 import { Text, Box, Divider, Center, Button, Stack, useDisclosure } from "@chakra-ui/react";
-export default function Navbar() {
+export default function Navbar({ updatedConfig }) {
   const [user, setUser] = useState(null);
+
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
   useEffect(() => {
@@ -31,12 +32,12 @@ export default function Navbar() {
     <Center>
       <Box width="100%">
         <Center>
-          <nav className="nav">
+          <Box as="nav" className="nav">
             <Box className="Logo whiteText" fontWeight="500">
               <NavLink onClick={changeLocation} to="/" className="site-title">
                 <Box fontSize="24px" className="Logo">
                   {" "}
-                  hackertype{" "}
+                  <Text color={updatedConfig["mainText"]}>hackertype </Text>
                 </Box>
               </NavLink>
               <NavLink onClick={changeLocation} to="/" className="site-title">
@@ -81,7 +82,7 @@ export default function Navbar() {
                 </li>
               </ul>
             </Box>
-          </nav>
+          </Box>
         </Center>
       </Box>
     </Center>

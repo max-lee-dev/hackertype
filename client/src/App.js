@@ -28,6 +28,8 @@ function App() {
 
   //eslint-disable-next-line
   const [stateConfig, setStateConfig] = useState(() => getConfigValues());
+  const [themeBackground, setThemeBackground] = useState(stateConfig["themeBackground"]);
+  const [updatedConfig, setUpdatedConfig] = useState(stateConfig);
 
   // thank you samyok
   function parseJSON(str) {
@@ -50,6 +52,14 @@ function App() {
       toggleBrackets: false,
       font: "Inconsolata",
       lastCheckedUpdate: 0,
+
+      // theme
+      theme: "dark",
+      themeBackground: "#0e0e10",
+      mainText: "#ffffff",
+      caretColor: "#ffffff",
+      correctText: "#d6d4d4",
+      incorrectText: "#fabbbb",
     };
     return { ...defaultConfig, ...config };
   }
@@ -107,8 +117,12 @@ function App() {
     colors: {
       brand: {
         100: "#545e56",
+
         // ...
         900: "#1a202c",
+      },
+      background: {
+        100: "#f7fafc",
       },
     },
     components: {
@@ -124,11 +138,10 @@ function App() {
   });
 
   if (userData && !loading) {
-    console.log(userData.lastId);
     return (
-      <>
+      <Box bgColor={themeBackground}>
         <ChakraProvider theme={theme}>
-          <NavBar gitLogin={gitLogin} />
+          <NavBar gitLogin={gitLogin} updatedConfig={updatedConfig} />
           <Box minHeight="80vh">
             <Routes>
               <Route path="/" element={<Home user={user} givenId={userData.lastId} />} />
@@ -143,13 +156,18 @@ function App() {
               />
               <Route path="/profile/:username" element={<Profile setId={setId} />} />
               <Route path="/solutions/:givenLanguage/:number" element={<Home user={user} givenId={id} />} />
-              <Route path="/settings" element={<Settings />} />
+              <Route
+                path="/settings"
+                element={
+                  <Settings setUpdatedConfig={setUpdatedConfig} setThemeBackground={setThemeBackground} />
+                }
+              />
             </Routes>
           </Box>
           <Footer />
         </ChakraProvider>
         <Analytics />
-      </>
+      </Box>
     );
   }
 }
