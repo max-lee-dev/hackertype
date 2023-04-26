@@ -42,10 +42,26 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
               <Box paddingBottom="30px">
                 <Text className="whiteText mainFont">
                   <Text fontSize="24px" color="#FFCD29">
-                    4/23/2023
+                    4/26/2023
                     <Badge marginBottom="3px" fontSize={"14px"} ml="2" colorScheme="green">
                       new
                     </Badge>
+                  </Text>
+                  <Text>
+                    quick update. started adding themes instead cuz i felt like it. lots of things wrong
+                    currently with light theme but will fix soon.
+                  </Text>
+                  <Box paddingTop="15px">
+                    <Text color={addedGreen}>added: </Text>
+                    <Text>- light theme</Text>
+                  </Box>
+                </Text>
+              </Box>
+              <Divider />
+              <Box paddingTop="30px" paddingBottom="30px">
+                <Text className="whiteText mainFont">
+                  <Text fontSize="24px" color="gray">
+                    4/23/2023
                     <Text color="gray">v2.1.0</Text>
                   </Text>
                   <Text>

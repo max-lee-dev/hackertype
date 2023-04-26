@@ -68,6 +68,7 @@ function App() {
     localStorage.setItem("config", JSON.stringify(stateConfig));
   }, [stateConfig]);
   const auth = getAuth();
+  var root = document.querySelector(":root");
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -76,6 +77,13 @@ function App() {
         setUser(null);
       }
     });
+
+    // reload css properties on refresh
+    root.style.setProperty("background-color", stateConfig["themeBackground"]);
+    root.style.setProperty("--caretColor", stateConfig["caretColor"]);
+    root.style.setProperty("--correctText", stateConfig["correctText"]);
+    root.style.setProperty("--incorrectText", stateConfig["incorrectText"]);
+
     //eslint-disable-next-line
   }, []);
 
