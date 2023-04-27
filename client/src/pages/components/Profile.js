@@ -15,7 +15,7 @@ import Submission from "./Submission";
 import DailySolutionChart from "./DailySolutionChart";
 import Section from "./Section";
 
-export default function Profile({ setId }) {
+export default function Profile({ setId, config }) {
   async function signout() {
     await signOut(auth);
     window.location.replace("/");
@@ -118,7 +118,7 @@ export default function Profile({ setId }) {
         <Box className="profileContainer" paddingTop="30px">
           <Box className="userTitleContainer">
             <Section delay={0.1}>
-              <Box className="userTitleCard whiteText">
+              <Box className="userTitleCard" color={config["mainText"]}>
                 <Box className="userTitle mainFont font500">
                   <HStack spacing="-1">
                     {!loading && !profileUserData && <Text fontSize="56px">User not found...</Text>}
@@ -138,7 +138,7 @@ export default function Profile({ setId }) {
                     )}
                   </HStack>
                   {profileUserData && (
-                    <Text fontSize="22px" className="grayText font400">
+                    <Text fontSize="22px" color={config["subtleText"]} className=" font400">
                       joined {dateString}
                     </Text>
                   )}
@@ -159,7 +159,7 @@ export default function Profile({ setId }) {
                             {numberWorldRecords}
                           </Text>
                         )}
-                        <Text fontSize="22px" className="grayText font400">
+                        <Text fontSize="22px" color={config["subtleText"]} className=" font400">
                           world records
                         </Text>
                       </Box>
@@ -170,7 +170,7 @@ export default function Profile({ setId }) {
                             {profileUserData?.average_wpm}
                           </Text>
                         )}
-                        <Text fontSize="22px" className="grayText font400">
+                        <Text fontSize="22px" color={config["subtleText"]} className=" font400">
                           average WPM
                         </Text>
                       </Box>
@@ -179,7 +179,7 @@ export default function Profile({ setId }) {
                         <Text fontSize="36px" className="font400">
                           {profileUserData?.tests_started}
                         </Text>
-                        <Text fontSize="22px" className="grayText font400">
+                        <Text fontSize="22px" color={config["subtleText"]} className=" font400">
                           started
                         </Text>
                       </Box>
@@ -188,7 +188,7 @@ export default function Profile({ setId }) {
                         <Text fontSize="36px" className="font400">
                           {profileUserData?.tests_completed}
                         </Text>
-                        <Text fontSize="22px" className="grayText font400">
+                        <Text fontSize="22px" color={config["subtleText"]} className=" font400">
                           completed
                         </Text>
                       </Box>
@@ -220,7 +220,7 @@ export default function Profile({ setId }) {
                       <Text
                         alignSelf="center"
                         paddingLeft="20px"
-                        color="gray"
+                        color={config["subtleText"]}
                         fontSize="15px"
                         className="mainFont"
                         fontWeight="200">
@@ -242,7 +242,7 @@ export default function Profile({ setId }) {
                       <Text
                         alignSelf="center"
                         paddingLeft="20px"
-                        color="gray"
+                        color={config["subtleText"]}
                         fontSize="15px"
                         className="mainFont"
                         fontWeight="200">
@@ -257,7 +257,7 @@ export default function Profile({ setId }) {
           <Section delay={0.4}>
             <Center>
               <Box paddingTop="60px">
-                <Box className="submissionContentContainer whiteText">
+                <Box className="submissionContentContainer" color={config["mainText"]}>
                   <Box className="submissionContainer" width="100%" marginLeft={"0px"}>
                     <Box className="submissionCard mainFont">
                       <Stack direction="row" spacing="2">
@@ -268,10 +268,13 @@ export default function Profile({ setId }) {
                             </Text>
                           )}
 
-                          {!loading && recentSubmissions.map((submission) => <Submission uid={submission} />)}
+                          {!loading &&
+                            recentSubmissions.map((submission) => (
+                              <Submission uid={submission} config={config} />
+                            ))}
 
                           {!loading && !recentSubmissions[0] && (
-                            <Text fontSize="22px" className="grayText font400">
+                            <Text fontSize="22px" color={config["subtleText"]} className=" font400">
                               no recent submissions
                             </Text>
                           )}
@@ -293,7 +296,7 @@ export default function Profile({ setId }) {
                           {!loading && bestSubmissions.map((submission) => <Submission uid={submission} />)}
 
                           {!loading && !bestSubmissions[0] && (
-                            <Text fontSize="22px" className="grayText font400">
+                            <Text fontSize="22px" color={config["subtleText"]} className=" font400">
                               no recent submissions
                             </Text>
                           )}

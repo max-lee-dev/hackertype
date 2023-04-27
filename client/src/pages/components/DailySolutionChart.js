@@ -7,7 +7,9 @@ import { db } from "./firebase";
 export default function DailySolutionChart({ username }) {
   const [loading, setLoading] = useState(true);
   const [graphData, setGraphData] = useState({});
-
+  const css = document.querySelector(":root");
+  const style = getComputedStyle(css);
+  var mainText = style.getPropertyValue("--maintext");
   useEffect(() => {
     setLoading(true);
     async function getGraphSubmissions() {
@@ -36,7 +38,7 @@ export default function DailySolutionChart({ username }) {
           {
             label: "Daily Submissions",
             data: mapArray.map((data) => data[1]),
-            borderColor: "#FFCD29",
+            borderColor: mainText,
             backgroundColor: "white",
             hoverBorderColor: "#FFCD29",
             hoverBackgroundColor: "white",

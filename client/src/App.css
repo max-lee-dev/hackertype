@@ -7,12 +7,16 @@ html::-webkit-scrollbar {
 }
 
 html::-webkit-scrollbar-thumb {
-    background-color: #7775;
+    background-color: var(--subtleText);
 }
 
 html::-webkit-scrollbar-thumb:hover {
     background-color: #777;
 }
+
+
+
+
 
 .scroll {
 
@@ -22,7 +26,7 @@ html::-webkit-scrollbar-thumb:hover {
     }
   
     &::-webkit-scrollbar-thumb {
-        background-color: #7775;
+        background-color: var(--subtleText);
   
      
     } 
@@ -31,7 +35,7 @@ html::-webkit-scrollbar-thumb:hover {
 
     }
     &::-webkit-scrollbar-track {
-        background-color: rgba(58, 56, 56, 0.333);
+        background-color: rgba(--subtleText, 0.333);
     }
   }
 
@@ -70,13 +74,9 @@ html::-webkit-scrollbar-thumb:hover {
     font-size: 1.5rem;
 }
 
-html::-webkit-scrollbar-track {
-    background-color: rgba(14,12,16,0.12);
-}
 
-html::-webkit-scrollbar-track {
-    background-color: rgb(14,12,16)
-}
+
+
 
 .userTitleContainer {
     
@@ -331,7 +331,7 @@ html::-webkit-scrollbar-track {
     text-decoration: underline;
 }
 .glow {
-    color: #fff;
+    color: var(--maintext);
     text-shadow: 0px 0px 10px rgb(240, 229, 23), 0px 0px 5px rgb(252, 252, 25);
   }
   
@@ -343,7 +343,7 @@ html::-webkit-scrollbar-track {
     z-index: 50;
     font-family: 'Fira Code', monospace;
     font-weight: 400;
-    color: rgb(161, 161, 161);
+    color: var(--subtleText);
     display: flex;
     justify-content: space-between;
     align-items: stretch;
@@ -395,14 +395,18 @@ html::-webkit-scrollbar-track {
     background-color: transparent;
 }
 
+.mainTextClass {
+    color: var(--maintext);
+}
+
 .nav a.active:not(.site-title):not(.settingsNavButton) {
-    color: #ffffff;
+    color: var(--maintext);
     text-shadow: 0 0 5px #fff, 0 0 5px #fff, 0 0 42px #0fa, 0 0 92px #0fa,0 0 92px #0fa;
     
 }
 
 .standardButton button {
-    color: gray;
+    color: var(--subtleText);
     background-color: transparent;
 }
 
@@ -412,7 +416,7 @@ html::-webkit-scrollbar-track {
 }
 
 .standardButton button:active {
-    color: gray;
+    color: var(--subtleText);
     background-color: transparent;
 }
 
@@ -431,7 +435,7 @@ html::-webkit-scrollbar-track {
 
 
 .nav li:hover {
-    color: white;
+    color: var(--maintext);
     
 }
 
@@ -454,6 +458,7 @@ html::-webkit-scrollbar-track {
 
 
 .displayText {
+    
     user-select: none;
     
 }
@@ -550,7 +555,7 @@ html::-webkit-scrollbar-track {
 
 
 .displayText span{
-    color: rgb(127,127,127);
+    color: var(--subtleText);
     white-space: pre;
     user-select: none;
     word-break: break-all !important;
@@ -593,11 +598,23 @@ html::-webkit-scrollbar-track {
 }
 :root {
     background-color: --chakra-colors-brand-100;
+    --backgroundColor: #1f1f1f;
+    --subtleText: #a8a8a8;
     --correctText: #d6d4d4;
     --incorrectText: #fabbbb;
     --caretColor: rgb(244,244,244);
     --maintext: rgb(244,244,244);
 }
+
+.backgroundColor {
+    background-color: var(--backgroundColor);
+}
+
+.subtleTextColor {
+    color: var(--subtleText);
+}
+
+
 
 
 
@@ -679,6 +696,7 @@ html::-webkit-scrollbar-track {
     width: 90%;
     border-color: black;
     font-family: 'Inconsolata', sans-serif;
+    
 
 }
 
@@ -946,7 +964,7 @@ cursor: none;
 
 .whiteUnderline {
     text-decoration: underline;
-    text-decoration-color: rgb(244,244,244);
+    text-decoration-color: var(--maintext);
 }
 
 

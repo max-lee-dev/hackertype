@@ -7,7 +7,7 @@ import LeaderboardModal from "./components/LeaderboardModal";
 import Section from "./components/Section";
 
 import WpmLineChart from "./components/WpmLineChart";
-export default function Leaderboard() {
+export default function Leaderboard({ config }) {
   const [loading, setLoading] = useState(true);
   const [top, setTop] = useState([]);
   const [language, setLanguage] = useState("Java");
@@ -75,7 +75,7 @@ export default function Leaderboard() {
         <Box className="profileContainer">
           <Box className="userTitle mainFont font500">
             <Box>
-              <Box width="100%" paddingTop="80px" className="whiteText">
+              <Box width="100%" paddingTop="80px" color={config["mainText"]}>
                 <HStack>
                   <Text fontSize="56px">leaderboard</Text>
 
@@ -98,19 +98,19 @@ export default function Leaderboard() {
                   </Box>
                 </HStack>
               </Box>
-              <Box width="100%" paddingTop="8px" className="font400 standardButton whiteText">
+              <Box width="100%" paddingTop="8px" className="font400 standardButton ">
                 <Button onClick={() => setLanguage("C++")}>
-                  <Text fontSize="22px" className={language === "C++" ? "whiteText" : ""}>
+                  <Text fontSize="22px" color={language === "C++" ? config["mainText"] : ""}>
                     C++
                   </Text>
                 </Button>
                 <Button onClick={() => setLanguage("Java")}>
-                  <Text fontSize="22px" className={language === "Java" ? "whiteText" : ""}>
+                  <Text fontSize="22px" color={language === "Java" ? config["mainText"] : ""}>
                     Java
                   </Text>
                 </Button>
                 <Button onClick={() => setLanguage("Python")}>
-                  <Text fontSize="22px" className={language === "Python" ? "whiteText" : ""}>
+                  <Text fontSize="22px" color={language === "Python" ? config["mainText"] : ""}>
                     Python
                   </Text>
                 </Button>
@@ -133,7 +133,7 @@ export default function Leaderboard() {
                             <Button onClick={() => showLeaderboardModal(solution.solution_id)}>
                               <Text
                                 fontSize="25px"
-                                className={selectedCode === solution.solution_id ? "whiteText" : ""}>
+                                color={selectedCode === solution.solution_id ? config["mainText"] : ""}>
                                 {solution.solution_id}
                               </Text>
                             </Button>

@@ -32,7 +32,7 @@ export default function Navbar({ updatedConfig }) {
     <Center>
       <Box width="100%">
         <Center>
-          <Box as="nav" className="nav">
+          <Box as="nav" className="nav" bgColor={updatedConfig["themeBackground"]}>
             <Box className="Logo whiteText" fontWeight="500">
               <NavLink onClick={changeLocation} to="/" className="site-title">
                 <Box fontSize="24px" className="Logo">

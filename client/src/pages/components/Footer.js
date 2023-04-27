@@ -2,9 +2,9 @@ import React from "react";
 import { Box, Text, Center, useDisclosure, HStack, VStack, Tooltip, Badge } from "@chakra-ui/react";
 import { Link, NavLink } from "react-router-dom";
 import ChangelogModal from "./ChangelogModal.js";
-export default function Footer() {
+export default function Footer({ config }) {
   const { isOpen: isChangeOpen, onClose: onChangeClose, onOpen: onChangeOpen } = useDisclosure();
-  const lastUpdateTime = 1682483606000;
+  const lastUpdateTime = 1682567959000;
   // console.log(Date.parse(new Date()));
   const seenUpdate = localStorage.getItem("lastCheckedUpdate") > lastUpdateTime;
   function open() {
@@ -17,7 +17,9 @@ export default function Footer() {
         <Box fontSize="36px">
           <Link to="https://github.com/max-lee-dev/hackertype">
             <Center>
-              <ion-icon name="logo-github"></ion-icon>
+              <Box color={config["subtleText"]}>
+                <ion-icon name="logo-github"></ion-icon>
+              </Box>
             </Center>
           </Link>
         </Box>
@@ -25,8 +27,12 @@ export default function Footer() {
           <Tooltip label="Change log">
             <NavLink onClick={open}>
               <VStack>
-                {!seenUpdate && <Badge colorScheme="green">new</Badge>}
-                <Box paddingBottom="3px" color={seenUpdate ? "gray" : "white"}>
+                {!seenUpdate && (
+                  <Badge bgColor={config["subtleText"]} color={config["themeBackground"]}>
+                    new
+                  </Badge>
+                )}
+                <Box paddingBottom="4px" color={seenUpdate ? config["subtleText"] : config["mainText"]}>
                   <ion-icon name="clipboard"></ion-icon>
                 </Box>
                 {!seenUpdate && <Box paddingBottom="18px"></Box>}

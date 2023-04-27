@@ -73,16 +73,16 @@ export default function CodeSettings({
                       <IconButton
                         className="standardButton"
                         fontSize="20px"
-                        _hover={{ color: "white" }}
+                        _hover={{ color: config["mainText"] }}
                         _active={{ background: "transparent" }}
                         icon={<EditIcon />}
                         variant="outline"
                         borderColor="transparent"
                         name="retrySame"
-                        colorScheme="whiteAlpha"
+                        color={config["subtleText"]}
                         onClick={onWordsOpen}></IconButton>
 
-                      <Text color={displayLimit ? "gray" : "transparent"}>
+                      <Text color={displayLimit ? config["subtleText"] : "transparent"}>
                         {!displayLimit ? "all" : displayLimit}
                       </Text>
                     </VStack>
@@ -95,11 +95,11 @@ export default function CodeSettings({
                             width={"50px"}
                             className="standardButton"
                             fontSize="20px"
-                            _hover={{ color: "white" }}
+                            _hover={{ color: config["mainText"] }}
                             _active={{ background: "transparent" }}
                             variant="outline"
                             borderColor="transparent"
-                            colorScheme="whiteAlpha"
+                            color={config["subtleText"]}
                             name="retrySame"
                             onClick={(e) => handleChange("retrySame", false, "bool")}>
                             <Box color="#FFCD29">
@@ -114,11 +114,11 @@ export default function CodeSettings({
                             width={"50px"}
                             className="standardButton"
                             fontSize="20px"
-                            _hover={{ color: "white" }}
+                            _hover={{ color: config["mainText"] }}
                             _active={{ background: "transparent" }}
                             variant="outline"
                             borderColor="transparent"
-                            colorScheme="whiteAlpha"
+                            color={config["subtleText"]}
                             name="retrySame"
                             onClick={(e) => handleChange("retrySame", true, "bool")}>
                             <Box>
@@ -142,8 +142,12 @@ export default function CodeSettings({
                           _active={{ background: "transparent" }}
                           variant="outline"
                           borderColor="transparent"
-                          colorScheme="gray">
-                          <Box fontSize="28px" marginTop="0.7rem" color="gray" _hover={{ color: "white" }}>
+                          color={config["subtleText"]}>
+                          <Box
+                            fontSize="28px"
+                            marginTop="0.7rem"
+                            color={config["subtleText"]}
+                            _hover={{ color: config["mainText"] }}>
                             <ion-icon name="cog"></ion-icon>
                           </Box>
                         </NavLink>
@@ -158,8 +162,12 @@ export default function CodeSettings({
                         _active={{ background: "transparent" }}
                         variant="outline"
                         borderColor="transparent"
-                        colorScheme="gray">
-                        <Box fontSize="28px" marginTop="0.7rem" color="gray" _hover={{ color: "white" }}>
+                        color={config["subtleText"]}>
+                        <Box
+                          fontSize="28px"
+                          marginTop="0.7rem"
+                          color={config["subtleText"]}
+                          _hover={{ color: config["mainText"] }}>
                           <ion-icon name="search-outline"></ion-icon>
                         </Box>
                       </NavLink>

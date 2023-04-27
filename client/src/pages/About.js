@@ -4,14 +4,14 @@ import Section from "./components/Section.js";
 
 import {} from "@chakra-ui/icons";
 
-export default function About() {
+export default function About({ updatedConfig }) {
   return (
-    <Box paddingTop="50px" className="whiteText mainFont">
+    <Box paddingTop="50px" color={updatedConfig["mainText"]} className="mainFont">
       <Center>
         <Box paddingLeft="25px" width="70%">
           <Section delay={0.05}>
             <Heading as="h1" size="xl" mt="10">
-              <Text fontWeight="500" color="gray" className="mainFont">
+              <Text fontWeight="500" color={updatedConfig["subtleText"]} className="mainFont">
                 about
               </Text>
             </Heading>
@@ -37,7 +37,7 @@ export default function About() {
 
           <Section delay={0.1}>
             <Heading as="h2" fontSize="24px" mt="20">
-              <Text color="gray" fontWeight={400} className="mainFont">
+              <Text color={updatedConfig["subtleText"]} fontWeight={400} className="mainFont">
                 word set
               </Text>
             </Heading>
@@ -60,7 +60,7 @@ export default function About() {
 
           <Section delay={0.2}>
             <Heading as="h2" fontSize="24px" mt="20">
-              <Text color="gray" fontWeight={400} className="mainFont">
+              <Text color={updatedConfig["subtleText"]} fontWeight={400} className="mainFont">
                 wpm calculation
               </Text>
             </Heading>
@@ -75,7 +75,7 @@ export default function About() {
 
           <Section delay={0.3}>
             <Heading as="h2" fontSize="24px" mt="20">
-              <Text color="gray" fontWeight={400} className="mainFont">
+              <Text color={updatedConfig["subtleText"]} fontWeight={400} className="mainFont">
                 contact
               </Text>
             </Heading>

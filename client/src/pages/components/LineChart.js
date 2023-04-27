@@ -9,6 +9,9 @@ export default function LineChart({ username }) {
   const [graphData, setGraphData] = useState({});
   const [solutionTitles, setSolutionTitles] = useState([]);
   const [curTitle, setCurrentTitle] = useState("");
+  const css = document.querySelector(":root");
+  const style = getComputedStyle(css);
+  var mainText = style.getPropertyValue("--maintext");
   useEffect(() => {
     setLoading(true);
     async function getGraphSubmissions() {
@@ -16,7 +19,6 @@ export default function LineChart({ username }) {
       const topd = query(q, orderBy("when", "desc"), limit(50));
       const recentQuerySnapshot = await getDocs(topd);
       let tempArray = [];
-
       recentQuerySnapshot.forEach((doc) => {
         tempArray.push(doc.data());
       });
@@ -29,7 +31,7 @@ export default function LineChart({ username }) {
           {
             label: "WPM",
             data: tempArray.map((data) => data.wpm),
-            borderColor: "#FFCD29",
+            borderColor: mainText,
             backgroundColor: "white",
             scaleShowLabels: false,
             pointBackgroundColor: "#FFCD29",
@@ -39,6 +41,14 @@ export default function LineChart({ username }) {
         ],
       });
     }
+
+    ChartJS.defaults.color = style.getPropertyValue("--subtleText");
+    ChartJS.defaults.backgroundColor = style.getPropertyValue("--background-color");
+    ChartJS.defaults.pointBackgroundColor = style.getPropertyValue("--maintext");
+    ChartJS.defaults.pointHoverBackgroundColor = style.getPropertyValue("--maintext");
+    ChartJS.defaults.pointHoverBorderColor = style.getPropertyValue("--maintext");
+    ChartJS.defaults.borderColor = style.getPropertyValue("--subtleText");
+    ChartJS.defaults.scale.grid.color = "transparent";
 
     getGraphSubmissions().then(() => setLoading(false));
   }, [username]);

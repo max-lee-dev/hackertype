@@ -1116,8 +1116,8 @@ function App({ user, givenId }) {
                                     fontSize="24px"
                                     backgroundColor="transparent"
                                     _active={{ backgroundColor: "transparent" }}
-                                    _hover={{ color: "white" }}
-                                    color="grey"
+                                    _hover={{ color: config["mainText"] }}
+                                    color={config["subtleText"]}
                                     width="50px"
                                     onClick={() => onLeaderboardOpen()}>
                                     <ion-icon name="podium"></ion-icon>
@@ -1157,7 +1157,11 @@ function App({ user, givenId }) {
                       <Box>
                         <Box className="userInputContainer">
                           {!startCounting && !loading && (
-                            <Text className="mainFont" fontWeight="100" paddingLeft="5px" color="gray">
+                            <Text
+                              className="mainFont"
+                              fontWeight="100"
+                              paddingLeft="5px"
+                              color={config["subtleText"]}>
                               {preGeneratedLineIndex.length + 1} lines
                             </Text>
                           )}
@@ -1179,8 +1183,10 @@ function App({ user, givenId }) {
                                               <Center>
                                                 {user && !startCounting && !loading && (
                                                   <HStack>
-                                                    <p className="grayText font500">{thisSolutionPR} WPM </p>
-                                                    <FaCrown color="gray" />
+                                                    <p className="subtleTextColor font500">
+                                                      {thisSolutionPR} WPM{" "}
+                                                    </p>
+                                                    <FaCrown color={config["subtleText"]} />
                                                   </HStack>
                                                 )}
                                               </Center>
@@ -1303,8 +1309,9 @@ function App({ user, givenId }) {
                 <Box>
                   {!loading && !finished && (
                     <IconButton
-                      _hover={{ backgroundColor: "whiteAlpha.100" }}
-                      color="whiteAlpha.800"
+                      minW="50px"
+                      _hover={{ backgroundColor: config["subtleText"] }}
+                      color={config["mainText"]}
                       backgroundColor="transparent"
                       icon={<RepeatIcon />}
                       onClick={() => Restart(language, wordLimit)}></IconButton>
@@ -1313,7 +1320,7 @@ function App({ user, givenId }) {
               </Center>
               <Box id="userInput">
                 {!newUser && !finished && !startCounting && (
-                  <Text fontSize="14px" className="grayText mainFont font300">
+                  <Text fontSize="18px" color={config["subtleText"]} className="mainFont font300">
                     [Tab] to Restart Test
                   </Text>
                 )}

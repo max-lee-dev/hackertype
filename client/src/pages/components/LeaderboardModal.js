@@ -107,6 +107,10 @@ export default function LeaderboardModal({
     }
   }
 
+  const css = document.querySelector(":root");
+  const style = getComputedStyle(css);
+  var bgcolor = style.getPropertyValue("--backgroundColor");
+  var subtleText = style.getPropertyValue("--subtleText");
   return (
     <Center>
       <Modal
@@ -116,14 +120,14 @@ export default function LeaderboardModal({
         finalFocusRef={finalRef}
         size="6xl">
         <ModalOverlay />
-        <ModalContent backgroundColor="#0e0e10" minHeight={"800px"}>
+        <ModalContent bgColor={bgcolor} minHeight={"800px"}>
           <ModalHeader>
             <Box className="searchModal">
-              <Text className="whiteText mainFont whiteUnderline" fontSize="32px">
+              <Text className="mainTextClass mainFont whiteUnderline" fontSize="32px">
                 <Link href={`/solutions/${selectedLanguage}/${solutionNumber}`}>{givenSolName}</Link>
               </Text>
               <Text>
-                <Text className="grayText mainFont" fontSize="32px">
+                <Text className="subtleTextColor mainFont" fontSize="32px">
                   {selectedLanguage}
                 </Text>
               </Text>
@@ -132,12 +136,12 @@ export default function LeaderboardModal({
           </ModalHeader>
 
           <ModalBody>
-            <Box className="whiteText mainFont">
+            <Box className="mainTextClass mainFont">
               <HStack className="whiteText mainFont"></HStack>
               <Box display="flex">
                 <Box width="100%">
                   <Box paddingTop="15px">
-                    <Box display="flex" color="gray">
+                    <Box display="flex" color={subtleText}>
                       <Box width="25%">
                         <Text fontSize="32px">rank</Text>
                       </Box>
@@ -174,7 +178,7 @@ export default function LeaderboardModal({
                                 <Text>{sol.wpm}</Text>
                                 <Tooltip label="accuracy" placement="left">
                                   <Box width="15%">
-                                    <Text fontSize="14px" color="gray">
+                                    <Text fontSize="14px" color={subtleText}>
                                       {sol.acc}%
                                     </Text>
                                   </Box>
@@ -186,7 +190,7 @@ export default function LeaderboardModal({
                                   <Text>
                                     {sol.date[0]}
                                     <HStack>
-                                      <Text fontSize="18px" color="gray">
+                                      <Text fontSize="18px" color={subtleText}>
                                         {" "}
                                         {dateArrs[i]}
                                       </Text>
@@ -194,7 +198,7 @@ export default function LeaderboardModal({
                                   </Text>
                                 </HStack>
                                 <Tooltip label="UTC" placement="left">
-                                  <Text fontWeight="200" color="gray" fontSize="14px">
+                                  <Text fontWeight="200" color={subtleText} fontSize="14px">
                                     {" "}
                                     <Text></Text>
                                     {sol.date[1]}
@@ -229,7 +233,7 @@ export default function LeaderboardModal({
                                   <Text>{sol.wpm}</Text>
                                   <Tooltip label="accuracy" placement="left">
                                     <Box width="15%">
-                                      <Text fontSize="14px" color="gray">
+                                      <Text fontSize="14px" color={subtleText}>
                                         {sol.acc}%
                                       </Text>
                                     </Box>
@@ -241,7 +245,7 @@ export default function LeaderboardModal({
                                     <Text>
                                       {sol.date[0]}
                                       <HStack>
-                                        <Text fontSize="18px" color="gray">
+                                        <Text fontSize="18px" color={subtleText}>
                                           {" "}
                                           {dateArrs[i]}
                                         </Text>
@@ -249,7 +253,7 @@ export default function LeaderboardModal({
                                     </Text>
                                   </HStack>
                                   <Tooltip label="UTC" placement="left">
-                                    <Text fontWeight="200" color="gray" fontSize="14px">
+                                    <Text fontWeight="200" color={subtleText} fontSize="14px">
                                       {" "}
                                       <Text></Text>
                                       {sol.date[1]}

@@ -7,7 +7,9 @@ import { db } from "./firebase";
 export default function WpmLineChart({ givenData }) {
   const [graphData, setGraphData] = useState({});
   const [loading, setLoading] = useState(true);
-
+  const css = document.querySelector(":root");
+  const style = getComputedStyle(css);
+  var mainText = style.getPropertyValue("--maintext");
   useEffect(() => {
     setLoading(true);
     function getWPMGraph() {
@@ -23,10 +25,8 @@ export default function WpmLineChart({ givenData }) {
           {
             label: "WPM",
             data: mapArray.map((data) => data[1]),
-            borderColor: "#FFCD29",
+            borderColor: mainText,
             backgroundColor: "white",
-            hoverBorderColor: "#FFCD29",
-            hoverBackgroundColor: "white",
             scaleShowLabels: false,
             pointBackgroundColor: "#FFCD29",
             pointRadius: 1,
@@ -51,6 +51,10 @@ export default function WpmLineChart({ givenData }) {
                 stepSize: 50,
                 display: true,
                 beginAtZero: true,
+              },
+              gridLines: {
+                display: false,
+                width: 0,
               },
             },
             x: {

@@ -68,6 +68,11 @@ export default function Submission({ uid }) {
     }
   }
 
+  const css = document.querySelector(":root");
+  const style = getComputedStyle(css);
+  var bgcolor = style.getPropertyValue("--backgroundColor");
+  var subtleText = style.getPropertyValue("--subtleText");
+
   return (
     <div className="individualSubmissionContainer">
       <div className="submissionText">
@@ -76,7 +81,7 @@ export default function Submission({ uid }) {
             <Stack direction="row" spacing="0">
               <Tooltip label="Rank" placement="top">
                 <Box>
-                  <Text color={submission.rank === 1 ? "yellow" : "grey"} userSelect={"none"}>
+                  <Text color={submission.rank === 1 ? "yellow" : subtleText} userSelect={"none"}>
                     [#{submission.rank}]
                   </Text>
                 </Box>
@@ -88,7 +93,7 @@ export default function Submission({ uid }) {
                     fontSize=""
                     paddingBottom="14px"
                     paddingLeft="6px"
-                    className="soltitle whiteText font500"
+                    className="soltitle mainTextClass  font500"
                     _hover={{ cursor: "pointer" }}>
                     {submission.solution_id}
                   </Text>
@@ -104,7 +109,7 @@ export default function Submission({ uid }) {
                 backgroundColor="transparent"
                 _active={{ backgroundColor: "transparent" }}
                 _hover={{ color: "white" }}
-                color="grey"
+                color={subtleText}
                 width="50px"
                 paddingBottom="16px"
                 onClick={() => onLeaderboardOpen()}>
@@ -112,7 +117,9 @@ export default function Submission({ uid }) {
               </Button>
             </Box>
             <Tooltip label="WPM" placement="top">
-              <Text userSelect={"none"}>{submission.wpm} WPM</Text>
+              <Text userSelect={"none"} color={subtleText}>
+                {submission.wpm} WPM
+              </Text>
             </Tooltip>
 
             <Tooltip label="Language" placement="top">

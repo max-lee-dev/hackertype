@@ -57,9 +57,12 @@ function App() {
       theme: "dark",
       themeBackground: "#0e0e10",
       mainText: "#ffffff",
+      subtleText: "gray",
       caretColor: "#ffffff",
       correctText: "#d6d4d4",
       incorrectText: "#fabbbb",
+      themeActiveButton: "#171721",
+      themeInactiveButton: "#303038",
     };
     return { ...defaultConfig, ...config };
   }
@@ -80,6 +83,9 @@ function App() {
 
     // reload css properties on refresh
     root.style.setProperty("background-color", stateConfig["themeBackground"]);
+    root.style.setProperty("--backgroundColor", stateConfig["themeBackground"]);
+    root.style.setProperty("--subtleText", stateConfig["subtleText"]);
+    root.style.setProperty("--maintext", stateConfig["mainText"]);
     root.style.setProperty("--caretColor", stateConfig["caretColor"]);
     root.style.setProperty("--correctText", stateConfig["correctText"]);
     root.style.setProperty("--incorrectText", stateConfig["incorrectText"]);
@@ -139,7 +145,18 @@ function App() {
           _focus: {
             boxShadow: "none",
             outline: "none",
+            bgColor: stateConfig["themeActiveButton"],
           },
+
+          _hover: {
+            bgColor: stateConfig["themeActiveButton"],
+          },
+        },
+        variants: {
+          base: {},
+        },
+        defaultProps: {
+          variant: "base",
         },
       },
     },
@@ -153,16 +170,16 @@ function App() {
           <Box minHeight="80vh">
             <Routes>
               <Route path="/" element={<Home user={user} givenId={userData.lastId} />} />
-              <Route path="/about" element={<About />} />
+              <Route path="/about" element={<About updatedConfig={updatedConfig} />} />
               <Route
                 path="/leaderboard"
-                element={<Leaderboard submissions={submissions} loading={loading} />}
+                element={<Leaderboard submissions={submissions} loading={loading} config={updatedConfig} />}
               />
               <Route
                 path="/login"
                 element={<UserLogin setGitLogin={setGitLogin} user={user} setUser={setUser} />}
               />
-              <Route path="/profile/:username" element={<Profile setId={setId} />} />
+              <Route path="/profile/:username" element={<Profile setId={setId} config={updatedConfig} />} />
               <Route path="/solutions/:givenLanguage/:number" element={<Home user={user} givenId={id} />} />
               <Route
                 path="/settings"
@@ -172,7 +189,7 @@ function App() {
               />
             </Routes>
           </Box>
-          <Footer />
+          <Footer config={updatedConfig} />
         </ChakraProvider>
         <Analytics />
       </Box>

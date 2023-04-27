@@ -18,6 +18,10 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
   const finalRef = React.useRef(null);
   const addedGreen = "#37c47b";
   const fixedYellow = "#ffe91f";
+  const css = document.querySelector(":root");
+  const style = getComputedStyle(css);
+  var bgcolor = style.getPropertyValue("--backgroundColor");
+  var subtleText = style.getPropertyValue("--subtleText");
   return (
     <>
       <Modal
@@ -27,10 +31,10 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
         finalFocusRef={finalRef}
         size="6xl">
         <ModalOverlay />
-        <ModalContent backgroundColor="#0e0e10" minHeight={"500px"}>
+        <ModalContent bgColor={bgcolor} minHeight={"500px"}>
           <ModalHeader>
             <Box className="searchModal">
-              <Text className="whiteText mainFont" fontSize="32px">
+              <Text className="mainTextClass mainFont" fontSize="32px">
                 change log
               </Text>
               <ModalCloseButton />
@@ -40,12 +44,25 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
           <ModalBody>
             <Box paddingRight="30px" paddingTop="30px" height="520px" overflow="auto" className="scroll">
               <Box paddingBottom="30px">
-                <Text className="whiteText mainFont">
+                <Text className="mainTextClass mainFont">
                   <Text fontSize="24px" color="#FFCD29">
-                    4/26/2023
+                    4/27/2023
                     <Badge marginBottom="3px" fontSize={"14px"} ml="2" colorScheme="green">
                       new
                     </Badge>
+                  </Text>
+                  <Text>😁heyyyy😁</Text>
+                  <Box paddingTop="15px">
+                    <Text color={addedGreen}>added: </Text>
+                    <Text>- snooze theme</Text>
+                  </Box>
+                </Text>
+              </Box>
+              <Divider />
+              <Box paddingTop="30px" paddingBottom="30px">
+                <Text className="mainTextClass mainFont">
+                  <Text className="subtleTextColor" fontSize="24px">
+                    4/26/2023
                   </Text>
                   <Text>
                     quick update. started adding themes instead cuz i felt like it. lots of things wrong
@@ -59,10 +76,10 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
               </Box>
               <Divider />
               <Box paddingTop="30px" paddingBottom="30px">
-                <Text className="whiteText mainFont">
-                  <Text fontSize="24px" color="gray">
+                <Text className="mainTextClass mainFont">
+                  <Text fontSize="24px" className="subtleTextColor">
                     4/23/2023
-                    <Text color="gray">v2.1.0</Text>
+                    <Text className="subtleTextColor">v2.1.0</Text>
                   </Text>
                   <Text>
                     thanks for everyone sticking with for this journey. really cool to see all the new users
@@ -76,7 +93,7 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
                     <Text color={addedGreen}>added: </Text>
                     <Text>- github login</Text>
                     <Text>- font family customization</Text>
-                    <Text paddingLeft="18px" fontSize="14px" color="gray">
+                    <Text paddingLeft="18px" fontSize="14px" className="subtleTextColor">
                       email me additional fonts you want to see
                     </Text>
                     <Text>- scroll bar on modals look the same as the main site</Text>
@@ -84,7 +101,7 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
                   <Box paddingTop="15px">
                     <Text color={fixedYellow}>fixed: </Text>
                     <Text>- made logo, leetcode title, and default font size all smaller</Text>
-                    <Text paddingLeft="18px" fontSize="14px" color="gray">
+                    <Text paddingLeft="18px" fontSize="14px" className="subtleTextColor">
                       hopefully this will make the site less claustrophobic
                     </Text>
                   </Box>
@@ -92,8 +109,10 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
               </Box>
               <Divider />
               <Box paddingTop="30px" paddingBottom="30px">
-                <Text className="whiteText mainFont">
-                  <Text fontSize="24px">4/22/2023</Text>
+                <Text className="mainTextClass mainFont">
+                  <Text className="subtleTextColor" fontSize="24px">
+                    4/22/2023
+                  </Text>
                   <Text>
                     fixed the issues with ranks on the leaderboard not corresponding as well as the initial
                     bugs with google authentication. everything should be functional now but let me know via
@@ -109,8 +128,10 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
               </Box>
               <Divider />
               <Box paddingTop="30px" paddingBottom="30px">
-                <Text className="whiteText mainFont">
-                  <Text fontSize="24px">4/21/2023</Text>
+                <Text className="mainTextClass mainFont">
+                  <Text className="subtleTextColor" fontSize="24px">
+                    4/21/2023
+                  </Text>
                   <Text>
                     hi! excited to see all of the new users on the site! i know there are certain bugs with
                     leaderboard rankings and currently working on it! but right now heres a small update :)

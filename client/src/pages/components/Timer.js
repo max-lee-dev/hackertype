@@ -105,8 +105,16 @@ function Timer({
       <Box className="timerContainer " fontFamily={config["font"]} minHeight={"15vh"}>
         {showLiveWPM && (
           <Box>
-            {wpm === "Infinity" && <Text className="wpm">{0}</Text>}
-            {wpm !== "Infinity" && <Text className="wpm">{wpm}</Text>}
+            {wpm === "Infinity" && (
+              <Text color={config["subtleText"]} className="wpm">
+                {0}
+              </Text>
+            )}
+            {wpm !== "Infinity" && (
+              <Text color={config["subtleText"]} className="wpm">
+                {wpm}
+              </Text>
+            )}
           </Box>
         )}
       </Box>
@@ -124,7 +132,7 @@ function Timer({
     // specify language using BADGES (CHAKRA)
     return (
       <Section delay={0.15}>
-        <Box className="aboutContainer mainFont" paddingTop="30px">
+        <Box className="aboutContainer mainFont" color={config["mainText"]} paddingTop="30px">
           <Text>{leetcodeTitle}</Text>
           {isPR && (
             <Box>
@@ -148,7 +156,7 @@ function Timer({
             <Text
               userSelect="none"
               alignSelf="center"
-              color="gray"
+              color={config["subtleText"]}
               fontSize="15px"
               className="mainFont"
               fontWeight="200">
@@ -161,14 +169,14 @@ function Timer({
               <Stack direction="row" spacing="10">
                 <Box>
                   <Text>{finalWPM}</Text>
-                  <Text color="grey" fontSize="18px">
+                  <Text color={config["subtleText"]} fontSize="18px">
                     {" "}
                     WPM
                   </Text>
                 </Box>
                 <Box>
                   <Text>{acc}%</Text>
-                  <Text color="grey" fontSize="18px">
+                  <Text color={config["subtleText"]} fontSize="18px">
                     {" "}
                     accuracy
                   </Text>
@@ -188,7 +196,7 @@ function Timer({
                       </Tooltip>
                     )}
                   </Text>
-                  <Text color="grey" fontSize="18px">
+                  <Text color={config["subtleText"]} fontSize="18px">
                     {" "}
                     rank
                   </Text>
@@ -198,16 +206,16 @@ function Timer({
                     orientation="vertical"
                     height="20"
                     border={"1px solid"}
-                    borderColor="white"
+                    borderColor={config["mainText"]}
                     variant="none"
                   />
                 </Box>
-                <Box fontWeight={300} color="grey">
+                <Box fontWeight={300} color={config["subtleText"]}>
                   <Box>
                     {!isPR && (
                       <Box>
                         <Text>{actualPR}</Text>
-                        <Text color="grey" fontSize="18px">
+                        <Text color={config["subtleText"]} fontSize="18px">
                           pr
                         </Text>
                       </Box>
@@ -216,7 +224,7 @@ function Timer({
                     {user && isPR && (
                       <Box>
                         <Text>{actualPR}</Text>
-                        <Text color="grey" fontSize="18px">
+                        <Text color={config["subtleText"]} fontSize="18px">
                           old pr
                         </Text>
                       </Box>
