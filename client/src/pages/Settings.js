@@ -35,11 +35,14 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
       // theme
       theme: "dark",
       themeBackground: "#0e0e10",
+      logoColor: "#FFCD29",
       mainText: "#ffffff",
       subtleText: "gray",
       caretColor: "#ffffff",
       correctText: "#d6d4d4",
       incorrectText: "#fabbbb",
+      themeActiveButton: "#171721",
+      themeInactiveButton: "#303038",
     });
   }
 
@@ -59,11 +62,14 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
       // theme
       theme: "dark",
       themeBackground: "#0e0e10",
+      logoColor: "#FFCD29",
       mainText: "#ffffff",
       subtleText: "gray",
       caretColor: "#ffffff",
       correctText: "#d6d4d4",
       incorrectText: "#fabbbb",
+      themeActiveButton: "#171721",
+      themeInactiveButton: "#303038",
     };
 
     return { ...defaultConfig, ...config };
@@ -73,7 +79,6 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
     setUpdatedConfig(stateConfig);
     localStorage.setItem("config", JSON.stringify(stateConfig));
   }, [stateConfig]);
-  const configTheme = stateConfig["theme"];
   function handleChange(event, bool, font, settingName) {
     let { name, value } = event.target;
     const parseBoolean = (value) => value === "true" || value === true;
@@ -93,6 +98,7 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
   useEffect(() => {
     root.style.setProperty("background-color", stateConfig["themeBackground"]);
     root.style.setProperty("--backgroundColor", stateConfig["themeBackground"]);
+    root.style.setProperty("--logoColor", stateConfig["logoColor"]);
     root.style.setProperty("--subtleText", stateConfig["subtleText"]);
     root.style.setProperty("--caretColor", stateConfig["caretColor"]);
     root.style.setProperty("--maintext", stateConfig["mainText"]);
@@ -132,6 +138,7 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
       ["caretColor"]: "#ffffff",
       ["correctText"]: "#d6d4d4",
       ["incorrectText"]: "#fabbbb",
+      ["logoColor"]: "#FFCD29",
       ["themeActiveButton"]: "#171721",
       ["themeInactiveButton"]: "#303038",
 
@@ -157,7 +164,7 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
       ["transparentText"]: "#000000",
       ["mainText"]: "#0e0e10",
       ["subtleText"]: "#8c8c8c",
-
+      ["logoColor"]: "#FFCD29",
       ["caretColor"]: "#0e0e10",
       ["correctText"]: "#302d2d",
       ["incorrectText"]: "#fabbbb",
@@ -180,12 +187,34 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
       ["transparentText"]: "#000000",
       ["mainText"]: "#4ab5f7",
       ["subtleText"]: "#a1ade6",
-
+      ["logoColor"]: "#ed9f39",
       ["caretColor"]: "#2884bd",
       ["correctText"]: "#cceafc",
       ["incorrectText"]: "#a6559e",
-      ["themeActiveButton"]: "#adadb3",
-      ["themeInactiveButton"]: "#d0d0d6",
+      ["themeActiveButton"]: "#54ddff",
+      ["themeInactiveButton"]: "#def4fa",
+    }));
+    setThemeBackground(background);
+  }
+
+  function OwOTheme(temp) {
+    if (!temp) setLastTheme("OwO");
+    let tempTheme = temp ? "temp" : "theme";
+
+    const background = "#f2d8ec";
+
+    setStateConfig((prevState) => ({
+      ...prevState,
+      [tempTheme]: "OwO",
+      ["themeBackground"]: background,
+      ["mainText"]: "#eb8fd5",
+      ["subtleText"]: "#b898b0",
+      ["logoColor"]: "#e60b58",
+      ["caretColor"]: "#cc72a2",
+      ["correctText"]: "#ff73fd",
+      ["incorrectText"]: "#940320",
+      ["themeActiveButton"]: "#e036c4",
+      ["themeInactiveButton"]: "#f5c9ed",
     }));
     setThemeBackground(background);
   }
@@ -218,6 +247,8 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
                               autoComplete="off"
                               name="fontSize"
                               onChange={handleChange}
+                              borderWidth={"3px"}
+                              borderColor={stateConfig["mainText"]}
                               type="text"></Input>
                           </Box>
                         </Box>
@@ -234,6 +265,8 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
                               autoComplete="off"
                               name="tabSize"
                               onChange={handleChange}
+                              borderWidth={"3px"}
+                              borderColor={stateConfig["mainText"]}
                               type="text"></Input>
                           </Box>
                         </Box>
@@ -250,31 +283,12 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
                               name="linesDisplayed"
                               autoComplete="off"
                               onChange={handleChange}
+                              borderWidth={"3px"}
+                              borderColor={stateConfig["mainText"]}
                               type="text"></Input>
                           </Box>
                         </Box>
-                        <Box paddingBottom="3rem" display="flex" justifyContent={"space-between"}>
-                          <Text fontSize="18px" color={stateConfig["subtleText"]} className=" font600">
-                            <Text color={stateConfig["mainText"]} fontSize="40px">
-                              toggle closing brackets
-                            </Text>
-                            automatically fill in closing brackets: ] } ) (a lil broken rn)
-                          </Text>
-                          <Box width="10%" fontSize="30px">
-                            <Button
-                              width="6.5vw"
-                              name="toggleBrackets"
-                              onClick={(e) => handleChange(e, true)}
-                              _hover={{ bgColor: stateConfig["themeActiveButton"] }}
-                              bgColor={
-                                stateConfig["toggleBrackets"]
-                                  ? stateConfig["themeActiveButton"]
-                                  : stateConfig["themeInactiveButton"]
-                              }>
-                              {stateConfig["toggleBrackets"] + ""}
-                            </Button>
-                          </Box>
-                        </Box>
+
                         <Box>
                           <Box display="flex" justifyContent={"space-between"}>
                             <Text fontSize="18px" color={stateConfig["subtleText"]} className=" font600">
@@ -427,6 +441,23 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
                                 </Button>
                               </Box>
                             </Box>
+                            <Box paddingRight="10px">
+                              <Box width="10%" fontSize="30px">
+                                <Button
+                                  minWidth="6.5vw"
+                                  name="font"
+                                  value="Comic Neue"
+                                  onClick={(e) => handleChange(e, false, "Comic Neue", "font")}
+                                  _hover={{ bgColor: stateConfig["themeActiveButton"] }}
+                                  bgColor={
+                                    stateConfig["font"] === "Comic Neue"
+                                      ? stateConfig["themeActiveButton"]
+                                      : stateConfig["themeInactiveButton"]
+                                  }>
+                                  <Text fontFamily="Comic Neue"> Comic Neue</Text>
+                                </Button>
+                              </Box>
+                            </Box>
                           </Box>
                           {displaySample && (
                             <Box paddingTop="10px" color={stateConfig["subtleText"]}>
@@ -503,7 +534,7 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
                         <Text fontSize="18px" color={stateConfig["subtleText"]} className=" font600">
                           <Box display="flex" className="standardButton">
                             <Text color={stateConfig["mainText"]} fontSize="40px">
-                              themes (wip)
+                              themes
                             </Text>
                           </Box>
                           customize the colors for the website
@@ -560,9 +591,27 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
                               _hover={{ bgColor: stateConfig["themeActiveButton"] }}
                               borderWidth={"5px"}
                               borderColor={lastTheme === "snooze" ? "#4ab5f7" : "transparent"}
-                              bgColor={"#a1ade6"}>
+                              bgColor={"#d8edf2"}>
                               <Text fontSize="20px" color="#4ab5f7" fontFamily="Fira Code">
                                 snooze
+                              </Text>
+                            </Button>
+                          </Box>
+                        </Box>
+                        <Box paddingRight="10px">
+                          <Box width="10%" fontSize="30px">
+                            <Button
+                              minWidth="6.5vw"
+                              name="theme"
+                              onMouseEnter={() => OwOTheme("temp")}
+                              onMouseLeave={() => changeTheme(lastTheme)}
+                              onClick={() => OwOTheme()}
+                              _hover={{ bgColor: stateConfig["themeActiveButton"] }}
+                              borderWidth={"5px"}
+                              borderColor={lastTheme === "OwO" ? "#eb8fd5" : "transparent"}
+                              bgColor={"#ffadf1"}>
+                              <Text fontSize="20px" color="#eb8fd5" fontFamily="Fira Code">
+                                OwO
                               </Text>
                             </Button>
                           </Box>
@@ -574,15 +623,17 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
                   </Box>
                 </Section>
               </Box>
-              <Center className="standardButton">
-                <Button
-                  fontSize="22px"
-                  color={stateConfig["subtleText"]}
-                  className="  font400"
-                  onClick={() => resetSettings()}>
-                  Reset to default
-                </Button>
-              </Center>
+              <Box paddingTop="24px">
+                <Center className="standardButton">
+                  <Button
+                    fontSize="22px"
+                    color={stateConfig["subtleText"]}
+                    className="  font400"
+                    onClick={() => resetSettings()}>
+                    Reset to default
+                  </Button>
+                </Center>
+              </Box>
             </Box>
           </Center>
         </Box>

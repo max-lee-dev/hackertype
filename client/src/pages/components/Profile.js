@@ -126,8 +126,8 @@ export default function Profile({ setId, config }) {
                     {!loading && username === user?.displayName && (
                       <Tooltip label="Sign out" aria-label="A tooltip">
                         <Button
-                          color={"#FFCD29"}
-                          _hover={{ bgColor: "transparent", color: "white" }}
+                          color={config["logoColor"]}
+                          _hover={{ bgColor: "transparent", color: config["mainText"] }}
                           marginTop="20px"
                           fontSize="40px"
                           bgColor="transparent"

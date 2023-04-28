@@ -56,6 +56,7 @@ function App() {
       // theme
       theme: "dark",
       themeBackground: "#0e0e10",
+      logoColor: "#FFCD29",
       mainText: "#ffffff",
       subtleText: "gray",
       caretColor: "#ffffff",
@@ -85,6 +86,8 @@ function App() {
     root.style.setProperty("background-color", stateConfig["themeBackground"]);
     root.style.setProperty("--backgroundColor", stateConfig["themeBackground"]);
     root.style.setProperty("--subtleText", stateConfig["subtleText"]);
+    root.style.setProperty("--logoColor", stateConfig["logoColor"]);
+
     root.style.setProperty("--maintext", stateConfig["mainText"]);
     root.style.setProperty("--caretColor", stateConfig["caretColor"]);
     root.style.setProperty("--correctText", stateConfig["correctText"]);
@@ -145,11 +148,6 @@ function App() {
           _focus: {
             boxShadow: "none",
             outline: "none",
-            bgColor: stateConfig["themeActiveButton"],
-          },
-
-          _hover: {
-            bgColor: stateConfig["themeActiveButton"],
           },
         },
         variants: {

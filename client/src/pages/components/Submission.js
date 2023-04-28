@@ -13,13 +13,7 @@ export default function Submission({ uid }) {
     onOpen: onLeaderboardOpen,
   } = useDisclosure();
   let color = "green";
-  if (submission.language === "Python") {
-    color = "#c9b900";
-  } else if (submission.language === "Java") {
-    color = "#eda618";
-  } else if (submission.language === "C++") {
-    color = "#2b5599";
-  }
+
   let solutionNumber = "";
 
   useEffect(() => {
@@ -72,7 +66,8 @@ export default function Submission({ uid }) {
   const style = getComputedStyle(css);
   var bgcolor = style.getPropertyValue("--backgroundColor");
   var subtleText = style.getPropertyValue("--subtleText");
-
+  var logoColor = style.getPropertyValue("--logoColor");
+  color = subtleText;
   return (
     <div className="individualSubmissionContainer">
       <div className="submissionText">
@@ -81,7 +76,7 @@ export default function Submission({ uid }) {
             <Stack direction="row" spacing="0">
               <Tooltip label="Rank" placement="top">
                 <Box>
-                  <Text color={submission.rank === 1 ? "yellow" : subtleText} userSelect={"none"}>
+                  <Text color={submission.rank === 1 ? logoColor : subtleText} userSelect={"none"}>
                     [#{submission.rank}]
                   </Text>
                 </Box>

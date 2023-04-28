@@ -21,7 +21,8 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
   const css = document.querySelector(":root");
   const style = getComputedStyle(css);
   var bgcolor = style.getPropertyValue("--backgroundColor");
-  var subtleText = style.getPropertyValue("--subtleText");
+  var mainText = style.getPropertyValue("--mainText");
+  var logoColor = style.getPropertyValue("--logoColor");
   return (
     <>
       <Modal
@@ -45,12 +46,23 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
             <Box paddingRight="30px" paddingTop="30px" height="520px" overflow="auto" className="scroll">
               <Box paddingBottom="30px">
                 <Text className="mainTextClass mainFont">
-                  <Text fontSize="24px" color="#FFCD29">
-                    4/27/2023
+                  <Text fontSize="24px" color={logoColor}>
+                    4/28/2023
                     <Badge marginBottom="3px" fontSize={"14px"} ml="2" colorScheme="green">
                       new
                     </Badge>
                   </Text>
+                  <Box paddingTop="15px">
+                    <Text color={addedGreen}>added: </Text>
+                    <Text>- OwO theme</Text>
+                    <Text>- Comic Neue font (comic sans)</Text>
+                  </Box>
+                </Text>
+              </Box>
+              <Divider />
+              <Box paddingBottom="30px">
+                <Text className="mainTextClass mainFont">
+                  <Text fontSize="24px">4/27/2023</Text>
                   <Text>😁heyyyy😁</Text>
                   <Box paddingTop="15px">
                     <Text color={addedGreen}>added: </Text>

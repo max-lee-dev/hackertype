@@ -102,7 +102,7 @@ export default function CodeSettings({
                             color={config["subtleText"]}
                             name="retrySame"
                             onClick={(e) => handleChange("retrySame", false, "bool")}>
-                            <Box color="#FFCD29">
+                            <Box color={config["mainText"]}>
                               <ion-icon name="lock-closed"></ion-icon>
                             </Box>
                           </IconButton>
@@ -184,7 +184,7 @@ export default function CodeSettings({
                     </Button>
                     <Center>
                       <Tooltip label={`Picking from ${cppRange} C++ solutions`}>
-                        <Text fontSize="14px" fontWeight="300" className="grayText">
+                        <Text fontSize="14px" fontWeight="300" className="subtleTextColor">
                           {cppRange}
                         </Text>
                       </Tooltip>
@@ -199,7 +199,7 @@ export default function CodeSettings({
                     </Button>
                     <Center>
                       <Tooltip label={`Picking from ${javaRange} Java solutions`}>
-                        <Text fontSize="14px" fontWeight="300" className="grayText">
+                        <Text fontSize="14px" fontWeight="300" className="subtleTextColor">
                           {javaRange}
                         </Text>
                       </Tooltip>
@@ -215,7 +215,7 @@ export default function CodeSettings({
                     </Button>
                     <Center>
                       <Tooltip label={`Picking from ${pythonRange} Python solutions`}>
-                        <Text fontSize="14px" fontWeight="300" className="grayText">
+                        <Text fontSize="14px" fontWeight="300" className="subtleTextColor">
                           {pythonRange}
                         </Text>
                       </Tooltip>

@@ -41,16 +41,20 @@ export default function Navbar({ updatedConfig }) {
                 </Box>
               </NavLink>
               <NavLink onClick={changeLocation} to="/" className="site-title">
-                <Text fontSize="24px" color="#FFCD29" marginLeft="-11px">
+                <Text fontSize="24px" color={updatedConfig["logoColor"]} marginLeft="-11px">
                   .
                 </Text>
-                <Text fontSize="23px" onClick={changeLocation} color="#FFCD29" marginLeft="-4px">
+                <Text
+                  fontSize="23px"
+                  onClick={changeLocation}
+                  color={updatedConfig["logoColor"]}
+                  marginLeft="-4px">
                   dev
                 </Text>
               </NavLink>
               <Divider marginLeft="10px" marginRight="10px" />
             </Box>
-            <Box fontWeight={"100"}>
+            <Box fontWeight={"500"}>
               <ul>
                 <li>
                   <NavLink to="/leaderboard">&lt;leaderboard&gt;</NavLink>

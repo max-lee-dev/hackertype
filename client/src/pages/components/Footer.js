@@ -4,7 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 import ChangelogModal from "./ChangelogModal.js";
 export default function Footer({ config }) {
   const { isOpen: isChangeOpen, onClose: onChangeClose, onOpen: onChangeOpen } = useDisclosure();
-  const lastUpdateTime = 1682567959000;
+  const lastUpdateTime = 1682646974000;
   // console.log(Date.parse(new Date()));
   const seenUpdate = localStorage.getItem("lastCheckedUpdate") > lastUpdateTime;
   function open() {

@@ -33,7 +33,9 @@ export default function SearchModal({ isSearchOpen, onSearchClose }) {
   const [userInput, setUserInput] = useState("");
   const [solutionList, setSolutionList] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState("Java");
-
+  const css = document.querySelector(":root");
+  const style = getComputedStyle(css);
+  var bgcolor = style.getPropertyValue("--backgroundColor");
   useEffect(() => {
     setLoading(true);
     setUserList([]);
@@ -84,7 +86,7 @@ export default function SearchModal({ isSearchOpen, onSearchClose }) {
         finalFocusRef={finalRef}
         size="6xl">
         <ModalOverlay />
-        <ModalContent backgroundColor="#0e0e10" minHeight={"500px"}>
+        <ModalContent backgroundColor={bgcolor} minHeight={"500px"}>
           <ModalHeader>
             <Box className="searchModal">
               <Text className="whiteText mainFont" fontSize="32px">

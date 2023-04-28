@@ -1295,7 +1295,7 @@ function App({ user, givenId }) {
                           startCounting &&
                           !finished &&
                           config["showLinesLeft"] && (
-                            <p className="mainFont  grayText">
+                            <p className="mainFont subtleTextColor">
                               {preGeneratedLineIndex.length - currentLine + 1 - config["linesDisplayed"]} more
                               lines left...
                             </p>
