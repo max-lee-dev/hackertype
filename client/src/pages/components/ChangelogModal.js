@@ -43,14 +43,29 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
           </ModalHeader>
 
           <ModalBody>
-            <Box paddingRight="30px" paddingTop="30px" height="520px" overflow="auto" className="scroll">
+            <Box paddingRight="30px" height="520px" overflow="auto" className="scroll">
               <Box paddingBottom="30px">
                 <Text className="mainTextClass mainFont">
                   <Text fontSize="24px" color={logoColor}>
-                    4/28/2023
+                    5/1/2023
                     <Badge marginBottom="3px" fontSize={"14px"} ml="2" colorScheme="green">
                       new
                     </Badge>
+                  </Text>
+                  smol update
+                  <Box paddingTop="15px">
+                    <Text color={fixedYellow}>fixed: </Text>
+                    <Text>- fixed search and word limit modal not changing for theme color</Text>
+                    <Text>- color fixed for "(x) lines not shown..." text</Text>
+                    <Text>- wpm line chart not taking theme colors (should be fixed?)</Text>
+                  </Box>
+                </Text>
+              </Box>
+              <Divider />
+              <Box paddingBottom="30px">
+                <Text className="mainTextClass mainFont">
+                  <Text fontSize="24px" className="subtleTextColor">
+                    4/28/2023
                   </Text>
                   <Box paddingTop="15px">
                     <Text color={addedGreen}>added: </Text>
@@ -62,7 +77,9 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
               <Divider />
               <Box paddingBottom="30px">
                 <Text className="mainTextClass mainFont">
-                  <Text fontSize="24px">4/27/2023</Text>
+                  <Text fontSize="24px" className="subtleTextColor">
+                    4/27/2023
+                  </Text>
                   <Text>😁heyyyy😁</Text>
                   <Box paddingTop="15px">
                     <Text color={addedGreen}>added: </Text>

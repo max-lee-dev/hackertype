@@ -36,6 +36,9 @@ export default function SearchModal({ isSearchOpen, onSearchClose }) {
   const css = document.querySelector(":root");
   const style = getComputedStyle(css);
   var bgcolor = style.getPropertyValue("--backgroundColor");
+  var mainText = style.getPropertyValue("--maintext");
+  var subtleText = style.getPropertyValue("--subtleText");
+
   useEffect(() => {
     setLoading(true);
     setUserList([]);
@@ -89,7 +92,7 @@ export default function SearchModal({ isSearchOpen, onSearchClose }) {
         <ModalContent backgroundColor={bgcolor} minHeight={"500px"}>
           <ModalHeader>
             <Box className="searchModal">
-              <Text className="whiteText mainFont" fontSize="32px">
+              <Text color={mainText} className=" mainFont" fontSize="32px">
                 search
               </Text>
               <ModalCloseButton />
@@ -103,6 +106,9 @@ export default function SearchModal({ isSearchOpen, onSearchClose }) {
                   _selected={{ outline: "none" }}
                   _focus={{ outline: "none" }}
                   ref={initialRef}
+                  borderColor={mainText}
+                  color={mainText}
+                  autoComplete="off"
                   placeholder={`search a solution/username`}
                   type="text"
                   onChange={(e) => setUserInput(e.target.value)}
@@ -110,13 +116,17 @@ export default function SearchModal({ isSearchOpen, onSearchClose }) {
               </FormControl>
             </Box>
 
-            <Box className="whiteText mainFont">
+            <Box className="mainFont" color={mainText}>
               <HStack className="whiteText mainFont"></HStack>
               <Box display="flex">
                 <Box width="100%">
                   <Box paddingTop="15px">
                     <Box width="50%">
-                      {(loading || userList.length > 0) && <Text fontSize="32px">users</Text>}
+                      {(loading || userList.length > 0) && (
+                        <Text color={subtleText} fontSize="32px">
+                          users
+                        </Text>
+                      )}
                     </Box>
                     <Box paddingTop="24px">{loading && <Box className="loader"></Box>}</Box>
                     {userList.map((user, i) => (
@@ -127,7 +137,11 @@ export default function SearchModal({ isSearchOpen, onSearchClose }) {
                       </Box>
                     ))}
                     <Box paddingTop="20px" width="50%">
-                      {(loading || solutionList.length > 0) && <Text fontSize="32px">solutions</Text>}
+                      {(loading || solutionList.length > 0) && (
+                        <Text color={subtleText} fontSize="32px">
+                          solutions
+                        </Text>
+                      )}
                     </Box>
                     <Box paddingTop="24px">
                       {loading && solutionList.length === 0 && <Box className="loader"></Box>}

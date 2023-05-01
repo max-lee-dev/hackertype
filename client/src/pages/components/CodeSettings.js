@@ -233,20 +233,22 @@ export default function CodeSettings({
           isOpen={isWordsOpen}
           onClose={onWordsClose}>
           <ModalOverlay />
-          <ModalContent backgroundColor="#0e0e10">
+          <ModalContent backgroundColor={config["themeBackground"]}>
             <form>
-              <ModalHeader className="mainFont" color="white">
+              <ModalHeader className="mainFont" color={config["mainText"]}>
                 Line Limit
                 <ModalCloseButton />
               </ModalHeader>
 
               <ModalBody>
-                <Box className="mainFont whiteText">
+                <Box className="mainFont " color={config["mainText"]}>
                   <FormControl>
                     <Input
                       ref={initialRef}
                       className="maxWordsForm"
                       placeholder={`Enter a line limit (e.g. 5)`}
+                      borderColor={config["subtleText"]}
+                      color={config["mainText"]}
                       type="text"
                       onChange={(e) => handleWordLimit(e.target.value)}
                     />
@@ -272,7 +274,9 @@ export default function CodeSettings({
                     backgroundColor="transparent"
                     type="submit"
                     onClick={(e) => closeLimitModal(e)}>
-                    <CheckIcon />
+                    <Box color={config["mainText"]}>
+                      <CheckIcon />
+                    </Box>
                   </Button>
                 </Box>
               </ModalFooter>

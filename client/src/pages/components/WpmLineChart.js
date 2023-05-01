@@ -38,6 +38,13 @@ export default function WpmLineChart({ givenData }) {
     getWPMGraph();
     setLoading(false);
   }, []);
+  ChartJS.defaults.color = style.getPropertyValue("--subtleText");
+  ChartJS.defaults.backgroundColor = style.getPropertyValue("--background-color");
+  ChartJS.defaults.pointBackgroundColor = style.getPropertyValue("--maintext");
+  ChartJS.defaults.pointHoverBackgroundColor = style.getPropertyValue("--maintext");
+  ChartJS.defaults.pointHoverBorderColor = style.getPropertyValue("--maintext");
+  ChartJS.defaults.borderColor = style.getPropertyValue("--subtleText");
+  ChartJS.defaults.scale.grid.color = "transparent";
 
   if (!loading)
     return (

@@ -1046,6 +1046,7 @@ function App({ user, givenId }) {
           </Center>
         </Box>
       )}
+
       {!loading && (
         <Section delay={0.15}>
           <Box className="body" bgColor={config["themeBackground"]}>
@@ -1279,9 +1280,9 @@ function App({ user, givenId }) {
                             })}
                         </pre>
                         {preGeneratedLineIndex.length > 10 && !startCounting && !loading && (
-                          <Box>
+                          <Box paddingTop="10px">
                             <Center>
-                              <Text color="gray" className="mainFont font300" fontSize="12px">
+                              <Text color={config["subtleText"]} className="mainFont font300" fontSize="12px">
                                 {preGeneratedLineIndex.length + 1 - 10} more lines not shown...
                               </Text>
                             </Center>
