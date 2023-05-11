@@ -5,6 +5,7 @@ import Section from "./components/Section.js";
 import {} from "@chakra-ui/icons";
 
 export default function About({ updatedConfig }) {
+
   return (
     <Box paddingTop="50px" color={updatedConfig["mainText"]} className="mainFont">
       <Center>
