@@ -836,6 +836,10 @@ cursor: none;
 
 }
 
+.placeholder input::placeholder {
+    color: var(--subtleText);
+}
+
 .maxWordsDiv input::placeholder {
     transform: translateY(-5px);
     font-size: 30px;

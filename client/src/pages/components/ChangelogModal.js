@@ -23,6 +23,7 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
   var bgcolor = style.getPropertyValue("--backgroundColor");
   var mainText = style.getPropertyValue("--mainText");
   var logoColor = style.getPropertyValue("--logoColor");
+  var subtleText = style.getPropertyValue("--subtleText");
   return (
     <>
       <Modal
@@ -47,10 +48,24 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
               <Box paddingBottom="30px">
                 <Text className="mainTextClass mainFont">
                   <Text fontSize="24px" color={logoColor}>
-                    5/1/2023
+                    6/8/2023
                     <Badge marginBottom="3px" fontSize={"14px"} ml="2" colorScheme="green">
                       new
                     </Badge>
+                  </Text>
+                  yo! im still alive :o
+                  <Box paddingTop="15px">
+                    <Text color={addedGreen}>added: </Text>
+                    <Text>- new login page :) </Text>
+                  </Box>
+                </Text>
+              </Box>
+              <Divider borderColor={subtleText}/>
+              <Box paddingBottom="30px">
+                <Text className="mainTextClass mainFont">
+                  <Text fontSize="24px" className={"subtleTextColor"}>
+                    5/1/2023
+
                   </Text>
                   smol update
                   <Box paddingTop="15px">
@@ -61,7 +76,7 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
                   </Box>
                 </Text>
               </Box>
-              <Divider />
+              <Divider borderColor={subtleText}/>
               <Box paddingBottom="30px">
                 <Text className="mainTextClass mainFont">
                   <Text fontSize="24px" className="subtleTextColor">
@@ -74,7 +89,7 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
                   </Box>
                 </Text>
               </Box>
-              <Divider />
+              <Divider borderColor={subtleText}/>
               <Box paddingBottom="30px">
                 <Text className="mainTextClass mainFont">
                   <Text fontSize="24px" className="subtleTextColor">
@@ -87,7 +102,7 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
                   </Box>
                 </Text>
               </Box>
-              <Divider />
+              <Divider borderColor={subtleText}/>
               <Box paddingTop="30px" paddingBottom="30px">
                 <Text className="mainTextClass mainFont">
                   <Text className="subtleTextColor" fontSize="24px">
@@ -103,7 +118,7 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
                   </Box>
                 </Text>
               </Box>
-              <Divider />
+              <Divider borderColor={subtleText}/>
               <Box paddingTop="30px" paddingBottom="30px">
                 <Text className="mainTextClass mainFont">
                   <Text fontSize="24px" className="subtleTextColor">
@@ -136,7 +151,7 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
                   </Box>
                 </Text>
               </Box>
-              <Divider />
+              <Divider borderColor={subtleText}/>
               <Box paddingTop="30px" paddingBottom="30px">
                 <Text className="mainTextClass mainFont">
                   <Text className="subtleTextColor" fontSize="24px">
@@ -155,7 +170,7 @@ export default function ChangelogModal({ isChangeOpen, onChangeClose }) {
                   </Box>
                 </Text>
               </Box>
-              <Divider />
+              <Divider borderColor={subtleText}/>
               <Box paddingTop="30px" paddingBottom="30px">
                 <Text className="mainTextClass mainFont">
                   <Text className="subtleTextColor" fontSize="24px">

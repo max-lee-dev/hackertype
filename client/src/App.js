@@ -175,7 +175,7 @@ function App() {
               />
               <Route
                 path="/login"
-                element={<UserLogin setGitLogin={setGitLogin} user={user} setUser={setUser} />}
+                element={<UserLogin setGitLogin={setGitLogin} config={updatedConfig} user={user} setUser={setUser} />}
               />
               <Route path="/profile/:username" element={<Profile setId={setId} config={updatedConfig} />} />
               <Route path="/solutions/:givenLanguage/:number" element={<Home user={user} givenId={id} />} />

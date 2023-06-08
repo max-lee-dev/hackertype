@@ -8,11 +8,11 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { gitProvider } from "./firebase.js";
-import { Box, Center, Text, Stack, Divider, Input, Button, Form, VStack, IconButton } from "@chakra-ui/react";
+import { Box, HStack, Center, Text, Stack, Divider, Input, Button, Form, VStack, IconButton } from "@chakra-ui/react";
 import { auth, signInWithGoogle } from "./firebase.js";
 import { db } from "./firebase";
 import { getFirestore, doc, addDoc, getDocs, setDoc, collection, query, where } from "firebase/firestore";
-export default function UserLogin({ setGitLogin, user, setUser }) {
+export default function UserLogin({ setGitLogin, config, user, setUser }) {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -24,7 +24,6 @@ export default function UserLogin({ setGitLogin, user, setUser }) {
   const [users, setUsers] = useState([]);
   const [loginPage, setLoginPage] = useState(true);
   const usersRef = collection(db, "users");
-
   useEffect(() => {
     const getUsers = async () => {
       const data = await getDocs(usersCollectionRef);
@@ -232,45 +231,40 @@ export default function UserLogin({ setGitLogin, user, setUser }) {
   return (
     <Center>
       {" "}
-      <Box paddingTop="75px" className="whiteText  mainFont" width="50%">
+      <Box marginTop="105px" borderRadius='15px' boxShadow={'0px 1px 15px 3px rgba(0,0,0, 0.12)'} maxW='30vw' minH={'60vh'} bg={config["backgroundColor"]} className="whiteText  mainFont" width="50%">
         <Center>
-          <Box>
+          <Box paddingTop={'20px'}>
             <Stack direction="row">
               <Center>
-                <Box width="50%">
+
+                <Box width="80%">
                   {!loginPage && (
                     <Box>
-                      <Button
-                        marginTop="10px"
-                        _hover={{ bgColor: "#777" }}
-                        bgColor={"#222"}
-                        onClick={() => setLoginPage(true)}>
-                        log in
-                      </Button>
-                      <Button
-                        marginTop="10px"
-                        bgColor={"#777"}
-                        _hover={{ bgColor: "#777" }}
-                        onClick={() => setLoginPage(false)}>
-                        {" "}
-                        sign up{" "}
-                      </Button>
+                      <Center>
+                        <Text paddingTop='30px' paddingBottom='50px' fontWeight={600} fontSize='30px' color={config["mainText"]}> sign up </Text>
+                      </Center>
                       <form onSubmit={register}>
-                        <Box width="100%">
+                        <Box color={config['mainText']} className={'placeholder'} width="100%">
                           <Input
                             placeholder="Username"
+                            borderColor={'transparent'}
+                            _hover={{ borderColor: config["subtleText"]}}
                             onChange={(event) => {
                               setUsername(event.target.value);
                             }}
                           />
                           <Input
+                            borderColor={'transparent'}
                             placeholder="Email"
+                            _hover={{ borderColor: config["subtleText"]}}
                             onChange={(event) => {
                               setRegisterEmail(event.target.value);
                             }}
                           />
                           <Input
+                            borderColor={'transparent'}
                             placeholder="Password"
+                            _hover={{ borderColor: config["subtleText"]}}
                             type="password"
                             onChange={(event) => {
                               setRegisterPassword(event.target.value);
@@ -279,6 +273,8 @@ export default function UserLogin({ setGitLogin, user, setUser }) {
                           <Input
                             placeholder="Confirm Password"
                             type="password"
+                            _hover={{ borderColor: config["subtleText"]}}
+                            borderColor={'transparent'}
                             onChange={(event) => {
                               setConfirmPassword(event.target.value);
                             }}
@@ -295,6 +291,11 @@ export default function UserLogin({ setGitLogin, user, setUser }) {
                               Sign Up
                             </Button>
                           </Center>
+                          <Center>
+                            <Box paddingTop={'10px'} color={config["subtleText"]}>
+                              have an account?{" "}<Button onClick={() => setLoginPage(true)} color={config["subtleText"]} className={'underline'} variant="link">log in</Button>
+                            </Box>
+                          </Center>
                         </Box>
                       </form>
                     </Box>
@@ -302,52 +303,58 @@ export default function UserLogin({ setGitLogin, user, setUser }) {
                 </Box>
               </Center>
               <Center>
-                <Box width="50%">
+                <Box width="80%">
                   {loginPage && (
-                    <Box>
-                      <Button
-                        marginTop="10px"
-                        _hover={{ bgColor: "#777" }}
-                        bgColor={"#777"}
-                        onClick={() => setLoginPage(true)}>
-                        {" "}
-                        log in{" "}
-                      </Button>
-                      <Button
-                        marginTop="10px"
-                        bgColor={"#333"}
-                        _hover={{ bgColor: "#777" }}
-                        type="submit"
-                        onClick={() => setLoginPage(false)}>
-                        sign up
-                      </Button>
+                    <Box className='placeholder' textAlign={'center'}>
+
+                      <Text paddingTop='30px' paddingBottom='50px' fontWeight={600} fontSize='30px' color={config["mainText"]}>welcome back</Text>
                       <form onSubmit={login}>
                         <Input
+                          _hover={{ borderColor: config["subtleText"]}}
+                          borderColor={'transparent'}
                           placeholder="Email"
+                          color={config["mainText"]}
+
                           onChange={(event) => {
                             setLoginEmail(event.target.value);
                           }}
                         />
+
+
+
+
                         <Input
+                          _hover={{ borderColor: config["subtleText"]}}
+                          borderColor={'transparent'}
                           placeholder="Password"
                           type="password"
+                          color={config["mainText"]}
                           onChange={(event) => {
                             setLoginPassword(event.target.value);
                           }}
                         />
                         <Center>
-                          <p className="currentIncorrect">{loginErrorMessage}</p>
+                          <Text color={config["incorrectText"]}>{loginErrorMessage}</Text>
                         </Center>
+                        <Center className="standardButton">
+                            <Button fontSize={'20px'} bg={config['subtleText']} marginTop="10px"  type="submit" onClick={login}>
+                              log in
+                            </Button>
+                        </Center>
+                        <Divider borderColor={config["subtleText"]} />
+
+
                         <Center>
-                          <VStack spacing="3">
-                            <Box paddingTop="10px">
+                          <VStack paddingTop={'20px'}>
+                            <Box >
                               <Button
                                 onClick={github}
                                 className="loginFont"
-                                bgColor="white"
-                                color="#2f0505"
+                                bgColor={config["subtleText"]}
+                                color={config["themeInactiveButton"]}
                                 borderRadius={"3px"}
-                                minHeight="45px">
+                                minHeight="45px"
+                                maxW={'200px'}>
                                 <Box fontSize="24px" paddingRight="10px" paddingTop="5px">
                                   <ion-icon name="logo-github"></ion-icon>
                                 </Box>
@@ -358,9 +365,10 @@ export default function UserLogin({ setGitLogin, user, setUser }) {
                               <Button
                                 onClick={google}
                                 className="loginFont"
-                                bgColor="white"
-                                color="#2f0505"
+                                bgColor={config["subtleText"]}
+                                color={config["themeInactiveButton"]}
                                 borderRadius={"3px"}
+                                maxW={'200px'}
                                 minHeight="45px">
                                 <Box fontSize="24px" paddingRight="10px" paddingTop="5px">
                                   <ion-icon name="logo-google"></ion-icon>
@@ -369,21 +377,19 @@ export default function UserLogin({ setGitLogin, user, setUser }) {
                               </Button>
                             </Box>
                           </VStack>
+
+
                         </Center>
-                        <Center>
-                          <Divider paddingTop="20px" width="50%" />
-                        </Center>
-                        <Center className="standardButton">
-                          <VStack>
-                            <Button marginTop="10px" bgColor={"#555"} type="submit" onClick={login}>
-                              Log In
-                            </Button>
-                          </VStack>
-                        </Center>
+                        <Box paddingTop={'30px'} color={config["subtleText"]}>
+                          no account? <Button onClick={() => setLoginPage(false)} color={config["subtleText"]} className={'underline'} variant="link">sign up</Button>
+                        </Box>
+
+
                       </form>
                     </Box>
                   )}
                 </Box>
+
               </Center>
             </Stack>
           </Box>
