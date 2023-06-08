@@ -1196,7 +1196,7 @@ function App({ user, givenId }) {
                                         )}
                                       </Center>
                                     )}
-                                    <Box color="gray" fontSize="14px" paddingLeft="44px">
+                                    <Box color={config["subtleText"]} fontSize="14px" paddingLeft="44px">
                                       <HStack>
                                         {!loading && !user && !startCounting && (
                                           <Box className="underline">
