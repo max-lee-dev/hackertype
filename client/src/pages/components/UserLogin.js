@@ -247,34 +247,42 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
                         <Box color={config['mainText']} className={'placeholder'} width="100%">
                           <Input
                             placeholder="Username"
-                            borderColor={'transparent'}
-                            _hover={{ borderColor: config["subtleText"]}}
+                            _hover={{ borderColor: config["mainText"]}}
+
+                            borderColor={config["subtleText"]}
                             onChange={(event) => {
                               setUsername(event.target.value);
                             }}
                           />
                           <Input
-                            borderColor={'transparent'}
                             placeholder="Email"
-                            _hover={{ borderColor: config["subtleText"]}}
+                            marginTop={'10px'}
+                            _hover={{ borderColor: config["mainText"]}}
+
+                            borderColor={config["subtleText"]}
                             onChange={(event) => {
                               setRegisterEmail(event.target.value);
                             }}
                           />
                           <Input
-                            borderColor={'transparent'}
                             placeholder="Password"
-                            _hover={{ borderColor: config["subtleText"]}}
+                            marginTop={'10px'}
+                            _hover={{ borderColor: config["mainText"]}}
+
+                            borderColor={config["subtleText"]}
                             type="password"
                             onChange={(event) => {
                               setRegisterPassword(event.target.value);
                             }}
                           />
                           <Input
+                            marginTop={'10px'}
+                            _hover={{ borderColor: config["mainText"]}}
+
+                            borderColor={config["subtleText"]}
                             placeholder="Confirm Password"
                             type="password"
-                            _hover={{ borderColor: config["subtleText"]}}
-                            borderColor={'transparent'}
+
                             onChange={(event) => {
                               setConfirmPassword(event.target.value);
                             }}
@@ -283,13 +291,16 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
                             <p className="currentIncorrect">{registerErrorMessage}</p>
                           </Center>
                           <Center className="standardButton">
-                            <Button
-                              marginTop="10px"
+
+                            <Button marginTop="10px"
                               type="submit"
                               backgroundColor={"#555"}
                               onClick={register}>
-                              Sign Up
+                              <Box paddingTop='10px' minWidth='150%' minHeight='100%' bg={config["themeInactiveButton"]}>
+                                sign up
+                              </Box>
                             </Button>
+
                           </Center>
                           <Center>
                             <Box paddingTop={'10px'} color={config["subtleText"]}>
@@ -310,8 +321,9 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
                       <Text paddingTop='30px' paddingBottom='50px' fontWeight={600} fontSize='30px' color={config["mainText"]}>welcome back</Text>
                       <form onSubmit={login}>
                         <Input
-                          _hover={{ borderColor: config["subtleText"]}}
-                          borderColor={'transparent'}
+                          _hover={{ borderColor: config["mainText"]}}
+
+                          borderColor={config["subtleText"]}
                           placeholder="Email"
                           color={config["mainText"]}
 
@@ -324,8 +336,10 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
 
 
                         <Input
-                          _hover={{ borderColor: config["subtleText"]}}
-                          borderColor={'transparent'}
+                          marginTop={'10px'}
+                          _hover={{ borderColor: config["mainText"]}}
+
+                          borderColor={config["subtleText"]}
                           placeholder="Password"
                           type="password"
                           color={config["mainText"]}
@@ -337,8 +351,10 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
                           <Text color={config["incorrectText"]}>{loginErrorMessage}</Text>
                         </Center>
                         <Center className="standardButton">
-                            <Button fontSize={'20px'} bg={config['subtleText']} marginTop="10px"  type="submit" onClick={login}>
-                              log in
+                            <Button  bg={config['subtleText']} marginTop="10px" paddingBottom={'10px'} type="submit" onClick={login}>
+                              <Box paddingTop='8px' minWidth='150%' minHeight='120%' bg={config["themeInactiveButton"]}>
+                                log in
+                              </Box>
                             </Button>
                         </Center>
                         <Divider borderColor={config["subtleText"]} />

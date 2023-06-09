@@ -19,7 +19,7 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
 
   function resetSettings() {
     // this is so stupid
-    setThemeBackground("#0e0e10");
+    setThemeBackground("#171717");
 
     setStateConfig({
       fontSize: 24,
@@ -34,9 +34,9 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
 
       // theme
       theme: "dark",
-      themeBackground: "#0e0e10",
+      themeBackground: "#171717",
       logoColor: "#FFCD29",
-      mainText: "#ffffff",
+      mainText: "#d9d9d9",
       subtleText: "gray",
       caretColor: "#ffffff",
       correctText: "#d6d4d4",
@@ -61,7 +61,7 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
 
       // theme
       theme: "dark",
-      themeBackground: "#0e0e10",
+      themeBackground: "#171717",
       logoColor: "#FFCD29",
       mainText: "#ffffff",
       subtleText: "gray",
@@ -126,14 +126,14 @@ export default function Settings({ setUpdatedConfig, setThemeBackground }) {
     if (!temp) setLastTheme("dark");
     let tempTheme = temp ? "temp" : "theme";
 
-    const background = "#0e0e10";
+    const background = "#171717";
 
     setStateConfig((prevState) => ({
       ...prevState,
       [tempTheme]: "dark",
       ["themeBackground"]: background,
       ["transparentText"]: "#ffffff",
-      ["mainText"]: "#ffffff",
+      ["mainText"]: "#d9d9d9",
       ["subtleText"]: "gray",
       ["caretColor"]: "#ffffff",
       ["correctText"]: "#d6d4d4",

@@ -2,8 +2,8 @@
     box-sizing: border-box;
 }
 html::-webkit-scrollbar {
-    width: 1vw;
-    height: 0.1vw;
+    width: 0.5vw;
+    height: 0.05vw;
 }
 
 html::-webkit-scrollbar-thumb {
