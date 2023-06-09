@@ -57,7 +57,7 @@ function App() {
       theme: "dark",
       themeBackground: "#171717",
       logoColor: "#FFCD29",
-      mainText: "#d9d9d9",
+      mainText: "#ededed",
       subtleText: "gray",
       caretColor: "#ffffff",
       correctText: "#d6d4d4",
