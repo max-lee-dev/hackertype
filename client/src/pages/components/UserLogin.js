@@ -229,6 +229,7 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
   }
 
   return (
+
     <Center>
       {" "}
       <Box marginTop="105px" borderRadius='15px' boxShadow={'0px 1px 15px 3px rgba(0,0,0, 0.12)'} maxW='30vw' minH={'60vh'} bg={config["backgroundColor"]} className="whiteText  mainFont" width="50%">
@@ -240,6 +241,7 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
                 <Box width="80%">
                   {!loginPage && (
                     <Box>
+
                       <Center>
                         <Text paddingTop='30px' paddingBottom='50px' fontWeight={600} fontSize='30px' color={config["mainText"]}> sign up </Text>
                       </Center>
