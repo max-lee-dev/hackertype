@@ -232,7 +232,7 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
 
     <Center>
       {" "}
-      <Box marginTop="105px" borderRadius='15px' boxShadow={'0px 1px 15px 3px rgba(0,0,0, 0.12)'} maxW='30vw' minH={'60vh'} bg={config["backgroundColor"]} className="whiteText  mainFont" width="50%">
+      <Box marginTop="105px" borderRadius='15px' boxShadow={'0px 1px 15px 3px rgba(0,0,0, 0.12)'} minW={['80%', '70%', '30vw']} minH={'60vh'} bg={config["backgroundColor"]} className="whiteText  mainFont" width="50%">
         <Center>
           <Box paddingTop={'20px'}>
             <Stack direction="row">

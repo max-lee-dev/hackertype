@@ -4,7 +4,7 @@ import { auth } from "./firebase";
 import logo from "./assets/favicon.ico";
 import ChangelogModal from "./ChangelogModal.js";
 
-import { Text, Box, Divider, Center, Button, Stack, useDisclosure } from "@chakra-ui/react";
+import { Menu, MenuList, MenuButton, MenuItem, MenuDivider, Text, Box, Divider, Center, Button, Stack, useDisclosure } from "@chakra-ui/react";
 export default function Navbar({ updatedConfig }) {
   const [user, setUser] = useState(null);
 
@@ -54,7 +54,7 @@ export default function Navbar({ updatedConfig }) {
               </NavLink>
               <Divider marginLeft="10px" marginRight="10px" />
             </Box>
-            <Box fontWeight={"500"}>
+            <Box fontWeight={"500"} display={["none", "none", "inline-block"]}>
               <ul>
                 <li>
                   <NavLink to="/leaderboard">&lt;leaderboard&gt;</NavLink>
@@ -85,6 +85,57 @@ export default function Navbar({ updatedConfig }) {
                   </Stack>
                 </li>
               </ul>
+            </Box>
+            <Box
+                paddingTop="5px"
+                paddingRight="20px"
+                opacity="1"
+                color={updatedConfig["mainText"]}
+                display={["block", "block", "none"]}
+            >
+              <Menu>
+                <MenuButton
+                    as={Text}
+                    fontSize="27px"
+                    fontWeight="400"
+                    color={updatedConfig["mainText"]}
+                    _hover={{ color: "#5180c4" }}
+                >
+                  &#9776;
+                </MenuButton>
+                <MenuList color="black" zIndex="101">
+                  <MenuItem>
+                    <Box minW="100%" as="a" href="/">
+                      Home
+                    </Box>
+                  </MenuItem>
+                  <MenuItem>
+                    <Box minW="100%" as="a" href="/about">
+                      About
+                    </Box>
+                  </MenuItem>
+                  <MenuDivider />
+                  <MenuItem>
+                    <Box minW="100%" as="a" href="/leaderboard">
+                      Leaderboard
+                    </Box>
+                  </MenuItem>
+                  <MenuDivider />
+                  <MenuItem>
+                    {!user && (
+                        <Box minW="100%" as="a" href="/login">
+                            Log In
+                        </Box>
+                    )}
+                    {user && (
+                        <Box minW="100%" as="a" href={`/profile/${user.displayName}`}>
+                            Profile
+                        </Box>
+                    )}
+
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             </Box>
           </Box>
         </Center>

@@ -1107,7 +1107,7 @@ function App({ user, givenId }) {
                       {!startCounting && !loading && (
                         <Box className="mainFont">
                           <Center>
-                            <HStack spacing="0">
+                            <Stack direction={['column', 'row', 'row']} spacing="0">
                               <Text fontSize="24px" color={config["mainText"]} className="mainFont font500">
                                 {leetcodeTitle}
                               </Text>
@@ -1125,7 +1125,7 @@ function App({ user, givenId }) {
                                   </Button>
                                 </Box>
                               </Tooltip>
-                            </HStack>
+                            </Stack>
                           </Center>
                         </Box>
                       )}

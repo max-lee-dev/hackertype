@@ -62,10 +62,11 @@ export default function CodeSettings({
 
   return (
     <Center>
-      <Box width="90%">
+      <Box width="90%" >
         {!startCounting && (
           <Box borderRadius={"15px"} className="mainFont" width="100%" marginTop="30px" bgColor="transparent">
-            <Stack direction="row" justifyContent="space-between" spacing="5">
+            <Stack direction={['column', 'row', 'row']} justifyContent="space-between" spacing={['0', '0', '5']}>
+              <Center>
               <Box display="flex">
                 <HStack spacing="-1">
                   <Tooltip label="Line limit">
@@ -132,6 +133,7 @@ export default function CodeSettings({
                 </HStack>
 
                 <Box paddingBottom="10px">
+
                   <HStack spacing="4">
                     <Box>
                       <Tooltip label="Settings">
@@ -173,9 +175,12 @@ export default function CodeSettings({
                       </NavLink>
                     </Tooltip>
                   </HStack>
-                </Box>
-              </Box>
 
+                </Box>
+
+              </Box>
+              </Center>
+              <Center>
               <Box className="standardButton" marginBottom="50px">
                 <HStack>
                   <Box>
@@ -223,8 +228,10 @@ export default function CodeSettings({
                   </Box>
                 </HStack>
               </Box>
+              </Center>
             </Stack>
           </Box>
+
         )}
 
         <Modal
@@ -279,12 +286,16 @@ export default function CodeSettings({
                     </Box>
                   </Button>
                 </Box>
+
               </ModalFooter>
             </form>
           </ModalContent>
         </Modal>
         <SearchModal isSearchOpen={isSearchOpen} onSearchClose={onSearchClose} />
       </Box>
+
+
+
     </Center>
   );
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { db } from "./components/firebase";
 import { orderBy, where, query, collection, getDocs } from "@firebase/firestore";
-import { Center, Stack, Text, Box, Button, HStack, Input, Divider, useDisclosure } from "@chakra-ui/react";
+import { Center, Stack, VStack, Text, Box, Button, HStack, Input, Divider, useDisclosure } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import LeaderboardModal from "./components/LeaderboardModal";
 import Section from "./components/Section";
@@ -75,11 +75,11 @@ export default function Leaderboard({ config }) {
         <Box className="profileContainer">
           <Box className="userTitle mainFont font500">
             <Box>
-              <Box width="100%" paddingTop="80px" color={config["mainText"]}>
+              <Box width={['100%', '80%', "100%"]} paddingTop="80px" color={config["mainText"]}>
                 <HStack>
-                  <Text fontSize="56px">leaderboard</Text>
+                  <Text fontSize={["40px", "40px", "56px"]}>leaderboard</Text>
 
-                  <Box paddingLeft="50%">
+                  <Box paddingLeft={["0px", "0px", "50%"]}>
                     <Box className="standardButton" bgColor="" width="100%">
                       <HStack>
                         <SearchIcon
@@ -98,7 +98,7 @@ export default function Leaderboard({ config }) {
                   </Box>
                 </HStack>
               </Box>
-              <Box width="100%" paddingTop="8px" className="font400 standardButton ">
+              <Box display='flex' width="100%" paddingTop="8px" className="font400 standardButton ">
                 <Button onClick={() => setLanguage("C++")}>
                   <Text fontSize="22px" color={language === "C++" ? config["mainText"] : ""}>
                     C++
@@ -120,24 +120,32 @@ export default function Leaderboard({ config }) {
                 <Box paddingTop="24px" paddingLeft="54px">
                   {loading && <Box className="loader"></Box>}
                 </Box>
-                <Section delay={0.5}>
-                  <Stack direction="column">
+                <Section delay={0.5} maxWidth={'100%'}>
+                  <Stack direction="column" justifyContent={'flex-start'} display={'flex'}>
                     {!loading &&
                       top.map((solution) => (
                         <Box
+                          alignSelf={'flex-start'}
+                          display={'flex'}
+
                           paddingTop="24px"
                           className="standardButton grayText font300"
+
                           minH="50px"
+                          maxW={'100%'}
+                          overflow={'hidden'}
                           bgColor="">
-                          <HStack>
+                          <VStack>
                             <Button onClick={() => showLeaderboardModal(solution.solution_id)}>
                               <Text
+                                  display={'flex'}
+                                  textAlign={'left'}
                                 fontSize="25px"
                                 color={selectedCode === solution.solution_id ? config["mainText"] : ""}>
                                 {solution.solution_id}
                               </Text>
                             </Button>
-                          </HStack>
+                          </VStack>
                           {/* {selectedCode === solution.solution_id && (
                         <Box paddingLeft="13px" width="100%" paddingTop={"5px"}>
                           <HStack justifyContent={"space-between"}>
