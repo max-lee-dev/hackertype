@@ -28,6 +28,24 @@ import { db } from "./firebase";
 import Submission from "./Submission";
 import { getAuth } from "firebase/auth";
 
+export function formatDate(when) {
+  const now = Date.parse(Date());
+
+  const timeDiffInMs = Math.abs(now - when);
+  const timeDiffInDays = Math.floor(timeDiffInMs / (1000 * 60 * 60 * 24));
+  const timeDiffInHours = Math.floor(timeDiffInMs / (1000 * 60 * 60));
+  const timeDiffInMinutes = Math.floor(timeDiffInMs / (1000 * 60));
+
+  if (timeDiffInDays > 0) {
+    return `${timeDiffInDays} days ago`;
+  } else if (timeDiffInHours > 0) {
+    return `${timeDiffInHours} hours ago`;
+  } else if (timeDiffInMinutes > 0) {
+    return `${timeDiffInMinutes} minutes ago`;
+  } else {
+    return "just now";
+  }
+}
 export default function LeaderboardModal({
   isLeaderboardOpen,
 
@@ -88,24 +106,7 @@ export default function LeaderboardModal({
 
     getSolutionList().then(() => setLoading(false));
   }, [userInput, isLeaderboardOpen]);
-  function formatDate(when) {
-    const now = Date.parse(Date());
 
-    const timeDiffInMs = Math.abs(now - when);
-    const timeDiffInDays = Math.floor(timeDiffInMs / (1000 * 60 * 60 * 24));
-    const timeDiffInHours = Math.floor(timeDiffInMs / (1000 * 60 * 60));
-    const timeDiffInMinutes = Math.floor(timeDiffInMs / (1000 * 60));
-
-    if (timeDiffInDays > 0) {
-      return `${timeDiffInDays} days ago`;
-    } else if (timeDiffInHours > 0) {
-      return `${timeDiffInHours} hours ago`;
-    } else if (timeDiffInMinutes > 0) {
-      return `${timeDiffInMinutes} minutes ago`;
-    } else {
-      return "just now";
-    }
-  }
 
   const css = document.querySelector(":root");
   const style = getComputedStyle(css);

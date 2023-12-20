@@ -68,7 +68,7 @@ export default function CodeSettings({
             <Stack direction={['column', 'row', 'row']} justifyContent="space-between" spacing={['0', '0', '5']}>
               <Center>
               <Box display="flex">
-                <HStack spacing="-1">
+                <HStack spacing="-1" paddingBottom={12}>
                   <Tooltip label="Line limit">
                     <VStack spacing="-2" fontSize="12px" className="grayText">
                       <IconButton
@@ -132,29 +132,10 @@ export default function CodeSettings({
                   </Tooltip>
                 </HStack>
 
-                <Box paddingBottom="10px">
+                <Box paddingBottom="57px">
 
                   <HStack spacing="4">
-                    <Box>
-                      <Tooltip label="Settings">
-                        <NavLink
-                          to="/settings"
-                          className="standardButton"
-                          _hover={{ color: "white" }}
-                          _active={{ background: "transparent" }}
-                          variant="outline"
-                          borderColor="transparent"
-                          color={config["subtleText"]}>
-                          <Box
-                            fontSize="28px"
-                            marginTop="0.7rem"
-                            color={config["subtleText"]}
-                            _hover={{ color: config["mainText"] }}>
-                            <ion-icon name="cog"></ion-icon>
-                          </Box>
-                        </NavLink>
-                      </Tooltip>
-                    </Box>
+
 
                     <Tooltip label="Search">
                       <NavLink

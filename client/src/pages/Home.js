@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import React from "react";
+import { motion } from "framer-motion";
 import Timer from "./components/Timer.js";
 import javaCode from "./components/codefiles/javaCode.json";
 import pyCode from "./components/codefiles/pyCode.json";
@@ -739,6 +740,7 @@ function App({ user, givenId }) {
     const textArr = text.split("");
     return textArr.map((char, index) => {
       return (
+
         <Letter
           key={index}
           idx={index}
@@ -755,6 +757,7 @@ function App({ user, givenId }) {
           numReturns={numReturns}
           toggleBrackets={config["toggleBrackets"]}
         />
+
       );
     });
     // if (correct === true) {

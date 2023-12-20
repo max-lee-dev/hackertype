@@ -52,13 +52,30 @@ export default function Navbar({ updatedConfig }) {
                   dev
                 </Text>
               </NavLink>
+
               <Divider marginLeft="10px" marginRight="10px" />
             </Box>
             <Box fontWeight={"500"} display={["none", "none", "inline-block"]}>
               <ul>
                 <li>
-                  <NavLink to="/leaderboard">&lt;leaderboard&gt;</NavLink>
+                  {user?.displayName === "starin" && (
+                      <NavLink to="/admin">
+                        <Text fontSize="16px" paddingRight="5px" textColor="">
+                          &lt;admin&gt;
+                        </Text>
+                      </NavLink>
+                  )}
                 </li>
+                <li>
+                  <NavLink to={'/settings'}>
+                    <Text fontSize="16px" paddingRight="5px" textColor="">
+                        &lt;settings&gt;
+                    </Text>
+
+                  </NavLink>
+                </li>
+
+
                 <li>
                   <NavLink to="/about">&lt;about&gt;</NavLink>
                 </li>
@@ -82,8 +99,10 @@ export default function Navbar({ updatedConfig }) {
                         </NavLink>
                       </Box>
                     )}
+
                   </Stack>
                 </li>
+
               </ul>
             </Box>
             <Box
@@ -132,6 +151,8 @@ export default function Navbar({ updatedConfig }) {
                             Profile
                         </Box>
                     )}
+
+
 
                   </MenuItem>
                 </MenuList>

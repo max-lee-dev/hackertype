@@ -169,10 +169,11 @@ function App() {
             <Routes>
               <Route path="/" element={<Home user={user} givenId={userData.lastId} />} />
               <Route path="/about" element={<About updatedConfig={updatedConfig} />} />
+
               <Route
-                path="/leaderboard"
-                element={<Leaderboard submissions={submissions} loading={loading} config={updatedConfig} />}
-              />
+                path={'/admin'}
+                element={<Leaderboard config={updatedConfig} />}
+                />
               <Route
                 path="/login"
                 element={<UserLogin setGitLogin={setGitLogin} config={updatedConfig} user={user} setUser={setUser} />}
