@@ -37,7 +37,8 @@ export default function Leaderboard({ config }) {
         getSubmissions();
   }, [language, userInput]);
 
-  function showLeaderboardModal(id) {
+  function showLeaderboardModal(id, lang) {
+      setLanguage(lang)
     setSelectedCode(id);
     setSelectedGraphCode(id);
     onLeaderboardOpen();
@@ -57,7 +58,7 @@ export default function Leaderboard({ config }) {
                 </HStack>
               </Box>
 
-              <Box paddingLeft="30px" paddingTop="30px">
+              <Box  paddingLeft="30px" paddingTop="30px">
                 <Box paddingTop="24px" paddingLeft="54px">
                   {loading && <Box className="loader"></Box>}
                 </Box>
@@ -76,7 +77,7 @@ export default function Leaderboard({ config }) {
 
                           bgColor="">
                           <VStack>
-                            <Button onClick={() => showLeaderboardModal(solution.solution_id)}>
+                            <Button onClick={() => showLeaderboardModal(solution.solution_id, solution.language)}>
                               <VStack>
 
                               <Text
