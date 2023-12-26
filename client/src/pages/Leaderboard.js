@@ -97,11 +97,19 @@ export default function Leaderboard({config}) {
                                     <Button onClick={() => setWhichSubmission("recent")}
                                             className="standardButton">
                                         <Text
+                                            _hover={{
+                                                color: config["mainText"],
+                                                fontSize: "24px",
+                                            }}
                                             color={whichSubmission === "recent" ? config["mainText"] : config["subtleText"]}
                                             fontSize={["20px", "20px", "24px"]}>recent</Text>
                                     </Button>
                                     <Button onClick={() => setWhichSubmission("top")} className="standardButton">
                                         <Text
+                                            _hover={{
+                                                color: config["mainText"],
+                                                fontSize: "24px",
+                                            }}
                                             color={whichSubmission === "top" ? config["mainText"] : config["subtleText"]}
                                             fontSize={["20px", "20px", "24px"]}>world-records</Text>
                                     </Button>
@@ -138,7 +146,11 @@ export default function Leaderboard({config}) {
                                                                         alignSelf={'flex-start'}
                                                                         as={'a'}
                                                                         href={`/profile/${solution.user}`}
-                                                                        _hover={{color: config["logoColor"]}}
+                                                                        _hover={{
+                                                                            color: config["logoColor"],
+
+
+                                                                        }}
                                                                         fontWeight={600}
 
                                                                         width={"fit-content"}
@@ -149,10 +161,11 @@ export default function Leaderboard({config}) {
                                                                         <Text>{solution.user}</Text>
 
                                                                     </Text>
-                                                                    <Divider/>
+                                                                    <Divider borderColor={'transparent'}/>
                                                                     <Button
                                                                         fontWeight={500}
                                                                         onClick={() => showLeaderboardModal(solution.solution_id, solution.language)}>
+
                                                                         <VStack>
 
                                                                             <HStack>
