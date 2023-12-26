@@ -9,11 +9,13 @@ import {
     MenuList,
     MenuButton,
     MenuItem,
+    VStack,
     MenuDivider,
     Text,
     Box,
     Divider,
     Center,
+    Badge,
     Button,
     Stack,
     useDisclosure
@@ -81,9 +83,15 @@ export default function Navbar({updatedConfig}) {
                                 </li>
                                 <li>
                                     <NavLink to="/recent">
-                                        <Text fontSize="16px" paddingRight="5px" textColor="">
-                                            &lt;recent&gt;
-                                        </Text>
+                                        <VStack>
+                                            <Text fontSize="16px" paddingRight="5px"
+                                                  color={updatedConfig["incorrectText"]}>
+                                                &lt;recent&gt;
+
+
+                                            </Text>
+
+                                        </VStack>
                                     </NavLink>
                                 </li>
 
