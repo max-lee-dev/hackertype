@@ -171,7 +171,7 @@ function App() {
               <Route path="/about" element={<About updatedConfig={updatedConfig} />} />
 
               <Route
-                path={'/admin'}
+                path={'/recent'}
                 element={<Leaderboard config={updatedConfig} />}
                 />
               <Route

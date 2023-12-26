@@ -952,7 +952,7 @@
   [
     {
       "id": "161. One Edit Distance",
-      "code": "class Solution:\n  def isOneEditDistance(self, s: str, t: str) -> bool:\n    m = len(s)\n    n = len(t)\n    if m > n:  # Make sure len(s) <= len(t)\n      return self.isOneEditDistance(t, s)\n\n    for i in range(m):\n      if s[i] != t[i]:\n        if m == n:\n          return s[i + 1:] == t[i + 1:]  # Replace s[i] with t[i]\n        return s[i:] == t[i + 1:]  # Delete t[i]\n\n    return m + 1 == n  # Delete t[-1]\n"
+      "code": "class Solution:\n  def isOneEditDistance(self, s: str, t: str) -> bool:\n    m = len(s)\n    n = len(t)\n    if m > n:  # Make sure len(s) <= len(t)\n          return self.isOneEditDistance(t, s)\n\n    for i in range(m):\n      if s[i] != t[i]:\n        if m == n:\n        return s[i + 1:] == t[i + 1:]\n    return s[i:] == t[i + 1:]\n return m + 1 == n\n"
     }
   ],
   [
@@ -2504,7 +2504,7 @@
   [
     {
       "id": "488. Zuma Game",
-      "code": "class Solution:\n  def findMinStep(self, board: str, hand: str) -> int:\n    def deDup(board):\n      start = 0  # Start index of a color sequenece\n      for i, c in enumerate(board):\n        if c != board[start]:\n          if i - start >= 3:\n            return deDup(board[:start] + board[i:])\n          start = i  # Meet a new sequence\n      return board\n\n    @functools.lru_cache(None)\n    def dfs(board: str, hand: str):\n      board = deDup(board)\n      if board == '#':\n        return 0\n\n      boardSet = set(board)\n      # Hand that in board\n      hand = ''.join(h for h in hand if h in boardSet)\n      if not hand:  # Infeasible\n        return math.inf\n\n      ans = math.inf\n\n      for i in range(len(board)):\n        for j, h in enumerate(hand):\n          # Place hs[j] in board[i]\n          newHand = hand[:j] + hand[j + 1:]\n          newBoard = board[:i] + h + board[i:]\n          ans = min(ans, 1 + dfs(newBoard, newHand))\n\n      return ans\n\n    ans = dfs(board + '#', hand)\n    return -1 if ans == math.inf else ans\n"
+      "code": "class Solution:\n  def findMinStep(self, board: str, hand: str) -> int:\n    def deDup(board):\n      start = 0  # Start index of a color sequenece\n      for i, c in enumerate(board):\n        if c != board[start]:\n          if i - start >= 3:\n            return deDup(board[:start] + board[i:])\n          start = i  # Meet a new sequence\n      return board\n\n    @functools.lru_cache(None)\n    def dfs(board: str, hand: str):\n      board = deDup(board)\n      if board == '#':\n        return 0\n\n      boardSet = set(board)\n      # Hand that in board\n      hand = ''.join(h for h in hand if h in boardSet)\n      if not hand:  # Infeasible\n        return math.inf\n\n      ans = math.inf\n\n      for i in range(len(board)):\n        for j, h in enumerate(hand):\n          # Place hs[j] in board[i]\n          newHand = hand[:j] + hand[j + 1:]\n          newBoard = board[:i] + h + board[i:]\n          ans = min(ans, 1 + dfs(newBoard, newHand))\n\n      return ans\n\n    ans = dfs(board + '#', hand)\n    if ans == math.inf\n    return -1\n    else ans\n"
     }
   ],
   null,

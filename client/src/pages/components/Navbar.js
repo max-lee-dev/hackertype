@@ -58,13 +58,11 @@ export default function Navbar({ updatedConfig }) {
             <Box fontWeight={"500"} display={["none", "none", "inline-block"]}>
               <ul>
                 <li>
-                  {user?.displayName === "starin" && (
-                      <NavLink to="/admin">
+                      <NavLink to="/recent">
                         <Text fontSize="16px" paddingRight="5px" textColor="">
-                          &lt;admin&gt;
+                          &lt;recent&gt;
                         </Text>
                       </NavLink>
-                  )}
                 </li>
                 <li>
                   <NavLink to={'/settings'}>
