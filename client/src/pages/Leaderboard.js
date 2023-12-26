@@ -131,6 +131,8 @@ export default function Leaderboard({config}) {
                                                         {solution.user !== "joemama234" && solution.user !== "starin" && (
 
                                                             <Box
+                                                                width={'100%'}
+
 
                                                                 minH={'200px'}
                                                                 display={'flex'}
@@ -140,7 +142,7 @@ export default function Leaderboard({config}) {
                                                                 bgColor="">
 
 
-                                                                <VStack spacing={3}>
+                                                                <VStack spacing={5}>
                                                                     <Text
                                                                         paddingLeft={'14px'}
                                                                         alignSelf={'flex-start'}
@@ -168,23 +170,26 @@ export default function Leaderboard({config}) {
 
                                                                         <VStack>
 
-                                                                            <HStack>
+                                                                            <HStack className={"soltitle"}>
 
                                                                                 <Text
-                                                                                    width={'100%'}
+
                                                                                     display={'flex'}
+
                                                                                     textAlign={'left'}
                                                                                     fontSize="20px">
                                                                                     {solution.solution_id}
                                                                                 </Text>
                                                                                 <Text
                                                                                     width={'100%'}
+                                                                                    fontWeight={400}
                                                                                     display={'flex'}
                                                                                     textAlign={'left'}
-                                                                                    fontSize="20px"
+                                                                                    fontSize="18px"
                                                                                     color={selectedCode === solution.solution_id ? config["mainText"] : ""}>
                                                                                     ({solution.language})
                                                                                 </Text>
+
                                                                             </HStack>
 
 
@@ -206,6 +211,7 @@ export default function Leaderboard({config}) {
                                                                                   color={selectedCode === solution.solution_id ? config["mainText"] : ""}>
                                                                                 {formatDate(solution.when)}
                                                                             </Text>
+
                                                                         </VStack>
 
                                                                     </Button>
