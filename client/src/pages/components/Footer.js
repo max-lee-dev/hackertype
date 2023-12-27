@@ -5,7 +5,7 @@ import ChangelogModal from "./ChangelogModal.js";
 
 export default function Footer({config}) {
     const {isOpen: isChangeOpen, onClose: onChangeClose, onOpen: onChangeOpen} = useDisclosure();
-    const lastUpdateTime = 1703618069000;
+    const lastUpdateTime = 1703667025000;
     // console.log(Date.parse(new Date()));
     const seenUpdate = localStorage.getItem("lastCheckedUpdate") > lastUpdateTime;
 

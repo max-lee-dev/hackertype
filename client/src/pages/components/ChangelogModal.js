@@ -58,6 +58,11 @@ export default function ChangelogModal({isChangeOpen, onChangeClose}) {
                                     <Box paddingTop="15px">
                                         <Text color={subtleText}>added: </Text>
                                         <Text>- recent submissions page (revamp leaderboard) </Text>
+                                        <Text>- added daily solutions
+                                            <ion-icon name="flame"></ion-icon>
+                                            <ion-icon name="flame"></ion-icon>
+                                            <ion-icon name="flame"></ion-icon>
+                                            check it out :D</Text>
                                     </Box>
                                     <Box paddingTop="15px">
                                         <Text color={subtleText}>fixed: </Text>

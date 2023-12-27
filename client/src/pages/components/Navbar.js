@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {NavLink} from "react-router-dom";
 import {auth} from "./firebase";
+import DailyButton from "./DailyButton";
 import logo from "./assets/favicon.ico";
 import ChangelogModal from "./ChangelogModal.js";
 
@@ -11,6 +12,7 @@ import {
     MenuItem,
     VStack,
     MenuDivider,
+    Tooltip,
     Text,
     Box,
     Divider,
@@ -21,7 +23,7 @@ import {
     useDisclosure
 } from "@chakra-ui/react";
 
-export default function Navbar({updatedConfig}) {
+export default function Navbar({userData, updatedConfig}) {
     const [user, setUser] = useState(null);
 
     const initialRef = React.useRef(null);
@@ -73,6 +75,13 @@ export default function Navbar({updatedConfig}) {
                         </Box>
                         <Box fontWeight={"500"} display={["none", "none", "inline-block"]}>
                             <ul>
+                                <Tooltip label={user ? "daily solution" : "log in to save your streak"}>
+
+                                    <li>
+                                        <DailyButton config={updatedConfig} user={userData}/>
+                                    </li>
+                                </Tooltip>
+
                                 <li>
                                     <NavLink to={'/settings'}>
                                         <Text fontSize="16px" paddingRight="5px" textColor="">
@@ -81,6 +90,7 @@ export default function Navbar({updatedConfig}) {
 
                                     </NavLink>
                                 </li>
+
                                 <li>
                                     <NavLink to="/recent">
                                         <VStack>
@@ -109,10 +119,10 @@ export default function Navbar({updatedConfig}) {
                                             </NavLink>
                                         )}
                                         {user && (
-                                            <Box fontSize="40px" paddingTop="3px">
+                                            <Box fontSize="40px" paddingTop="9px">
                                                 <NavLink to={`/profile/${user.displayName}`}>
                                                     <li>
-                                                        <Text marginTop="3px" fontSize="16px" paddingRight="5px"
+                                                        <Text marginTop="-3px" fontSize="16px" paddingRight="5px"
                                                               textColor="">
                                                             &lt;{user.displayName}&gt;
                                                         </Text>
@@ -156,8 +166,8 @@ export default function Navbar({updatedConfig}) {
                                     </MenuItem>
                                     <MenuDivider/>
                                     <MenuItem>
-                                        <Box minW="100%" as="a" href="/leaderboard">
-                                            Leaderboard
+                                        <Box minW="100%" as="a" href="/recent">
+                                            recent
                                         </Box>
                                     </MenuItem>
                                     <MenuDivider/>
@@ -169,7 +179,7 @@ export default function Navbar({updatedConfig}) {
                                         )}
                                         {user && (
                                             <Box minW="100%" as="a" href={`/profile/${user.displayName}`}>
-                                                Profile
+                                                {user.displayName}
                                             </Box>
                                         )}
 

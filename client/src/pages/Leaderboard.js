@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import dailySolutions from "./components/codefiles/dailySolutions.json";
 import {db} from "./components/firebase";
 import {orderBy, where, limit, query, collection, getDocs} from "@firebase/firestore";
 import {
@@ -11,6 +12,7 @@ import {
     Button,
     HStack,
     Input,
+    Tooltip,
     Divider,
     useDisclosure
 } from "@chakra-ui/react";
@@ -38,6 +40,10 @@ export default function Leaderboard({config}) {
         onClose: onLeaderboardClose,
         onOpen: onLeaderboardOpen,
     } = useDisclosure();
+    const ogDay = 1703662239000;
+    const today = Date.parse(new Date());
+    const dailyNum = Math.floor((today - ogDay) / (1000 * 60 * 60 * 24));
+
     useEffect(() => {
         setLoading(true);
         console.log("huh");
@@ -128,99 +134,110 @@ export default function Leaderboard({config}) {
                                             {!loading &&
                                                 curSubmissions.map((solution) => (
                                                     <Box key={solution.id}>
-                                                        {solution.user !== "joemama234" && solution.user !== "starin" && (
 
-                                                            <Box
-                                                                width={'100%'}
-
-
-                                                                minH={'200px'}
-                                                                display={'flex'}
-
-                                                                className="standardButton grayText font300"
-
-                                                                bgColor="">
+                                                        <Box
+                                                            width={'100%'}
 
 
-                                                                <VStack spacing={5}>
-                                                                    <Text
-                                                                        paddingLeft={'14px'}
-                                                                        alignSelf={'flex-start'}
-                                                                        as={'a'}
-                                                                        href={`/profile/${solution.user}`}
-                                                                        _hover={{
-                                                                            color: config["logoColor"],
+                                                            minH={'200px'}
+                                                            display={'flex'}
+
+                                                            className="standardButton grayText font300"
+
+                                                            bgColor="">
 
 
-                                                                        }}
-                                                                        fontWeight={600}
+                                                            <VStack spacing={5}>
+                                                                <Text
+                                                                    paddingLeft={'14px'}
+                                                                    alignSelf={'flex-start'}
+                                                                    as={'a'}
+                                                                    href={`/profile/${solution.user}`}
+                                                                    _hover={{
+                                                                        color: config["logoColor"],
 
-                                                                        width={"fit-content"}
-                                                                        display={'flex'}
-                                                                        textAlign={'left'}
-                                                                        fontSize="24px"
-                                                                        color={config["mainText"]}>
-                                                                        <Text>{solution.user}</Text>
 
-                                                                    </Text>
-                                                                    <Divider borderColor={'transparent'}/>
-                                                                    <Button
-                                                                        fontWeight={500}
-                                                                        onClick={() => showLeaderboardModal(solution.solution_id, solution.language)}>
+                                                                    }}
+                                                                    fontWeight={600}
 
-                                                                        <VStack>
+                                                                    width={"fit-content"}
+                                                                    display={'flex'}
+                                                                    textAlign={'left'}
+                                                                    fontSize="24px"
+                                                                    color={config["mainText"]}>
+                                                                    <Text>{solution.user}</Text>
 
-                                                                            <HStack className={"soltitle"}>
+                                                                </Text>
+                                                                <Divider borderColor={'transparent'}/>
+                                                                <Button
+                                                                    fontWeight={500}
+                                                                    onClick={() => showLeaderboardModal(solution.solution_id, solution.language)}>
 
+                                                                    <VStack>
+
+                                                                        <HStack className={"soltitle"}>
+                                                                            {parseInt(solution.solution_id.split(".")[0]) === dailySolutions[dailyNum] && (
+                                                                                <Tooltip label={"daily solution"}>
+                                                                                    <Box
+                                                                                        color={config["logoColor"]}
+                                                                                        paddingRight={'5px'}
+                                                                                        fontSize='24px'>
+
+                                                                                        <ion-icon
+                                                                                            name="flame"></ion-icon>
+                                                                                    </Box>
+                                                                                </Tooltip>
+                                                                            )}
+
+
+                                                                            <Text
+
+                                                                                display={'flex'}
+
+                                                                                textAlign={'left'}
+                                                                                fontSize="20px">
+                                                                                {solution.solution_id}
+                                                                            </Text>
+                                                                            <Text
+                                                                                width={'100%'}
+                                                                                fontWeight={400}
+                                                                                display={'flex'}
+                                                                                textAlign={'left'}
+                                                                                fontSize="18px"
+                                                                                color={selectedCode === solution.solution_id ? config["mainText"] : ""}>
+                                                                                ({solution.language})
+                                                                            </Text>
+
+                                                                        </HStack>
+
+
+                                                                        <Text width={'100%'} textAlign={"left"}
+                                                                              fontSize="20px"
+                                                                              color={selectedCode === solution.solution_id ? config["mainText"] : ""}>
+                                                                            <HStack>
+                                                                                <Text>{solution.wpm} WPM</Text>
                                                                                 <Text
-
-                                                                                    display={'flex'}
-
-                                                                                    textAlign={'left'}
-                                                                                    fontSize="20px">
-                                                                                    {solution.solution_id}
-                                                                                </Text>
-                                                                                <Text
-                                                                                    width={'100%'}
-                                                                                    fontWeight={400}
-                                                                                    display={'flex'}
-                                                                                    textAlign={'left'}
-                                                                                    fontSize="18px"
-                                                                                    color={selectedCode === solution.solution_id ? config["mainText"] : ""}>
-                                                                                    ({solution.language})
-                                                                                </Text>
+                                                                                    color={solution.rank === 1 ? config["logoColor"] : config["subtleText"]}>[#{solution.rank}]</Text>
 
                                                                             </HStack>
 
-
-                                                                            <Text width={'100%'} textAlign={"left"}
-                                                                                  fontSize="20px"
-                                                                                  color={selectedCode === solution.solution_id ? config["mainText"] : ""}>
-                                                                                <HStack>
-                                                                                    <Text>{solution.wpm} WPM</Text>
-                                                                                    <Text
-                                                                                        color={solution.rank === 1 ? config["logoColor"] : config["subtleText"]}>[#{solution.rank}]</Text>
-
-                                                                                </HStack>
-
-                                                                            </Text>
+                                                                        </Text>
 
 
-                                                                            <Text width={'100%'} textAlign={"left"}
-                                                                                  fontSize="20px"
-                                                                                  color={selectedCode === solution.solution_id ? config["mainText"] : ""}>
-                                                                                {formatDate(solution.when)}
-                                                                            </Text>
+                                                                        <Text width={'100%'} textAlign={"left"}
+                                                                              fontSize="20px"
+                                                                              color={selectedCode === solution.solution_id ? config["mainText"] : ""}>
+                                                                            {formatDate(solution.when)}
+                                                                        </Text>
 
-                                                                        </VStack>
+                                                                    </VStack>
 
-                                                                    </Button>
+                                                                </Button>
 
-                                                                </VStack>
+                                                            </VStack>
 
 
-                                                            </Box>
-                                                        )}
+                                                        </Box>
                                                     </Box>
 
 
