@@ -96,7 +96,7 @@ function countNumberOfLines(funcRawCode, codingLanguage) {
     return lineCount;
 }
 
-function App({user, givenId}) {
+function App({userData, user, givenId}) {
     const {isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen} = useDisclosure();
     const {isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen} = useDisclosure();
     const {
@@ -196,6 +196,7 @@ function App({user, givenId}) {
     const [retrySame, setRetrySame] = useState(false);
 
     const [finished, setFinished] = useState(false);
+    const [last_daily, setLastDaily] = useState(undefined);
 
     // check if user missed the daily
     const ogDay = 1703662239000;
@@ -204,8 +205,10 @@ function App({user, givenId}) {
 
     useEffect(() => {
 
+        console.log("daily: " + last_daily)
+
         async function checkDaily() {
-            if (dailyNum - user.lastDaily > 1) {
+            if (dailyNum - last_daily > 1) {
                 // if they missed a day
                 await updateDoc(doc(db, "users", user.uid), {
                     streak: 0,
@@ -294,6 +297,7 @@ function App({user, givenId}) {
                 let givenLineLimit = 0;
                 const querySnapshot = await getDocs(q);
                 querySnapshot.forEach((doc) => {
+                    setLastDaily(doc.data().last_daily);
                     if (number) {
                         chosenID.current = number;
                         setId(number);
@@ -1193,6 +1197,7 @@ function App({user, givenId}) {
                                                     leetcodeTitle={leetcodeTitle}
                                                     setSubmitted={setSubmitted}
                                                     user={user}
+                                                    last_daily={last_daily}
                                                     thisSolutionPR={thisSolutionPR}
                                                     setThisSolutionPR={setThisSolutionPR}
                                                     wordLimit={wordLimit}

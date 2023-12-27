@@ -32,6 +32,7 @@ function Timer({
                    startCounting,
                    pause,
                    totalWords,
+                   last_daily,
                    correctCharacterArray,
                    wordLimit,
                    Restart,
@@ -306,10 +307,10 @@ function Timer({
         const today = Date.parse(new Date());
         const dailyNum = Math.floor((today - ogDay) / (1000 * 60 * 60 * 24));
 
-        if (parseInt(leetcodeTitle.split(".")[0]) === dailySolutions[dailyNum]) {
+        if (parseInt(leetcodeTitle.split(".")[0]) === dailySolutions[dailyNum] && parseInt(last_daily) !== parseInt(dailyNum)) {
             // this is the daily problem
 
-            console.log('hi')
+            console.log('hi' + dailyNum + " " + last_daily)
             await updateDoc(doc(db, "users", user?.uid), {
                 last_daily: dailyNum,
                 streak: increment(1),

@@ -95,7 +95,7 @@ export default function Navbar({userData, updatedConfig}) {
                                     <NavLink to="/recent">
                                         <VStack>
                                             <Text fontSize="16px" paddingRight="5px"
-                                                  color={updatedConfig["incorrectText"]}>
+                                            >
                                                 &lt;recent&gt;
 
 
