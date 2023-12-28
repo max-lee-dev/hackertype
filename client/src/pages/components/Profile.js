@@ -150,11 +150,9 @@ export default function Profile({setId, config}) {
 
                                 <Stack className={'mainFont'} direction="row" spacing={20}>
                                     <Box className="generalInfoCard">
-                                        {profileUserData?.average_wpm && (
-                                            <Text fontSize="26px" className="font400">
-                                                {numberWorldRecords}
-                                            </Text>
-                                        )}
+                                        <Text fontSize="26px" className="font400">
+                                            {numberWorldRecords ? numberWorldRecords : 0}
+                                        </Text>
                                         <Text fontSize="18px" color={config["subtleText"]}
                                               className=" font400">
                                             world records
@@ -162,11 +160,9 @@ export default function Profile({setId, config}) {
                                     </Box>
 
                                     <Box className="generalInfoCard">
-                                        {profileUserData?.average_wpm && (
-                                            <Text fontSize="26px" className="font400">
-                                                {profileUserData?.average_wpm}
-                                            </Text>
-                                        )}
+                                        <Text fontSize="26px" className="font400">
+                                            {profileUserData?.average_wpm ? profileUserData?.average_wpm : 0}
+                                        </Text>
                                         <Text fontSize="18px" color={config["subtleText"]}
                                               className=" font400">
                                             average WPM
@@ -175,7 +171,7 @@ export default function Profile({setId, config}) {
 
                                     <Box className="generalInfoCard">
                                         <Text fontSize="26px" className="font400">
-                                            {profileUserData?.tests_started}
+                                            {profileUserData?.tests_started ? profileUserData?.tests_started : 0}
                                         </Text>
                                         <Text fontSize="18px" color={config["subtleText"]}
                                               className=" font400">
@@ -185,7 +181,7 @@ export default function Profile({setId, config}) {
 
                                     <Box className="generalInfoCard">
                                         <Text fontSize="26px" className="font400">
-                                            {profileUserData?.tests_completed}
+                                            {profileUserData?.tests_completed ? profileUserData?.tests_completed : 0}
                                         </Text>
                                         <Text fontSize="18px" color={config["subtleText"]}
                                               className=" font400">

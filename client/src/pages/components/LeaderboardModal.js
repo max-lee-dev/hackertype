@@ -68,7 +68,7 @@ export default function LeaderboardModal({
 
     const solutionNumber = parseInt(titleArray[0]);
     const auth = getAuth();
-    const ogDay = 1703662239000;
+    const ogDay = 1703662239000 - 27039000;
     const today = Date.parse(new Date());
     const dailyNum = Math.floor((today - ogDay) / (1000 * 60 * 60 * 24));
 
