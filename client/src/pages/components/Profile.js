@@ -148,7 +148,7 @@ export default function Profile({setId, config}) {
                                 </Box>
 
 
-                                <Stack className={'mainFont'} direction="row" spacing={0}>
+                                <Stack className={'mainFont'} direction="row" spacing={20}>
                                     <Box className="generalInfoCard">
                                         {profileUserData?.average_wpm && (
                                             <Text fontSize="26px" className="font400">
@@ -192,7 +192,7 @@ export default function Profile({setId, config}) {
                                             completed
                                         </Text>
                                     </Box>
-                                    <Box className="generalInfoCard">
+                                    <Box paddingTop={'20px'}>
                                         <Text fontSize="26px" className="font400">
                                             <HStack>
                                                 <Box fontSize={'20px'} paddingTop={2}>
