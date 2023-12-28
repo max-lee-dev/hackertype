@@ -199,7 +199,7 @@ export default function Profile({setId, config}) {
                                                     <ion-icon icon={'flame'}></ion-icon>
                                                 </Box>
                                                 <Text>
-                                                    {profileUserData?.streak}
+                                                    {profileUserData?.streak ? profileUserData?.streak : 0}
                                                 </Text>
                                             </HStack>
                                         </Text>

@@ -151,23 +151,19 @@ html::-webkit-scrollbar-thumb:hover {
 
 .submissionCard {
     width: 100%;
-    border-radius: 25px;
     display: flex;
     flex-direction: row;
     height: 400px;
-    padding: 2rem;
-    padding-top: 1px !important;
 }
 
 .submissionContentContainer {
+
     
-    border-radius: 25px;
     width: 100%;
     height: 400px;
     
 }
 .submissionContainer {
-    border-radius: 25px;
     width: 100%;
     height: 350px;
     
