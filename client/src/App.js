@@ -11,7 +11,7 @@ import {Routes, Route} from "react-router-dom";
 import Footer from "./pages/components/Footer";
 
 import {db} from "./pages/components/firebase";
-import {collection, getDocs, query, where} from "firebase/firestore";
+import {collection, doc, getDocs, query, updateDoc, where} from "firebase/firestore";
 import {getAuth} from "firebase/auth";
 import {Analytics} from "@vercel/analytics/react";
 import {ChakraProvider, extendTheme, Box, useDisclosure} from "@chakra-ui/react";
@@ -30,6 +30,10 @@ function App() {
     const [stateConfig, setStateConfig] = useState(() => getConfigValues());
     const [themeBackground, setThemeBackground] = useState(stateConfig["themeBackground"]);
     const [updatedConfig, setUpdatedConfig] = useState(stateConfig);
+    const ogDay = 1703662239000 - 27039000;
+    const today = Date.parse(new Date());
+    const dailyNum = Math.floor((today - ogDay) / (1000 * 60 * 60 * 24));
+
 
     // thank you samyok
     function parseJSON(str) {
@@ -131,6 +135,25 @@ function App() {
         getSubmissions().then(() => setLoading(false));
         //eslint-disable-next-line
     }, []);
+
+    useEffect(() => {
+
+        console.log("daily: " + userData.last_daily)
+
+        async function checkDaily() {
+            if (dailyNum - userData.last_daily > 1) {
+                // if they missed a day
+                await updateDoc(doc(db, "users", user.uid), {
+                    streak: 0,
+                });
+
+            }
+        }
+
+        if (user) checkDaily();
+
+
+    }, [userData])
 
     const theme = extendTheme({
         colors: {

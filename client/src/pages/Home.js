@@ -199,28 +199,9 @@ function App({userData, user, givenId}) {
     const [last_daily, setLastDaily] = useState(undefined);
 
     // check if user missed the daily
-    const ogDay = 1703662239000;
+    const ogDay = 1703662239000 - 27039000;
     const today = Date.parse(new Date());
     const dailyNum = Math.floor((today - ogDay) / (1000 * 60 * 60 * 24));
-
-    useEffect(() => {
-
-        console.log("daily: " + last_daily)
-
-        async function checkDaily() {
-            if (dailyNum - last_daily > 1) {
-                // if they missed a day
-                await updateDoc(doc(db, "users", user.uid), {
-                    streak: 0,
-                });
-
-            }
-        }
-
-        if (user) checkDaily();
-
-
-    }, [user])
 
 
     useEffect(() => {
