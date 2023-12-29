@@ -11,7 +11,7 @@ import {Routes, Route} from "react-router-dom";
 import Footer from "./pages/components/Footer";
 
 import {db} from "./pages/components/firebase";
-import {collection, doc, getDocs, query, updateDoc, where} from "firebase/firestore";
+import {collection, doc, getDocs, onSnapshot, query, updateDoc, where} from "firebase/firestore";
 import {getAuth} from "firebase/auth";
 import {Analytics} from "@vercel/analytics/react";
 import {ChakraProvider, extendTheme, Box, useDisclosure} from "@chakra-ui/react";
@@ -106,9 +106,12 @@ function App() {
         async function getUserSettings() {
             const q = query(collection(db, "users"), where("uid", "==", user?.uid));
             const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
+            const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
                 setUserData(doc.data());
             });
+            // querySnapshot.forEach((doc) => {
+            //     setUserData(doc.data());
+            // });
         }
 
         if (user) getUserSettings().then(() => setLoading(false));
@@ -136,24 +139,6 @@ function App() {
         //eslint-disable-next-line
     }, []);
 
-    useEffect(() => {
-
-        console.log("daily: " + userData.last_daily)
-
-        async function checkDaily() {
-            if (dailyNum - userData.last_daily > 1) {
-                // if they missed a day
-                await updateDoc(doc(db, "users", user.uid), {
-                    streak: 0,
-                });
-
-            }
-        }
-
-        if (user) checkDaily();
-
-
-    }, [userData])
 
     const theme = extendTheme({
         colors: {
