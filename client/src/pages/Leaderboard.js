@@ -49,7 +49,7 @@ export default function Leaderboard({config}) {
         console.log("huh");
 
         async function getSubmissions() {
-            const q = query(collection(db, "submissions"), limit(20), orderBy("date", "desc"));
+            const q = query(collection(db, "submissions"), limit(20), orderBy("when", "desc"));
             const querySnapshot = await getDocs(q);
             const submissions = [];
             querySnapshot.forEach((doc) => {
@@ -57,7 +57,7 @@ export default function Leaderboard({config}) {
             });
 
             let actualTop = [];
-            const q2 = query(collection(db, "submissions"), where("rank", "==", 1), limit(20), orderBy("date", "desc"));
+            const q2 = query(collection(db, "submissions"), where("rank", "==", 1), limit(20), orderBy("when", "desc"));
             const querySnapshot2 = await getDocs(q2);
             querySnapshot2.forEach((doc) => {
                 actualTop.push(doc.data());
