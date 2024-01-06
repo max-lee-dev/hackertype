@@ -226,14 +226,14 @@ export default function Profile({config}) {
                             </Center>
                         )}
                     </Box>
-                    <Section delay={0.2}>
-                        <Center>
-                            <HStack width={'100%'} mt={[100, 100, 100, 0]}>
+                    <Section delay={0.2} width={'100%'}>
+                        <Center width={'100%'}>
+                            <HStack h={'fit-content'} width={'100%'} mt={[100, 100, 100, 0]}>
                                 <Box width={'50%'}>
                                     <Box>
                                         <Center>
                                             <Box style={{
-                                                width: '100%'
+                                                width: 500,
 
                                             }}>
                                                 <LineChart username={username}/>
@@ -255,11 +255,11 @@ export default function Profile({config}) {
                                         </Center>
                                     </Box>
                                 </Box>
-                                <Box width="50%">
+                                <Box width="100%">
                                     <Box>
                                         <Center>
                                             <Box style={{
-                                                width: '100%',
+                                                width: 500,
                                             }}>
                                                 <DailySolutionChart username={username}/>
                                             </Box>
