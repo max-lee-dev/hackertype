@@ -1,21 +1,19 @@
 import React from "react";
 
 import {signOut, getAuth} from "firebase/auth";
-import {auth} from "./firebase";
-import {Button, Center, Stack, Divider, Text, Box, HStack, Tooltip} from "@chakra-ui/react";
+import {Button, Center, Stack, VStack, Divider, Text, Box, HStack, Tooltip} from "@chakra-ui/react";
 
-import {Line} from "react-chartjs-2";
 import LineChart from "./LineChart";
 
 import {useState, useEffect} from "react";
 import {useParams} from "react-router-dom";
-import {collection, doc, getDocs, query, where, orderBy, limit} from "firebase/firestore";
+import {collection, getDocs, query, where, orderBy, limit} from "firebase/firestore";
 import {db} from "./firebase"; // import your Firebase app instance
 import Submission from "./Submission";
 import DailySolutionChart from "./DailySolutionChart";
 import Section from "./Section";
 
-export default function Profile({setId, config}) {
+export default function Profile({config}) {
     async function signout() {
         await signOut(auth);
         window.location.replace("/");
@@ -115,16 +113,19 @@ export default function Profile({setId, config}) {
 
     return (
         <Section delay={0.1}>
+
             <Center>
-                <Box className="profileContainer" paddingTop="30px">
+
+                <Box width={['90%', '90%', '90%', '70%']} paddingTop="30px">
                     <Box className="userTitleContainer">
                         <Section delay={0.1}>
-                            <Box className="userTitleCard" color={config["mainText"]}>
-                                <Box className="userTitle mainFont font500">
+                            <Box display={'flex'} flexDir={['column', 'column', 'column', 'row']} mt={30}
+                                 color={config["mainText"]}>
+                                <Box mt={5} className="mainFont font500" width={'50%'}>
                                     <HStack spacing="-1">
                                         {!loading && !profileUserData &&
                                             <Text fontSize="56px">User not found...</Text>}
-                                        <Text fontSize="36px">{profileUserData?.displayName}</Text>
+                                        <Text fontSize="2em">{profileUserData?.displayName}</Text>
                                         {!loading && username === user?.displayName && (
                                             <Tooltip label="Sign out" aria-label="A tooltip">
                                                 <Button
@@ -210,7 +211,7 @@ export default function Profile({setId, config}) {
                             </Box>
                         </Section>
                     </Box>
-                    <Box paddingTop="24px">
+                    <Box paddingTop="0px">
                         {loading && (
                             <Center>
                                 <Box className="loader"></Box>
@@ -218,64 +219,72 @@ export default function Profile({setId, config}) {
                         )}
                     </Box>
                     <Section delay={0.2}>
-                        <Box className="graphContentContainer">
-                            <Box width="50%">
-                                <Box className="graphContainer">
-                                    <Center>
-                                        <Box marginBottom="50px" style={{width: 600}}>
-                                            <LineChart username={username}/>
-                                        </Box>
-                                    </Center>
+                        <Center>
+                            <HStack width={'100%'} mt={[100, 100, 100, 0]}>
+                                <Box width={'50%'}>
+                                    <Box>
+                                        <Center>
+                                            <Box style={{
+                                                width: '100%'
 
-                                    <Center>
-                                        {!loading && (
-                                            <Text
-                                                alignSelf="center"
-                                                paddingLeft="20px"
-                                                color={config["subtleText"]}
-                                                fontSize="15px"
-                                                className="mainFont"
-                                                fontWeight="200">
-                                                submission history
-                                            </Text>
-                                        )}
-                                    </Center>
+                                            }}>
+                                                <LineChart username={username}/>
+                                            </Box>
+                                        </Center>
+
+                                        <Center>
+                                            {!loading && (
+                                                <Text
+                                                    alignSelf="center"
+                                                    paddingLeft="20px"
+                                                    color={config["subtleText"]}
+                                                    fontSize="15px"
+                                                    className="mainFont"
+                                                    fontWeight="200">
+                                                    submission history
+                                                </Text>
+                                            )}
+                                        </Center>
+                                    </Box>
                                 </Box>
-                            </Box>
-                            <Box width="50%">
-                                <Box className="dailySolutionGraph">
-                                    <Center>
-                                        <Box marginBottom="50px" style={{width: 600}}>
-                                            <DailySolutionChart username={username}/>
-                                        </Box>
-                                    </Center>
-                                    <Center>
-                                        {!loading && (
-                                            <Text
-                                                alignSelf="center"
-                                                paddingLeft="20px"
-                                                color={config["subtleText"]}
-                                                fontSize="15px"
-                                                className="mainFont"
-                                                fontWeight="200">
-                                                daily submissions
-                                            </Text>
-                                        )}
-                                    </Center>
+                                <Box width="50%">
+                                    <Box>
+                                        <Center>
+                                            <Box style={{
+                                                width: '100%',
+                                            }}>
+                                                <DailySolutionChart username={username}/>
+                                            </Box>
+                                        </Center>
+                                        <Center>
+                                            {!loading && (
+                                                <Text
+                                                    alignSelf="center"
+                                                    paddingLeft="20px"
+                                                    color={config["subtleText"]}
+                                                    fontSize="15px"
+                                                    className="mainFont"
+                                                    fontWeight="200">
+                                                    daily submissions
+                                                </Text>
+                                            )}
+                                        </Center>
+                                    </Box>
                                 </Box>
-                            </Box>
-                        </Box>
+                            </HStack>
+                        </Center>
                     </Section>
                     <Section delay={0.4}>
                         <Center>
-                            <Box paddingTop="60px">
-                                <Box className="submissionContentContainer" color={config["mainText"]}>
-                                    <Box className="submissionContainer" width="100%" marginLeft={"0px"}>
-                                        <Box className="submissionCard mainFont">
+                            <Box className="mainFont">
+                                <Box color={config["mainText"]}>
+                                    <Box width="100%" marginLeft={"0px"}>
+                                        <Box>
                                             <Stack direction="row" spacing="2">
-                                                <Box className="mainFont font500" width="100%" marginLeft={"10px"}>
+                                                <Box className="font500" width="100%" marginLeft={"10px"}>
                                                     {!loading && (
-                                                        <Text fontSize="28px" fontWeight={"300"} paddingLeft={"22px"}>
+                                                        <Text fontSize="28px" fontWeight={"300"}
+                                                              paddingLeft={"22px"}>
                                                             recent
                                                         </Text>
                                                     )}
@@ -331,7 +340,7 @@ export default function Profile({setId, config}) {
                                         <br/>
                                 </Box>}
 
-                                
+
                                 <Box>
                                         {!loading && profileUserData && <Box className = 'smallerMainFont site-title correct'>Recent Submissions</Box>}
                                         {submissions.map(submission => {
@@ -347,8 +356,8 @@ export default function Profile({setId, config}) {
                                                 }
                                                 return ''
                                         })}
-                                                
-                                        
+
+
 
                                 </Box> */}
                 </Box>

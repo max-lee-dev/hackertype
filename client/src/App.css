@@ -117,10 +117,7 @@ html::-webkit-scrollbar-thumb:hover {
     display: flex;
     justify-content: space-evenly;
 }
-.graphContentContainer {
-    display: flex;
-    flex-direction: row;
-}
+
 
 .dailySolutionGraph {
     margin-left: 10px;
@@ -128,7 +125,6 @@ html::-webkit-scrollbar-thumb:hover {
     margin-top: 75px;
     padding-top: 10px;
     width: 92%;
-    height: 355px;
 }
 .graphContainer {
    
@@ -310,8 +306,6 @@ html::-webkit-scrollbar-thumb:hover {
 
 
 
-.userTitle {
-}
 
 #text {
     color: green;

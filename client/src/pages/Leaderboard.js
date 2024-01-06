@@ -130,7 +130,7 @@ export default function Leaderboard({config}) {
                                 <Section delay={0.5} maxWidth={'100%'}>
                                     <Box width={'100%'}>
 
-                                        <SimpleGrid columns={[2]} spacing={10} width={'100%'}>
+                                        <SimpleGrid columns={[1, 1, 1, 2]} spacing={10} width={'100%'}>
                                             {!loading &&
                                                 curSubmissions.map((solution) => (
                                                     <Box key={solution.id}>

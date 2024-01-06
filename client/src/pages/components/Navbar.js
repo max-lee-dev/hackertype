@@ -50,7 +50,8 @@ export default function Navbar({userData, updatedConfig}) {
         <Center>
             <Box width="100%">
                 <Center>
-                    <Box as="nav" className="nav" bgColor={updatedConfig["themeBackground"]}>
+                    <Box as="nav" width={['90%', '90%', '90%', '70%']} className="nav"
+                         bgColor={updatedConfig["themeBackground"]}>
                         <Box className="Logo whiteText" fontWeight="500">
                             <NavLink onClick={changeLocation} to="/" className="site-title">
                                 <Box fontSize="24px" className="Logo">
@@ -145,33 +146,44 @@ export default function Navbar({userData, updatedConfig}) {
                         >
                             <Menu>
                                 <MenuButton
+
                                     as={Text}
                                     fontSize="27px"
                                     fontWeight="400"
                                     color={updatedConfig["mainText"]}
                                     _hover={{color: "#5180c4"}}
+                                    cursor={"pointer"}
                                 >
                                     &#9776;
                                 </MenuButton>
-                                <MenuList color="black" zIndex="101">
-                                    <MenuItem>
+                                <MenuList color={updatedConfig["mainText"]} zIndex="101"
+                                          bg={updatedConfig["themeBackground"]}>
+                                    <MenuItem bg={updatedConfig["themeInactiveButton"]}>
                                         <Box minW="100%" as="a" href="/">
-                                            Home
-                                        </Box>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <Box minW="100%" as="a" href="/about">
-                                            About
+                                            home
                                         </Box>
                                     </MenuItem>
                                     <MenuDivider/>
-                                    <MenuItem>
+                                    <MenuItem bg={updatedConfig["themeInactiveButton"]}>
+                                        <Box minW="100%" as="a" href="/settings">
+                                            settings
+                                        </Box>
+                                    </MenuItem>
+                                    <MenuDivider/>
+
+                                    <MenuItem bg={updatedConfig["themeInactiveButton"]}>
+                                        <Box minW="100%" as="a" href="/about">
+                                            about
+                                        </Box>
+                                    </MenuItem>
+                                    <MenuDivider/>
+                                    <MenuItem bg={updatedConfig["themeInactiveButton"]}>
                                         <Box minW="100%" as="a" href="/recent">
                                             recent
                                         </Box>
                                     </MenuItem>
                                     <MenuDivider/>
-                                    <MenuItem>
+                                    <MenuItem bg={updatedConfig["themeInactiveButton"]}>
                                         {!user && (
                                             <Box minW="100%" as="a" href="/login">
                                                 Log In
