@@ -1067,10 +1067,10 @@ function App({userData, user, givenId}) {
 
             {!loading && (
                 <Section delay={0.15}>
-                    <Box className="body" bgColor={config["themeBackground"]}>
+                    <Box bgColor={config["themeBackground"]}>
                         <Box className="container">
                             <Center>
-                                <Box className="content">
+                                <Box className="content" width={['100%', '100%', '100%', '80%']}>
                                     <Center>
                                         <Box width="100%">
                                             {!loading && (

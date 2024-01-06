@@ -138,12 +138,8 @@ html::-webkit-scrollbar-thumb:hover {
     
 }
 
-.generalInfoCard {
-    
-    padding-top: 20px;
 
 
-}
 
 .submissionCard {
     width: 100%;
@@ -615,7 +611,6 @@ html::-webkit-scrollbar-thumb:hover {
     background-color: transparent;
 
     border-radius: 10px;
-    width: 80%;
     height: fit-content;
     padding: 2rem;
     

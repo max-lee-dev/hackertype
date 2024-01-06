@@ -116,12 +116,14 @@ export default function Profile({config}) {
 
             <Center>
 
-                <VStack width={['90%', '90%', '90%', '70%']} paddingTop="30px">
+                <VStack width={['90%', '90%', '90%', '70%']} paddingTop="30px" spacing={[5, 5, 5, 10]}>
                     <Box className="userTitleContainer">
                         <Section delay={0.1}>
-                            <Box display={'flex'} flexDir={['column', 'column', 'column', 'row']} mt={30}
+                            <Box display={'flex'} flexDir={['column', 'column', 'column', 'row']}
+
+                                 justifyContent={'space-between'} mt={30}
                                  color={config["mainText"]}>
-                                <Box mt={5} className="mainFont font500" width={'100%'}>
+                                <Box mt={5} className="mainFont font500" width={['100%', '100%', '100%', '50%']}>
                                     <HStack spacing="-1">
                                         {!loading && !profileUserData &&
                                             <Text fontSize="56px">User not found...</Text>}
@@ -149,8 +151,14 @@ export default function Profile({config}) {
                                 </Box>
 
 
-                                <SimpleGrid className={'mainFont'} columns={3}>
-                                    <Box className="generalInfoCard">
+                                <Box justifyContent={'space-between'} pt={[0, 0, 0, 5]}
+                                     width={['80%', '100%', '100%', '100%']}
+                                     className={'mainFont'}
+                                     display={'flex'}
+                                     flexDir={['row']} flexWrap={'wrap'}>
+
+
+                                    <Box width={'fit-content'}>
                                         <Text fontSize="26px" className="font400">
                                             {numberWorldRecords ? numberWorldRecords : 0}
                                         </Text>
@@ -160,7 +168,7 @@ export default function Profile({config}) {
                                         </Text>
                                     </Box>
 
-                                    <Box className="generalInfoCard">
+                                    <Box width={'fit-content'}>
                                         <Text fontSize="26px" className="font400">
                                             {profileUserData?.average_wpm ? profileUserData?.average_wpm : 0}
                                         </Text>
@@ -170,7 +178,7 @@ export default function Profile({config}) {
                                         </Text>
                                     </Box>
 
-                                    <Box className="generalInfoCard">
+                                    <Box>
                                         <Text fontSize="26px" className="font400">
                                             {profileUserData?.tests_started ? profileUserData?.tests_started : 0}
                                         </Text>
@@ -180,7 +188,7 @@ export default function Profile({config}) {
                                         </Text>
                                     </Box>
 
-                                    <Box className="generalInfoCard">
+                                    <Box>
                                         <Text fontSize="26px" className="font400">
                                             {profileUserData?.tests_completed ? profileUserData?.tests_completed : 0}
                                         </Text>
@@ -189,7 +197,7 @@ export default function Profile({config}) {
                                             completed
                                         </Text>
                                     </Box>
-                                    <Box paddingTop={'20px'}>
+                                    <Box>
                                         <Text fontSize="26px" className="font400">
                                             <HStack>
                                                 <Box fontSize={'20px'} paddingTop={2}>
@@ -207,7 +215,7 @@ export default function Profile({config}) {
 
                                     </Box>
 
-                                </SimpleGrid>
+                                </Box>
                             </Box>
                         </Section>
                     </Box>
