@@ -47,162 +47,161 @@ export default function Navbar({userData, updatedConfig}) {
 
     //eslint-disable-next-line
     return (
-        <Center>
-            <Box width="100%">
-                <Center>
-                    <Box as="nav" width={['90%', '90%', '90%', '70%']} className="nav"
-                         bgColor={updatedConfig["themeBackground"]}>
-                        <Box className="Logo whiteText" fontWeight="500">
-                            <NavLink onClick={changeLocation} to="/" className="site-title">
-                                <Box fontSize="24px" className="Logo">
-                                    {" "}
-                                    <Text color={updatedConfig["mainText"]}>hackertype </Text>
-                                </Box>
-                            </NavLink>
-                            <NavLink onClick={changeLocation} to="/" className="site-title">
-                                <Text fontSize="24px" color={updatedConfig["logoColor"]} marginLeft="-11px">
-                                    .
-                                </Text>
-                                <Text
-                                    fontSize="23px"
-                                    onClick={changeLocation}
-                                    color={updatedConfig["logoColor"]}
-                                    marginLeft="-4px">
-                                    dev
-                                </Text>
-                            </NavLink>
+        <Box as={'nav'} width={'100%'} className="nav" bgColor={updatedConfig["themeBackground"]}>
+            <Center>
+                <Box display={'flex'} width={['70%', '90%', '90%', '70%']} justifyContent={'space-between'}>
 
-                            <Divider marginLeft="10px" marginRight="10px"/>
-                        </Box>
-                        <Box fontWeight={"500"} display={["none", "none", "inline-block"]}>
-                            <ul>
-                                <Tooltip label={user ? "daily solution" : "log in to save your streak"}>
+                    <Box className="Logo whiteText" fontWeight="500">
+                        <NavLink onClick={changeLocation} to="/" className="site-title">
+                            <Box fontSize="24px" className="Logo">
+                                {" "}
+                                <Text color={updatedConfig["mainText"]}>hackertype </Text>
+                            </Box>
+                        </NavLink>
+                        <NavLink onClick={changeLocation} to="/" className="site-title">
+                            <Text fontSize="24px" color={updatedConfig["logoColor"]} marginLeft="-11px">
+                                .
+                            </Text>
+                            <Text
+                                fontSize="23px"
+                                onClick={changeLocation}
+                                color={updatedConfig["logoColor"]}
+                                marginLeft="-4px">
+                                dev
+                            </Text>
+                        </NavLink>
 
-                                    <li>
-                                        <DailyButton config={updatedConfig} user={userData}/>
-                                    </li>
-                                </Tooltip>
+                        <Divider marginLeft="10px" marginRight="10px"/>
+                    </Box>
+                    <Box fontWeight={"500"} display={["none", "none", "inline-block"]}>
+                        <ul>
+                            <Tooltip label={user ? "daily solution" : "log in to save your streak"}>
 
                                 <li>
-                                    <NavLink to={'/settings'}>
-                                        <Text fontSize="16px" paddingRight="5px" textColor="">
-                                            &lt;settings&gt;
+                                    <DailyButton config={updatedConfig} user={userData}/>
+                                </li>
+                            </Tooltip>
+
+                            <li>
+                                <NavLink to={'/settings'}>
+                                    <Text fontSize="16px" paddingRight="5px" textColor="">
+                                        &lt;settings&gt;
+                                    </Text>
+
+                                </NavLink>
+                            </li>
+
+                            <li>
+                                <NavLink to="/recent">
+                                    <VStack>
+                                        <Text fontSize="16px" paddingRight="5px"
+                                        >
+                                            &lt;recent&gt;
+
+
                                         </Text>
 
-                                    </NavLink>
-                                </li>
-
-                                <li>
-                                    <NavLink to="/recent">
-                                        <VStack>
-                                            <Text fontSize="16px" paddingRight="5px"
-                                            >
-                                                &lt;recent&gt;
+                                    </VStack>
+                                </NavLink>
+                            </li>
 
 
+                            <li>
+                                <NavLink to="/about">&lt;about&gt;</NavLink>
+                            </li>
+                            <li>
+                                <Stack direction="row">
+                                    {!user && (
+                                        <NavLink to="/login">
+                                            <Text marginTop="6px" fontSize="16px" paddingRight="5px" textColor="">
+                                                &lt;log in&gt;
                                             </Text>
-
-                                        </VStack>
-                                    </NavLink>
-                                </li>
-
-
-                                <li>
-                                    <NavLink to="/about">&lt;about&gt;</NavLink>
-                                </li>
-                                <li>
-                                    <Stack direction="row">
-                                        {!user && (
-                                            <NavLink to="/login">
-                                                <Text marginTop="6px" fontSize="16px" paddingRight="5px" textColor="">
-                                                    &lt;log in&gt;
-                                                </Text>
+                                        </NavLink>
+                                    )}
+                                    {user && (
+                                        <Box fontSize="40px" paddingTop="9px">
+                                            <NavLink to={`/profile/${user.displayName}`}>
+                                                <li>
+                                                    <Text marginTop="-3px" fontSize="16px" paddingRight="5px"
+                                                          textColor="">
+                                                        &lt;{user.displayName}&gt;
+                                                    </Text>
+                                                </li>
                                             </NavLink>
-                                        )}
-                                        {user && (
-                                            <Box fontSize="40px" paddingTop="9px">
-                                                <NavLink to={`/profile/${user.displayName}`}>
-                                                    <li>
-                                                        <Text marginTop="-3px" fontSize="16px" paddingRight="5px"
-                                                              textColor="">
-                                                            &lt;{user.displayName}&gt;
-                                                        </Text>
-                                                    </li>
-                                                </NavLink>
-                                            </Box>
-                                        )}
-
-                                    </Stack>
-                                </li>
-
-                            </ul>
-                        </Box>
-                        <Box
-                            paddingTop="5px"
-                            paddingRight="20px"
-                            opacity="1"
-                            color={updatedConfig["mainText"]}
-                            display={["block", "block", "none"]}
-                        >
-                            <Menu>
-                                <MenuButton
-
-                                    as={Text}
-                                    fontSize="27px"
-                                    fontWeight="400"
-                                    color={updatedConfig["mainText"]}
-                                    _hover={{color: "#5180c4"}}
-                                    cursor={"pointer"}
-                                >
-                                    &#9776;
-                                </MenuButton>
-                                <MenuList color={updatedConfig["mainText"]} zIndex="101"
-                                          bg={updatedConfig["themeBackground"]}>
-                                    <MenuItem bg={updatedConfig["themeInactiveButton"]}>
-                                        <Box minW="100%" as="a" href="/">
-                                            home
                                         </Box>
-                                    </MenuItem>
-                                    <MenuDivider/>
-                                    <MenuItem bg={updatedConfig["themeInactiveButton"]}>
-                                        <Box minW="100%" as="a" href="/settings">
-                                            settings
-                                        </Box>
-                                    </MenuItem>
-                                    <MenuDivider/>
+                                    )}
 
-                                    <MenuItem bg={updatedConfig["themeInactiveButton"]}>
-                                        <Box minW="100%" as="a" href="/about">
-                                            about
-                                        </Box>
-                                    </MenuItem>
-                                    <MenuDivider/>
-                                    <MenuItem bg={updatedConfig["themeInactiveButton"]}>
-                                        <Box minW="100%" as="a" href="/recent">
-                                            recent
-                                        </Box>
-                                    </MenuItem>
-                                    <MenuDivider/>
-                                    <MenuItem bg={updatedConfig["themeInactiveButton"]}>
-                                        {!user && (
-                                            <Box minW="100%" as="a" href="/login">
-                                                Log In
-                                            </Box>
-                                        )}
-                                        {user && (
-                                            <Box minW="100%" as="a" href={`/profile/${user.displayName}`}>
-                                                {user.displayName}
-                                            </Box>
-                                        )}
+                                </Stack>
+                            </li>
 
-
-                                    </MenuItem>
-                                </MenuList>
-                            </Menu>
-                        </Box>
+                        </ul>
                     </Box>
-                </Center>
-            </Box>
-        </Center>
+                    <Box
+                        paddingTop="5px"
+                        paddingRight="20px"
+                        opacity="1"
+                        color={updatedConfig["mainText"]}
+                        display={["block", "block", "none"]}
+                    >
+                        <Menu>
+                            <MenuButton
+
+                                as={Text}
+                                fontSize="27px"
+                                fontWeight="400"
+                                color={updatedConfig["mainText"]}
+                                _hover={{color: "#5180c4"}}
+                                cursor={"pointer"}
+                            >
+                                &#9776;
+                            </MenuButton>
+                            <MenuList color={updatedConfig["mainText"]} zIndex="101"
+                                      bg={updatedConfig["themeBackground"]}>
+                                <MenuItem bg={updatedConfig["themeInactiveButton"]}>
+                                    <Box minW="100%" as="a" href="/">
+                                        home
+                                    </Box>
+                                </MenuItem>
+                                <MenuDivider/>
+                                <MenuItem bg={updatedConfig["themeInactiveButton"]}>
+                                    <Box minW="100%" as="a" href="/settings">
+                                        settings
+                                    </Box>
+                                </MenuItem>
+                                <MenuDivider/>
+
+                                <MenuItem bg={updatedConfig["themeInactiveButton"]}>
+                                    <Box minW="100%" as="a" href="/about">
+                                        about
+                                    </Box>
+                                </MenuItem>
+                                <MenuDivider/>
+                                <MenuItem bg={updatedConfig["themeInactiveButton"]}>
+                                    <Box minW="100%" as="a" href="/recent">
+                                        recent
+                                    </Box>
+                                </MenuItem>
+                                <MenuDivider/>
+                                <MenuItem bg={updatedConfig["themeInactiveButton"]}>
+                                    {!user && (
+                                        <Box minW="100%" as="a" href="/login">
+                                            Log In
+                                        </Box>
+                                    )}
+                                    {user && (
+                                        <Box minW="100%" as="a" href={`/profile/${user.displayName}`}>
+                                            {user.displayName}
+                                        </Box>
+                                    )}
+
+
+                                </MenuItem>
+                            </MenuList>
+                        </Menu>
+                    </Box>
+                </Box>
+            </Center>
+        </Box>
+
     );
 }

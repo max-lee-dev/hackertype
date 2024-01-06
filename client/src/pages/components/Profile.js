@@ -1,7 +1,7 @@
 import React from "react";
 
 import {signOut, getAuth} from "firebase/auth";
-import {Button, Center, Stack, VStack, Divider, Text, Box, HStack, Tooltip} from "@chakra-ui/react";
+import {Button, Center, Stack, SimpleGrid, VStack, Divider, Text, Box, HStack, Tooltip} from "@chakra-ui/react";
 
 import LineChart from "./LineChart";
 
@@ -116,12 +116,12 @@ export default function Profile({config}) {
 
             <Center>
 
-                <Box width={['90%', '90%', '90%', '70%']} paddingTop="30px">
+                <VStack width={['90%', '90%', '90%', '70%']} paddingTop="30px">
                     <Box className="userTitleContainer">
                         <Section delay={0.1}>
                             <Box display={'flex'} flexDir={['column', 'column', 'column', 'row']} mt={30}
                                  color={config["mainText"]}>
-                                <Box mt={5} className="mainFont font500" width={'50%'}>
+                                <Box mt={5} className="mainFont font500" width={'100%'}>
                                     <HStack spacing="-1">
                                         {!loading && !profileUserData &&
                                             <Text fontSize="56px">User not found...</Text>}
@@ -149,7 +149,7 @@ export default function Profile({config}) {
                                 </Box>
 
 
-                                <Stack className={'mainFont'} direction="row" spacing={20}>
+                                <SimpleGrid className={'mainFont'} columns={3}>
                                     <Box className="generalInfoCard">
                                         <Text fontSize="26px" className="font400">
                                             {numberWorldRecords ? numberWorldRecords : 0}
@@ -207,7 +207,7 @@ export default function Profile({config}) {
 
                                     </Box>
 
-                                </Stack>
+                                </SimpleGrid>
                             </Box>
                         </Section>
                     </Box>
@@ -360,7 +360,7 @@ export default function Profile({config}) {
 
 
                                 </Box> */}
-                </Box>
+                </VStack>
             </Center>
         </Section>
     );

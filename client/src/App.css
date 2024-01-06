@@ -336,13 +336,8 @@ html::-webkit-scrollbar-thumb:hover {
     font-family: 'Fira Code', monospace;
     font-weight: 400;
     color: var(--subtleText);
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    gap: 2rem;
-    display: flex;
-    padding-top:3rem;
-    width: 70%;
+
+    padding-top: 0.5rem;
     position: fixed;
 }
 
