@@ -18,6 +18,7 @@ export default function DailyButton({config, user}) {
         console.log("daily: " + user.last_daily)
 
         async function checkDaily() {
+            console.log("checking now: " + dailyNum + " " + user.last_daily)
             if (dailyNum - user.last_daily > 1) {
                 // if they missed a day
                 await updateDoc(doc(db, "users", user.uid), {
@@ -28,6 +29,7 @@ export default function DailyButton({config, user}) {
             } else {
                 setStreak(user.streak)
             }
+            console.log("treak: " + user.streak)
 
         }
 

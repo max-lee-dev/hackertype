@@ -13,7 +13,7 @@ import {useParams} from "react-router-dom";
 import {FaCrown} from "react-icons/fa";
 import Section from "./components/Section.js";
 
-import {doc, updateDoc, getDocs, collection, query, where} from "firebase/firestore";
+import {doc, updateDoc, getDocs, collection, query, where, onSnapshot} from "firebase/firestore";
 import {ref as sRef} from "firebase/storage";
 import {db} from "./components/firebase.js";
 import {
@@ -277,8 +277,10 @@ function App({userData, user, givenId}) {
                 const q = query(collection(db, "users"), where("uid", "==", user.uid));
                 let givenLineLimit = 0;
                 const querySnapshot = await getDocs(q);
-                querySnapshot.forEach((doc) => {
+                const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
                     setLastDaily(doc.data().last_daily);
+                });
+                querySnapshot.forEach((doc) => {
                     if (number) {
                         chosenID.current = number;
                         setId(number);
