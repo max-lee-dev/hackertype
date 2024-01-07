@@ -68,7 +68,7 @@ export default function Profile({config}) {
         async function getBestSubmissions() {
             const q = query(submissionsCollectionRef, where("user", "==", username));
             const best = query(q, where("isBestSubmission", "==", true));
-            const top = query(best, orderBy("wpm", "asc"), limit(5));
+            const top = query(best, orderBy("wpm", "desc"), limit(5));
             const topr = query(top, orderBy("when", "desc"));
 
             const bestQuerySnapshot = await getDocs(topr);

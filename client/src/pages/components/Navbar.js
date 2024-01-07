@@ -66,6 +66,7 @@ export default function Navbar({userData, updatedConfig}) {
                             </Text>
                             <Text
                                 fontSize="23px"
+                                mt={'1px'}
                                 onClick={changeLocation}
                                 color={updatedConfig["logoColor"]}
                                 marginLeft="-4px">
