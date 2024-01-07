@@ -116,7 +116,7 @@ export default function Profile({config}) {
 
             <Center>
 
-                <VStack width={['90%', '90%', '90%', '70%']} paddingTop="30px" spacing={[5, 5, 5, 10]}>
+                <VStack width={['90%', '90%', '90%', '70%']} paddingTop="30px" spacing={5}>
                     <Box className="userTitleContainer">
                         <Section delay={0.1}>
                             <Box display={'flex'} flexDir={['column', 'column', 'column', 'row']}
@@ -295,7 +295,8 @@ export default function Profile({config}) {
                                                     <Stack direction={["column", "row", "row", "row"]}>
                                                         <Box className="mainFont" width={["100%", "50%", "50%", "50%"]}>
                                                             {!loading && (
-                                                                <Text fontSize="28px" fontWeight={500}
+                                                                <Text fontSize="20px" color={config["subtleText"]}
+                                                                      fontWeight={600}
                                                                 >
                                                                     recent
                                                                 </Text>
@@ -329,17 +330,19 @@ export default function Profile({config}) {
                                                         />
                                                         <Box className="mainFont" width={["100%", "50%", "50%", "50%"]}>
                                                             {!loading && (
-                                                                <Text fontSize="28px" fontWeight="500"
-                                                                >
+                                                                <Text fontSize="20px" color={config["subtleText"]}
+                                                                      fontWeight={600}>
                                                                     best
                                                                 </Text>
                                                             )}
+                                                            <VStack spacing={5}>
 
-                                                            {!loading && bestSubmissions.map((submission) =>
-                                                                <Box>
-                                                                    <Submission uid={submission}/>
-                                                                </Box>
-                                                            )}
+                                                                {!loading && bestSubmissions.map((submission) =>
+                                                                    <Box width={'100%'}>
+                                                                        <Submission uid={submission}/>
+                                                                    </Box>
+                                                                )}
+                                                            </VStack>
 
                                                             {!loading && !bestSubmissions[0] && (
                                                                 <Text fontSize="22px" color={config["subtleText"]}
