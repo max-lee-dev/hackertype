@@ -44,16 +44,37 @@ export default function ChangelogModal({isChangeOpen, onChangeClose}) {
                     </ModalHeader>
 
                     <ModalBody>
-
-
                         <Box paddingRight="30px" height="520px" overflow="auto" className="scroll">
+
                             <Box paddingBottom="30px">
                                 <Text className="mainTextClass mainFont">
                                     <Text fontSize="24px" fontWeight={600} color={mainText}>
-                                        12/26/2023
+                                        1/7/2024
                                         <Badge marginBottom="3px" fontSize={"14px"} ml="2" colorScheme="green">
                                             new
                                         </Badge>
+                                    </Text>
+                                    <Box paddingTop={"15px"}>
+                                        <Text color={subtleText}>added: </Text>
+                                        <Text> - new feedback button in footer (lmk your thoughts on the site!)</Text>
+
+                                    </Box>
+
+                                    <Box paddingTop="15px">
+                                        <Text color={subtleText}>fixed: </Text>
+                                        <Text>- profile/recent pages text overflow</Text>
+                                        <Text>- streaks not resetting properly</Text>
+                                        <Text>- profile page update, scalable/works on mobile (also 10
+                                            submissions)</Text>
+                                    </Box>
+                                </Text>
+                            </Box>
+                            <Divider borderColor={subtleText}/>
+                            <Box paddingBottom="30px">
+                                <Text className="mainTextClass mainFont">
+                                    <Text fontSize="24px" fontWeight={600} color={subtleText}>
+                                        12/26/2023
+
                                     </Text>
                                     <Box paddingTop="15px">
                                         <Text color={subtleText}>added: </Text>

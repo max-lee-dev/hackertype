@@ -56,7 +56,7 @@ export default function Profile({config}) {
 
         async function getRecentSubmissions() {
             const q = query(submissionsCollectionRef, where("user", "==", username));
-            const top = query(q, orderBy("when", "desc"), limit(5));
+            const top = query(q, orderBy("when", "desc"), limit(10));
             const recentQuerySnapshot = await getDocs(top);
             const tempArray = [];
             recentQuerySnapshot.forEach((doc) => {
@@ -68,15 +68,22 @@ export default function Profile({config}) {
         async function getBestSubmissions() {
             const q = query(submissionsCollectionRef, where("user", "==", username));
             const best = query(q, where("isBestSubmission", "==", true));
-            const top = query(best, orderBy("wpm", "desc"), limit(5));
-            const topr = query(top, orderBy("when", "desc"));
 
-            const bestQuerySnapshot = await getDocs(topr);
+            const bestQuerySnapshot = await getDocs(best);
             const tempArray = [];
 
+
             bestQuerySnapshot.forEach((doc) => {
-                tempArray.push(doc.id);
+                tempArray.push(doc);
             });
+            // filter to top 5 best wpm
+            tempArray.sort((a, b) => {
+                    return b.data().wpm - a.data().wpm;
+                }
+            );
+            tempArray.splice(10, tempArray.length - 10);
+
+
             setBestSubmissions(tempArray);
         }
 
@@ -339,7 +346,7 @@ export default function Profile({config}) {
 
                                                                 {!loading && bestSubmissions.map((submission) =>
                                                                     <Box width={'100%'}>
-                                                                        <Submission uid={submission}/>
+                                                                        <Submission uid={submission.id}/>
                                                                     </Box>
                                                                 )}
                                                             </VStack>

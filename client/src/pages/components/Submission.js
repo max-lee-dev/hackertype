@@ -75,7 +75,7 @@ export default function Submission({uid}) {
         <Box>
             <Box>
                 <Box display={'flex'} justifyContent={'space-between'}>
-                    <HStack width={['70%', '70%', '70%', '100%']}>
+                    <HStack width={["70%", "70%", "70%", "80%"]}>
 
                         <Tooltip label="Rank" placement="top">
                             <Box>
@@ -84,11 +84,13 @@ export default function Submission({uid}) {
                                 </Text>
                             </Box>
                         </Tooltip>
-                        <Box width="100%" textAlign="left" display={"flex"}>
+                        <Box width={'100%'} textAlign="left" display={"flex"}>
                             <Tooltip label={submission.date[0] + " " + formatDate(submission.when)} placement="top">
                                 <Text
+
                                     overflow={"hidden"}
                                     onClick={redirect}
+                                    width={'100%'}
                                     fontSize=""
                                     paddingLeft="6px"
                                     className="soltitle mainTextClass  font500"

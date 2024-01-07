@@ -70,7 +70,7 @@ export default function CodeSettings({
                             <Center>
                                 <Box display="flex" mr={4}>
                                     <HStack spacing="-1" paddingBottom={[0, 0, 0, 12]}>
-                                        <Tooltip label="Line limit">
+                                        <Tooltip label="line limit">
                                             <VStack spacing="-2" fontSize="12px" className="grayText">
                                                 <IconButton
                                                     className="standardButton"
@@ -89,7 +89,7 @@ export default function CodeSettings({
                                                 </Text>
                                             </VStack>
                                         </Tooltip>
-                                        <Tooltip label="Lock solution">
+                                        <Tooltip label="lock solution">
                                             <Box paddingBottom="6px">
                                                 {retrySame && (
                                                     <VStack spacing="-2" fontSize="13px" className="grayText">
@@ -138,7 +138,7 @@ export default function CodeSettings({
                                         <HStack spacing="4">
 
 
-                                            <Tooltip label="Search">
+                                            <Tooltip label="search">
                                                 <NavLink
                                                     onClick={onSearchOpen}
                                                     className="standardButton"

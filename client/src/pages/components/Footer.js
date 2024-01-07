@@ -2,10 +2,12 @@ import React from "react";
 import {Box, Text, Center, useDisclosure, HStack, VStack, Tooltip, Badge} from "@chakra-ui/react";
 import {Link, NavLink} from "react-router-dom";
 import ChangelogModal from "./ChangelogModal.js";
+import FeedbackModal from "./FeedbackModal";
 
 export default function Footer({config}) {
     const {isOpen: isChangeOpen, onClose: onChangeClose, onOpen: onChangeOpen} = useDisclosure();
-    const lastUpdateTime = 1703667025000;
+    const {isOpen: isFeedbackOpen, onClose: onFeedbackClose, onOpen: onFeedbackOpen} = useDisclosure();
+    const lastUpdateTime = 1704644920000;
     // console.log(Date.parse(new Date()));
     const seenUpdate = localStorage.getItem("lastCheckedUpdate") > lastUpdateTime;
 
@@ -16,18 +18,20 @@ export default function Footer({config}) {
 
     return (
         <Box paddingTop="110px" display="flex" justifyContent={"center"}>
-            <HStack spacing="0">
-                <Box fontSize="36px">
-                    <Link to="https://github.com/max-lee-dev/hackertype">
-                        <Center>
-                            <Box color={config["subtleText"]}>
-                                <ion-icon name="logo-github"></ion-icon>
-                            </Box>
-                        </Center>
-                    </Link>
-                </Box>
-                <Box paddingTop="12px" fontSize="30px" paddingLeft="50px" className="mainFont">
-                    <Tooltip label="Change log">
+            <HStack spacing={5} paddingTop="12px">
+                <Tooltip label={"github"}>
+                    <Box pb={2} fontSize="34px">
+                        <Link to="https://github.com/max-lee-dev/hackertype">
+                            <Center>
+                                <Box color={config["subtleText"]}>
+                                    <ion-icon name="logo-github"></ion-icon>
+                                </Box>
+                            </Center>
+                        </Link>
+                    </Box>
+                </Tooltip>
+                <Box fontSize="30px" className="mainFont">
+                    <Tooltip label="change log">
                         <NavLink onClick={open}>
                             <VStack>
                                 {!seenUpdate && (
@@ -43,9 +47,22 @@ export default function Footer({config}) {
                         </NavLink>
                     </Tooltip>
                 </Box>
+                <Box fontSize="30px" className="mainFont">
+                    <Tooltip label="feedback">
+                        <NavLink onClick={onFeedbackOpen}>
+
+                            <Box paddingBottom="4px" color={config["subtleText"]}>
+                                <ion-icon name="chatbox-ellipses"></ion-icon>
+                            </Box>
+
+                        </NavLink>
+                    </Tooltip>
+                </Box>
             </HStack>
 
             <ChangelogModal isChangeOpen={isChangeOpen} onChangeClose={onChangeClose}/>
+            <FeedbackModal isFeedbackOpen={isFeedbackOpen} onFeedbackClose={onFeedbackClose}/>
+
         </Box>
     );
 }

@@ -573,6 +573,8 @@ html::-webkit-scrollbar-thumb:hover {
     --caretColor: rgb(244,244,244);
     --maintext: rgb(244,244,244);
     --logoColor : #FFCD29;
+    --themeActiveButton: #555;
+
 }
 
 .backgroundColor {
