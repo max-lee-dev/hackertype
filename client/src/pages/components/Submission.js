@@ -75,7 +75,7 @@ export default function Submission({uid}) {
         <Box>
             <Box>
                 <Box display={'flex'} justifyContent={'space-between'}>
-                    <HStack width={['70%', '100%', '100%', '100%']}>
+                    <HStack width={['70%', '70%', '70%', '100%']}>
 
                         <Tooltip label="Rank" placement="top">
                             <Box>
