@@ -188,7 +188,7 @@ export default function Navbar({userData, updatedConfig}) {
                                 <MenuItem bg={updatedConfig["themeInactiveButton"]}>
                                     {!user && (
                                         <Box minW="100%" as="a" href="/login">
-                                            Log In
+                                            log In
                                         </Box>
                                     )}
                                     {user && (
