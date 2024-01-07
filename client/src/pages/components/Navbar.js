@@ -53,7 +53,7 @@ export default function Navbar({userData, updatedConfig}) {
             <Box display={'flex'} justifyContent={['initial', 'center', 'center', 'center']}>
                 <Box display={'flex'} width={['70%', '90%', '90%', '70%']} justifyContent={'space-between'}>
 
-                    <Box className="Logo whiteText" fontWeight="500">
+                    <Box pl={[4, 0, 0, 0]} className="Logo whiteText" fontWeight="500">
                         <NavLink onClick={changeLocation} to="/" className="site-title">
                             <Box fontSize="24px" className="Logo">
                                 {" "}
@@ -140,9 +140,8 @@ export default function Navbar({userData, updatedConfig}) {
                         </ul>
                     </Box>
                     <Box
-                        paddingTop="5px"
-                        paddingRight="20px"
-                        opacity="1"
+                        paddingTop="0px"
+                        paddingRight="40px"
                         color={updatedConfig["mainText"]}
                         display={["block", "block", "none"]}
                     >
