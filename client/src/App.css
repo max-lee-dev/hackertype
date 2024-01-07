@@ -178,7 +178,7 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 .soltitle {
-    font-size:0.8vw;
+    font-size: 16px;
     width: 100%;
     display: inline-block;
     white-space: nowrap;
@@ -186,17 +186,7 @@ html::-webkit-scrollbar-thumb:hover {
     text-overflow: ellipsis;
 }
 
-.individualSubmissionContainer {
-    width: 110%;
-    height: 70px;
-    margin-top: 25px;
-    border-radius: 25px;
-    display: flex;
-    flex-direction: column;
-    
-    
-    
-}   
+
 
 .trophyIcon {
     color: rgb(246, 249, 165);
@@ -229,11 +219,7 @@ html::-webkit-scrollbar-thumb:hover {
     padding-right: 10px;
 }
 
-.submissionText {
-    color: rgb(127,127,127);
-    width: 100%;
-    padding: 1.5rem;
-}
+
 
 .badgeContainer {
     text-align: center;
