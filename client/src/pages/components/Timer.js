@@ -141,7 +141,7 @@ function Timer({
                             <Center>
                                 <Stack direction="row">
                                     <StarIcon fontSize="24px" paddingTop="10px"/>
-                                    <Text className="glow" color="yellow.300">
+                                    <Text fontWeight={600} color={config["logoColor"]}>
                                         NEW PR!
                                     </Text>
                                 </Stack>
@@ -257,9 +257,12 @@ function Timer({
                         <HStack className="mainFont standardButton">
                             <Box>
                                 <Button
+                                    style={{}}
                                     _hover={{backgroundColor: "transparent"}}
-                                    color="whiteAlpha.700"
+                                    color={config["mainText"]}
                                     backgroundColor="transparent"
+                                    _pressed={{backgroundColor: 'red'}}
+                                    _active={{backgroundColor: 'red'}}
                                     onClick={() => Restart(language, wordLimit, "retry")}>
                                     Retry Test
                                 </Button>
@@ -267,7 +270,9 @@ function Timer({
                             <Box>
                                 <Button
                                     _hover={{backgroundColor: "transparent"}}
-                                    color="whiteAlpha.700"
+                                    color={config["mainText"]}
+                                    _pressed={{backgroundColor: 'red'}}
+                                    _active={{backgroundColor: 'red'}}
                                     backgroundColor="transparent"
                                     onClick={() => Restart(language, wordLimit)}>
                                     <Text>New Test</Text>

@@ -1146,17 +1146,22 @@ function App({userData, user, givenId}) {
                                                                 {leetcodeTitle}
                                                             </Text>
                                                             <Box>
-                                                                <Tooltip label="View leaderboard">
+                                                                <Tooltip label="view leaderboard">
                                                                     <Box>
                                                                         <Button
                                                                             fontSize="24px"
                                                                             backgroundColor="transparent"
-                                                                            _active={{backgroundColor: "transparent"}}
+
                                                                             _hover={{color: config["mainText"]}}
+
                                                                             color={config["subtleText"]}
-                                                                            width="50px"
+                                                                            width="25px"
                                                                             onClick={() => onLeaderboardOpen()}>
-                                                                            <ion-icon name="podium"></ion-icon>
+                                                                            <Box fontSize={'24px'}>
+
+                                                                                <ion-icon name="podium"></ion-icon>
+                                                                            </Box>
+
                                                                         </Button>
                                                                     </Box>
                                                                 </Tooltip>
@@ -1355,7 +1360,7 @@ function App({userData, user, givenId}) {
                                     {!loading && !finished && (
                                         <IconButton
                                             minW="50px"
-                                            _hover={{backgroundColor: config["subtleText"]}}
+                                            _hover={{backgroundColor: config["themeActiveButton"]}}
                                             color={config["mainText"]}
                                             backgroundColor="transparent"
                                             icon={<RepeatIcon/>}
