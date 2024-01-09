@@ -152,7 +152,22 @@ function App() {
                 100: "#f7fafc",
             },
         },
-        
+        components: {
+            Button: {
+                baseStyle: {
+                    _focus: {
+                        boxShadow: "none",
+                        outline: "none",
+                    },
+                },
+                variants: {
+                    base: {},
+                },
+                defaultProps: {
+                    variant: "base",
+                },
+            },
+        },
     });
 
     if (userData && !loading) {

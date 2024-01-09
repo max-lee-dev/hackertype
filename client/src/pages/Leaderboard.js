@@ -101,6 +101,7 @@ export default function Leaderboard({config}) {
                             <Box width={['100%', '80%', "100%"]} paddingTop="20px" color={config["mainText"]}>
                                 <HStack>
                                     <Button onClick={() => setWhichSubmission("recent")}
+                                            bg={'transparent'}
                                             className="standardButton">
                                         <Text
                                             _hover={{
@@ -110,12 +111,14 @@ export default function Leaderboard({config}) {
                                             color={whichSubmission === "recent" ? config["mainText"] : config["subtleText"]}
                                             fontSize={["20px", "20px", "24px"]}>recent</Text>
                                     </Button>
-                                    <Button onClick={() => setWhichSubmission("top")} className="standardButton">
+                                    <Button onClick={() => setWhichSubmission("top")} className="standardButton"
+                                            bg={'transparent'}>
                                         <Text
                                             _hover={{
                                                 color: config["mainText"],
                                                 fontSize: "24px",
                                             }}
+                                            bg={'transparent'}
                                             color={whichSubmission === "top" ? config["mainText"] : config["subtleText"]}
                                             fontSize={["20px", "20px", "24px"]}>world-records</Text>
                                     </Button>

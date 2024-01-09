@@ -243,7 +243,7 @@ function Timer({
                             />
                         </Center>
                         <Box className="standardButton">
-                            <Button onClick={() => onLeaderboardOpen()}>
+                            <Button onClick={() => onLeaderboardOpen()} className={"standardButton"}>
                                 <Text fontSize="12px">view leaderboard</Text>
                                 <Box paddingLeft="10px" fontSize="24px">
                                     <ion-icon name="podium"></ion-icon>
@@ -258,6 +258,7 @@ function Timer({
                             <Box>
                                 <Button
                                     style={{}}
+                                    className={"standardButton"}
                                     _hover={{backgroundColor: "transparent"}}
                                     color={config["mainText"]}
                                     backgroundColor="transparent"

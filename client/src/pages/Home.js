@@ -1147,8 +1147,9 @@ function App({userData, user, givenId}) {
                                                             </Text>
                                                             <Box>
                                                                 <Tooltip label="view leaderboard">
-                                                                    <Box>
+                                                                    <Box className={'standardButton'}>
                                                                         <Button
+
                                                                             fontSize="24px"
                                                                             backgroundColor="transparent"
 
