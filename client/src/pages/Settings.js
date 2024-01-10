@@ -32,7 +32,7 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
             showLinesLeft: true,
             language: "Java",
             toggleBrackets: false,
-            font: "Inconsolata",
+            font: "Lexend Deca",
             lastCheckedUpdate: 0,
 
             // theme
@@ -59,7 +59,7 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
             showLinesLeft: true,
             language: "Java",
             toggleBrackets: false,
-            font: "Inconsolata",
+            font: "Lexend Deca",
             lastCheckedUpdate: 0,
 
             // theme

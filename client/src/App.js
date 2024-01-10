@@ -54,7 +54,7 @@ function App() {
             showLinesLeft: true,
             language: "Java",
             toggleBrackets: false,
-            font: "Inconsolata",
+            font: "Lexend Deca",
             lastCheckedUpdate: 0,
 
             // theme
