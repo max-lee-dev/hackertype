@@ -91,6 +91,7 @@ function App() {
         root.style.setProperty("--backgroundColor", stateConfig["themeBackground"]);
         root.style.setProperty("--subtleText", stateConfig["subtleText"]);
         root.style.setProperty("--logoColor", stateConfig["logoColor"]);
+        root.style.setProperty("--font", stateConfig["font"]);
 
         root.style.setProperty("--maintext", stateConfig["mainText"]);
         root.style.setProperty("--caretColor", stateConfig["caretColor"]);

@@ -46,7 +46,7 @@ html::-webkit-scrollbar-thumb:hover {
 
 
 .mainFont {
-    font-family: 'Fira Code', monospace;
+    font-family: var(--font);
 }
 
 .font500 {
@@ -315,7 +315,7 @@ html::-webkit-scrollbar-thumb:hover {
 
 .nav {
     z-index: 50;
-    font-family: 'Fira Code', monospace;
+    font-family: var(--font);
     font-weight: 400;
     color: var(--subtleText);
 
@@ -574,6 +574,7 @@ html::-webkit-scrollbar-thumb:hover {
     --maintext: rgb(244,244,244);
     --logoColor : #FFCD29;
     --themeActiveButton: #555;
+    --font : 'Fira Code', monospace;
 
 }
 

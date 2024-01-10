@@ -13,6 +13,7 @@ import {
     VStack,
     MenuDivider,
     Tooltip,
+    HStack,
     Text,
     Box,
     Divider,
@@ -54,25 +55,26 @@ export default function Navbar({userData, updatedConfig}) {
                 <Box display={'flex'} width={['70%', '90%', '90%', '70%']} justifyContent={'space-between'}>
 
                     <Box pl={[4, 0, 0, 0]} className="Logo whiteText" fontWeight="500">
-                        <NavLink onClick={changeLocation} to="/" className="site-title">
-                            <Box fontSize="24px" className="Logo">
-                                {" "}
-                                <Text color={updatedConfig["mainText"]}>hackertype </Text>
-                            </Box>
-                        </NavLink>
-                        <NavLink onClick={changeLocation} to="/" className="site-title">
-                            <Text fontSize="24px" color={updatedConfig["logoColor"]} marginLeft="-11px">
-                                .
-                            </Text>
-                            <Text
-                                fontSize="23px"
-                                mt={'1px'}
-                                onClick={changeLocation}
-                                color={updatedConfig["logoColor"]}
-                                marginLeft="-4px">
-                                dev
-                            </Text>
-                        </NavLink>
+                        <HStack>
+                            <NavLink onClick={changeLocation} to="/" className="site-title">
+                                <Box fontSize="24px" className="Logo">
+                                    {" "}
+                                    <Text color={updatedConfig["mainText"]}>hackertype </Text>
+                                </Box>
+                            
+                                <Text fontSize="24px" color={updatedConfig["logoColor"]}>
+                                    .
+                                </Text>
+                                <Text
+                                    fontSize="23px"
+                                    mt={'1px'}
+                                    onClick={changeLocation}
+                                    color={updatedConfig["logoColor"]}
+                                >
+                                    dev
+                                </Text>
+                            </NavLink>
+                        </HStack>
 
                         <Divider marginLeft="10px" marginRight="10px"/>
                     </Box>
