@@ -1242,18 +1242,26 @@ function App({userData, user, givenId}) {
                                                                                 )}
                                                                             </Center>
                                                                         )}
-                                                                        <Box color={config["subtleText"]}
-                                                                             fontSize="14px" paddingLeft="44px">
-                                                                            <HStack>
-                                                                                {!loading && !user && !startCounting && (
-                                                                                    <Box className="underline">
-                                                                                        <a href="/login">log in</a>
-                                                                                    </Box>
-                                                                                )}
-                                                                                {!loading && !user && !startCounting &&
-                                                                                    <p>to save your data</p>}
-                                                                            </HStack>
-                                                                        </Box>
+                                                                        <Center>
+                                                                            <Box color={config["subtleText"]}
+                                                                                 fontSize="14px" ml={"65px"}>
+                                                                                <Center>
+                                                                                    <HStack spacing={1}>
+                                                                                        {!loading && !user && !startCounting && (
+                                                                                            <Box className="underline">
+                                                                                                <Text as={'a'}
+                                                                                                      color={config["logoColor"]}
+                                                                                                      href="/login">log
+                                                                                                    in</Text>
+                                                                                            </Box>
+                                                                                        )}
+                                                                                        {!loading && !user && !startCounting &&
+                                                                                            <Text>to save your
+                                                                                                data</Text>}
+                                                                                    </HStack>
+                                                                                </Center>
+                                                                            </Box>
+                                                                        </Center>
                                                                     </Stack>
                                                                 </Box>
                                                             </Center>
