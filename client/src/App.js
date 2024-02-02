@@ -17,14 +17,12 @@ import {Analytics} from "@vercel/analytics/react";
 import {ChakraProvider, extendTheme, Box, useDisclosure} from "@chakra-ui/react";
 
 function App() {
-    const [submissions, setSubmissions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState({});
     const [userData, setUserData] = useState({});
     const [id, setId] = useState("");
     const [gitLogin, setGitLogin] = useState(false);
     //eslint-disable-next-line
-    const [users, setUsers] = useState([]);
 
     //eslint-disable-next-line
     const [stateConfig, setStateConfig] = useState(() => getConfigValues());
@@ -118,27 +116,6 @@ function App() {
         if (user) getUserSettings().then(() => setLoading(false));
         else setLoading(false);
     }, [user]);
-
-    const usersCollectionRef = collection(db, "users");
-    useEffect(() => {
-        const getUsers = async () => {
-            const data = await getDocs(usersCollectionRef);
-            setUsers(data.docs.map((doc) => ({...doc.data(), id: doc.id})));
-        };
-        getUsers();
-        //eslint-disable-next-line
-    }, []);
-
-    const submissionsCollectionRef = collection(db, "submissions");
-    useEffect(() => {
-        setLoading(true);
-        const getSubmissions = async () => {
-            const data = await getDocs(submissionsCollectionRef);
-            setSubmissions(data.docs.map((doc) => ({...doc.data(), id: doc.id})));
-        };
-        getSubmissions().then(() => setLoading(false));
-        //eslint-disable-next-line
-    }, []);
 
 
     const theme = extendTheme({
