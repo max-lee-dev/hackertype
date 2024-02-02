@@ -1185,6 +1185,7 @@ function App({userData, user, givenId}) {
                                                     submitted={submitted}
                                                     leetcodeTitle={leetcodeTitle}
                                                     setSubmitted={setSubmitted}
+                                                    submissions={submissions}
                                                     user={user}
                                                     last_daily={last_daily}
                                                     thisSolutionPR={thisSolutionPR}

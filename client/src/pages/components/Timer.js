@@ -37,13 +37,13 @@ function Timer({
                    wordLimit,
                    Restart,
                    showLiveWPM,
+                   submissions,
                    config,
                }) {
     const [timeElapsed, setTimeElapsed] = useState(0);
     const actualPR = thisSolutionPR;
     const [finalWPM, setFinalWPM] = useState(0);
     const submissionsCollectionRef = collection(db, "submissions");
-    const [submissions, setSubmissions] = useState([]);
     const [done, setDone] = useState(pause);
     const [addedOne, setAddedOne] = useState(false);
     const [newAcc, setNewAcc] = useState(0);
@@ -93,15 +93,7 @@ function Timer({
         //eslint-disable-next-line
     }, [done]);
 
-    useEffect(() => {
-        const getSubmissions = async () => {
-            const data = await getDocs(submissionsCollectionRef);
-            setSubmissions(data.docs.map((doc) => ({...doc.data(), id: doc.id})));
-        };
-        getSubmissions();
 
-        //eslint-disable-next-line
-    }, []);
     if (!pause && startCounting) {
         return (
             <Box className="timerContainer " fontFamily={config["font"]} minHeight={"15vh"}>

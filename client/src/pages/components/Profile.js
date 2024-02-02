@@ -56,7 +56,7 @@ export default function Profile({config}) {
 
         async function getRecentSubmissions() {
             const q = query(submissionsCollectionRef, where("user", "==", username));
-            const top = query(q, orderBy("when", "desc"), limit(10));
+            const top = query(q, orderBy("when", "desc"), limit(5));
             const recentQuerySnapshot = await getDocs(top);
             const tempArray = [];
             recentQuerySnapshot.forEach((doc) => {
@@ -81,7 +81,7 @@ export default function Profile({config}) {
                     return b.data().wpm - a.data().wpm;
                 }
             );
-            tempArray.splice(10, tempArray.length - 10);
+            tempArray.splice(5, tempArray.length - 5);
 
 
             setBestSubmissions(tempArray);
