@@ -1,10 +1,10 @@
 import React from "react";
-import { Heading, Text, ListItem, List, Box, Center, Link } from "@chakra-ui/react";
+import {Heading, Text, ListItem, List, Box, Center, Link} from "@chakra-ui/react";
 import Section from "./components/Section.js";
 
 import {} from "@chakra-ui/icons";
 
-export default function About({ updatedConfig }) {
+export default function About({updatedConfig}) {
 
   return (
     <Box paddingTop="50px" color={updatedConfig["mainText"]} className="mainFont">
@@ -84,8 +84,8 @@ export default function About({ updatedConfig }) {
             <Section delay={0.4}>
               <Text mt="2" fontWeight="300" fontSize="m">
                 Any issues or suggestions can be sent to me via email:{" "}
-                <Link href="mailto:maxplee8@gmail.com">
-                  <strong>maxplee8@gmail.com</strong>
+                <Link href="mailto:com">
+                  <strong>hey@max-lee.dev</strong>
                 </Link>
                 .
               </Text>
