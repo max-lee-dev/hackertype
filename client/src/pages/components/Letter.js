@@ -1,4 +1,5 @@
 import React from "react";
+import { coordinatesOfChar } from "./utils/utils";
 
 export default function Letter(props) {
   const {
@@ -24,6 +25,16 @@ export default function Letter(props) {
   const wasntTyped = storedInputArray[thisWordIndex]?.length - 2 < idx;
   const wasCorrect = storedInputArray[thisWordIndex]?.charAt(idx) === char;
 
+  const id = `${thisWordIndex}-${idx}`;
+
+  if (currentCharacter && active && inputSelected) {
+    const { x, y } = coordinatesOfChar(id);
+    return (
+      <div top={y} left={x} className="cursor">
+        asd
+      </div>
+    );
+  }
   const isBracket = char === ")" || char === "}" || char === "]";
   if (isBracket && toggleBrackets) {
     if (hasReturn && isLastChar) return <span className="currentCorrect displayText">{char}</span>;
@@ -146,7 +157,15 @@ export default function Letter(props) {
           </span>
         );
       }
-      if (currentCharacter) return <span className="correct displayText cursor">{char}</span>;
+      // the one
+      if (currentCharacter)
+        return (
+          <span id={id} className="correct displayText cursor">
+            {char}
+          </span>
+        );
+
+      // active word, previously correct
       return <span className="correct displayText">{char}</span>;
     } else {
       if (hasReturn && isLastChar) return <span className="correct displayText">{char}</span>;
