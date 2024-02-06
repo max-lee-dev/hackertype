@@ -4,6 +4,7 @@ import { coordinatesOfChar } from "./utils/utils";
 export default function Letter(props) {
   const {
     idx,
+    id,
     displayWord,
     char,
     userInput,
@@ -25,36 +26,48 @@ export default function Letter(props) {
   const wasntTyped = storedInputArray[thisWordIndex]?.length - 2 < idx;
   const wasCorrect = storedInputArray[thisWordIndex]?.charAt(idx) === char;
 
-  const id = `${thisWordIndex}-${idx}`;
-
-  if (currentCharacter && active && inputSelected) {
-    const { x, y } = coordinatesOfChar(id);
-    return (
-      <div top={y} left={x} className="cursor">
-        asd
-      </div>
-    );
-  }
   const isBracket = char === ")" || char === "}" || char === "]";
   if (isBracket && toggleBrackets) {
-    if (hasReturn && isLastChar) return <span className="currentCorrect displayText">{char}</span>;
+    if (hasReturn && isLastChar)
+      return (
+        <span id={id} className="currentCorrect displayText">
+          {char}
+        </span>
+      );
     if (isLastChar) {
       return (
-        <span className="currentCorrect displayText">
-          <span className="currentCorrect displayText">{char}</span>
-          <span className="currentCorrect displayText"> </span>
+        <span id={id} className="currentCorrect displayText">
+          <span id={id} className="currentCorrect displayText">
+            {char}
+          </span>
+          <span id={id} className="currentCorrect displayText">
+            {" "}
+          </span>
         </span>
       );
     }
-    return <span className="correct displayText">{char}</span>;
+    return (
+      <span id={id} className="correct displayText">
+        {char}
+      </span>
+    );
   }
 
   if (userChar === "" || !active) correct = null;
 
   // add blinking indicator on the first letter
   if (inputSelected && idx === 0 && active && userInput.length === 0) {
-    if (isLastChar) return <span className="behindCursor displayText">{char} </span>;
-    return <span className="behindCursor active">{char}</span>;
+    if (isLastChar)
+      return (
+        <span id={id} className="behindCursor displayText">
+          {char}{" "}
+        </span>
+      );
+    return (
+      <span id={id} className="behindCursor active">
+        {char}
+      </span>
+    );
   }
 
   // if user goes over the word length
@@ -63,8 +76,10 @@ export default function Letter(props) {
       if (isLastChar)
         return (
           <span>
-            <span className="currentIncorrect underlineRed displayText cursor">{cutoffLettersPlusX}</span>
-            <span className="currentIncorrect displayText">
+            <span id={id} className="currentIncorrect underlineRed displayText cursor">
+              {cutoffLettersPlusX}
+            </span>
+            <span id={id} className="currentIncorrect displayText">
               <br />
             </span>
           </span>
@@ -81,7 +96,7 @@ export default function Letter(props) {
     if (userInput.length > displayWord.length) {
       if (isLastChar)
         return (
-          <span className="currentIncorrect  displayText">
+          <span id={id} className="currentIncorrect  displayText">
             <span
               className={
                 correct
@@ -90,9 +105,13 @@ export default function Letter(props) {
               }>
               {char}
             </span>
-            <span className="nounderline">
-              <span className="currentIncorrect underlineRed displayText cursor">{cutoffLetters}</span>
-              <span className="currentIncorrect displayText "> </span>
+            <span id={id} className="nounderline">
+              <span id={id} className="currentIncorrect underlineRed displayText cursor">
+                {cutoffLetters}
+              </span>
+              <span id={id} className="currentIncorrect displayText ">
+                {" "}
+              </span>
             </span>
           </span>
         );
@@ -112,14 +131,14 @@ export default function Letter(props) {
     if (storedInputArray[thisWordIndex].length - 1 > displayWord.length) {
       if (isLastChar)
         return (
-          <span className="incorrect displayText">
+          <span id={id} className="incorrect displayText">
             <span
               className={
                 wasCorrect ? "underlineRed correct displayText" : "underlineRed incorrect displayText"
               }>
               {char}
             </span>
-            <span className="underlineRed  incorrect displayText">
+            <span id={id} className="underlineRed  incorrect displayText">
               {storedInputArray[thisWordIndex].substring(
                 displayWord.length,
                 storedInputArray[thisWordIndex].length - 1
@@ -138,22 +157,48 @@ export default function Letter(props) {
 
     // if wasn't overflow, just render if they were correct or not
     if (wasntTyped) {
-      if (isLastChar) return <span className=" displayText">{char} </span>;
-      return <span className="displayText">{char}</span>;
+      if (isLastChar)
+        return (
+          <span id={id} className=" displayText">
+            {char}{" "}
+          </span>
+        );
+      return (
+        <span id={id} className="displayText">
+          {char}
+        </span>
+      );
     }
     if (isLastChar)
-      return <span className={wasCorrect ? "correct displayText" : "incorrect displayText"}>{char} </span>;
-    return <span className={wasCorrect ? "correct displayText" : "incorrect displayText"}>{char}</span>;
+      return (
+        <span id={id} className={wasCorrect ? "correct displayText" : "incorrect displayText"}>
+          {char}{" "}
+        </span>
+      );
+    return (
+      <span id={id} className={wasCorrect ? "correct displayText" : "incorrect displayText"}>
+        {char}
+      </span>
+    );
   }
 
   if (correct === true) {
     if (active) {
-      if (hasReturn && isLastChar) return <span className="currentCorrect displayText">{char}</span>;
+      if (hasReturn && isLastChar)
+        return (
+          <span id={id} className="currentCorrect displayText">
+            {char}
+          </span>
+        );
       if (isLastChar) {
         return (
-          <span className="currentCorrect displayText">
-            <span className="currentCorrect displayText">{char}</span>
-            <span className="currentCorrect displayText behindCursor"> </span>
+          <span id={id} className="currentCorrect displayText">
+            <span id={id} className="currentCorrect displayText">
+              {char}
+            </span>
+            <span id={id} className="currentCorrect displayText behindCursor">
+              {" "}
+            </span>
           </span>
         );
       }
@@ -166,44 +211,127 @@ export default function Letter(props) {
         );
 
       // active word, previously correct
-      return <span className="correct displayText">{char}</span>;
+      return (
+        <span id={id} className="correct displayText">
+          {char}
+        </span>
+      );
     } else {
-      if (hasReturn && isLastChar) return <span className="correct displayText">{char}</span>;
-      if (isLastChar) return <span className="correct displayText">{char} </span>;
+      if (hasReturn && isLastChar)
+        return (
+          <span id={id} className="correct displayText">
+            {char}
+          </span>
+        );
+      if (isLastChar)
+        return (
+          <span id={id} className="correct displayText">
+            {char}{" "}
+          </span>
+        );
 
-      if (currentCharacter) return <span className="correct displayText cursor">{char}</span>;
-      return <span className="correct displayText">{char}</span>;
+      if (currentCharacter)
+        return (
+          <span id={id} className="correct displayText cursor">
+            {char}
+          </span>
+        );
+      return (
+        <span id={id} className="correct displayText">
+          {char}
+        </span>
+      );
     }
   }
   if (correct === false) {
     if (active) {
-      if (hasReturn && isLastChar) return <span className="currentIncorrect displayText">{char}</span>;
+      if (hasReturn && isLastChar)
+        return (
+          <span id={id} className="currentIncorrect displayText">
+            {char}
+          </span>
+        );
       if (isLastChar) {
         return (
-          <span className="currentIncorrect displayText">
-            <span className="currentIncorrect displayText">{char}</span>
-            <span className="currentIncorrect displayText behindCursor"> </span>
+          <span id={id} className="currentIncorrect displayText">
+            <span id={id} className="currentIncorrect displayText">
+              {char}
+            </span>
+            <span id={id} className="currentIncorrect displayText behindCursor">
+              {" "}
+            </span>
           </span>
         );
       }
-      if (currentCharacter) return <span className="currentIncorrect displayText cursor">{char}</span>;
-      return <span className="currentIncorrect displayText">{char}</span>;
+      if (currentCharacter)
+        return (
+          <span id={id} className="currentIncorrect displayText cursor">
+            {char}
+          </span>
+        );
+      return (
+        <span id={id} className="currentIncorrect displayText">
+          {char}
+        </span>
+      );
     } else {
-      if (hasReturn && isLastChar) return <span className="incorrect displayText">{char}</span>;
-      if (currentCharacter) return <span className="incorrect displayText cursor">{char}</span>;
-      return <span className="incorrect displayText">{char}</span>;
+      if (hasReturn && isLastChar)
+        return (
+          <span id={id} className="incorrect displayText">
+            {char}
+          </span>
+        );
+      if (currentCharacter)
+        return (
+          <span id={id} className="incorrect displayText cursor">
+            {char}
+          </span>
+        );
+      return (
+        <span id={id} className="incorrect displayText">
+          {char}
+        </span>
+      );
     }
   }
 
   // ACTIVE TEXT CHARACTERS GRAY
   if (active && correct === null) {
-    if (hasReturn && isLastChar) return <span className="active">{char}</span>;
-    if (isLastChar) return <span className="active">{char} </span>;
-    return <span className="active ">{char}</span>;
+    if (hasReturn && isLastChar)
+      return (
+        <span id={id} className="active">
+          {char}
+        </span>
+      );
+    if (isLastChar)
+      return (
+        <span id={id} className="active">
+          {char}{" "}
+        </span>
+      );
+    return (
+      <span id={id} className="active ">
+        {char}
+      </span>
+    );
   }
 
-  if (hasReturn && isLastChar) return <span className="displayText">{char}</span>;
+  if (hasReturn && isLastChar)
+    return (
+      <span id={id} className="displayText">
+        {char}
+      </span>
+    );
 
-  if (isLastChar) return <span className="displayText">{char} </span>;
-  return <span className="displayText">{char}</span>;
+  if (isLastChar)
+    return (
+      <span id={id} className="displayText">
+        {char}{" "}
+      </span>
+    );
+  return (
+    <span id={id} className="displayText">
+      {char}
+    </span>
+  );
 }
