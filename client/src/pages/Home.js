@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import {useState, useRef, useEffect} from "react";
 import React from "react";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 import Timer from "./components/Timer.js";
 import javaCode from "./components/codefiles/javaCode.json";
 import pyCode from "./components/codefiles/pyCode.json";
@@ -9,14 +9,14 @@ import dailySolutions from "./components/codefiles/dailySolutions.json";
 import CodeSettings from "./components/CodeSettings.js";
 import StoredInput from "./components/StoredInput.js";
 import Letter from "./components/Letter.js";
-import { useParams } from "react-router-dom";
-import { FaCrown } from "react-icons/fa";
+import {useParams} from "react-router-dom";
+import {FaCrown} from "react-icons/fa";
 import Section from "./components/Section.js";
 import SmoothCaret from "./components/smooth-caret/SmoothCaret.js";
 
-import { doc, updateDoc, getDocs, collection, query, where, onSnapshot } from "firebase/firestore";
-import { ref as sRef } from "firebase/storage";
-import { db } from "./components/firebase.js";
+import {doc, updateDoc, getDocs, collection, query, where, onSnapshot} from "firebase/firestore";
+import {ref as sRef} from "firebase/storage";
+import {db} from "./components/firebase.js";
 import {
   Center,
   useDisclosure,
@@ -30,7 +30,7 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import LeaderboardModal from "./components/LeaderboardModal.js";
-import { RepeatIcon } from "@chakra-ui/icons";
+import {RepeatIcon} from "@chakra-ui/icons";
 
 // figure out how to get new text every reload
 
@@ -97,16 +97,16 @@ function countNumberOfLines(funcRawCode, codingLanguage) {
   return lineCount;
 }
 
-function App({ userData, user, givenId }) {
-  const { isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen } = useDisclosure();
-  const { isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen } = useDisclosure();
+function App({userData, user, givenId}) {
+  const {isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen} = useDisclosure();
+  const {isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen} = useDisclosure();
   const {
     isOpen: isLeaderboardOpen,
     onClose: onLeaderboardClose,
     onOpen: onLeaderboardOpen,
   } = useDisclosure();
 
-  const { givenLanguage, number } = useParams();
+  const {givenLanguage, number} = useParams();
   const solutionGenerationLineLimit = useRef(50000);
 
   const chosenID = useRef(number);
@@ -137,11 +137,11 @@ function App({ userData, user, givenId }) {
       showLinesLeft: true,
       language: "Java",
     };
-    return { ...defaultConfig, ...config };
+    return {...defaultConfig, ...config};
   }
 
   function handleChange(event, bool) {
-    let { name, value } = event.target;
+    let {name, value} = event.target;
     console.log(name, value);
     const parseBoolean = (value) => value === "true" || value === true;
 
@@ -247,7 +247,7 @@ function App({ userData, user, givenId }) {
   useEffect(() => {
     const getSubmissions = async () => {
       const data = await getDocs(submissionsCollectionRef);
-      setSubmissions(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      setSubmissions(data.docs.map((doc) => ({...doc.data(), id: doc.id})));
     };
     getSubmissions();
 
@@ -323,7 +323,7 @@ function App({ userData, user, givenId }) {
 
   useEffect(() => {
     console.log("wtf");
-    handleChange({ target: { name: "language", value: language } });
+    handleChange({target: {name: "language", value: language}});
   }, [language]);
 
   async function changeLastId(id) {
@@ -668,7 +668,7 @@ function App({ userData, user, givenId }) {
           funcIndentChars[index] === undefined ||
           funcIndentChars[index] === 0 ||
           funcIndentChars[index] === 2
-        ) {
+          ) {
           times++;
           index = funcRawCode.indexOf(`${word}`, index + 1);
           if (times === 100) break;
@@ -697,7 +697,7 @@ function App({ userData, user, givenId }) {
           funcIndentChars[index] === undefined ||
           funcIndentChars[index] === 0 ||
           funcIndentChars[index] === 2
-        ) {
+          ) {
           times++;
           index = funcRawCode.indexOf(`${word}`, index + 1);
           if (times === 100) {
@@ -742,7 +742,7 @@ function App({ userData, user, givenId }) {
   function Word(props) {
     // if this doesnt work put it back and try using React.memo
 
-    const { text, active, correct, thisWordIndex } = props;
+    const {text, active, correct, thisWordIndex} = props;
     const hasReturn = text.includes("\n");
     let numReturns = 0;
     if (hasReturn) {
@@ -851,8 +851,8 @@ function App({ userData, user, givenId }) {
               wordBank[activeWordIndex].substring(
                 0,
                 wordBank[activeWordIndex].length -
-                  countReturns(wordBank[activeWordIndex]) -
-                  countBrackets(wordBank[activeWordIndex])
+                countReturns(wordBank[activeWordIndex]) -
+                countBrackets(wordBank[activeWordIndex])
               );
           } else {
             newResult[activeWordIndex] =
@@ -1157,7 +1157,7 @@ function App({ userData, user, givenId }) {
                                     <Button
                                       fontSize="24px"
                                       backgroundColor="transparent"
-                                      _hover={{ color: config["mainText"] }}
+                                      _hover={{color: config["mainText"]}}
                                       color={config["subtleText"]}
                                       width="25px"
                                       onClick={() => onLeaderboardOpen()}>
@@ -1212,7 +1212,7 @@ function App({ userData, user, givenId }) {
                             </Text>
                           )}
                           <Stack justifyContent="center" direction="row">
-                            {!finished && <Divider orientation="vertical" width="56px" />}
+                            {!finished && <Divider orientation="vertical" width="56px"/>}
                           </Stack>
                         </Box>
                         <Center>
@@ -1232,7 +1232,7 @@ function App({ userData, user, givenId }) {
                                                     <p className="subtleTextColor font500">
                                                       {thisSolutionPR} WPM{" "}
                                                     </p>
-                                                    <FaCrown color={config["subtleText"]} />
+                                                    <FaCrown color={config["subtleText"]}/>
                                                   </HStack>
                                                 )}
                                               </Center>
@@ -1341,7 +1341,8 @@ function App({ userData, user, givenId }) {
                             </Center>
                           </Box>
                         )}
-                        <SmoothCaret id={`${activeWordIndex}-${userInput.length}`} />
+                        <SmoothCaret
+                          id={userInput.length > 0 ? `${activeWordIndex}-${userInput?.length - 1}` : `0`}/>
                       </Box>
                     </Center>
                     <Center>
@@ -1365,10 +1366,10 @@ function App({ userData, user, givenId }) {
                   {!loading && !finished && (
                     <IconButton
                       minW="50px"
-                      _hover={{ backgroundColor: config["themeActiveButton"] }}
+                      _hover={{backgroundColor: config["themeActiveButton"]}}
                       color={config["mainText"]}
                       backgroundColor="transparent"
-                      icon={<RepeatIcon />}
+                      icon={<RepeatIcon/>}
                       onClick={() => Restart(language, wordLimit)}></IconButton>
                   )}
                 </Box>
