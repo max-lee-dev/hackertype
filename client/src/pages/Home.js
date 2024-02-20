@@ -1330,7 +1330,7 @@ function App({userData, user, givenId}) {
                         />
                       )}
 
-                      />
+                      
                     </Box>
                   </Center>
                   <Center>
