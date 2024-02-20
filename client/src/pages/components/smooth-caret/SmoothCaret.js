@@ -6,21 +6,27 @@ export default function SmoothCaret({loading, id, curWord}) {
   let {x, y} = coordinatesOfChar(id, curWord.length);
   useEffect(() => {
     if (loading) {
-      x = 0;
-      y = 0;
+      x = coordinatesOfChar(id, curWord.length).x;
+      y = coordinatesOfChar(id, curWord.length).y;
     }
+
   }, [loading]);
+
+  if (loading) {
+    return (
+      <Box/>
+    );
+  }
 
   return (
     <Box
       color="white"
-      top={y}
-      left={x}
-      w={1}
-      h={8}
+      top={y + 2}
+      left={x - 5}
+      w={"3px"}
+      h={7}
       transition={"all 0.1s"}
       position="absolute"
-      bg={'red'}
-      className="cursor"></Box>
+      className="newcursor"/>
   );
 }

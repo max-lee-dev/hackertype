@@ -1,5 +1,5 @@
 import React from "react";
-import { coordinatesOfChar } from "./utils/utils";
+import {coordinatesOfChar} from "./utils/utils";
 
 export default function Letter(props) {
   const {
@@ -59,15 +59,23 @@ export default function Letter(props) {
   if (inputSelected && idx === 0 && active && userInput.length === 0) {
     if (isLastChar)
       return (
-        <span id={id} className="behindCursor displayText">
+        <span id={id} className="displayText">
           {char}{" "}
         </span>
       );
-    return (
-      <span id={id} className="behindCursor active">
+    if (activeWordIndex === 0) {
+      return (
+        <span id={id} className="behindCursor active">
         {char}
       </span>
-    );
+      );
+    } else {
+      return (
+        <span id={id} className="active">
+          {char}
+        </span>
+      );
+    }
   }
 
   // if user goes over the word length
@@ -80,7 +88,7 @@ export default function Letter(props) {
               {cutoffLettersPlusX}
             </span>
             <span id={id} className="currentIncorrect displayText">
-              <br />
+              <br/>
             </span>
           </span>
         );
@@ -196,7 +204,7 @@ export default function Letter(props) {
             <span id={id} className="currentCorrect displayText">
               {char}
             </span>
-            <span id={id} className="currentCorrect displayText behindCursor">
+            <span id={id} className="currentCorrect displayText ">
               {" "}
             </span>
           </span>
@@ -257,7 +265,7 @@ export default function Letter(props) {
             <span id={id} className="currentIncorrect displayText">
               {char}
             </span>
-            <span id={id} className="currentIncorrect displayText behindCursor">
+            <span id={id} className="currentIncorrect displayText ">
               {" "}
             </span>
           </span>

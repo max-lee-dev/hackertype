@@ -198,6 +198,7 @@ function App({userData, user, givenId}) {
 
   const [finished, setFinished] = useState(false);
   const [last_daily, setLastDaily] = useState(undefined);
+  const [showCustomCaret, setShowCustomCaret] = useState(false);
 
   // check if user missed the daily
   const ogDay = 1703662239000 - 27039000;
@@ -243,6 +244,13 @@ function App({userData, user, givenId}) {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (startCounting) {
+      setShowCustomCaret(true);
+    }
+
+  }, [startCounting]);
 
   useEffect(() => {
     const getSubmissions = async () => {
@@ -1043,42 +1051,42 @@ function App({userData, user, givenId}) {
       )}
 
       {!loading && (
-        <Section delay={0.15}>
-          <Box bgColor={config["themeBackground"]}>
-            <Box className="container">
-              <Center>
-                <Box className="content" width={["100%", "100%", "100%", "80%"]}>
-                  <Center>
-                    <Box width="100%">
-                      {!loading && (
-                        <CodeSettings
-                          startCounting={startCounting}
-                          id={id}
-                          language={language}
-                          setLanguage={setLanguage}
-                          isSearchOpen={isSearchOpen}
-                          onSearchOpen={onSearchOpen}
-                          onSearchClose={onSearchClose}
-                          isWordsOpen={isWordsOpen}
-                          onWordsOpen={onWordsOpen}
-                          onWordsClose={onWordsClose}
-                          wordLimit={wordLimit}
-                          handleWordLimit={handleWordLimit}
-                          Restart={Restart}
-                          cppRange={cppRange}
-                          javaRange={javaRange}
-                          pythonRange={pythonRange}
-                          setId={setId}
-                          changeLastId={changeLastId}
-                          leetcodeTitle={leetcodeTitle}
-                          retrySame={retrySame}
-                          setRetrySame={setRetrySame}
-                          config={config}
-                        />
-                      )}
-                    </Box>
-                  </Center>
-                  {/* {retrySame && (
+        // <Section delay={0.15}>
+        <Box bgColor={config["themeBackground"]}>
+          <Box className="container">
+            <Center>
+              <Box className="content" width={["100%", "100%", "100%", "80%"]}>
+                <Center>
+                  <Box width="100%">
+                    {!loading && (
+                      <CodeSettings
+                        startCounting={startCounting}
+                        id={id}
+                        language={language}
+                        setLanguage={setLanguage}
+                        isSearchOpen={isSearchOpen}
+                        onSearchOpen={onSearchOpen}
+                        onSearchClose={onSearchClose}
+                        isWordsOpen={isWordsOpen}
+                        onWordsOpen={onWordsOpen}
+                        onWordsClose={onWordsClose}
+                        wordLimit={wordLimit}
+                        handleWordLimit={handleWordLimit}
+                        Restart={Restart}
+                        cppRange={cppRange}
+                        javaRange={javaRange}
+                        pythonRange={pythonRange}
+                        setId={setId}
+                        changeLastId={changeLastId}
+                        leetcodeTitle={leetcodeTitle}
+                        retrySame={retrySame}
+                        setRetrySame={setRetrySame}
+                        config={config}
+                      />
+                    )}
+                  </Box>
+                </Center>
+                {/* {retrySame && (
                     <Box className="retrySame">
                       <Center>
                         <Box className="retrySameContainer">
@@ -1097,174 +1105,174 @@ function App({userData, user, givenId}) {
                     </Box>
                   )} */}
 
-                  <Box className="inputContainer">
-                    <Box className="leetcodeTitle" paddingTop="0px">
-                      {!startCounting && !loading && (
-                        <Box className="mainFont">
-                          <Center>
-                            <Stack direction={["column", "row", "row"]} spacing="0">
-                              {parseInt(leetcodeTitle.split(".")[0]) === dailySolutions[dailyNum] && (
-                                <Box>
-                                  <Tooltip label="daily solution">
-                                    <Box
-                                      color={config["logoColor"]}
-                                      paddingTop={"10px"}
-                                      paddingRight={3}
-                                      fontSize={"24px"}>
-                                      <ion-icon name="flame"></ion-icon>
-                                    </Box>
-                                  </Tooltip>
-                                </Box>
-                              )}
-
-                              <Text
-                                paddingTop={"6px"}
-                                fontSize="24px"
-                                color={config["mainText"]}
-                                className="mainFont font500">
-                                {leetcodeTitle}
-                              </Text>
+                <Box className="inputContainer">
+                  <Box className="leetcodeTitle" paddingTop="0px">
+                    {!startCounting && !loading && (
+                      <Box className="mainFont">
+                        <Center>
+                          <Stack direction={["column", "row", "row"]} spacing="0">
+                            {parseInt(leetcodeTitle.split(".")[0]) === dailySolutions[dailyNum] && (
                               <Box>
-                                <Tooltip label="view leaderboard">
-                                  <Box className={"standardButton"}>
-                                    <Button
-                                      fontSize="24px"
-                                      backgroundColor="transparent"
-                                      _hover={{color: config["mainText"]}}
-                                      color={config["subtleText"]}
-                                      width="25px"
-                                      onClick={() => onLeaderboardOpen()}>
-                                      <Box fontSize={"24px"}>
-                                        <ion-icon name="podium"></ion-icon>
-                                      </Box>
-                                    </Button>
+                                <Tooltip label="daily solution">
+                                  <Box
+                                    color={config["logoColor"]}
+                                    paddingTop={"10px"}
+                                    paddingRight={3}
+                                    fontSize={"24px"}>
+                                    <ion-icon name="flame"></ion-icon>
                                   </Box>
                                 </Tooltip>
                               </Box>
-                            </Stack>
-                          </Center>
-                        </Box>
-                      )}
-                    </Box>
-                    <Box id="timer">
-                      {startCounting && (
-                        <Timer
-                          codeID={leetcodeTitle}
-                          language={language}
-                          startCounting={startCounting}
-                          pause={finished}
-                          correctWords={correctWordArray.filter(Boolean).length}
-                          totalWords={wordBank.length}
-                          correctCharacterArray={correctCharsArray}
-                          submitted={submitted}
-                          leetcodeTitle={leetcodeTitle}
-                          setSubmitted={setSubmitted}
-                          submissions={submissions}
-                          user={user}
-                          last_daily={last_daily}
-                          thisSolutionPR={thisSolutionPR}
-                          setThisSolutionPR={setThisSolutionPR}
-                          wordLimit={wordLimit}
-                          Restart={Restart}
-                          showLiveWPM={config["showLiveWPM"]}
-                          config={config}
-                        />
-                      )}
-                    </Box>
-                    <Box className="textContainer">
-                      <p className="error"> {error}</p>
-                      <Box>
-                        <Box className="userInputContainer">
-                          {!startCounting && !loading && (
+                            )}
+
                             <Text
-                              className="mainFont"
-                              fontWeight="100"
-                              paddingLeft="5px"
-                              color={config["subtleText"]}>
-                              {preGeneratedLineIndex.length + 1} lines
+                              paddingTop={"6px"}
+                              fontSize="24px"
+                              color={config["mainText"]}
+                              className="mainFont font500">
+                              {leetcodeTitle}
                             </Text>
-                          )}
-                          <Stack justifyContent="center" direction="row">
-                            {!finished && <Divider orientation="vertical" width="56px"/>}
-                          </Stack>
-                        </Box>
-                        <Center>
-                          <Box width="90px" className="font100 mainFont whiteText no-select">
-                            <Center>
-                              <Center>
-                                <Box width="300px">
-                                  <Stack direction={["row"]}>
-                                    {user && (
-                                      <Center>
-                                        {user && !startCounting && !loading && !findingPR && (
-                                          <Tooltip label="Your personal best" placement="top">
-                                            <Box width="100px" marginLeft="103px">
-                                              <Center>
-                                                {user && !startCounting && !loading && (
-                                                  <HStack>
-                                                    <p className="subtleTextColor font500">
-                                                      {thisSolutionPR} WPM{" "}
-                                                    </p>
-                                                    <FaCrown color={config["subtleText"]}/>
-                                                  </HStack>
-                                                )}
-                                              </Center>
-                                            </Box>
-                                          </Tooltip>
-                                        )}
-                                      </Center>
-                                    )}
-                                    <Center>
-                                      <Box color={config["subtleText"]} fontSize="14px" ml={"65px"}>
-                                        <Center>
-                                          <HStack spacing={1}>
-                                            {!loading && !user && !startCounting && (
-                                              <Box className="underline">
-                                                <Text as={"a"} color={config["logoColor"]} href="/login">
-                                                  log in
-                                                </Text>
-                                              </Box>
-                                            )}
-                                            {!loading && !user && !startCounting && (
-                                              <Text>to save your data</Text>
-                                            )}
-                                          </HStack>
-                                        </Center>
-                                      </Box>
-                                    </Center>
-                                  </Stack>
+                            <Box>
+                              <Tooltip label="view leaderboard">
+                                <Box className={"standardButton"}>
+                                  <Button
+                                    fontSize="24px"
+                                    backgroundColor="transparent"
+                                    _hover={{color: config["mainText"]}}
+                                    color={config["subtleText"]}
+                                    width="25px"
+                                    onClick={() => onLeaderboardOpen()}>
+                                    <Box fontSize={"24px"}>
+                                      <ion-icon name="podium"></ion-icon>
+                                    </Box>
+                                  </Button>
                                 </Box>
-                              </Center>
-                            </Center>
-                          </Box>
+                              </Tooltip>
+                            </Box>
+                          </Stack>
                         </Center>
                       </Box>
+                    )}
+                  </Box>
+                  <Box id="timer">
+                    {startCounting && (
+                      <Timer
+                        codeID={leetcodeTitle}
+                        language={language}
+                        startCounting={startCounting}
+                        pause={finished}
+                        correctWords={correctWordArray.filter(Boolean).length}
+                        totalWords={wordBank.length}
+                        correctCharacterArray={correctCharsArray}
+                        submitted={submitted}
+                        leetcodeTitle={leetcodeTitle}
+                        setSubmitted={setSubmitted}
+                        submissions={submissions}
+                        user={user}
+                        last_daily={last_daily}
+                        thisSolutionPR={thisSolutionPR}
+                        setThisSolutionPR={setThisSolutionPR}
+                        wordLimit={wordLimit}
+                        Restart={Restart}
+                        showLiveWPM={config["showLiveWPM"]}
+                        config={config}
+                      />
+                    )}
+                  </Box>
+                  <Box className="textContainer">
+                    <p className="error"> {error}</p>
+                    <Box>
+                      <Box className="userInputContainer">
+                        {!startCounting && !loading && (
+                          <Text
+                            className="mainFont"
+                            fontWeight="100"
+                            paddingLeft="5px"
+                            color={config["subtleText"]}>
+                            {preGeneratedLineIndex.length + 1} lines
+                          </Text>
+                        )}
+                        <Stack justifyContent="center" direction="row">
+                          {!finished && <Divider orientation="vertical" width="56px"/>}
+                        </Stack>
+                      </Box>
+                      <Center>
+                        <Box width="90px" className="font100 mainFont whiteText no-select">
+                          <Center>
+                            <Center>
+                              <Box width="300px">
+                                <Stack direction={["row"]}>
+                                  {user && (
+                                    <Center>
+                                      {user && !startCounting && !loading && !findingPR && (
+                                        <Tooltip label="Your personal best" placement="top">
+                                          <Box width="100px" marginLeft="103px">
+                                            <Center>
+                                              {user && !startCounting && !loading && (
+                                                <HStack>
+                                                  <p className="subtleTextColor font500">
+                                                    {thisSolutionPR} WPM{" "}
+                                                  </p>
+                                                  <FaCrown color={config["subtleText"]}/>
+                                                </HStack>
+                                              )}
+                                            </Center>
+                                          </Box>
+                                        </Tooltip>
+                                      )}
+                                    </Center>
+                                  )}
+                                  <Center>
+                                    <Box color={config["subtleText"]} fontSize="14px" ml={"65px"}>
+                                      <Center>
+                                        <HStack spacing={1}>
+                                          {!loading && !user && !startCounting && (
+                                            <Box className="underline">
+                                              <Text as={"a"} color={config["logoColor"]} href="/login">
+                                                log in
+                                              </Text>
+                                            </Box>
+                                          )}
+                                          {!loading && !user && !startCounting && (
+                                            <Text>to save your data</Text>
+                                          )}
+                                        </HStack>
+                                      </Center>
+                                    </Box>
+                                  </Center>
+                                </Stack>
+                              </Box>
+                            </Center>
+                          </Center>
+                        </Box>
+                      </Center>
                     </Box>
+                  </Box>
 
-                    <Center position="relative">
-                      {!finished && !loading && (
-                        <input
-                          zIndex="100"
-                          id="textInput"
-                          className={startCounting ? "textInput nocursor" : "textInput"}
-                          type="text"
-                          onPaste={(e) => {
-                            e.preventDefault();
-                            return false;
-                          }}
-                          value={userInput}
-                          onChange={(e) => processInput(e)}
-                          onKeyDown={handleKeyDown}
-                          autoFocus
-                          autoComplete="off"
-                          spellCheck={false}
-                          autoCapitalize="none"
-                          autoCorrect="off"
-                          ref={inputElement}
-                          position="absolute"
-                        />
-                      )}
-                      <Box className="text" fontWeight={500} fontSize={config["fontSize"]}>
+                  <Center position="relative">
+                    {!finished && !loading && (
+                      <input
+                        zIndex="100"
+                        id="textInput"
+                        className={startCounting ? "textInput nocursor" : "textInput"}
+                        type="text"
+                        onPaste={(e) => {
+                          e.preventDefault();
+                          return false;
+                        }}
+                        value={userInput}
+                        onChange={(e) => processInput(e)}
+                        onKeyDown={handleKeyDown}
+                        autoFocus
+                        autoComplete="off"
+                        spellCheck={false}
+                        autoCapitalize="none"
+                        autoCorrect="off"
+                        ref={inputElement}
+                        position="absolute"
+                      />
+                    )}
+                    <Box className="text" fontWeight={500} fontSize={config["fontSize"]}>
                         <pre
                           style={{
                             whiteSpace: "pre-wrap",
@@ -1305,71 +1313,71 @@ function App({userData, user, givenId}) {
                               return "";
                             })}
                         </pre>
-                        {preGeneratedLineIndex.length > 10 && !startCounting && !loading && (
-                          <Box paddingTop="10px">
-                            <Center>
-                              <Text color={config["subtleText"]} className="mainFont font300" fontSize="12px">
-                                {preGeneratedLineIndex.length + 1 - 10} more lines not shown...
-                              </Text>
-                            </Center>
-                          </Box>
-                        )}
-                        {wordBank && !finished && (
-                          <SmoothCaret
-                            loading={loading}
-                            id={(startCounting && userInput.length > 0) ? `${activeWordIndex}-${userInput?.length}` : `${activeWordIndex}-0`}
-                            curWord={wordBank[activeWordIndex]}
-                          />
-                        )}
-
+                      {preGeneratedLineIndex.length > 10 && !startCounting && !loading && (
+                        <Box paddingTop="10px">
+                          <Center>
+                            <Text color={config["subtleText"]} className="mainFont font300" fontSize="12px">
+                              {preGeneratedLineIndex.length + 1 - 10} more lines not shown...
+                            </Text>
+                          </Center>
+                        </Box>
+                      )}
+                      {startCounting && !finished && (
+                        <SmoothCaret
+                          loading={loading}
+                          id={(startCounting && userInput.length > 0) ? `${activeWordIndex}-${userInput?.length}` : `${activeWordIndex}-0`}
+                          curWord={wordBank[activeWordIndex]}
                         />
-                      </Box>
-                    </Center>
-                    <Center>
-                      <Box paddingTop="1rem">
-                        {preGeneratedLineIndex.length - currentLine + 1 - config["linesDisplayed"] > 0 &&
-                          startCounting &&
-                          !finished &&
-                          config["showLinesLeft"] && (
-                            <p className="mainFont subtleTextColor">
-                              {preGeneratedLineIndex.length - currentLine + 1 - config["linesDisplayed"]} more
-                              lines left...
-                            </p>
-                          )}
-                      </Box>
-                    </Center>
-                  </Box>
+                      )}
+
+                      />
+                    </Box>
+                  </Center>
+                  <Center>
+                    <Box paddingTop="1rem">
+                      {preGeneratedLineIndex.length - currentLine + 1 - config["linesDisplayed"] > 0 &&
+                        startCounting &&
+                        !finished &&
+                        config["showLinesLeft"] && (
+                          <p className="mainFont subtleTextColor">
+                            {preGeneratedLineIndex.length - currentLine + 1 - config["linesDisplayed"]} more
+                            lines left...
+                          </p>
+                        )}
+                    </Box>
+                  </Center>
                 </Box>
-              </Center>
-              <Center>
-                <Box>
-                  {!loading && !finished && (
-                    <IconButton
-                      minW="50px"
-                      _hover={{backgroundColor: config["themeActiveButton"]}}
-                      color={config["mainText"]}
-                      backgroundColor="transparent"
-                      icon={<RepeatIcon/>}
-                      onClick={() => Restart(language, wordLimit)}></IconButton>
-                  )}
-                </Box>
-              </Center>
-              <Box id="userInput">
-                {!newUser && !finished && !startCounting && (
-                  <Text fontSize="18px" color={config["subtleText"]} className="mainFont font300">
-                    [Tab] to Restart Test
-                  </Text>
+              </Box>
+            </Center>
+            <Center>
+              <Box>
+                {!loading && !finished && (
+                  <IconButton
+                    minW="50px"
+                    _hover={{backgroundColor: config["themeActiveButton"]}}
+                    color={config["mainText"]}
+                    backgroundColor="transparent"
+                    icon={<RepeatIcon/>}
+                    onClick={() => Restart(language, wordLimit)}></IconButton>
                 )}
               </Box>
+            </Center>
+            <Box id="userInput">
+              {!newUser && !finished && !startCounting && (
+                <Text fontSize="18px" color={config["subtleText"]} className="mainFont font300">
+                  [Tab] to Restart Test
+                </Text>
+              )}
             </Box>
-            <LeaderboardModal
-              isLeaderboardOpen={isLeaderboardOpen}
-              onLeaderboardClose={onLeaderboardClose}
-              givenSolName={leetcodeTitle}
-              selectedLanguage={language}
-            />
           </Box>
-        </Section>
+          <LeaderboardModal
+            isLeaderboardOpen={isLeaderboardOpen}
+            onLeaderboardClose={onLeaderboardClose}
+            givenSolName={leetcodeTitle}
+            selectedLanguage={language}
+          />
+        </Box>
+        // </Section>
       )}
     </Box>
   );

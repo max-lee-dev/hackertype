@@ -700,8 +700,8 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 .behindCursor {
-    /*box-shadow: -3px 0 0 0 white;*/
-    /*animation: blinkbehind 1s infinite;*/
+    box-shadow: -3px 0 0 0 white;
+    animation: blinkbehind 1s infinite;
 }
 
 .nounderline {
@@ -726,9 +726,8 @@ html::-webkit-scrollbar-thumb:hover {
     }
 }
 
-.cursor {
-    /*box-shadow: 3px 0 0 0 var(--caretColor);*/
-    /*animation: blink 1s infinite;*/
+.newcursor {
+    box-shadow: 4px 0 0 0 var(--caretColor);
 
 
 }
