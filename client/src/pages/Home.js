@@ -754,9 +754,7 @@ function App({userData, user, givenId}) {
     const textArr = text.split("");
     return textArr.map((char, index) => {
       const id = `${thisWordIndex}-${index}`;
-      if (thisWordIndex === activeWordIndex) {
-        console.log(id);
-      }
+
 
       return (
         <Letter
@@ -778,32 +776,7 @@ function App({userData, user, givenId}) {
         />
       );
     });
-    // if (correct === true) {
-    //         if (active) {
-    //                 if (hasReturn) return <span className = 'currentCorrect displayText'>{text} <br/></span>
-    //                 return <span className="currentCorrect displayText">{text} </span>
-    //         } else {
-    //                 if (hasReturn) return <span className="correct displayText">{text} <br/></span>
-    //                 return <span className="correct displayText">{text} </span>
-    //         }
-    // }
-    // if (correct === false) {
-    //         if (active) {
-    //                 if (hasReturn) return <span className="currentIncorrect displayText">{text} <br/></span>
-    //                 return <span className ="currentIncorrect displayText">{text} </span>
-    //         } else {
-    //                 if (hasReturn) return <span className="incorrect displayText">{text} <br/></span>
-    //                 return <span className ="incorrect displayText">{text} </span>
-    //         }
 
-    // }
-
-    // if (active) {
-    //         if (hasReturn) return <span className = "active">{text} <br/></span>
-    //         return <span className = "active">{text} </span>
-    // }
-    // if (hasReturn)return <span className = "displayText">{text}<br/></span>
-    // return <span className = "displayText">{text} </span>
   }
 
   // eslint-disable-next-line
@@ -1341,8 +1314,15 @@ function App({userData, user, givenId}) {
                             </Center>
                           </Box>
                         )}
-                        <SmoothCaret
-                          id={userInput.length > 0 ? `${activeWordIndex}-${userInput?.length - 1}` : `0`}/>
+                        {wordBank && !finished && (
+                          <SmoothCaret
+                            loading={loading}
+                            id={(startCounting && userInput.length > 0) ? `${activeWordIndex}-${userInput?.length}` : `${activeWordIndex}-0`}
+                            curWord={wordBank[activeWordIndex]}
+                          />
+                        )}
+
+                        />
                       </Box>
                     </Center>
                     <Center>
