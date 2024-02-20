@@ -17,7 +17,7 @@ export default function Footer({config}) {
   }
 
   return (
-    <Box paddingTop="110px" display="flex" justifyContent={"center"}>
+    <Box display="flex" justifyContent={"center"}>
       <HStack spacing={5} paddingTop="12px">
         <Tooltip label={"github"}>
           <Box pb={2} fontSize="34px">
