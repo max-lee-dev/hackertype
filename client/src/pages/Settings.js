@@ -224,15 +224,15 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
     setThemeBackground(background);
   }
 
-  function mangoTheme(temp) {
-    if (!temp) setLastTheme("mango");
+  function tangerineTheme(temp) {
+    if (!temp) setLastTheme("tangerine");
     let tempTheme = temp ? "temp" : "theme";
 
     const background = "#ffd0b2";
 
     setStateConfig((prevState) => ({
       ...prevState,
-      [tempTheme]: "mango",
+      [tempTheme]: "tangerine",
       // create a new theme using orange/yellow colors
       ["themeBackground"]: background,
       ["mainText"]: "#fd6023",
@@ -673,16 +673,16 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                             <Button
                               minWidth="6.5vw"
                               name="theme"
-                              onMouseEnter={() => mangoTheme("temp")}
+                              onMouseEnter={() => tangerineTheme("temp")}
                               onMouseLeave={() => changeTheme(lastTheme)}
-                              onClick={() => mangoTheme()}
+                              onClick={() => tangerineTheme()}
                               _hover={{bgColor: stateConfig["themeActiveButton"]}}
                               borderWidth={"5px"}
-                              borderColor={lastTheme === "mango" ? "#f58100" : "transparent"}
+                              borderColor={lastTheme === "tangerine" ? "#f58100" : "transparent"}
                               bgColor={"#ffdfc3"}>
                               <Text fontSize="20px" color="#f58100"
                                     fontFamily={stateConfig["font"]}>
-                                mango
+                                tangerine
                               </Text>
                             </Button>
                           </Box>
