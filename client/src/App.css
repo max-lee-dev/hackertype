@@ -1,6 +1,7 @@
 * {
     box-sizing: border-box;
 }
+
 html::-webkit-scrollbar {
     width: 0.5vw;
     height: 0.05vw;
@@ -15,34 +16,32 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 
-
-
-
 .scroll {
 
     &::-webkit-scrollbar {
         width: 0.75vw;
         height: 0.1vw;
     }
-  
+
     &::-webkit-scrollbar-thumb {
         background-color: var(--subtleText);
-  
-     
-    } 
+
+
+    }
+
     &::-webkit-scrollbar-thumb:hover {
         background-color: #777;
 
     }
+
     &::-webkit-scrollbar-track {
         background-color: rgba(--subtleText, 0.333);
     }
-  }
-
-.submissionInformationContainer button:hover {
-    background-color: rgba(0,0, 0, 0);
 }
 
+.submissionInformationContainer button:hover {
+    background-color: rgba(0, 0, 0, 0);
+}
 
 
 .mainFont {
@@ -75,11 +74,8 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 
-
-
-
 .userTitleContainer {
-    
+
     align-self: flex-start;
     height: 140px;
     width: 100%;
@@ -108,9 +104,8 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 
-
 .grayText {
-    color: rgb(127,127,127);
+    color: rgb(127, 127, 127);
 }
 
 .wpmCard {
@@ -126,19 +121,18 @@ html::-webkit-scrollbar-thumb:hover {
     padding-top: 10px;
     width: 92%;
 }
+
 .graphContainer {
-   
+
     margin-left: 30px;
     border-radius: 25px;
     margin-top: 75px;
     padding-top: 10px;
     width: 94%;
     height: 355px;
-    
-    
+
+
 }
-
-
 
 
 .submissionCard {
@@ -150,15 +144,16 @@ html::-webkit-scrollbar-thumb:hover {
 
 .submissionContentContainer {
 
-    
+
     width: 100%;
     height: 400px;
-    
+
 }
+
 .submissionContainer {
     width: 100%;
     height: 350px;
-    
+
 }
 
 .bestSubmissionsContainer {
@@ -173,7 +168,7 @@ html::-webkit-scrollbar-thumb:hover {
 .recentSubmissionsContainer {
     width: 50%;
     margin-left: -70px;
-    
+
 
 }
 
@@ -187,25 +182,23 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 
-
 .trophyIcon {
     color: rgb(246, 249, 165);
     padding-top: 3px;
     font-size: 2vh;
-    
+
 }
 
 .leaderboardSolutionContainer {
-    background-color: rgb(31,31,35);
+    background-color: rgb(31, 31, 35);
     width: 200%;
     height: 70px;
     margin-top: 25px;
     border-radius: 25px;
     align-self: center;
-    
-    
-    
-}   
+
+
+}
 
 .podiumIcon {
     font-size: 20px;
@@ -218,7 +211,6 @@ html::-webkit-scrollbar-thumb:hover {
 .userInputContainer {
     padding-right: 10px;
 }
-
 
 
 .badgeContainer {
@@ -235,19 +227,19 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 .solutionTitleDiv button {
-    background-color: rgba(0,0, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
     height: 60%;
     border-radius: 25px;
 }
 
 .solutionTitleDiv button:hover {
-    background-color: rgba(0,0, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
     height: 60%;
     border-radius: 25px;
 }
 
 .badge {
-    color:rgb(124, 197, 124);
+    color: rgb(124, 197, 124);
     padding-right: 5px;
     user-select: none;
 }
@@ -262,7 +254,7 @@ html::-webkit-scrollbar-thumb:hover {
 
 .submissionWPMDisplay {
     font-size: 1.5vh;
-    color:rgb(181, 181, 181)
+    color: rgb(181, 181, 181)
 }
 
 
@@ -271,8 +263,8 @@ html::-webkit-scrollbar-thumb:hover {
     display: flex;
     padding-right: 25px;
     padding-top: 8px;
-    
-    
+
+
 }
 
 .signoutButton {
@@ -286,32 +278,30 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 
-
-
-
 #text {
     color: green;
-  font-family: Courier New;
-  font-size: 30px;
+    font-family: Courier New;
+    font-size: 30px;
 }
 
 
 .Logo {
-    display:flex;   
+    display: flex;
     flex-direction: row;
 }
 
 .aboutContainer a {
     text-decoration: underline;
 }
+
 .glow {
     color: var(--maintext);
     text-shadow: 0px 0px 10px rgb(240, 229, 23), 0px 0px 5px rgb(252, 252, 25);
-  }
-  
-  .settingsNavButton {
+}
+
+.settingsNavButton {
     color: rgb(146, 0, 0);
-  }
+}
 
 .nav {
     z-index: 50;
@@ -331,7 +321,7 @@ html::-webkit-scrollbar-thumb:hover {
     align-items: center;
     padding: .25rem;
     width: 100%;
-   
+
 }
 
 .underline {
@@ -347,18 +337,26 @@ html::-webkit-scrollbar-thumb:hover {
     height: 60px;
     -webkit-animation: spin 1s linear infinite; /* Safari */
     animation: spin 1s linear infinite;
-  }
-  
-  /* Safari */
-  @-webkit-keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
 
 .lbButton button:active {
     background-color: transparent;
@@ -370,7 +368,7 @@ html::-webkit-scrollbar-thumb:hover {
 
 .nav a.active:not(.site-title):not(.settingsNavButton) {
     color: var(--logoColor);
-    
+
 }
 
 .standardButton button {
@@ -389,7 +387,7 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 .nav ul {
-    
+
     padding: 0;
     margin: 0;
     height: 100%;
@@ -404,7 +402,7 @@ html::-webkit-scrollbar-thumb:hover {
 
 .nav li:hover {
     color: var(--maintext);
-    
+
 }
 
 
@@ -424,105 +422,100 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 
-
 .displayText {
-    
+
     user-select: none;
-    
+
 }
 
 .login-with-google-btn {
     transition: background-color .3s, box-shadow .3s;
-      
+
     padding: 12px 16px 12px 42px;
     border: none;
     border-radius: 3px;
     box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
-    
+
     color: #2f0505;
     font-size: 14px;
     font-weight: 500;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
-    
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
     background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTcuNiA5LjJsLS4xLTEuOEg5djMuNGg0LjhDMTMuNiAxMiAxMyAxMyAxMiAxMy42djIuMmgzYTguOCA4LjggMCAwIDAgMi42LTYuNnoiIGZpbGw9IiM0Mjg1RjQiIGZpbGwtcnVsZT0ibm9uemVybyIvPjxwYXRoIGQ9Ik05IDE4YzIuNCAwIDQuNS0uOCA2LTIuMmwtMy0yLjJhNS40IDUuNCAwIDAgMS04LTIuOUgxVjEzYTkgOSAwIDAgMCA4IDV6IiBmaWxsPSIjMzRBODUzIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNNCAxMC43YTUuNCA1LjQgMCAwIDEgMC0zLjRWNUgxYTkgOSAwIDAgMCAwIDhsMy0yLjN6IiBmaWxsPSIjRkJCQzA1IiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNOSAzLjZjMS4zIDAgMi41LjQgMy40IDEuM0wxNSAyLjNBOSA5IDAgMCAwIDEgNWwzIDIuNGE1LjQgNS40IDAgMCAxIDUtMy43eiIgZmlsbD0iI0VBNDMzNSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHBhdGggZD0iTTAgMGgxOHYxOEgweiIvPjwvZz48L3N2Zz4=);
     background-color: white;
     background-repeat: no-repeat;
     background-position: 12px 11px;
-    
+
     &:hover {
-      box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .25);
+        box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .25);
     }
-    
+
     &:active {
-      background-color: #eeeeee;
+        background-color: #eeeeee;
     }
-    
+
     &:focus {
-      outline: none;
-      box-shadow: 
-        0 -1px 0 rgba(0, 0, 0, .04),
+        outline: none;
+        box-shadow: 0 -1px 0 rgba(0, 0, 0, .04),
         0 2px 4px rgba(0, 0, 0, .25),
         0 0 0 3px #c8dafc;
     }
-    
-    &:disabled {
-      filter: grayscale(100%);
-      background-color: #ebebeb;
-      box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
-      cursor: not-allowed;
-    }
-  }
-  
-  .loginFont {
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif
-  }
 
-  .login-with-git-btn {
+    &:disabled {
+        filter: grayscale(100%);
+        background-color: #ebebeb;
+        box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
+        cursor: not-allowed;
+    }
+}
+
+.loginFont {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
+}
+
+.login-with-git-btn {
     transition: background-color .3s, box-shadow .3s;
-      
+
     padding: 12px 16px 12px 42px;
     border: none;
     border-radius: 3px;
     box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
-    
+
     color: #2f0505;
     font-size: 14px;
     font-weight: 500;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
-    
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
     background-image: url(https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg);
     background-color: white;
     background-repeat: no-repeat;
     background-position: 12px 11px;
-    
+
     &:hover {
-      box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .25);
+        box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .25);
     }
-    
+
     &:active {
-      background-color: #eeeeee;
+        background-color: #eeeeee;
     }
-    
+
     &:focus {
-      outline: none;
-      box-shadow: 
-        0 -1px 0 rgba(0, 0, 0, .04),
+        outline: none;
+        box-shadow: 0 -1px 0 rgba(0, 0, 0, .04),
         0 2px 4px rgba(0, 0, 0, .25),
         0 0 0 3px #c8dafc;
     }
-    
+
     &:disabled {
-      filter: grayscale(100%);
-      background-color: #ebebeb;
-      box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
-      cursor: not-allowed;
+        filter: grayscale(100%);
+        background-color: #ebebeb;
+        box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
+        cursor: not-allowed;
     }
-  }
+}
 
 
-
-
-.displayText span{
+.displayText span {
     color: var(--subtleText);
     white-space: pre;
     user-select: none;
@@ -536,9 +529,8 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 .whiteText {
-    color:rgb(244, 244, 244)
+    color: rgb(244, 244, 244)
 }
-
 
 
 .pageContainer {
@@ -547,11 +539,11 @@ html::-webkit-scrollbar-thumb:hover {
 
 .aboutContainer {
     text-align: center;
-    color:rgb(244, 244, 244)
+    color: rgb(244, 244, 244)
 }
 
 .wordLimitButton {
-    width: 32px ;
+    width: 32px;
     height: 30px !important;
     border-radius: 0px !important;
 }
@@ -564,17 +556,18 @@ html::-webkit-scrollbar-thumb:hover {
     border-radius: 100px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
+
 :root {
     background-color: --chakra-colors-brand-100;
     --backgroundColor: #1f1f1f;
     --subtleText: #a8a8a8;
     --correctText: #d6d4d4;
     --incorrectText: #fabbbb;
-    --caretColor: rgb(244,244,244);
-    --maintext: rgb(244,244,244);
-    --logoColor : #FFCD29;
+    --caretColor: rgb(244, 244, 244);
+    --maintext: rgb(244, 244, 244);
+    --logoColor: #FFCD29;
     --themeActiveButton: #555;
-    --font : 'Fira Code', monospace;
+    --font: 'Fira Code', monospace;
 
 }
 
@@ -587,36 +580,32 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 
-
-
-
 .container {
     flex-wrap: wrap;
     overflow-wrap: break-word;
 }
+
 .content {
     margin-top: 20px;
-    
+
     background-color: transparent;
 
     border-radius: 10px;
     height: fit-content;
     padding: 2rem;
-    
-    
 
-    
+
 }
 
 .searchModal button {
     background-color: transparent;
     color: gray;
 }
+
 .searchModal button:hover {
     background-color: transparent;
     color: rgb(244, 244, 244);
 }
-
 
 
 .inputContainer {
@@ -636,13 +625,14 @@ html::-webkit-scrollbar-thumb:hover {
     padding-left: 0px;
     order: 1;
 }
-.restartDiv button:hover{
+
+.restartDiv button:hover {
     background-color: rgba(0, 0, 0, 0.405);
     padding-left: 0px;
     order: 1;
 }
 
-.restartDiv button:focus{
+.restartDiv button:focus {
     background-color: rgba(0, 0, 0, 0.405);
     padding-left: 0px;
     order: 1;
@@ -653,13 +643,9 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 
-
-
-
 .restartDiv button {
-    
-}
 
+}
 
 
 .text {
@@ -667,10 +653,9 @@ html::-webkit-scrollbar-thumb:hover {
     width: 90%;
     border-color: black;
     font-family: 'Inconsolata', sans-serif;
-    
+
 
 }
-
 
 
 #userInput {
@@ -693,13 +678,13 @@ html::-webkit-scrollbar-thumb:hover {
     caret-color: transparent;
 
     color: transparent;
-    
+
     font-family: 'Fira Code', monospace;
-    
+
 }
 
 .nocursor {
-cursor: none; 
+    cursor: none;
 }
 
 .textInput input {
@@ -724,31 +709,50 @@ cursor: none;
 }
 
 @keyframes blinkbehind {
-    0% { box-shadow: -3px 0 0 0 var(--caretColor); }
-    25% { box-shadow: -3px 0 0 0 var(--caretColor);}
-    50% { box-shadow: -3px 0 0 0 transparent; }
-    75% { box-shadow: -3px 0 0 0 var(--caretColor);}
-    100% { box-shadow: -3px 0 0 0 var(--caretColor);}
+    0% {
+        box-shadow: -3px 0 0 0 var(--caretColor);
+    }
+    25% {
+        box-shadow: -3px 0 0 0 var(--caretColor);
+    }
+    50% {
+        box-shadow: -3px 0 0 0 transparent;
+    }
+    75% {
+        box-shadow: -3px 0 0 0 var(--caretColor);
+    }
+    100% {
+        box-shadow: -3px 0 0 0 var(--caretColor);
+    }
 }
 
-.cursor {
-    box-shadow: 3px 0 0 0 var(--caretColor);
-    animation: blink 1s infinite;
+.newcursor {
+    box-shadow: 4px 0 0 0 var(--caretColor);
 
 
 }
 
 @keyframes blink {
-    0% { box-shadow: 3px 0 0 0 var(--caretColor); }
-    25% { box-shadow: 3px 0 0 0 var(--caretColor);}
-    50% { box-shadow: 3px 0 0 0 transparent; }
-    75% { box-shadow: 3px 0 0 0 var(--caretColor);}
-    100% { box-shadow: 3px 0 0 0 var(--caretColor);}
+    0% {
+        box-shadow: 3px 0 0 0 var(--caretColor);
+    }
+    25% {
+        box-shadow: 3px 0 0 0 var(--caretColor);
+    }
+    50% {
+        box-shadow: 3px 0 0 0 transparent;
+    }
+    75% {
+        box-shadow: 3px 0 0 0 var(--caretColor);
+    }
+    100% {
+        box-shadow: 3px 0 0 0 var(--caretColor);
+    }
 }
 
 .textContainer input:focus {
     text-align: center;
-    background-color: rgba(244,244,244, 0.12);
+    background-color: rgba(244, 244, 244, 0.12);
 }
 
 
@@ -761,10 +765,10 @@ cursor: none;
     border-radius: 10px;
     background-color: rgb(247, 247, 227);
     background: rgba(255, 255, 255, 0.12);
-    color:var(--maintext);
+    color: var(--maintext);
     box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.19);
-    border-radius: 15px; 
-    
+    border-radius: 15px;
+
 }
 
 .wordsLeft {
@@ -777,7 +781,7 @@ cursor: none;
 #userInput button:hover {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     background: rgba(207, 207, 207, 0.12);
-    
+
 }
 
 .maxWordsDiv {
@@ -815,6 +819,7 @@ cursor: none;
     transform: translateY(-5px);
     font-size: 30px;
 }
+
 .maxWordsDiv input:focus {
     background-color: transparent;
     user-select: none;
@@ -838,7 +843,6 @@ cursor: none;
 }
 
 
-
 .codingSettings Button {
     align-self: center;
     height: 30px;
@@ -857,8 +861,6 @@ cursor: none;
 }
 
 
-
-
 #userInput {
     padding-top: 25px;
 }
@@ -867,10 +869,9 @@ cursor: none;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 30px;
     text-align: center;
-    color:whitesmoke;
-    
+    color: whitesmoke;
 
-    
+
 }
 
 .smallerText {
@@ -891,11 +892,11 @@ cursor: none;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 25px;
     text-align: center;
-    color: rgb(244,244,244)
+    color: rgb(244, 244, 244)
 }
 
 .trashButton button:hover {
-    
+
     background-color: transparent;
 }
 
@@ -907,7 +908,7 @@ cursor: none;
 
 .reminder {
     font-style: italic;
-    color:var(--maintext);
+    color: var(--maintext);
     font-size: 15px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     user-select: none;
@@ -915,13 +916,13 @@ cursor: none;
 
 .wpm {
     font-size: 100px;
-    color:#777;
+    color: #777;
 }
 
 .currentCorrect {
     /* color: rgb(124, 197, 124);
     font-weight: bold; */
-    color:var(--correctText) !important;
+    color: var(--correctText) !important;
 }
 
 .underlineRed {
@@ -930,7 +931,7 @@ cursor: none;
 }
 
 .currentIncorrect {
-    color:var(--incorrectText) !important;
+    color: var(--incorrectText) !important;
 }
 
 .maintext {

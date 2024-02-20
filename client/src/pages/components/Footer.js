@@ -22,6 +22,7 @@ export default function Footer({config}) {
         <Tooltip label={"github"}>
           <Box pb={2} fontSize="34px">
             <Link isExternal href="https://github.com/max-lee-dev/hackertype">
+
               <Center>
                 <Box color={config["subtleText"]}>
                   <ion-icon name="logo-github"></ion-icon>
