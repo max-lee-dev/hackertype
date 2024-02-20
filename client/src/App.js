@@ -157,9 +157,7 @@ function App() {
             <NavBar userData={userData} gitLogin={gitLogin} updatedConfig={updatedConfig}/>
             <Box minHeight="90vh">
               <Routes>
-                <Route path="/"
-                       element={<Home userData={userData.last_daily} user={user}
-                                      givenId={userData.lastId}/>}/>
+                <Route path="/" element={<Home user={user}/>}/>
                 <Route path="/about" element={<About updatedConfig={updatedConfig}/>}/>
 
                 <Route

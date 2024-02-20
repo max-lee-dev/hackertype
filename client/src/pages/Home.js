@@ -97,7 +97,7 @@ function countNumberOfLines(funcRawCode, codingLanguage) {
   return lineCount;
 }
 
-function App({userData, user, givenId}) {
+function App({user}) {
   const {isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen} = useDisclosure();
   const {isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen} = useDisclosure();
   const {
@@ -422,31 +422,7 @@ function App({userData, user, givenId}) {
     if (codeLang[id] === null) {
       setError(`This solution doesn't exist for ${codingLanguage}`);
     }
-    // const solutions = collection(db, "pythonSolutions");
-    // async function getSolutions() {
-    //   for (let i = 0; i < codeLang.length; i++) {
-    //     let curID = "";
-    //     let solutionNum = 0;
-    //     if (codeLang[i]) {
-    //       console.log("? : " + codeLang[i]);
-    //       codeLang[i].map((codeInfo) => {
-    //         curID = codeInfo.id;
-    //         return 0;
-    //       });
-    //       const stringArr = curID.split(".");
-    //       solutionNum = parseInt(stringArr[0]);
-    //     }
-
-    //     if (curID !== "")
-    //       await addDoc(solutions, {
-    //         solution_id: curID,
-    //         solutionNum: solutionNum,
-    //         language: codingLanguage,
-    //       });
-    //   }
-    // }
-    // getSolutions();
-
+   
     while (true) {
       var randInt = Math.floor(Math.random() * codeLang.length);
       var pulledCode = codeLang[randInt]; // contains /**  in java
@@ -1330,7 +1306,7 @@ function App({userData, user, givenId}) {
                         />
                       )}
 
-                      
+
                     </Box>
                   </Center>
                   <Center>
