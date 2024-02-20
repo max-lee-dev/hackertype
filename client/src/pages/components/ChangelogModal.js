@@ -56,6 +56,7 @@ export default function ChangelogModal({isChangeOpen, onChangeClose}) {
                   <Box paddingTop={"15px"}>
                     <Text color={subtleText}>added: </Text>
                     <Text> - added smooth caret (LETS GOOOO) (might be a little buggy)</Text>
+                    <Text> - created discord server (link is in footer)</Text>
 
                   </Box>
 
