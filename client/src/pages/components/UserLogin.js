@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -7,12 +7,13 @@ import {
   updateProfile,
   signInWithPopup,
 } from "firebase/auth";
-import { gitProvider } from "./firebase.js";
-import { Box, HStack, Center, Text, Stack, Divider, Input, Button, Form, VStack, IconButton } from "@chakra-ui/react";
-import { auth, signInWithGoogle } from "./firebase.js";
-import { db } from "./firebase";
-import { getFirestore, doc, addDoc, getDocs, setDoc, collection, query, where } from "firebase/firestore";
-export default function UserLogin({ setGitLogin, config, user, setUser }) {
+import {gitProvider} from "./firebase.js";
+import {Box, HStack, Center, Text, Stack, Divider, Input, Button, Form, VStack, IconButton} from "@chakra-ui/react";
+import {auth, signInWithGoogle} from "./firebase.js";
+import {db} from "./firebase";
+import {getFirestore, doc, addDoc, getDocs, setDoc, collection, query, where} from "firebase/firestore";
+
+export default function UserLogin({setGitLogin, config, user, setUser}) {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -27,7 +28,7 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
   useEffect(() => {
     const getUsers = async () => {
       const data = await getDocs(usersCollectionRef);
-      setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      setUsers(data.docs.map((doc) => ({...doc.data(), id: doc.id})));
     };
     getUsers();
   }, []);
@@ -47,7 +48,7 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
         account_created: new Date().toUTCString(),
         uid: uid,
       });
-      if (auth) updateProfile(auth.currentUser, { displayName: googleName }).catch((err) => console.log(err));
+      if (auth) updateProfile(auth.currentUser, {displayName: googleName}).catch((err) => console.log(err));
       window.location.replace(`/profile/${googleName}`);
     } else {
       await setDoc(doc(db, "users", uid), {
@@ -99,7 +100,7 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
           }
           if (auth) {
             setGitLogin(true);
-            updateProfile(auth.currentUser, { displayName: result.user.reloadUserInfo.screenName }).catch(
+            updateProfile(auth.currentUser, {displayName: result.user.reloadUserInfo.screenName}).catch(
               (err) => console.log(err)
             );
           }
@@ -178,7 +179,7 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
       }
 
       const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
-      await updateProfile(auth.currentUser, { displayName: username }).catch((err) => console.log(err));
+      await updateProfile(auth.currentUser, {displayName: username}).catch((err) => console.log(err));
 
       console.log(auth.currentUser.uid);
       setRegisterErrorMessage("");
@@ -199,6 +200,7 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
       }
     }
   }
+
   async function login(e) {
     e.preventDefault();
 
@@ -232,7 +234,9 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
 
     <Center>
       {" "}
-      <Box marginTop="105px" borderRadius='15px' boxShadow={'0px 1px 15px 3px rgba(0,0,0, 0.12)'} minW={['80%', '70%', '30vw']} minH={'60vh'} bg={config["backgroundColor"]} className="whiteText  mainFont" width="50%">
+      <Box marginTop="105px" borderRadius='15px' boxShadow={'0px 1px 15px 3px rgba(0,0,0, 0.12)'}
+           minW={['80%', '70%', '30vw']} minH={'60vh'} bg={config["backgroundColor"]} className="whiteText  mainFont"
+           width="50%">
         <Center>
           <Box paddingTop={'20px'}>
             <Stack direction="row">
@@ -243,13 +247,14 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
                     <Box>
 
                       <Center>
-                        <Text paddingTop='30px' paddingBottom='50px' fontWeight={600} fontSize='30px' color={config["mainText"]}> sign up </Text>
+                        <Text paddingTop='30px' paddingBottom='50px' fontWeight={600} fontSize='30px'
+                              color={config["mainText"]}> sign up </Text>
                       </Center>
                       <form onSubmit={register}>
                         <Box color={config['mainText']} className={'placeholder'} width="100%">
                           <Input
                             placeholder="Username"
-                            _hover={{ borderColor: config["mainText"]}}
+                            _hover={{borderColor: config["mainText"]}}
 
                             borderColor={config["subtleText"]}
                             onChange={(event) => {
@@ -259,7 +264,7 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
                           <Input
                             placeholder="Email"
                             marginTop={'10px'}
-                            _hover={{ borderColor: config["mainText"]}}
+                            _hover={{borderColor: config["mainText"]}}
 
                             borderColor={config["subtleText"]}
                             onChange={(event) => {
@@ -269,7 +274,7 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
                           <Input
                             placeholder="Password"
                             marginTop={'10px'}
-                            _hover={{ borderColor: config["mainText"]}}
+                            _hover={{borderColor: config["mainText"]}}
 
                             borderColor={config["subtleText"]}
                             type="password"
@@ -279,7 +284,7 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
                           />
                           <Input
                             marginTop={'10px'}
-                            _hover={{ borderColor: config["mainText"]}}
+                            _hover={{borderColor: config["mainText"]}}
 
                             borderColor={config["subtleText"]}
                             placeholder="Confirm Password"
@@ -289,24 +294,27 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
                               setConfirmPassword(event.target.value);
                             }}
                           />
-                          <Center>
+                          <Center p={3}>
                             <p className="currentIncorrect">{registerErrorMessage}</p>
                           </Center>
                           <Center className="standardButton">
 
                             <Button marginTop="10px"
-                              type="submit"
-                              backgroundColor={"#555"}
-                              onClick={register}>
-                              <Box paddingTop='10px' minWidth='150%' minHeight='100%' bg={config["themeInactiveButton"]}>
+                                    type="submit"
+                                    backgroundColor={"#555"}
+                                    onClick={register}>
+                              <Box px={5} borderRadius={5} paddingTop='10px' minWidth='150%' minHeight='100%'
+                                   bg={config["themeInactiveButton"]}>
                                 sign up
                               </Box>
                             </Button>
 
                           </Center>
                           <Center>
-                            <Box paddingTop={'10px'} color={config["subtleText"]}>
-                              have an account?{" "}<Button onClick={() => setLoginPage(true)} color={config["subtleText"]} className={'underline'} variant="link">log in</Button>
+                            <Box py={'10px'} color={config["subtleText"]}>
+                              have an account?{" "}<Button onClick={() => setLoginPage(true)}
+                                                           color={config["subtleText"]} className={'underline'}
+                                                           variant="link">log in</Button>
                             </Box>
                           </Center>
                         </Box>
@@ -320,10 +328,11 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
                   {loginPage && (
                     <Box className='placeholder' textAlign={'center'}>
 
-                      <Text paddingTop='30px' paddingBottom='50px' fontWeight={600} fontSize='30px' color={config["mainText"]}>welcome back</Text>
+                      <Text paddingTop='30px' paddingBottom='50px' fontWeight={600} fontSize='30px'
+                            color={config["mainText"]}>welcome back</Text>
                       <form onSubmit={login}>
                         <Input
-                          _hover={{ borderColor: config["mainText"]}}
+                          _hover={{borderColor: config["mainText"]}}
 
                           borderColor={config["subtleText"]}
                           placeholder="Email"
@@ -335,11 +344,9 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
                         />
 
 
-
-
                         <Input
                           marginTop={'10px'}
-                          _hover={{ borderColor: config["mainText"]}}
+                          _hover={{borderColor: config["mainText"]}}
 
                           borderColor={config["subtleText"]}
                           placeholder="Password"
@@ -349,22 +356,24 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
                             setLoginPassword(event.target.value);
                           }}
                         />
-                        <Center>
+                        <Center p={3}>
                           <Text color={config["incorrectText"]}>{loginErrorMessage}</Text>
                         </Center>
                         <Center className="standardButton">
-                            <Button  bg={config['subtleText']} marginTop="10px" paddingBottom={'10px'} type="submit" onClick={login}>
-                              <Box paddingTop='8px' minWidth='150%' minHeight='120%' bg={config["themeInactiveButton"]}>
-                                log in
-                              </Box>
-                            </Button>
+                          <Button bg={config['subtleText']} marginTop="10px" paddingBottom={'10px'} type="submit"
+                                  onClick={login}>
+                            <Box px={5} borderRadius={5} paddingTop='8px' minWidth='150%' minHeight='120%'
+                                 bg={config["themeInactiveButton"]}>
+                              log in
+                            </Box>
+                          </Button>
                         </Center>
-                        <Divider borderColor={config["subtleText"]} />
+                        <Divider borderColor={config["subtleText"]}/>
 
 
                         <Center>
                           <VStack paddingTop={'20px'}>
-                            <Box >
+                            <Box>
                               <Button
                                 onClick={github}
                                 className="loginFont"
@@ -398,8 +407,9 @@ export default function UserLogin({ setGitLogin, config, user, setUser }) {
 
 
                         </Center>
-                        <Box paddingTop={'30px'} color={config["subtleText"]}>
-                          no account? <Button onClick={() => setLoginPage(false)} color={config["subtleText"]} className={'underline'} variant="link">sign up</Button>
+                        <Box py={'10px'} color={config["subtleText"]}>
+                          no account? <Button onClick={() => setLoginPage(false)} color={config["subtleText"]}
+                                              className={'underline'} variant="link">sign up</Button>
                         </Box>
 
 

@@ -57,6 +57,7 @@ export default function ChangelogModal({isChangeOpen, onChangeClose}) {
                     <Text color={subtleText}>added: </Text>
                     <Text> - added smooth caret (LETS GOOOO) (might be a little buggy)</Text>
                     <Text> - created discord server (link is in footer)</Text>
+                    <Text> - added mango theme</Text>
 
                   </Box>
 
