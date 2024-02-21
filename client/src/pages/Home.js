@@ -4,7 +4,8 @@ import {motion} from "framer-motion";
 import Timer from "./components/Timer.js";
 import javaCode from "./components/codefiles/javaCode.json";
 import pyCode from "./components/codefiles/pyCode.json";
-import cppCode from "./components/codefiles/cppCode.json"; // bye bye
+import cppCode from "./components/codefiles/cppCode.json";
+import javascriptCode from "./components/codefiles/javascriptCode.json";
 import dailySolutions from "./components/codefiles/dailySolutions.json";
 import CodeSettings from "./components/CodeSettings.js";
 import StoredInput from "./components/StoredInput.js";
@@ -170,6 +171,7 @@ function App({user}) {
   const [javaRange, setJavaRange] = useState("ALL");
   const [cppRange, setCppRange] = useState("ALL");
   const [pythonRange, setPythonRange] = useState("ALL");
+  const [javascriptRange, setJavascriptRange] = useState("ALL");
   const [wordLimit, setWordLimit] = useState(solutionGenerationLineLimit.current);
   const [wordBank, setNewWordBank] = useState([]);
   const [whiteSpace, setWhiteSpace] = useState([]);
@@ -415,6 +417,8 @@ function App({user}) {
       codeLang = cppCode; // C++ CRASHING RN PROB CAUSE COMMENTS (theyt end in smth sus)
     else if (codingLanguage === "Java") codeLang = javaCode; // same with java
     else if (codingLanguage === "Python") codeLang = pyCode;
+    else if (codingLanguage === "JavaScript") codeLang = javascriptCode;
+
 
     var selectedCode = "";
     var codeTitle = "";
@@ -422,12 +426,12 @@ function App({user}) {
     if (codeLang[id] === null) {
       setError(`This solution doesn't exist for ${codingLanguage}`);
     }
-   
+
     while (true) {
       var randInt = Math.floor(Math.random() * codeLang.length);
       var pulledCode = codeLang[randInt]; // contains /**  in java
       pulledCode = codeLang[randInt];
-
+  
       while (pulledCode === null || (solutionSize !== 1 && pulledCode === lastCode)) {
         randInt = Math.floor(Math.random() * codeLang.length);
         pulledCode = codeLang[randInt];
@@ -435,6 +439,7 @@ function App({user}) {
       if (id !== undefined && !isNaN(id)) {
         if (codeLang[parseInt(id)] === undefined) {
           setError(`This solution doesn't exist for ${codingLanguage}`);
+
         }
         pulledCode = codeLang[parseInt(id)];
       }
@@ -483,6 +488,7 @@ function App({user}) {
     let codeLang = cppCode;
     let cppSolutions = 0;
     let javaSolutions = 0;
+    let javascriptSolutions = 0;
     if (wordLimit !== null && wordLimit !== undefined && wordLimit !== "") {
       maxWords = wordLimit;
     }
@@ -538,6 +544,31 @@ function App({user}) {
     javaSolutions = numSolutions;
     if (maxWords === "") setJavaRange("ALL");
     else setJavaRange(numSolutions);
+    ////////////////////////// JAVASCRIPT
+    numSolutions = 0;
+
+    codeLang = javascriptCode;
+    for (let i = 0; i < codeLang.length; i++) {
+      let selectedCode = "";
+
+      let pulledCode = codeLang[i];
+      if (pulledCode === null) continue;
+      pulledCode.map((codeInfo) => {
+        selectedCode = codeInfo.code;
+        return 0;
+      });
+      //
+
+      let solutionSize = countNumberOfLines(selectedCode, codeLang);
+
+      if (solutionSize <= maxWords) numSolutions++;
+    }
+
+    javascriptSolutions = numSolutions;
+    if (maxWords === "") setJavaRange("ALL");
+    else setJavascriptRange(numSolutions);
+
+
     numSolutions = 0;
     ////////////////////////// PYTHON
     codeLang = pyCode;
@@ -562,6 +593,7 @@ function App({user}) {
       codeLang = cppCode; // C++ CRASHING RN PROB CAUSE COMMENTS (theyt end in smth sus)
     else if (codingLanguage === "Java") codeLang = javaCode; // same with java
     else if (codingLanguage === "Python") codeLang = pyCode;
+    else if (codingLanguage === "JavaScript") codeLang = javascriptCode;
 
     for (let i = 0; i < codeLang.length; i++) {
       let selectedCode = "";
@@ -585,6 +617,9 @@ function App({user}) {
       return `No solutions found for ${codingLanguage} with <= ${maxWords} lines`;
     }
     if (codingLanguage === "C++" && cppSolutions === 0) {
+      return `No solutions found for ${codingLanguage} with <= ${maxWords} lines`;
+    }
+    if (codingLanguage === "JavaScript" && javascriptSolutions === 0) {
       return `No solutions found for ${codingLanguage} with <= ${maxWords} lines`;
     }
     let funcRawCode = randomCode(codingLanguage, numSolutions, id);
@@ -985,6 +1020,31 @@ function App({user}) {
     }
     if (val === "") setJavaRange("ALL");
     else setJavaRange(numSolutions);
+    ////////////////////////// JAVASCRIPT
+    numSolutions = 0;
+
+    codeLang = javascriptCode;
+    for (let i = 0; i < codeLang.length; i++) {
+      let selectedCode = "";
+
+      let pulledCode = codeLang[i];
+      if (pulledCode === null) continue;
+      pulledCode.map((codeInfo) => {
+        selectedCode = codeInfo.code;
+        return 0;
+      });
+      //
+      const solutionArray = selectedCode.split(" ");
+      let solutionSize = 0;
+
+      solutionArray.map((word) => {
+        if (word.includes("\n")) solutionSize++;
+        return "";
+      });
+      if (solutionSize <= val) numSolutions++;
+    }
+    if (val === "") setJavascriptRange("ALL");
+    else setJavascriptRange(numSolutions);
     ////////////////////////// PYTHON
     codeLang = pyCode;
     numSolutions = 0;
@@ -1052,6 +1112,7 @@ function App({user}) {
                         cppRange={cppRange}
                         javaRange={javaRange}
                         pythonRange={pythonRange}
+                        javascriptRange={javascriptRange}
                         setId={setId}
                         changeLastId={changeLastId}
                         leetcodeTitle={leetcodeTitle}

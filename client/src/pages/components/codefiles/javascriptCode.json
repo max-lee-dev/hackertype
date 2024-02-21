@@ -1,0 +1,1586 @@
+[
+  [
+    {
+      "id": "1. Two Sum",
+      "code": "var twoSum = function(nums, target) {\n  var hash = {};\n  var len = nums.length;\n  for (var i = 0; i < len; i++) {\n    if (nums[i] in hash) return [hash[nums[i]], i];\n    hash[target - nums[i]] = i\n  }\n  return [-1, -1];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "2. Add Two Numbers",
+      "code": "var addTwoNumbers = function(l1, l2) {\n  var carry = 0;\n  var sum = 0;\n  var head = new ListNode(0);\n  var now = head;\n  var a = l1;\n  var b = l2;\n  while (a !== null || b !== null) {\n    sum = (a ? a.val : 0) + (b ? b.val : 0) + carry;\n    carry = Math.floor(sum / 10);\n    now.next = new ListNode(sum % 10);\n    now = now.next;\n    a = a ? a.next : null;\n    b = b ? b.next : null;\n  }\n  if (carry) now.next = new ListNode(carry);\n  return head.next;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "3. Longest Substring Without Repeating Characters",
+      "code": "var lengthOfLongestSubstring = function(s) {\n  var map = {};\n  var len = s.length;\n  var max = 0;\n  var start = 0;\n  for (var i = 0; i < len; i++) {\n    if (map[s[i]] !== undefined) {\n      start = Math.max(start, map[s[i]] + 1);\n    }\n    map[s[i]] = i;\n    max = Math.max(max, i - start + 1);\n  }\n  return max;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "4. Median of Two Sorted Arrays",
+      "code": "var findMedianSortedArrays = function(nums1, nums2) {\n  var len1 = nums1.length;\n  var len2 = nums2.length;\n  var total = len1 + len2;\n\n  if (total % 2) {\n    return findKthOfTwoSortedArrays(nums1, len1, nums2, len2, parseInt(total / 2 + 1));\n  } else {\n    return (findKthOfTwoSortedArrays(nums1, len1, nums2, len2, total / 2)\n        + findKthOfTwoSortedArrays(nums1, len1, nums2, len2, total / 2 + 1)) / 2;\n  }\n };\n\nfunction findKthOfTwoSortedArrays (p, m, q, n, k) {\n\n    if (m > n) {\n        return findKthOfTwoSortedArrays(q, n, p, m, k);\n    }\n\n    if (m === 0) {\n        return q[k - 1];\n    }\n\n    if (k === 1) {\n        return Math.min(p[0], q[0]);\n    }\n\n    var pa = Math.min(parseInt(k / 2), m);\n    var qa = k - pa;\n\n    if (p[pa - 1] < q[qa - 1]) {\n        return findKthOfTwoSortedArrays(p.slice(pa), m - pa, q, n, k - pa);\n    } else if (q[qa - 1] < p[pa - 1]) {\n        return findKthOfTwoSortedArrays(p, m, q.slice(qa), n - qa, k - qa);\n    } else {\n        return p[pa - 1];\n    }\n}\n"
+    }
+  ],
+  [
+    {
+      "id": "5. Longest Palindromic Substring",
+      "code": "var longestPalindrome = function(s) {\n  var start = 0;\n  var end = 0;\n  var len = s.length;\n  var num = 0;\n  for (var i = 0; i < len; i++) {\n    num = Math.max(expandAroundCenter(s, i, i), expandAroundCenter(s, i, i + 1));\n    if (num > end - start) {\n      start = i - Math.floor((num - 1) / 2);\n      end = i + Math.floor(num / 2);\n    }\n  }\n  return s.slice(start, end + 1);\n };\n\nvar expandAroundCenter = function (s, left, right) {\n  var l = left;\n  var r = right;\n  var len = s.length;\n  while (l >= 0 && r < len && s[l] === s[r]) {\n    l--;\n    r++;\n  }\n  return r - l - 1;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "6. ZigZag Conversion",
+      "code": "var convert = function(s, numRows) {\n  if (s.length <= numRows || numRows < 2) return s;\n  var len = s.length;\n  var num = 2 * (numRows - 1);\n  var res = Array(numRows).fill('');\n  var tmp = 0;\n  for (var i = 0; i < len; i++) {\n    tmp = i % num;\n    if (tmp < numRows) {\n      res[tmp] += s[i];\n    } else {\n      res[num - tmp] += s[i];\n    }\n  }\n  return res.join('');\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "7. Reverse Integer",
+      "code": "var reverse = function(x) {\n  var INT_MAX = 2147483647;\n  var INT_MIN = - INT_MAX - 1;\n  var res = 0;\n  var num = x;\n  while (num !== 0) {\n    res = (res * 10) + (num % 10);\n    num = num > 0 ? Math.floor(num / 10) : Math.ceil(num / 10);\n    if (res > INT_MAX || res < INT_MIN) return 0;\n  }\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "8. String to Integer (atoi)",
+      "code": "var myAtoi = function(str) {\n  var i = 0;\n  var sign = 1;\n  var res = 0;\n  var len = str.length;\n  var INT_MAX = 2147483647;\n  var INT_MIN = - INT_MAX - 1;\n\n  while (str[i] === ' ') i++;\n\n  if (str[i] === '+' || str[i] === '-') {\n    sign = str[i] === '+' ? 1 : -1;\n    i++;\n  }\n\n  while (str[i] >= '0' && str[i] <= '9') {\n    res = (res * 10) + (str[i] - 0);\n    if (sign === 1 && res > INT_MAX) return INT_MAX;\n    if (sign === -1 && res > INT_MAX + 1) return INT_MIN;\n    i++;\n  }\n\n  return res * sign;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "9. Palindrome Number",
+      "code": "var isPalindrome = function(x) {\n  var s = '' + x;\n  var l = 0;\n  var r = s.length - 1;\n  while (l < r) {\n    if (s[l] !== s[r]) return false;\n    l++;\n    r--;\n  }\n  return true;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "10. Regular Expression Matching",
+      "code": "var isMatch = function(s, p) {\n  var dp = Array(s.length + 1).fill(0).map(_ => Array(p.length + 1));\n  return helper(dp, 0, 0, s, p);\n };\n\nvar helper = function (dp, i, j, s, p) {\n  var res = false;\n  if (dp[i][j] !== undefined) return dp[i][j];\n  if (j === p.length) {\n    res = i === s.length;\n  } else {\n    if (i === s.length) {\n      res = p[j + 1] === '*' && helper(dp, i, j + 2, s, p);\n    } else if (s[i] === p[j] || p[j] === '.') {\n      if (p[j + 1] === '*') {\n        res = helper(dp, i + 1, j, s, p) || helper(dp, i, j + 2, s, p) || helper(dp, i + 1, j + 2, s, p);\n      } else {\n        res = helper(dp, i + 1, j + 1, s, p);\n      }\n    } else {\n      res = p[j + 1] === '*' && helper(dp, i, j + 2, s, p);\n    }\n  }\n  dp[i][j] = res;\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "11. Container With Most Water",
+      "code": "var maxArea = function(height) {\n  var max = 0;\n  var l = 0;\n  var r = height.length - 1;\n  while (l < r) {\n    max = Math.max(max, Math.min(height[l], height[r]) * (r - l));\n    if (height[l] < height[r]) {\n      l++;\n    } else {\n      r--;\n    }\n  }\n  return max;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "12. Integer to Roman",
+      "code": "var intToRoman = function(num) {\n  var str = [\n    ['I', 'V'],\n    ['X', 'L'],\n    ['C', 'D'],\n    ['M']\n  ];\n  var res = '';\n  var i = 0;\n  var tmp = 0;\n  while (num > 0) {\n    tmp = num % 10;\n    if (tmp === 9) {\n      res = str[i][0] + str[i + 1][0] + res;\n    } else if (tmp >= 5) {\n      res = str[i][1] + str[i][0].repeat(tmp - 5) + res;\n    } else if (tmp === 4) {\n      res = str[i][0] + str[i][1] + res;\n    } else {\n      res = str[i][0].repeat(tmp) + res;\n    }\n    num = Math.floor(num / 10);\n    i++;\n  }\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "13. Roman to Integer",
+      "code": "var romanToInt = function(s) {\n  var map = {\n    I: 1,\n    IV: 4,\n    V: 5,\n    IX: 9,\n    X: 10,\n    XL: 40,\n    L: 50,\n    XC: 90,\n    C: 100,\n    CD: 400,\n    D: 500,\n    CM: 900,\n    M: 1000\n  };\n  var len = s.length;\n  var i = 0;\n  var res = 0;\n  while (i < len) {\n    if (map[s.substr(i, 2)]) {\n      res += map[s.substr(i, 2)];\n      i += 2;\n    } else {\n      res += map[s[i]];\n      i += 1;\n    }\n  }\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "14. Longest Common Prefix",
+      "code": "var longestCommonPrefix = function(strs) {\n  if (strs.length === 0) return '';\n  var len1 = strs.length;\n  var len2 = strs[0].length;\n  var tmp = '';\n  var res = '';\n  outer: for (var i = 0; i < len2; i++) {\n    tmp = strs[0][i];\n    inner: for (var j = 1; j < len1; j++) {\n      if (strs[j][i] !== tmp) break outer;\n    }\n    res += tmp;\n  }\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "15. 3Sum",
+      "code": "var threeSum = function(nums) {\n  var len = nums.length;\n  var res = [];\n  var l = 0;\n  var r = 0;\n  nums.sort((a, b) => (a - b));\n  for (var i = 0; i < len; i++) {\n    if (i > 0 && nums[i] === nums[i - 1]) continue;\n    l = i + 1;\n    r = len - 1;\n    while (l < r) {\n      if (nums[i] + nums[l] + nums[r] < 0) {\n        l++;\n      } else if (nums[i] + nums[l] + nums[r] > 0) {\n        r--;\n      } else {\n        res.push([nums[i], nums[l], nums[r]]);\n        while (l < r && nums[l] === nums[l + 1]) l++;\n        while (l < r && nums[r] === nums[r - 1]) r--;\n        l++;\n        r--;\n      }\n    }\n  }\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "16. 3Sum Closest",
+      "code": "var threeSumClosest = function(nums, target) {\n  var len = nums.length;\n  var res = nums[0] + nums[1] + nums[2];\n  var sum = 0;\n  var l = 0;\n  var r = 0;\n  nums.sort((a, b) => (a - b));\n  for (var i = 0; i < len - 2; i++) {\n    if (i > 0 && nums[i] === nums[i - 1]) continue;\n    l = i + 1;\n    r = len - 1;\n    while (l < r) {\n      sum = nums[i] + nums[l] + nums[r];\n      if (sum < target) {\n        l++;\n      } else if (sum > target) {\n        r--;\n      } else {\n        return sum;\n      }\n      if (Math.abs(sum - target) < Math.abs(res - target)) res = sum;\n    }\n  }\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "17. Letter Combinations of a Phone Number",
+      "code": "var letterCombinations = function(digits) {\n  if (digits.length === 0) return [];\n  var res = [''];\n  var mapping = ['', '', 'abc', 'def', 'ghi', 'jkl', 'mno', 'pqrs', 'tuv', 'wxyz'];\n  bfs(res, 0, digits, mapping, true);\n  return res;\n };\n\nvar bfs = function (res, index, digits, mapping, lead) {\n  if (res.length === 0 || index === digits.length) return;\n  var tmp = res.pop();\n  var chars = mapping[digits[index]];\n  bfs(res, index, digits, mapping, false);\n  for (var i = 0; i < chars.length; i++) res.push(tmp + chars[i]);\n  if (lead) bfs(res, index + 1, digits, mapping, true);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "18. 4Sum",
+      "code": "var fourSum = function(nums, target) {\n  if (nums.length < 4) return [];\n\n  var len = nums.length;\n  var res = [];\n  var l = 0;\n  var r = 0;\n  var sum = 0;\n\n  nums.sort((a, b) => (a - b));\n\n  for (var i = 0; i < len - 3; i++) {\n    if (i > 0 && nums[i] === nums[i - 1]) continue;\n    if (nums[i] + nums[i + 1] + nums[i + 2] + nums[i + 3] > target) break;\n    if (nums[i] + nums[len - 1] + nums[len - 2] + nums[len - 3] < target) continue;\n\n    for (var j = i + 1; j < len - 2; j++) {\n      if (j > i + 1 && nums[j] === nums[j - 1]) continue;\n      if (nums[i] + nums[j] + nums[j + 1] + nums[j + 2] > target) break;\n      if (nums[i] + nums[j] + nums[len - 1] + nums[len - 2] < target) continue;\n\n      l = j + 1;\n      r = len - 1;\n\n      while (l < r) {\n        sum = nums[i] + nums[j] + nums[l] + nums[r];\n\n        if (sum < target) {\n          l++;\n        } else if (sum > target) {\n          r--;\n        } else {\n          res.push([nums[i], nums[j], nums[l], nums[r]]);\n          while (l < r && nums[l] === nums[l + 1]) l++;\n          while (l < r && nums[r] === nums[r - 1]) r--;\n          l++;\n          r--;\n        }\n      }\n    }\n  }\n\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "19. Remove Nth Node From End of List",
+      "code": "var removeNthFromEnd = function(head, n) {\n  var h = new ListNode(0);\n  var ll = h;\n  var rr = h;\n\n  h.next = head;\n\n  for (var i = 0; i < n + 1; i++) {\n    rr = rr.next;\n  }\n\n  while (rr !== null) {\n    ll = ll.next;\n    rr= rr.next;\n  }\n\n  ll.next = ll.next.next;\n\n  return h.next;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "20. Valid Parentheses",
+      "code": "var isValid = function(s) {\n  var stack = [];\n  var len = s.length;\n  var map = {\n    '(': ')',\n    '[': ']',\n    '{': '}'\n  };\n  for (var i = 0; i < len; i++) {\n    if (stack.length > 0 && map[stack[stack.length - 1]] === s[i]) {\n      stack.pop();\n    } else {\n      stack.push(s[i]);\n    }\n  }\n  return stack.length === 0;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "21. Merge Two Sorted Lists",
+      "code": "var mergeTwoLists = function(l1, l2) {\n  var head = new ListNode(0);\n  var now = head;\n  var p1 = l1;\n  var p2 = l2;\n  while (p1 || p2) {\n    if (p1 === null || (p2 !== null && p2.val < p1.val)) {\n      now.next = p2;\n      p2 = p2.next;\n    } else {\n      now.next = p1;\n      p1 = p1.next;\n    }\n    now = now.next;\n  }\n  return head.next;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "22. Generate Parentheses",
+      "code": "var generateParenthesis = function(n) {\n  var res = [];\n  if (n < 1) return res;\n  generate(res, '', n, n);\n  return res;\n };\n\nvar generate = function (res, str, ll, rr) {\n  if (ll || rr) {\n    if (rr > ll) generate(res, str + ')', ll, rr - 1);\n    if (ll) generate(res, str + '(', ll - 1, rr);\n  } else {\n    res.push(str);\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "23. Merge k Sorted Lists",
+      "code": "var mergeKLists = function(lists) {\n  var res = [];\n  var tmp = null;\n  for (var i = 0; i < lists.length; i++) {\n    tmp = lists[i];\n    while (tmp !== null) {\n      res.push(tmp);\n      tmp = tmp.next;\n    }\n  }\n  res.sort((a, b) => (a.val - b.val));\n  for (var j = 0; j < res.length; j++) {\n    res[j].next = res[j + 1] || null;\n  }\n  return res[0] || null;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "24. Swap Nodes in Pairs",
+      "code": "var swapPairs = function(head) {\n  var out = new ListNode(0);\n  var now = out;\n\n  out.next = head;\n\n  while (now.next && now.next.next) {\n    now = swap(now, now.next, now.next.next);\n  }\n\n  return out.next;\n };\n\nvar swap = function (a, b, c) {\n  a.next = c;\n  b.next = c.next;\n  c.next = b;\n  return b;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "25. Reverse Nodes in k-Group",
+      "code": "var reverseKGroup = function(head, k) {\n  if (!head || k < 2) return head;\n\n  var count = 0;\n  var now = head;\n  var last = head;\n  var tmp = null;\n\n  while (now && count < k) {\n    now = now.next;\n    count++;\n  }\n\n  if (count === k) {\n    now = reverseKGroup(now, k);\n    while (count-- > 0) {\n      tmp = last.next;\n      last.next = now;\n      now = last;\n      last = tmp;\n    }\n    last = now;\n  }\n\n  return last;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "26. Remove Duplicates from Sorted Array",
+      "code": "var removeDuplicates = function(nums) {\n  var len = nums.length;\n  var last = NaN;\n  var count = 0;\n  for (var i = 0; i < len; i++) {\n    if (nums[i] !== last) {\n      nums[count] = nums[i];\n      last = nums[i];\n      count++;\n    }\n  }\n  return count;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "27. Remove Element",
+      "code": "var removeElement = function(nums, val) {\n  var len = nums.length;\n  var count = 0;\n  for (var i = 0; i < len; i++) {\n    if (nums[i] !== val) nums[count++] = nums[i];\n  }\n  return count;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "28. Implement strStr()",
+      "code": "var strStr = function(haystack, needle) {\n  var len1 = haystack.length;\n  var len2 = needle.length;\n  if (!len2) return 0;\n  for (var i = 0; i < len1; i++) {\n    for (var j = 0; j < len2; j++) {\n      if (i + j === len1) return -1;\n      if (haystack[i + j] !== needle[j]) break;\n      if (j === len2 - 1) return i;\n    }\n  }\n  return -1;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "29. Divide Two Integers",
+      "code": "var divide = function(dividend, divisor) {\n  var did = Math.abs(dividend);\n  var dis = Math.abs(divisor);\n  var sign = (divisor > 0 && dividend > 0) || (divisor < 0 && dividend < 0);\n  var res = 0;\n  var arr = [dis];\n\n  if (dividend === 0 || did < dis) return 0;\n  if (divisor === -1 && dividend === -2147483648) return 2147483647;\n  if (dis === 1) return divisor > 0 ? dividend : -dividend;\n\n  while (arr[arr.length - 1] < did) arr.push(arr[arr.length - 1] + arr[arr.length - 1]);\n\n  for (var i = arr.length - 1; i >= 0; i--) {\n    if (did >= arr[i]) {\n      did -= arr[i];\n      res += i === 0 ? 1 : 2 << (i - 1);\n    }\n  }\n\n  return sign ? res : -res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "30. Substring with Concatenation of All Words",
+      "code": "var findSubstring = function(s, words) {\n  var sLen = s.length;\n  var wLen = words.length;\n  var wordLen = (words[0] || '').length;\n\n  if (!sLen || !wLen || !wordLen) return [];\n\n  var count = 0;\n  var tmp = '';\n  var map1 = {};\n  var map2 = {};\n  var res = [];\n\n  for (var i = 0; i < wLen; i++) {\n    map1[words[i]] = (map1[words[i]] || 0) + 1;\n  }\n\n  out: for (var j = 0; j <= sLen - (wLen * wordLen); j++) {\n    map2 = {};\n    count = 0;\n    while (count < wLen) {\n      tmp = s.substr(j + (count * wordLen), wordLen);\n      if (map1[tmp] === undefined || map1[tmp] === map2[tmp]) continue out;\n      map2[tmp] = (map2[tmp] || 0) + 1;\n      count++;\n    }\n    res.push(j);\n  }\n\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "31. Next Permutation",
+      "code": "var nextPermutation = function(nums) {\n  var len = nums.length;\n  var i = len - 2;\n  var j = len - 1;\n\n  while (i >= 0 && nums[i] >= nums[i + 1]) i--;\n\n  if (i >= 0) {\n    while (j > i && nums[j] <= nums[i]) j--;\n    swap(nums, i, j);\n    reverse(nums, i + 1, len - 1);\n  } else {\n    reverse(nums, 0, len - 1);\n  }\n };\n\nvar swap = function (arr, from, to) {\n  var tmp = arr[from];\n  arr[from] = arr[to];\n  arr[to] = tmp;\n };\n\nvar reverse = function (arr, start, end) {\n  while (start < end) {\n    swap(arr, start, end);\n    start++;\n    end--;\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "32. Longest Valid Parentheses",
+      "code": "var longestValidParentheses = function(s) {\n  var max = 0;\n  var len = s.length;\n  var dp = Array(len).fill(0);\n  var tmp = 0;\n  var getNum = function (index) {\n    return index >= 0 ? dp[index] : 0;\n  };\n\n  for (var i = 1; i < len; i++) {\n    if (s[i] === ')') {\n      if (s[i - 1] === '(') {\n        dp[i] = getNum(i - 2) + 2;\n      } else {\n        tmp = i - dp[i - 1] - 1;\n        if (tmp >= 0 && s[tmp] === '(') {\n          dp[i] = dp[i - 1] + getNum(tmp - 1) + 2;\n        }\n      }\n      max = Math.max(max, dp[i]);\n    }\n  }\n\n  return max;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "33. Search in Rotated Sorted Array",
+      "code": "var search = function(nums, target) {\n  var len = nums.length\n  var left = 0;\n  var right = len - 1;\n  var mid = 0;\n\n  while (left <= right) {\n    mid = left + Math.floor((right - left) / 2);\n    if (nums[mid] === target) return mid;\n    if (nums[mid] > nums[right]) {\n      if (nums[left] <= target && target < nums[mid]) {\n        right = mid - 1;\n      } else {\n        left = mid + 1;\n      }\n    } else {\n      if (nums[mid] < target && target <= nums[right]) {\n        left = mid + 1;\n      } else {\n        right = mid - 1;\n      }\n    }\n  }\n\n  return -1;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "34. Find First and Last Position of Element in Sorted Array",
+      "code": "var searchRange = function(nums, target) {\n    var index = findIndex(nums, target);\n    return index === -1\n        ? [-1, -1]\n        : [findLeft(nums, target, index), findRight(nums, target, index)];\n };\n\nvar findIndex = function(nums, target) {\n    var left = 0;\n    var right = nums.length - 1;\n    while (left <= right) {\n        var mid = left + Math.floor((right - left) / 2);\n        if (nums[mid] === target) {\n            return mid;\n        } else if (nums[mid] > target) {\n            right = mid - 1;\n        } else {\n            left = mid + 1;\n        }\n    }\n    return -1;\n };\n\nvar findLeft = function(nums, target, index) {\n    var left = 0;\n    var right = index;\n    while (left < right) {\n        var mid = left + Math.floor((right - left) / 2);\n        if (nums[mid] === target) {\n            right = mid;\n        } else {\n            left = mid + 1;\n        }\n    }\n    return left;\n };\n\nvar findRight = function(nums, target, index) {\n    var left = index;\n    var right = nums.length - 1;\n    while (left < right) {\n        var mid = left + Math.ceil((right - left) / 2);\n        if (nums[mid] === target) {\n            left = mid;\n        } else {\n            right = mid - 1;\n        }\n    }\n    return right;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "34. Search for a Range",
+      "code": "var searchRange = function(nums, target) {\n  var res = [-1, -1];\n  var left = find(nums, target, true);\n  var right = find(nums, target, false);\n  if (!nums.length) return res;\n  if (left > right) return res;\n  return [left, right];\n };\n\nvar find = function (nums, target, findLeft) {\n  var left = 0;\n  var right = nums.length - 1;\n  var mid = 0;\n\n  while (left <= right) {\n    mid = Math.floor((left + right) / 2);\n    if (nums[mid] > target || (findLeft && nums[mid] === target)) {\n      right = mid - 1;\n    } else {\n      left = mid + 1;\n    }\n  }\n\n  return findLeft ? left : right;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "35. Search Insert Position",
+      "code": "var searchInsert = function(nums, target) {\n  var len = nums.length;\n  var left = 0;\n  var right = len - 1;\n  var mid = 0;\n\n  if (!len) return 0;\n\n  while (left <= right) {\n    mid = Math.floor((left + right) / 2);\n    if (nums[mid] > target) {\n      right = mid - 1;\n    } else if (nums[mid] < target) {\n      left = mid + 1;\n    } else {\n      return mid;\n    }\n  }\n\n  return (nums[mid] > target) ? mid : (mid + 1);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "36. Valid Sudoku",
+      "code": "var isValidSudoku = function(board) {\n  var map = {};\n  var tmp = 0;\n  for (var i = 0; i < 9; i++) {\n    for (var j = 0; j < 9; j++) {\n      tmp = board[i][j];\n      if (tmp === '.') continue;\n      if (map['i' + i + tmp] || map['j' + j + tmp] || map['b' + Math.floor(i / 3) + Math.floor(j / 3) + tmp]) return false;\n      map['i' + i + tmp] = 1;\n      map['j' + j + tmp] = 1;\n      map['b' + Math.floor(i / 3) + Math.floor(j / 3) + tmp] = 1;\n    }\n  }\n  return true;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "37. Sudoku Solver",
+      "code": "var solveSudoku = function(board) {\n  solve(board);\n };\n\nvar solve = function (board) {\n  for (var i = 0; i < 9; i++) {\n    for (var j = 0; j < 9; j++) {\n      if (board[i][j] !== '.') continue;\n      for (var k = 1; k <= 9; k++) {\n        if (isValid(board, i, j, '' + k)) {\n            board[i][j] = '' + k;\n          if (solve(board)) {\n            return true;\n          } else {\n            board[i][j] = '.';\n          }\n        }\n      }\n      return false;\n    }\n  }\n  return true;\n };\n\nvar isValid = function (board, i, j, num) {\n  for (var k = 0; k < 9; k++) {\n    if (board[i][k] === num) return false;\n    if (board[k][j] === num) return false;\n    if (board[Math.floor(i / 3) * 3 + Math.floor(k / 3)][Math.floor(j / 3) * 3 + (k % 3)] === num) return false;\n  }\n  return true;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "38. Count and Say",
+      "code": "var countAndSay = function(n) {\n  var str = '1';\n  var tmp = '';\n  var last = '';\n  var count = 0;\n  var len = 0;\n\n  for (var i = 1; i < n; i++) {\n    tmp = '';\n    last = '';\n    count = 0;\n    len = str.length;\n\n    for (var j = 0; j < len; j++) {\n      if (last === '') {\n        last = str[j];\n        count = 1;\n        continue;\n      }\n      if (str[j] === last) {\n        count += 1;\n      } else {\n        tmp += '' + count + last;\n        last = str[j];\n        count = 1;\n      }\n    }\n\n    if (last) {\n      tmp += '' + count + last;\n    }\n\n    str = tmp;\n  }\n\n  return str;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "39. Combination Sum",
+      "code": "var combinationSum = function(candidates, target) {\n  var res = [];\n  var len = candidates.length;\n  candidates.sort((a, b) => (a - b));\n  dfs(res, [], 0, len, candidates, target);\n  return res;\n };\n\nvar dfs = function (res, stack, index, len, candidates, target) {\n  var tmp = null;\n  if (target < 0) return;\n  if (target === 0) return res.push(stack);\n  for (var i = index; i < len; i++) {\n    if (candidates[i] > target) break;\n    tmp = Array.from(stack);\n    tmp.push(candidates[i]);\n    dfs(res, tmp, i, len, candidates, target - candidates[i]);\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "40. Combination Sum II",
+      "code": "var combinationSum2 = function(candidates, target) {\n  var res = [];\n  var len = candidates.length;\n  candidates.sort((a, b) => (a - b));\n  dfs(res, [], 0, len, candidates, target);\n  return res;\n };\n\nvar dfs = function (res, stack, index, len, candidates, target) {\n  var tmp = null;\n  if (target < 0) return;\n  if (target === 0) return res.push(stack);\n  for (var i = index; i < len; i++) {\n    if (candidates[i] > target) break;\n    if (i > index && candidates[i] === candidates[i - 1]) continue;\n    tmp = Array.from(stack);\n    tmp.push(candidates[i]);\n    dfs(res, tmp, i + 1, len, candidates, target - candidates[i]);\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "41. First Missing Positive",
+      "code": "var firstMissingPositive = function(nums) {\n    var len = nums.length;\n    var tmp = 0;\n    var i = 0;\n    while (i < len) {\n        tmp = nums[i];\n        if (tmp > 0 && tmp !== i + 1 && tmp !== nums[tmp - 1]) swap(nums, i, tmp - 1);\n        else i++;\n    }\n    for (var j = 0; j < len; j++) {\n        if (nums[j] !== j + 1) return j + 1;\n    }\n    return len + 1;\n };\n\nvar swap = function (arr, i, j) {\n    var tmp = arr[i];\n    arr[i] = arr[j];\n    arr[j] = tmp;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "42. Trapping Rain Water",
+      "code": "var trap = function(height) {\n  var res = 0;\n  var left = 0;\n  var right = height.length - 1;\n  var leftMax = 0;\n  var rightMax = 0;\n\n  while (left < right) {\n    if (height[left] < height[right]) {\n      if (height[left] >= leftMax) {\n        leftMax = height[left];\n      } else {\n        res += leftMax - height[left];\n      }\n      left++;\n    } else {\n      if (height[right] >= rightMax) {\n        rightMax = height[right];\n      } else {\n        res += rightMax - height[right];\n      }\n      right--;\n    }\n  }\n\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "43. Multiply Strings",
+      "code": "var multiply = function(num1, num2) {\n  var len1 = num1.length;\n  var len2 = num2.length;\n  var res = Array(len1 + len2).fill(0);\n  var carry = 0;\n  var val = 0;\n  var index = 0;\n\n  for (var i = len1 - 1; i >= 0; i--) {\n    carry = 0;\n    for (var j = len2 - 1; j >= 0; j--) {\n      index = len1 + len2 - 2 - i - j;\n      val= (num1[i] * num2[j]) + carry + res[index];\n      carry = Math.floor(val / 10);\n      res[index] = val % 10;\n    }\n    if (carry) res[index + 1] = carry;\n  }\n\n  while (res.length > 1 && res[res.length - 1] === 0) res.pop();\n\n  return res.reverse().join('');\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "44. Wildcard Matching",
+      "code": "var isMatch = function(s, p) {\n  var dp = Array(p.length + 1).fill(0).map(_ => ({}));\n  return test(s, p, 0, 0, dp);\n };\n\nvar test = function (s, p, sIndex, pIndex, dp) {\n  if (dp[pIndex][sIndex] !== undefined) return dp[pIndex][sIndex];\n\n  var sNow = s[sIndex];\n  var pNow = p[pIndex];\n  var res = false;\n\n  if (pNow === undefined) return sNow === undefined;\n  if (sNow === undefined) {\n    for (var i = pIndex; i < p.length; i++) {\n      if (p[i] !== '*') return false;\n    }\n    return true;\n  }\n\n  if (sNow === pNow || pNow === '?') {\n    res = test(s, p, sIndex + 1, pIndex + 1, dp);\n  } else if (pNow === '*') {\n    res = test(s, p, sIndex, pIndex + 1, dp) || test(s, p, sIndex + 1, pIndex + 1, dp) || test(s, p, sIndex + 1, pIndex, dp);\n  }\n\n  dp[pIndex][sIndex] = res;\n\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "45. Jump Game II",
+      "code": "var jump = function(nums) {\n  var len = nums.length;\n  var step = 0;\n  var now = 0;\n  var max = 0;\n\n  for (var i = 0; i < len - 1; i++) {\n    max = Math.max(max, i + nums[i]);\n    if (i === now) {\n      step++;\n      now = max;\n    }\n  }\n\n  return step;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "46. Permutations",
+      "code": "var permute = function(nums) {\n  var res = [];\n\n  dfs(res, [], nums);\n\n  return res;\n };\n\nvar dfs = function (res, arr, nums) {\n  var len = nums.length;\n  var tmp1 = null;\n  var tmp2 = null;\n\n  if (!len) return res.push(arr);\n\n  for (var i = 0; i < len; i++) {\n    tmp1 = Array.from(arr);\n    tmp1.push(nums[i]);\n\n    tmp2 = Array.from(nums);\n    tmp2.splice(i, 1);\n\n    dfs(res, tmp1, tmp2);\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "47. Permutations II",
+      "code": "var permuteUnique = function(nums) {\n    var res = [];\n\n    nums.sort((a, b) => (a - b));\n    dfs(res, [], nums);\n\n    return res;\n };\n\nvar dfs = function (res, arr, nums) {\n  var len = nums.length;\n  var tmp1 = null;\n  var tmp2 = null;\n\n  if (!len) return res.push(arr);\n\n  for (var i = 0; i < len; i++) {\n    if (nums[i] === nums[i - 1]) continue;\n\n    tmp1 = Array.from(arr);\n    tmp1.push(nums[i]);\n\n    tmp2 = Array.from(nums);\n    tmp2.splice(i, 1);\n\n    dfs(res, tmp1, tmp2);\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "48. Rotate Image",
+      "code": "var rotate = function(matrix) {\n  var n = matrix.length;\n  var n2 = Math.floor(n / 2);\n  \n  \n  \n  for (var i = 0; i < n2; i++) {\n    for (var j = 0; j < n; j++) {\n      swap(matrix, i, j, n - 1 - i, j);\n    }\n  }\n  \n  \n  \n  for (var i = 0; i < n; i++) {\n    for (var j = i + 1; j < n; j++) {\n      swap(matrix, i, j, j, i);\n    }\n  }\n };\n\nvar swap = function (matrix, x1, y1, x2, y2) {\n  var tmp = matrix[x1][y1];\n  matrix[x1][y1] = matrix[x2][y2];\n  matrix[x2][y2] = tmp;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "49. Group Anagrams",
+      "code": "var groupAnagrams = function(strs) {\n  var res = {};\n  var str = '';\n  var len = strs.length;\n  for (var i = 0; i < len; i++) {\n    str = Array.from(strs[i]).sort().join('');\n    if (!res[str]) res[str] = [];\n    res[str].push(strs[i]);\n  }\n  return Object.values(res);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "50. Pow(x, n)",
+      "code": "var myPow = function(x, n) {\n  if (n === 0) return 1;\n  if (n > 0) return pow(x, n);\n  if (n < 0) return 1 / pow(x, -n);\n };\n\nvar pow = function (x, n) {\n  if (n === 1) return x;\n  var num = pow(x, Math.floor(n / 2));\n  if (n % 2 === 0) {\n    return num * num;\n  } else {\n    return x * num * num;\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "51. N-Queens",
+      "code": "var solveNQueens = function(n) {\n  var res = [];\n  if (n === 1 || n >= 4) dfs(res, [], n, 0);\n  return res;\n };\n\nvar dfs = function (res, points, n, index) {\n  for (var i = index; i < n; i++) {\n    if (points.length !== i) return;\n    for (var j = 0; j < n; j++) {\n      if (isValid(points, [i, j])) {\n        points.push([i, j]);\n        dfs(res, points, n, i + 1);\n        if (points.length === n) res.push(buildRes(points));\n        points.pop();\n      }\n    }\n  }\n };\n\nvar buildRes = function (points) {\n  var res = [];\n  var n = points.length;\n  for (var i = 0; i < n; i++) {\n    res[i] = '';\n    for (var j = 0; j < n; j++) {\n      res[i] += (points[i][1] === j ? 'Q' : '.');\n    }\n  }\n  return res;\n };\n\nvar isValid = function (oldPoints, newPoint) {\n  var len = oldPoints.length;\n  for (var i = 0; i < len; i++) {\n    if (oldPoints[i][0] === newPoint[0] || oldPoints[i][1] === newPoint[1]) return false;\n    if (Math.abs((oldPoints[i][0] - newPoint[0]) / (oldPoints[i][1] - newPoint[1])) === 1) return false;\n  }\n  return true;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "52. N-Queens II",
+      "code": "var totalNQueens = function(n) {\n  if (n === 1 || n >= 4) return dfs([], n, 0);\n  return 0;\n };\n\nvar dfs = function (points, n, index) {\n  var res = 0;\n  if (points.length === n) return 1;\n  for (var i = index; i < n; i++) {\n    if (points.length !== i) return res;\n    for (var j = 0; j < n; j++) {\n      if (!isValid(points, [i, j])) continue;\n      points.push([i, j]);\n      res += dfs(points, n, i + 1);\n      points.pop();\n    }\n  }\n  return res;\n };\n\nvar isValid = function (oldPoints, newPoint) {\n  var len = oldPoints.length;\n  for (var i = 0; i < len; i++) {\n    if (oldPoints[i][0] === newPoint[0] || oldPoints[i][1] === newPoint[1]) return false;\n    if (Math.abs((oldPoints[i][0] - newPoint[0]) / (oldPoints[i][1] - newPoint[1])) === 1) return false;\n  }\n  return true;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "53. Maximum Subarray",
+      "code": "var maxSubArray = function(nums) {\n  var len = nums.length;\n  var max = Number.MIN_SAFE_INTEGER;\n  var before = 0;\n  var now = 0;\n\n  if (!len) return 0;\n\n  for (var i = 0; i < len; i++) {\n    now = Math.max(before + nums[i], nums[i]);\n    max = Math.max(now, max);\n    before = now;\n  }\n\n  return max;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "54. Spiral Matrix",
+      "code": "var spiralOrder = function(matrix) {\n  var n = matrix.length;\n  var m = (matrix[0] || []).length;\n  var res = [];\n  var x1 = 0;\n  var x2 = m - 1;\n  var y1 = 0;\n  var y2 = n - 1;\n  while (x1 <= x2 && y1 <= y2) {\n    for (var x = x1; x <= x2; x++) res.push(matrix[y1][x]);\n    for (var y = y1 + 1; y <= y2; y++) res.push(matrix[y][x2]);\n    if (x1 < x2 && y1 < y2) {\n      for (var x = x2 - 1; x > x1; x--) res.push(matrix[y2][x]);\n      for (var y = y2; y > y1; y--) res.push(matrix[y][x1]);\n    }\n    x1++;\n    x2--;\n    y1++;\n    y2--;\n  }\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "55. Jump Game",
+      "code": "var canJump = function(nums) {\n  var len = nums.length;\n  var max = 0;\n  for (var i = 0; i < len; i++) {\n    if (i > max) return false;\n    max = Math.max(max, i + nums[i]);\n  }\n  return true;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "56. Merge Intervals",
+      "code": "var merge = function(intervals) {\n  var len = intervals.length;\n  var res = [];\n  var a = null;\n  var b = null;\n\n  intervals.sort((c, d) => (c.start - d.start));\n\n  for (var i = 0; i < len; i++) {\n    a = res[res.length - 1];\n    b = intervals[i];\n    if (overlap(a, b)) {\n      a.start = Math.min(a.start, b.start);\n      a.end = Math.max(a.end, b.end);\n    } else {\n      res.push(new Interval(b.start, b.end));\n    }\n  }\n\n  return res;\n };\n\nvar overlap = function (a, b) {\n  if (!a || !b) return false;\n  if (b.start <= a.end && a.end <= b.end) return true;\n  if (a.start <= b.end && b.end <= a.end) return true;\n  return false;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "57. Insert Interval",
+      "code": "var insert = function(intervals, newInterval) {\n  var len = intervals.length;\n  var i = 0;\n  var res = [];\n  while (i < len && intervals[i].end < newInterval.start) {\n    res.push(intervals[i]);\n    i++;\n  }\n  while (i < len && intervals[i].start <= newInterval.end) {\n    newInterval.start = Math.min(newInterval.start, intervals[i].start);\n    newInterval.end = Math.max(newInterval.end, intervals[i].end);\n    i++;\n  }\n  res.push(newInterval);\n  while (i < len) {\n    res.push(intervals[i]);\n    i++;\n  }\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "58. Length of Last Word",
+      "code": "var lengthOfLastWord = function(s) {\n  var str = s.trim();\n  var len = str.length;\n  var i = len - 1;\n  while (i >= 0 && str[i] !== ' ') i--;\n  return len - 1 - i;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "59. Spiral Matrix II",
+      "code": "var generateMatrix = function(n) {\n  var x1 = 0;\n  var x2 = n - 1;\n  var y1 = 0;\n  var y2 = n - 1;\n  var i = 0;\n  var res = Array(n).fill(0).map(_ => Array(n));\n  while (x1 <= x2 && y1 <= y2) {\n    for (var x = x1; x <= x2; x++) res[y1][x] = ++i;\n    for (var y = y1 + 1; y <= y2; y++) res[y][x2] = ++i;\n    for (var x = x2 - 1; x > x1; x--) res[y2][x] = ++i;\n    for (var y = y2; y > y1; y--) res[y][x1] = ++i;\n    x1++;\n    x2--;\n    y1++;\n    y2--;\n  }\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "60. Permutation Sequence",
+      "code": "var getPermutation = function(n, k) {\n  var str = '';\n  var nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];\n  var factorial = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880]; \n  var tmp1 = 0;\n  var tmp2 = 0;\n\n  k--;\n\n  for (var j = n; j >= 1; j--) {\n    tmp1 = factorial[j - 1];\n    tmp2 = Math.floor(k / tmp1);\n\n    k %= tmp1;\n    str += nums[tmp2];\n\n    nums.splice(tmp2, 1);\n  }\n\n  return str;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "61. Rotate List",
+      "code": "var rotateRight = function(head, k) {\n    var count = 1;\n    var last = head;\n    var now = head;\n\n    if (!head || !head.next) return head;\n\n    while (last.next) {\n        last = last.next;\n        count++;\n    }\n\n    k %= count;\n\n    if (k === 0) return head;\n\n    while (k < count - 1) {\n        now = now.next;\n        k++;\n    }\n\n    last.next = head;\n    head = now.next;\n    now.next = null;\n\n    return head;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "62. Unique Paths",
+      "code": "var uniquePaths = function(m, n) {\n  var dp = Array(m);\n  if (!m || !n) return 0;\n  for (var i = 0; i < m; i++) {\n    dp[i] = Array(n);\n    for (var j = 0; j < n; j++) {\n      if (j > 0 && i > 0) dp[i][j] = dp[i - 1][j] + dp[i][j - 1];\n      else if (j > 0 && i === 0) dp[i][j] = dp[i][j - 1];\n      else if (j === 0 && i > 0) dp[i][j] = dp[i - 1][j];\n      else dp[i][j] = 1;\n    }\n  }\n  return dp[m - 1][n - 1];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "63. Unique Paths II",
+      "code": "var uniquePathsWithObstacles = function(obstacleGrid) {\n  var m = obstacleGrid.length;\n  var n = (obstacleGrid[0] || []).length;\n  var dp = Array(m);\n  var left = 0;\n  var top = 0;\n\n  if (!m || !n) return 0;\n\n  for (var i = 0; i < m; i++) {\n    dp[i] = Array(n);\n    for (var j = 0; j < n; j++) {\n      left = (j === 0 || obstacleGrid[i][j - 1] === 1) ? 0 : dp[i][j - 1];\n      top = (i === 0 || obstacleGrid[i - 1][j] === 1) ? 0 : dp[i - 1][j];\n      dp[i][j] = obstacleGrid[i][j] === 1 ? 0 : ((i === 0 && j === 0) ? 1 : (left + top));\n    }\n  }\n\n  return dp[m - 1][n - 1];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "64. Minimum Path Sum",
+      "code": "var minPathSum = function(grid) {\n  var m = grid.length;\n  var n = (grid[0] || []).length;\n  var dp = Array(m);\n  var left = 0;\n  var top = 0;\n\n  if (!m || !n) return 0;\n\n  for (var i = 0; i < m; i++) {\n    dp[i] = Array(n);\n    for (var j = 0; j < n; j++) {\n      top = i === 0 ? Number.MAX_SAFE_INTEGER : dp[i - 1][j];\n      left = j === 0 ? Number.MAX_SAFE_INTEGER : dp[i][j - 1];\n      dp[i][j] = grid[i][j] + (i === 0 && j === 0 ? 0 : Math.min(left, top));\n    }\n  }\n\n  return dp[m - 1][n - 1];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "65. Valid Number",
+      "code": "var isNumber = function(s) {\n  var state = [\n    {}, \n    {'blank': 1, 'sign': 2, 'digit':3, '.':4}, \n    {'digit':3, '.':4},\n    {'digit':3, '.':5, 'e':6, 'blank':9},\n    {'digit':5},\n    {'digit':5, 'e':6, 'blank':9},\n    {'sign':7, 'digit':8},\n    {'digit':8},\n    {'digit':8, 'blank':9},\n    {'blank':9}\n  ];\n  var validState = [3, 5, 8, 9];\n  var currentState = 1;\n  var len = s.length;\n  var str = '';\n  var type = '';\n  for (var i = 0; i < len; i++) {\n    str = s[i];\n    if (str >= '0' && str <= '9') {\n      type = 'digit';\n    } else if (str === '+' || str === '-') {\n      type = 'sign';\n    } else if (str === ' ') {\n      type = 'blank';\n    } else {\n      type = str;\n    }\n    if (state[currentState][type] === undefined) {\n      return false;\n    } else {\n      currentState = state[currentState][type];\n    }\n  }\n    if (validState.indexOf(currentState) === -1) {\n    return false;\n    } else {\n    return true;\n    }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "66. Plus One",
+      "code": "var plusOne = function(digits) {\n  var i = digits.length - 1;\n  var val = 0;\n  var carry = 1;\n  while (i >= 0 && carry) {\n    val = digits[i] + carry;\n    carry = Math.floor(val / 10);\n    digits[i] = val % 10;\n    i--;\n  }\n  if (carry) digits.unshift(carry);\n  return digits;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "67. Add Binary",
+      "code": "var addBinary = function(a, b) {\n  var len1 = a.length;\n  var len2 = b.length;\n  var max = Math.max(len1, len2);\n  var res = '';\n  var carry = 0;\n  var val = 0;\n\n  for (var i = 0; i < max; i++) {\n    val = Number(a[len1 - 1 - i] || 0) + Number(b[len2 - 1 - i] || 0) + carry;\n    carry = Math.floor(val / 2);\n    res = (val % 2) + res;\n  }\n\n  if (carry) res = 1 + res;\n\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "68. Text Justification",
+      "code": "var fullJustify = function(words, maxWidth) {\n  var len = words.length;\n  var arr = [];\n  var width = 0;\n  var item = null;\n  var addLen = 0;\n  var res = [];\n\n  for (var i = 0; i < len; i++) {\n    item = words[i];\n    addLen = width === 0 ? item.length : (item.length + 1);\n\n    if (width + addLen > maxWidth) {\n      res.push(helper(arr, maxWidth - width, false));\n      arr = [];\n      width = 0;\n      addLen = item.length;\n    }\n\n    arr.push(item);\n    width += addLen;\n  }\n\n  res.push(helper(arr, maxWidth - width, true));\n\n  return res;\n };\n\nvar helper = function (arr, left, isLast) {\n  var len = arr.length;\n  var num = 0;\n  var rem = 0;\n  var res = '';\n\n  if (len === 1 || isLast) {\n    return arr.join(' ') + ' '.repeat(left);\n  }\n\n  num = Math.floor(left / (len - 1));\n  rem = left % (len - 1);\n  for (var i = 0; i < len; i++) {\n    res += arr[i];\n    if (i < len - 1) res += ' '.repeat(num + 1);\n    if (i < rem) res += ' ';\n  }\n\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "69. Sqrt(x)",
+      "code": "var mySqrt = function(x) {\n  if (x < 2) return x;\n  var left = 1;\n  var right = x;\n  var mid = 0;\n  while (left <= right) {\n    mid = left + Math.floor((right - left) / 2);\n    if (mid > x / mid) {\n      right = mid - 1;\n    } else if ((mid + 1) > x / (mid + 1)) {\n      return mid;\n    } else {\n      left = mid + 1;\n    }\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "70. Climbing Stairs",
+      "code": "var climbStairs = function(n) {\n  var dp = [0, 1];\n  for (var i = 0; i < n; i++) {\n    dp = [dp[1], dp[0] + dp[1]];\n  }\n  return dp[1];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "71. Simplify Path",
+      "code": "var simplifyPath = function(path) {\n  var arr = path.split('/');\n  var stack = [];\n  var len = arr.length;\n  var item = '';\n  for (var i = 0; i < len; i++) {\n    item = arr[i];\n    if (item === '' || item === '.') continue;\n    if (item === '..') {\n      stack.pop();\n    } else {\n      stack.push(item);\n    }\n  }\n  return '/' + stack.join('/');\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "72. Edit Distance",
+      "code": "var minDistance = function(word1, word2) {\n  var n = word1.length;\n  var m = word2.length;\n  var dp = Array(n);\n\n  for (var i = 0; i < n; i++) {\n    dp[i] = Array(m);\n    for (var j = 0; j < m; j++) {\n      dp[i][j] = Math.min(\n        getDp(i - 1, j, dp) + 1,\n        getDp(i, j - 1, dp) + 1,\n        getDp(i - 1, j - 1, dp) + (word1[i] === word2[j] ? 0 : 1)\n      );\n    }\n  }\n\n  return getDp(n - 1, m - 1, dp);\n };\n\nvar getDp = function (i, j, dp) {\n  if (i < 0 && j < 0) return 0;\n  if (i < 0) return j + 1;\n  if (j < 0) return i + 1;\n  return dp[i][j];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "73. Set Matrix Zeroes",
+      "code": "var setZeroes = function(matrix) {\n  var m = matrix.length;\n  var n = (matrix[0] || []).length;\n  for (var i = 0; i < m; i++) {\n    for (var j = 0; j < n; j++) {\n      if (matrix[i][j] === 0) {\n        left(i, j, m, n, matrix);\n        right(i, j, m, n, matrix);\n        up(i, j, m, n, matrix);\n        down(i, j, m, n, matrix);\n      } else if (matrix[i][j] === '#') {\n        matrix[i][j] = 0;\n      }\n    }\n  }\n };\n\nvar left = function (i, j, m, n, matrix) {\n  for (var k = j - 1; k >= 0; k--) {\n    matrix[i][k] = 0;\n  }\n };\n\nvar right = function (i, j, m, n, matrix) {\n  for (var k = j + 1; k < n; k++) {\n    matrix[i][k] = matrix[i][k] === 0 ? 0 : '#';\n  }\n };\n\nvar up = function (i, j, m, n, matrix) {\n  for (var k = i - 1; k >= 0; k--) {\n    matrix[k][j] = 0;\n  }\n };\n\nvar down = function (i, j, m, n, matrix) {\n  for (var k = i + 1; k < m; k++) {\n    matrix[k][j] = matrix[k][j] === 0 ? 0 : '#';\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "74. Search a 2D Matrix",
+      "code": "var searchMatrix = function(matrix, target) {\n  var row = searchRow(matrix, target, 0, matrix.length - 1);\n  return row === -1 ? false : searchArray(matrix[row], target, 0, matrix[row].length - 1);\n };\n\nvar searchRow = function (matrix, target, top, bottom) {\n  if (top > bottom) return -1;\n  var mid = top + Math.floor((bottom - top) / 2);\n  var len = matrix[mid].length;\n  if (len === 0) return -1;\n  if (matrix[mid][0] <= target && target <= matrix[mid][len - 1]) {\n    return mid;\n  } else if (target < matrix[mid][0]) {\n    return searchRow(matrix, target, top, mid - 1);\n  } else {\n    return searchRow(matrix, target, mid + 1, bottom);\n  }\n };\n\nvar searchArray = function (arr, target, left, right) {\n  if (left > right) return false;\n  var mid = left + Math.floor((right - left) / 2);\n  if (arr[mid] === target) {\n    return true;\n  } else if (arr[mid] > target) {\n    return searchArray(arr, target, left, mid - 1);\n  } else {\n    return searchArray(arr, target, mid + 1, right);\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "75. Sort Colors",
+      "code": "var sortColors = function(nums) {\n  var counts = [0, 0, 0];\n  var len = nums.length;\n  for (var i = 0; i < len; i++) {\n    counts[nums[i]]++;\n  }\n  for (var j = 0; j < len; j++) {\n    nums[j] = j < counts[0] ? 0 : (j < counts[0] + counts[1] ? 1 : 2);\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "76. Minimum Window Substring",
+      "code": "var minWindow = function(s, t) {\n  var map = {};\n  var sLen = s.length;\n  var tLen = t.length;\n  var count = tLen;\n  var min = Number.MAX_SAFE_INTEGER;\n  var head = 0;\n  var left = 0;\n  var right = 0;\n\n  if (!sLen || !tLen) return '';\n\n  for (var i = 0; i < tLen; i++) {\n    if (map[t[i]] === undefined) {\n      map[t[i]] = 1\n    } else {\n      map[t[i]]++;\n    }\n  }\n\n  while (right < sLen) {\n    if (map[s[right]] !== undefined) {\n      if (map[s[right]] > 0) count--;\n      map[s[right]]--;\n    }\n\n    right++;\n\n    while (count === 0) {\n      if (right - left < min) {\n        min = right - left;\n        head = left;\n      }\n\n      if (map[s[left]] !== undefined) {\n        if (map[s[left]] === 0) count++;\n        map[s[left]]++;\n      }\n\n      left++;\n    }\n  }\n\n  return min === Number.MAX_SAFE_INTEGER ? '' : s.substr(head, min);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "77. Combinations",
+      "code": "var combine = function(n, k) {\n  if (n < k || k < 1) return [];\n\n  var res = [];\n\n  helper(res, [], 0, n, k);\n\n  return res;\n };\n\nvar helper = function (res, now, start, n, k) {\n  if (k === 0) {\n    res.push(Array.from(now));\n    return;\n  }\n\n  for (var i = start; i < n; i++) {\n    now.push(i + 1)\n    helper(res, now, i + 1, n, k - 1);\n    now.pop();\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "78. Subsets",
+      "code": "var subsets = function(nums) {\n  var res = [];\n  helper(nums, res, [], 0);\n  return res;\n };\n\nvar helper = function (nums, res, arr, start) {\n  var len = nums.length;\n\n  res.push(Array.from(arr));\n\n  if (start === len) return;\n\n  for (var i = start; i < len; i++) {\n    arr.push(nums[i]);\n    helper(nums, res, arr, i + 1);\n    arr.pop();\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "79. Word Search",
+      "code": "var exist = function(board, word) {\n  var len1 = board.length;\n  var len2 = (board[0] || []).length;\n  var len3 = word.length;\n  var visited = null;\n\n  if (!len1 || !len2 || !len3) return false;\n\n  for (var i = 0; i < len1; i++) {\n    for (var j = 0; j < len2; j++) {\n      visited = Array(len1).fill(0).map(_ => Array(len2));\n      if (helper(board, word, i, j, 0, visited)) return true;\n    }\n  }\n\n  return false;\n };\n\nvar helper = function (board, word, m, n, k, visited) {\n  if (k === word.length) return true;\n  if (m < 0 || m >= board.length) return false;\n  if (n < 0 || n >= board[m].length) return false;\n  if (visited[m][n]) return false;\n  if (board[m][n] !== word[k]) return false;\n\n  var res = false;\n\n  visited[m][n] = true;\n\n  res = helper(board, word, m - 1, n, k + 1, visited)\n        || helper(board, word, m + 1, n, k + 1, visited)\n        || helper(board, word, m, n - 1, k + 1, visited)\n        || helper(board, word, m, n + 1, k + 1, visited);\n\n  if (!res) visited[m][n] = false;\n\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "80. Remove Duplicates from Sorted Array II",
+      "code": "var removeDuplicates = function(nums) {\n  var len = nums.length;\n  var index = 0;\n  var last = NaN;\n  var times = 0;\n  for (var i = 0; i < len; i++) {\n    if (nums[i] === last) {\n      if (times < 2) times++;\n      else continue;\n    } else {\n      times = 1;\n    }\n    last = nums[i];\n    nums[index] = nums[i];\n    index++;\n  }\n  return index;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "81. Search in Rotated Sorted Array II",
+      "code": "var search = function(nums, target) {\n  var left = 0;\n  var right = nums.length - 1;\n  var mid = 0;\n  while (left <= right) {\n    mid = Math.floor((left + right) / 2);\n    if (nums[mid] === target) return true;\n    if (nums[mid] > nums[left]) {\n      if (nums[left] <= target && target < nums[mid]) {\n        right = mid - 1;\n      } else {\n        left = mid + 1;\n      }\n    } else if (nums[mid] < nums[left]) {\n      if (nums[mid] < target && target <= nums[right]) {\n        left = mid + 1;\n      } else {\n        right = mid - 1;\n      }\n    } else {\n      left++;\n    }\n  }\n  return false;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "82. Remove Duplicates from Sorted List II",
+      "code": "var deleteDuplicates = function(head) {\n  var newHead = new ListNode(0);\n  var now = newHead;\n  var tmp = head;\n  var val = 0;\n\n  while (tmp) {\n    val = tmp.val;\n    if (tmp.next && tmp.next.val === val) {\n      tmp = tmp.next;\n      while (tmp && tmp.val === val) tmp = tmp.next;\n    } else {\n      now.next = tmp;\n      now = tmp;\n      tmp = tmp.next;\n      now.next = null;\n    }\n  }\n\n  return newHead.next;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "83. Remove Duplicates from Sorted List",
+      "code": "var deleteDuplicates = function(head) {\n  var now = head;\n  while (now) {\n    if (now.next && now.next.val === now.val) {\n      now.next = now.next.next;\n    } else {\n      now = now.next;\n    }\n  }\n  return head;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "84. Largest Rectangle in Histogram",
+      "code": "var largestRectangleArea = function(heights) {\n  var len = heights.length;\n  var stack = [];\n  var max = 0;\n  var h = 0;\n  var w = 0;\n\n  for (var i = 0; i <= len; i++) {\n    while (stack.length && (i === len || heights[i] <= heights[stack[stack.length - 1]])) {\n      h = heights[stack.pop()];\n      w = stack.length === 0 ? i : i - stack[stack.length - 1] - 1;\n      max = Math.max(max, h * w);\n    }\n    stack.push(i);\n  }\n\n  return max;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "85. Maximal Rectangle",
+      "code": "var maximalRectangle = function(matrix) {\n  var n = matrix.length;\n  var m = (matrix[0] || []).length;\n  var max = 0;\n  var heights = Array(m);\n  var stack = [];\n  var h = 0;\n  var w = 0;\n\n  for (var i = 0; i < n; i++) {\n    stack = [];\n\n    for (var j = 0; j < m; j++) {\n      if (matrix[i][j] === '1') {\n        heights[j] = i === 0 ? 1 : heights[j] + 1;\n      } else {\n        heights[j] = 0;\n      }\n\n      while (stack.length && heights[j] <= heights[stack[stack.length - 1]]) {\n        h = heights[stack.pop()];\n        w = stack.length === 0 ? j : j - stack[stack.length - 1] - 1;\n        max = Math.max(max, h * w);\n      }\n\n      stack.push(j);\n    }\n\n    while (stack.length) {\n      h = heights[stack.pop()];\n      w = stack.length === 0 ? m : m - stack[stack.length - 1] - 1;\n      max = Math.max(max, h * w);\n    }\n  }\n\n  return max;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "86. Partition List",
+      "code": "var partition = function(head, x) {\n  var l1 = new ListNode(0);\n  var l2 = new ListNode(0);\n  var now1 = l1;\n  var now2 = l2;\n  var now = head;\n\n  while (now) {\n    if (now.val < x) {\n      now1.next = now;\n      now1 = now1.next;\n    } else {\n      now2.next = now;\n      now2 = now2.next;\n    }\n    now = now.next;\n  }\n\n  now1.next = l2.next;\n  now2.next = null;\n\n  return l1.next;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "87. Scramble String",
+      "code": "var isScramble = function(s1, s2) {\n  return helper({}, s1, s2);\n };\n\nvar helper = function (dp, s1, s2) {\n  var map = {};\n\n  if (dp[s1 + s2] !== undefined) return dp[s1 + s2];\n  if (s1 === s2) return true;\n\n  for (var j = 0; j < s1.length; j++) {\n    if (map[s1[j]] === undefined) map[s1[j]] = 0;\n    if (map[s2[j]] === undefined) map[s2[j]] = 0;\n    map[s1[j]]++;\n    map[s2[j]]--;\n  }\n\n  for (var key in map) {\n    if (map[key] !== 0) {\n      dp[s1 + s2] = false;\n      return false;\n    }\n  }\n\n  for (var i = 1; i < s1.length; i++) {\n    if ((helper(dp, s1.substr(0, i), s2.substr(0, i))\n         && helper(dp, s1.substr(i), s2.substr(i))) ||\n        (helper(dp, s1.substr(0, i), s2.substr(s2.length - i))\n         && helper(dp, s1.substr(i), s2.substr(0, s2.length - i)))) {\n      dp[s1 + s2] = true;\n      return true;\n    }\n  }\n\n  dp[s1 + s2] = false;\n  return false;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "88. Merge Sorted Array",
+      "code": "var merge = function(nums1, m, nums2, n) {\n  var i = m - 1;\n  var j = n - 1;\n  var k = m + n - 1;\n  while (j >= 0) {\n    nums1[k--] = i >= 0 && nums1[i] > nums2[j] ? nums1[i--] : nums2[j--];\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "89. Gray Code",
+      "code": "var grayCode = function(n) {\n  var res = [0];\n  helper(n, res, 0);\n  return res;\n };\n\nvar helper = function (n, res, num) {\n  if (num >= n) return;\n  var len = res.length;\n  for (var i = len - 1; i >= 0; i--) {\n    res.push(res[i] + len);\n  }\n  helper(n, res, num + 1);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "90. Subsets II",
+      "code": "var subsetsWithDup = function(nums) {\n  var res = [];\n  nums.sort((a, b) => a - b);\n  helper(nums, 0, res, []);\n  return res;\n };\n\nvar helper = function (nums, start, res, now) {\n  res.push(Array.from(now));\n\n  for (var i = start; i < nums.length; i++) {\n    if (i === start || nums[i] !== nums[i - 1]) {\n      now.push(nums[i]);\n      helper(nums, i + 1, res, now);\n      now.pop();\n    }\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "91. Decode Ways",
+      "code": "var numDecodings = function(s) {\n  var len = s.length;\n  var tmp = 0;\n  var tmp1 = 1;\n  var tmp2 = 0;\n  var num1 = 0;\n  var num2 = 0;\n\n  if (s === '' || s[0] === '0') return 0;\n\n  for (var i = 1; i <= len; i++) {\n    num1 = Number(s.substr(i - 1, 1));\n    num2 = Number(s.substr(i - 2, 2));\n    if (num1 !== 0) tmp += tmp1;\n    if (10 <= num2 && num2 <= 26) tmp += tmp2;\n    tmp2 = tmp1;\n    tmp1 = tmp;\n    tmp = 0;\n  }\n\n  return tmp1;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "92. Reverse Linked List II",
+      "code": "var reverseBetween = function(head, m, n) {\n  var newHead = new ListNode(0);\n  var now = newHead;\n  var tmp = null;\n  var reverseLast = null;\n  var reverseHead = null;\n  var reverseNow = null;\n  var i = 0;\n\n  newHead.next = head;\n\n  while (now) {\n    tmp = now.next;\n\n    if (i === m - 1) {\n      reverseHead = now;\n    }\n\n    if (i === m) {\n      reverseLast = now;\n      reverseNow = now;\n    }\n\n    if (i > m && i <= n) {\n      now.next = reverseNow;\n      reverseNow = now;\n    }\n\n    if (i === n) {\n      reverseLast.next = tmp;\n      reverseHead.next = reverseNow;\n    }\n\n    now = tmp;\n    i++;\n  }\n\n  return newHead.next;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "93. Restore IP Addresses",
+      "code": "var restoreIpAddresses = function(s) {\n  var res = [];\n  helper(s, 0, [], res);\n  return res;\n };\n\nvar helper = function (s, start, now, res) {\n  var str = '';\n  var num = 0;\n\n  if (now.length === 4) {\n    if (start === s.length) res.push(now.join('.'));\n    return;\n  }\n\n  for (var i = 1; i <= 3; i++) {\n    str = s.substr(start, i);\n    if (str.length === 1 || str[0] !== '0') {\n      num = Number(str);\n      if (0 <= num && num <= 255) {\n        now.push(num);\n        helper(s, start + i, now, res);\n        now.pop();\n      }\n    }\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "94. Binary Tree Inorder Traversal",
+      "code": "var inorderTraversal = function(root) {\n  var res = [];\n  helper(root, res);\n  return res;\n };\n\nvar helper = function (root, res) {\n  if (!root) return;\n  if (root.left) helper(root.left, res);\n  res.push(root.val);\n  if (root.right) helper(root.right, res);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "95. Unique Binary Search Trees II",
+      "code": "var generateTrees = function(n) {\n  if (n < 1) return [];\n  return generate(1, n);\n };\n\nvar generate = function (l, r) {\n  var nodes = [];\n  var node = null;\n  var left = [];\n  var right = [];\n  for (var i = l; i <= r; i++) {\n    left = generate(l, i - 1);\n    right = generate(i + 1, r);\n    for (var j = 0; j < left.length; j++) {\n      for (var k = 0; k < right.length; k++) {\n        node = new TreeNode(i);\n        node.left = left[j];\n        node.right = right[k];\n        nodes.push(node);\n      }\n    }\n  }\n  return nodes.length ? nodes : [null];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "96. Unique Binary Search Trees",
+      "code": "var numTrees = function(n) {\n  var dp = [1, 1];\n  for (i = 2; i <= n; i++) {\n    dp[i] = 0;\n    for (j = 1; j <= i; j++) {\n      dp[i] += dp[i - j] * dp[j - 1];\n    }\n  }\n  return dp[n];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "97. Interleaving String",
+      "code": "var isInterleave = function(s1, s2, s3) {\n  var dp = {};\n  if (s3.length !== s1.length + s2.length) return false;\n  return helper(s1, s2, s3, 0, 0, 0, dp);\n };\n\nvar helper = function (s1, s2, s3, i, j, k, dp) {\n  var res = false;\n\n  if (k >= s3.length) return true;\n  if (dp['' + i + j + k] !== undefined) return dp['' + i + j + k];\n\n  if (s3[k] === s1[i] && s3[k] === s2[j]) {\n    res = helper(s1, s2, s3, i + 1, j, k + 1, dp) || helper(s1, s2, s3, i, j + 1, k + 1, dp);\n  } else if (s3[k] === s1[i]) {\n    res = helper(s1, s2, s3, i + 1, j, k + 1, dp);\n  } else if (s3[k] === s2[j]) {\n    res = helper(s1, s2, s3, i, j + 1, k + 1, dp);\n  }\n\n  dp['' + i + j + k] = res;\n\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "98. Validate Binary Search Tree",
+      "code": "var isValidBST = function(root) {\n  return helper(root, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);\n };\n\nvar helper = function (root, min, max) {\n  if (!root) return true;\n  if (root.val <= min || root.val >= max) return false;\n  return helper(root.left, min, root.val) && helper(root.right, root.val, max);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "99. Recover Binary Search Tree",
+      "code": "var recoverTree = function(root) {\n  var data = {\n    prev: null,\n    first: null,\n    second: null\n  };\n  var tmp = 0;\n\n  helper(root, data);\n\n  tmp = data.first.val;\n  data.first.val = data.second.val;\n  data.second.val = tmp;\n };\n\nvar helper = function (root, data) {\n  if (!root) return;\n\n  helper(root.left, data);\n\n  if (data.prev && data.prev.val >= root.val) {\n    if (!data.first) data.first = data.prev;\n    data.second = root;\n  }\n\n  data.prev = root;\n\n  helper(root.right, data);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "100. Same Tree",
+      "code": "var isSameTree = function(p, q) {\n  if ((!p && q) || (p && !q) || (p && q && p.val !== q.val)) return false;\n  if (p && q) return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);\n  return true;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "101. Symmetric Tree",
+      "code": "var isSymmetric = function(root) {\n  if (!root) return true;\n  return helper(root.left, root.right);\n };\n\nvar helper = function (p, q) {\n  if ((!p && q) || (p && !q) || (p && q && p.val !== q.val)) return false;\n  if (p && q) return helper(p.left, q.right) && helper(p.right, q.left);\n  return true;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "102. Binary Tree Level Order Traversal",
+      "code": "var levelOrder = function(root) {\n  if (!root) return [];\n  return helper([[root]], 0);\n };\n\nvar helper = function (res, level) {\n  var now = res[level];\n  var next = [];\n\n  for (var i = 0; i < now.length; i++) {\n    if (now[i].left) next.push(now[i].left);\n    if (now[i].right) next.push(now[i].right);\n    now[i] = now[i].val;\n  }\n\n  if (next.length) {\n    res.push(next);\n    helper(res, level + 1);\n  }\n\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "103. Binary Tree Zigzag Level Order Traversal",
+      "code": "var zigzagLevelOrder = function(root) {\n  if (!root) return [];\n  return helper([[root]], 0);\n };\n\nvar helper = function (res, level) {\n  var now = res[level];\n  var next = [];\n\n  for (var i = now.length - 1; i >= 0; i--) {\n    if (level % 2) {\n      if (now[i].left) next.push(now[i].left);\n      if (now[i].right) next.push(now[i].right);\n    } else {\n      if (now[i].right) next.push(now[i].right);\n      if (now[i].left) next.push(now[i].left);\n    }\n\n    now[i] = now[i].val;\n  }\n\n  if (next.length) {\n    res.push(next);\n    helper(res, level + 1);\n  }\n\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "104. Maximum Depth of Binary Tree",
+      "code": "var maxDepth = function(root) {\n  return helper(root, 0);\n };\n\nvar helper = function (root, level) {\n  if (!root) return level;\n  return Math.max(helper(root.left, level + 1), helper(root.right, level + 1));\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "105. Construct Binary Tree from Preorder and Inorder Traversal",
+      "code": "var buildTree = function(preorder, inorder) {\n  return helper(preorder, inorder, 0, 0, inorder.length - 1);\n };\n\nvar helper = function (preorder, inorder, preIndex, inStart, inEnd) {\n  if (preIndex >= preorder.length || inStart > inEnd) return null;\n\n  var index = 0;\n  var root = new TreeNode(preorder[preIndex]);\n\n  for (var i = inStart; i <= inEnd; i++) {\n    if (inorder[i] === root.val) {\n      index = i;\n      break;\n    }\n  }\n\n  if (index > inStart) root.left = helper(preorder, inorder, preIndex + 1, inStart, index - 1);\n  if (index < inEnd) root.right = helper(preorder, inorder, preIndex + index - inStart + 1, index + 1, inEnd);\n\n  return root;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "106. Construct Binary Tree from Inorder and Postorder Traversal",
+      "code": "var buildTree = function(inorder, postorder) {\n  return helper(inorder, postorder, 0, inorder.length - 1, postorder.length - 1);\n };\n\nvar helper = function (inorder, postorder, inStart, inEnd, postIndex) {\n  if (inStart > inEnd || postIndex < 0) return null;\n\n  var index = 0;\n  var root = new TreeNode(postorder[postIndex]);\n\n  for (var i = inStart; i <= inEnd; i++) {\n    if (inorder[i] === root.val) {\n      index = i;\n      break;\n    }\n  }\n\n  root.right = helper(inorder, postorder, index + 1, inEnd, postIndex - 1);\n  root.left = helper(inorder, postorder, inStart, index - 1, postIndex - 1 - (inEnd - index));\n\n  return root;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "107. Binary Tree Level Order Traversal II",
+      "code": "var levelOrderBottom = function(root) {\n  var res = [];\n  helper(root, 0, res);\n  return res.reverse();\n };\n\nvar helper = function (root, level, res) {\n  if (!root) return;\n  if (!res[level]) res[level] = [];\n  res[level].push(root.val);\n  helper(root.left, level + 1, res);\n  helper(root.right, level + 1, res);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "108. Convert Sorted Array to Binary Search Tree",
+      "code": "var sortedArrayToBST = function(nums) {\n  return helper(nums, 0, nums.length - 1);\n };\n\nvar helper = function (nums, ll, rr) {\n  if (ll > rr) return null;\n  var mid = Math.ceil((ll + rr) / 2);\n  var root = new TreeNode(nums[mid]);\n  root.left = helper(nums, ll, mid - 1);\n  root.right = helper(nums, mid + 1, rr);\n  return root;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "109. Convert Sorted List to Binary Search Tree",
+      "code": "var sortedListToBST = function(head) {\n  return helper(head, null);\n };\n\nvar helper = function (head, foot) {\n  var fast = head;\n  var slow = head;\n  var node = null;\n\n  if (head === foot) return null;\n\n  while (fast !== foot && fast.next !== foot) {\n    fast = fast.next.next;\n    slow = slow.next;\n  }\n\n  node = new TreeNode(slow.val);\n  node.left = helper(head, slow);\n  node.right = helper(slow.next, foot);\n\n  return node;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "110. Balanced Binary Tree",
+      "code": "var isBalanced = function(root) {\n  return helper(root, 0) >= 0;\n };\n\nvar helper = function (root, depth) {\n  if (!root) return depth;\n  var left = helper(root.left, depth + 1);\n  var right = helper(root.right, depth + 1);\n  if (left === -1 || right === -1 || Math.abs(left - right) > 1) return -1;\n  return Math.max(left, right);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "111. Minimum Depth of Binary Tree",
+      "code": "var minDepth = function(root) {\n  if (!root) return 0;\n  if (!root.left) return minDepth(root.right) + 1;\n  if (!root.right) return minDepth(root.left) + 1;\n  return Math.min(minDepth(root.left), minDepth(root.right)) + 1;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "112. Path Sum",
+      "code": "var hasPathSum = function(root, sum) {\n  if (!root) return false;\n  if (root.val === sum && !root.left && !root.right) return true;\n  return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val)\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "113. Path Sum II",
+      "code": "var pathSum = function(root, sum) {\n  var res = [];\n  helper(root, sum, [], res);\n  return res;\n };\n\nvar helper = function (root, sum, now, res) {\n  if (!root) return;\n\n  now.push(root.val);\n\n  if (root.val === sum && !root.left && !root.right) res.push(now);\n\n  helper(root.left, sum - root.val, Array.from(now), res);\n  helper(root.right, sum - root.val, Array.from(now), res);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "114. Flatten Binary Tree to Linked List",
+      "code": "var flatten = function (root) {\n  helper(root);\n };\n\nvar helper = function (root) {\n  if (!root) return null;\n\n  var leftLast = helper(root.left);\n  var rightLast = helper(root.right);\n\n  if (root.left) {\n    leftLast.right = root.right;\n    root.right = root.left;\n  }\n\n  root.left = null;\n\n  return rightLast || leftLast || root;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "115. Distinct Subsequences",
+      "code": "var numDistinct = function(s, t) {\n  var dp = Array(s.length).fill(0).map(_ => Array(t.length));\n  return helper(s, t, 0, 0, dp);\n };\n\nvar helper = function (s, t, sIndex, tIndex, dp) {\n  if (tIndex === t.length) return 1;\n  if (sIndex === s.length) return 0;\n  if (dp[sIndex][tIndex] === undefined) {\n    if (s[sIndex] === t[tIndex]) {\n      dp[sIndex][tIndex] = helper(s, t, sIndex + 1, tIndex + 1, dp) + helper(s, t, sIndex + 1, tIndex, dp);\n    } else {\n      dp[sIndex][tIndex] = helper(s, t, sIndex + 1, tIndex, dp);\n    }\n  }\n  return dp[sIndex][tIndex];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "116. Populating Next Right Pointers in Each Node",
+      "code": "var connect = function(root) {\n  var stack = [];\n  var tmp = null;\n  var node = null;\n  var next = null;\n  var level = 0;\n\n  if (root) stack.push([root, 0]);\n\n  while (stack.length) {\n    tmp = stack.shift();\n    node = tmp[0];\n    level = tmp[1];\n\n    next = stack[0] && stack[0][1] === level ? stack[0][0] : null;\n\n    node.next = next;\n\n    if (node.left) stack.push([node.left, level + 1]);\n    if (node.right) stack.push([node.right, level + 1]);\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "117. Populating Next Right Pointers in Each Node II",
+      "code": "var connect = function(root) {\n  var stack = [];\n  var tmp = null;\n  var node = null;\n  var next = null;\n  var level = 0;\n\n  if (root) stack.push([root, 0]);\n\n  while (stack.length) {\n    tmp = stack.shift();\n    node = tmp[0];\n    level = tmp[1];\n\n    next = stack[0] && stack[0][1] === level ? stack[0][0] : null;\n\n    node.next = next;\n\n    if (node.left) stack.push([node.left, level + 1]);\n    if (node.right) stack.push([node.right, level + 1]);\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "118. Pascal's Triangle",
+      "code": "var generate = function(numRows) {\n  var i = 0;\n  var j = 0;\n  var res = [];\n  for (i = 0; i < numRows; i++) {\n    res.push(Array(i + 1));\n    for (j = 0; j <= i; j++) {\n      if (j === 0 || j === i) {\n        res[i][j] = 1;\n      } else {\n        res[i][j] = res[i - 1][j - 1] + res[i - 1][j];\n      }\n    }\n  }\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "119. Pascal's Triangle II",
+      "code": "var getRow = function(rowIndex) {\n  var res = [];\n  var i = 0;\n  var j = 0;\n  for (i = 0; i <= rowIndex; i++) {\n    res.unshift(1);\n    for (j = 1; j < i; j++) {\n      res[j] += res[j + 1];\n    }\n  }\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "120. Triangle",
+      "code": "var minimumTotal = function(triangle) {\n  var len = triangle.length;\n  var len2 = 0;\n  var res = Number.MAX_SAFE_INTEGER;\n  var dp = Array(len);\n\n  for (var i = 0; i < len; i++) {\n    len2 = triangle[i].length;\n    dp[i] = Array(len2).fill(0);\n    for (var j = 0; j < len2; j++) {\n      dp[i][j] = getMinParent(dp, i, j) + triangle[i][j];\n      if (i === (len - 1)) res = Math.min(res, dp[i][j]);\n    }\n  }\n\n  return res === Number.MAX_SAFE_INTEGER ? 0 : res;\n };\n\nvar getMinParent = function (dp, i, j) {\n  var left = 0;\n  var right = 0;\n\n  if (i === 0) return 0;\n\n  if (j === 0) left = Number.MAX_SAFE_INTEGER;\n  else left = dp[i - 1][j - 1];\n\n  if (j === dp[i - 1].length) right = Number.MAX_SAFE_INTEGER;\n  else right = dp[i - 1][j];\n\n  return Math.min(left, right);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "121. Best Time to Buy and Sell Stock",
+      "code": "var maxProfit = function(prices) {\n  var n = prices.length;\n  var minPrice = Number.MAX_SAFE_INTEGER;\n  var maxProfit = 0;\n  for (var i = 0; i < n; i++) {\n    if (prices[i] < minPrice) minPrice = prices[i];\n    else if (prices[i] - minPrice > maxProfit) maxProfit = prices[i] - minPrice;\n  }\n  return maxProfit;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "122. Best Time to Buy and Sell Stock II",
+      "code": "var maxProfit = function(prices) {\n  var max = 0;\n  var len = prices.length;\n  for (var i = 1; i < len; i++) {\n    if (prices[i] > prices[i - 1]) max += prices[i] - prices[i - 1];\n  }\n  return max;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "123. Best Time to Buy and Sell Stock III",
+      "code": "var maxProfit = function(prices) {\n  var buy1 = Number.MIN_SAFE_INTEGER;\n  var sell1 = 0;\n  var buy2 = Number.MIN_SAFE_INTEGER;\n  var sell2 = 0;\n  var len = prices.length;\n  for (var i = 0; i < len; i++) {\n    buy1 = Math.max(buy1, -prices[i]);\n    sell1 = Math.max(sell1, buy1 + prices[i]);\n    buy2 = Math.max(buy2, sell1 - prices[i]);\n    sell2 = Math.max(sell2, buy2 + prices[i]);\n  }\n  return sell2;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "124. Binary Tree Maximum Path Sum",
+      "code": "var maxPathSum = function(root) {\n  var max = Number.MIN_SAFE_INTEGER;\n  var maxSum = function (node) {\n    if (!node) return 0;\n    var left = Math.max(maxSum(node.left), 0);\n    var right = Math.max(maxSum(node.right), 0);\n    max = Math.max(left + right + node.val, max);\n    return Math.max(left, right) + node.val;\n  };\n  maxSum(root);\n  return max;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "125. Valid Palindrome",
+      "code": "var isPalindrome = function(s) {\n  var i = 0;\n  var j = s.length - 1;\n  var m = '';\n  var n = '';\n  while (i < j) {\n    m = s[i].toLowerCase();\n    n = s[j].toLowerCase();\n    if (!isLetterOrDigit(m)) i++;\n    else if (!isLetterOrDigit(n)) j--;\n    else if (m === n) { i++; j--; }\n    else return false;\n  }\n  return true;\n };\n\nvar isLetterOrDigit = function (c) {\n  return (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9');\n };\n\n"
+    }
+  ],
+  [
+    {
+      "id": "126. Word Ladder II",
+      "code": "var findLadders = function(beginWord, endWord, wordList) {\n  var wordSet = new Set(wordList);\n  var wordNext = {};\n  var distance = {};\n  var result = [];\n\n  bfs(beginWord, endWord, wordSet, wordNext, distance);\n  dfs(beginWord, endWord, result, wordNext, distance, []);\n\n  return result;\n };\n\nvar dfs = function (word, endWord, result, wordNext, distance, path) {\n  var neighbors = wordNext[word] || [];\n\n  path.push(word);\n\n  if (word === endWord) {\n    result.push(Array.from(path));\n  } else {\n    for (var i = 0; i < neighbors.length; i++) {\n      if (distance[word] + 1 === distance[neighbors[i]]) {\n        dfs(neighbors[i], endWord, result, wordNext, distance, path);\n      }\n    }\n  }\n\n  path.pop();\n };\n\nvar bfs = function (beginWord, endWord, wordSet, wordNext, distance) {\n  var queue = [];\n  var findLast = false;\n  var neighbors = [];\n  var dis = 0;\n  var word = '';\n  var len = 0;\n  var i = 0;\n\n  queue.push(beginWord);\n  distance[beginWord] = 0;\n\n  while (len = queue.length) {\n    findLast = false;\n\n    for (i = 0; i < len; i++) {\n      word = queue.shift();\n      dis = distance[word];\n      neighbors = getNeighbors(word, wordSet);\n      if (!wordNext[word]) wordNext[word] = [];\n\n      for (var j = 0; j < neighbors.length; j++) {\n        wordNext[word].push(neighbors[j]);\n\n        if (distance[neighbors[j]] === undefined) {\n          distance[neighbors[j]] = dis + 1;\n\n          if (neighbors[j] === endWord) {\n            findLast = true;\n          } else {\n            queue.push(neighbors[j]);\n          }\n        }\n      }\n    }\n    if (findLast) break;\n  }\n };\n\nvar getNeighbors = function (word, wordSet) {\n  var start = 'a'.charCodeAt(0);\n  var len = word.length;\n  var str = '';\n  var res = [];\n\n  for (var i = 0; i < len; i++) {\n    for (var j = 0; j < 26; j++) {\n      str = word.substr(0, i) + String.fromCharCode(j + start) + word.substr(i + 1);\n      if (wordSet.has(str)) res.push(str);\n    }\n  }\n\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "127. Word Ladder",
+      "code": "var ladderLength = function(beginWord, endWord, wordList) {\n  var wordSet = new Set(wordList);\n  var queue = [];\n  var step = 0;\n  var word = '';\n  var len = 0;\n  var i = 0;\n\n  pushNextWord(beginWord, queue, wordSet);\n  step = 2;\n\n  while (len = queue.length) {\n    for (i = 0; i < len; i++) {\n      word = queue.shift();\n      if (word === endWord) return step;\n      pushNextWord(word, queue, wordSet);\n    }\n    step++;\n  }\n\n  return 0;\n };\n\nvar pushNextWord = function (word, queue, wordSet) {\n  var start = 'a'.charCodeAt(0);\n  var len = word.length;\n  var str = '';\n\n  wordSet.delete(word);\n\n  for (var i = 0; i < len; i++) {\n    for (var j = 0; j < 26; j++) {\n      str = word.substr(0, i) + String.fromCharCode(j + start) + word.substr(i + 1);\n\n      if (wordSet.has(str)) {\n        queue.push(str);\n        wordSet.delete(str);\n      }\n    }\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "128. Longest Consecutive Sequence",
+      "code": "var longestConsecutive = function(nums) {\n  var map = {};\n  var max = 0;\n  var start = 0;\n  var end = 0;\n  var num = 0;\n  var len = nums.length;\n  for (var i = 0; i < len; i++) {\n    num = nums[i];\n    if (map[num]) continue;\n    start = map[num - 1] ? map[num - 1].start : num;\n    end = map[num + 1] ? map[num + 1].end : num;\n    map[num] = { start: num, end: num };\n    map[start].end = end;\n    map[end].start = start;\n    max = Math.max(end - start + 1, max);\n  }\n  return max;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "129. Sum Root to Leaf Numbers",
+      "code": "var sumNumbers = function(root) {\n  return sum(0, root);\n };\n\nvar sum = function (before, root) {\n  if (!root) return before;\n  var val = before * 10 + root.val;\n  if (!root.left) return sum(val, root.right);\n  if (!root.right) return sum(val, root.left);\n  return sum(val, root.left) + sum(val, root.right);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "130. Surrounded Regions",
+      "code": "var solve = function(board) {\n  var xLen = board.length;\n  var yLen = (board[0] || []).length;\n  for (var i = 0; i < xLen; i++) {\n    dfs(board, i, 0, xLen, yLen);\n    dfs(board, i, yLen - 1, xLen, yLen);\n  }\n  for (var j = 0; j < yLen; j++) {\n    dfs(board, 0, j, xLen, yLen);\n    dfs(board, xLen - 1, j, xLen, yLen);\n  }\n  for (var m = 0; m < xLen; m++) {\n    for (var n = 0; n < yLen; n++) {\n      if (board[m][n] === '-') board[m][n] = 'O';\n      else if (board[m][n] === 'O') board[m][n] = 'X';\n    }\n  }\n };\n\nvar dfs = function (board, x, y, xLen, yLen) {\n  if (x >= 0 && y >= 0 && x < xLen && y < yLen && board[x][y] === 'O') {\n    board[x][y] = '-';\n    dfs(board, x + 1, y, xLen, yLen);\n    dfs(board, x - 1, y, xLen, yLen);\n    dfs(board, x, y + 1, xLen, yLen);\n    dfs(board, x, y - 1, xLen, yLen);\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "131. Palindrome Partitioning",
+      "code": "var partition = function(s) {\n  var dp = getDp(s);\n  var res = [];\n  var now = [];\n  dfs(dp, res, now, s, 0);\n  return res;\n };\n\nvar dfs = function (dp, res, now, s, index) {\n  var len = s.length;\n  if (index === len) {\n    res.push(Array.from(now));\n    return;\n  }\n  for (var i = index; i < len; i++) {\n    if (dp[index][i]) {\n      now.push(s.substring(index, i + 1));\n      dfs(dp, res, now, s, i + 1);\n      now.pop();\n    }\n  }\n };\n\nvar getDp = function (s) {\n  var len = s.length;\n  var dp = Array(len);\n  for (var i = 0; i < len; i++) {\n    for (var j = 0; j <= i; j++) {\n      if (!dp[j]) dp[j] = Array(len);\n      dp[j][i] = (s[i] === s[j]) && (i - j <= 2 || dp[j + 1][i - 1]);\n    }\n  }\n  return dp;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "132. Palindrome Partitioning II",
+      "code": "var minCut = function(s) {\n  var len = s.length;\n  var dp = Array(len).fill(0).map(_ => ({}));\n  var res = Array(len + 1).fill(0).map((_, i) => (len - i - 1));\n\n  for (var i = len - 1; i >= 0; i--) {\n    for (var j = i; j < len; j++) {\n      dp[i][j] = (s[i] === s[j] && (j - i < 2 || dp[i + 1][j - 1]));\n      if (dp[i][j]) res[i] = Math.min(res[j + 1] + 1, res[i]);\n    }\n  }\n\n  return res[0];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "133. Clone Graph",
+      "code": "var cloneGraph = function(graph) {\n  return clone(graph, {});\n };\n\nvar clone = function (node, map) {\n  if (!node) return null;\n  if (map[node.label]) return map[node.label];\n\n  var cloneNode = new UndirectedGraphNode(node.label);\n\n  map[node.label] = cloneNode;\n\n  for (var i = 0; i < node.neighbors.length; i++) {\n    cloneNode.neighbors.push(clone(node.neighbors[i], map));\n  }\n\n  return cloneNode;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "134. Gas Station",
+      "code": "var canCompleteCircuit = function(gas, cost) {\n  var len = gas.length;\n  var tank = 0;\n  var total = 0;\n  var start = 0;\n  for (var i = 0; i < len; i++) {\n    tank += gas[i] - cost[i];\n    if (tank < 0) {\n      start = i + 1;\n      total += tank;\n      tank = 0;\n    }\n  }\n  return tank + total >= 0 ? start : -1;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "135. Candy",
+      "code": "var candy = function(ratings) {\n  var len = ratings.length;\n  var res = [];\n  var sum = 0;\n  for (var i = 0; i < len; i++) {\n    res.push((i !== 0 && ratings[i] > ratings[i - 1]) ? (res[i - 1] + 1) : 1);\n  }\n  for (var j = len - 1; j >= 0; j--) {\n    if (j !== len - 1 && ratings[j] > ratings[j + 1]) res[j] = Math.max(res[j], res[j + 1] + 1);\n    sum += res[j];\n  }\n  return sum;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "136. Single Number",
+      "code": "var singleNumber = function(nums) {\n  var res = 0;\n  var len = nums.length;\n  for (var i = 0; i < len; i++) {\n    res ^= nums[i];\n  }\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "137. Single Number II",
+      "code": "var singleNumber = function(nums) {\n  let one = 0;\n  let two = 0;\n  let len = nums.length;\n  for (var i = 0; i < len; i++) {\n    one = (one ^ nums[i]) & ~two;\n    two = (two ^ nums[i]) & ~one;\n  }\n  return one;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "138. Copy List with Random Pointer",
+      "code": "var copyRandomList = function(head) {\n  if (!head) return null;\n\n  var map = new Map();\n  var now = null;\n\n  now = head;\n  while (now) {\n    map.set(now, new RandomListNode(now.label));\n    now = now.next;\n  }\n\n  now = head;\n  while (now) {\n    map.get(now).next = map.get(now.next) || null;\n    map.get(now).random = map.get(now.random) || null;\n    now = now.next;\n  }\n\n  return map.get(head);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "139. Word Break",
+      "code": "var wordBreak = function(s, wordDict) {\n  var len = wordDict.length;\n  var dp = Array(len);\n  var map = {};\n  for (var i = 0; i < len; i++) {\n    map[wordDict[i]] = true;\n  }\n  return find(s, map, dp, 0);\n };\n\nvar find = function (s, map, dp, index) {\n  if (dp[index] !== undefined) return dp[index];\n\n  var str = '';\n  var res = false;\n  var len = s.length;\n\n  if (index === len) return true;\n\n  for (var i = index; i < len; i++) {\n    str = s.substring(index, i + 1);\n    if (map[str] && find(s, map, dp, i + 1)) {\n      res = true;\n      break;\n    }\n  }\n\n  dp[index] = res;\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "140. Word Break II",
+      "code": "var wordBreak = function(s, wordDict) {\n  var dp = Array(s.length);\n  var map = {};\n  var res = [];\n\n  for (var i = 0; i < wordDict.length; i++) {\n    map[wordDict[i]] = true;\n  }\n\n  return find(s, map, dp, 0);\n };\n\nvar find = function (s, map, dp, index) {\n  if (dp[index]) return dp[index];\n\n  var str = '';\n  var tmp = null;\n  var len = s.length;\n\n  dp[index] = [];\n\n  for (var i = index; i < len; i++) {\n    str = s.substring(index, i + 1);\n    if (!map[str]) continue;\n    if (i === len - 1) {\n      dp[index].push(str);\n      break;\n    }\n    tmp = find(s, map, dp, i + 1);\n    for (var j = 0; j < tmp.length; j++) {\n      dp[index].push(str + ' ' + tmp[j]);\n    }\n  }\n\n  return dp[index];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "141. Linked List Cycle",
+      "code": "var hasCycle = function(head) {\n  var slow = head;\n  var fast = head;\n  while (slow && fast) {\n    slow = slow.next;\n    fast = fast.next ? fast.next.next : undefined;\n    if (slow === fast) return true;\n  }\n  return false;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "142. Linked List Cycle II",
+      "code": "var detectCycle = function(head) {\n  var slow = head;\n  var fast = head;\n  var entry = head;\n  while (slow && fast) {\n    slow = slow.next;\n    fast = fast.next ? fast.next.next : undefined;\n    if (slow === fast) {\n      while (entry !== slow) {\n        entry = entry.next;\n        slow = slow.next;\n      }\n      return entry;\n    }\n  }\n  return null;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "143. Reorder List",
+      "code": "var reorderList = function(head) {\n  if (!head || !head.next || !head.next.next) return;\n\n  \n  var mid = null;\n  var fast = head;\n  var slow = head;\n  while (fast.next && fast.next.next && slow.next) {\n    slow = slow.next;\n    fast = fast.next.next;\n  }\n  mid = slow;\n\n  \n  var now = mid.next.next;\n  var second = mid.next;\n  var tmp = null;\n  second.next = null;\n  while (now) {\n    tmp = now.next;\n    now.next = second;\n    second = now;\n    now = tmp;\n  }\n  mid.next = second;\n\n  \n  var before = head;\n  var after = mid.next;\n  mid.next = null;\n  while (after) {\n    tmp = before.next;\n    before.next = after;\n    before = tmp;\n    tmp = after.next;\n    after.next = before;\n    after = tmp\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "144. Binary Tree Preorder Traversal",
+      "code": "var preorderTraversal = function(root) {\n  var res = [];\n  helper(root, res);\n  return res;\n };\n\nvar helper = function (root, res) {\n  if (!root) return;\n  res.push(root.val);\n  helper(root.left, res);\n  helper(root.right, res);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "145. Binary Tree Postorder Traversal",
+      "code": "var postorderTraversal = function(root) {\n  var res = [];\n  helper(root, res);\n  return res;\n };\n\nvar helper = function (root, res) {\n  if (!root) return;\n  helper(root.left, res);\n  helper(root.right, res);\n  res.push(root.val);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "146. LRU Cache",
+      "code": "var List = function (key, val) {\n  this.key = key;\n  this.val = val;\n  this.next = null;\n  this.prev = null;\n };\n\n\nvar LRUCache = function(capacity) {\n  this.capacity = capacity;\n  this.length = 0;\n  this.map = {};\n  this.head = null;\n  this.tail = null;\n };\n\n\nLRUCache.prototype.get = function(key) {\n  var node = this.map[key];\n  if (node) {\n    this.remove(node);\n    this.insert(node.key, node.val);\n    return node.val;\n  } else {\n    return -1;\n  }\n };\n\n\nLRUCache.prototype.put = function(key, value) {\n  if (this.map[key]) {\n    this.remove(this.map[key]);\n    this.insert(key, value);\n  } else {\n    if (this.length === this.capacity) {\n      this.remove(this.head);\n      this.insert(key, value);\n    } else {\n      this.insert(key, value);\n      this.length++;\n    }\n  }\n };\n\n\n\nLRUCache.prototype.remove = function (node) {\n  var prev = node.prev;\n  var next = node.next;\n  if (next) next.prev = prev;\n  if (prev) prev.next = next;\n  if (this.head === node) this.head = next;\n  if (this.tail === node) this.tail = prev;\n  delete this.map[node.key];\n };\n\nLRUCache.prototype.insert = function (key, val) {\n  var node = new List(key, val);\n  if (!this.tail) {\n    this.tail = node;\n    this.head = node;\n  } else {\n    this.tail.next = node;\n    node.prev = this.tail;\n    this.tail = node;\n  }\n  this.map[key] = node;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "147. Insertion Sort List",
+      "code": "var insertionSortList = function(head) {\n  var newHead = new ListNode(0);\n  var now = head;\n  var next = null;\n  var tmp = null;\n  while (now) {\n    next = now.next;\n    tmp = newHead;\n    while (tmp.next && tmp.next.val < now.val) {\n      tmp = tmp.next;\n    }\n    now.next = tmp.next;\n    tmp.next = now;\n    now = next;\n  }\n  return newHead.next;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "148. Sort List",
+      "code": "var sortList = function(head) {\n  if (!head || !head.next) return head;\n  var slow = head;\n  var fast = head;\n  var prev = null;\n  while (fast && fast.next) {\n    prev = slow;\n    slow = slow.next;\n    fast = fast.next.next;\n  }\n  prev.next = null;\n  return merge(sortList(head), sortList(slow));\n };\n\nvar merge = function (list1, list2) {\n  var p1 = list1;\n  var p2 = list2;\n  var newHead = new ListNode(0);\n  var now = newHead;\n  while (p1 || p2) {\n    if (!p1 || !p2) {\n      now.next = p1 || p2;\n      break;\n    } else if (p1.val < p2.val) {\n      now.next = p1;\n      p1 = p1.next;\n    } else {\n      now.next = p2;\n      p2 = p2.next;\n    }\n    now = now.next;\n    now.next = null;\n  }\n  return newHead.next;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "149. Max Points on a Line",
+      "code": "var maxPoints = function(points) {\n  var max = 0;\n  var map = {};\n  var localMax = 0;\n  var samePoint = 0;\n  var k = 0;\n  var len = points.length;\n  for (var i = 0; i < len; i++) {\n    map = {};\n    localMax = 0;\n    samePoint = 1;\n    for (var j = i + 1; j < len; j++) {\n      if (points[i].x === points[j].x && points[i].y === points[j].y) {\n        samePoint++;\n        continue;\n      }\n        if (points[i].y === points[j].y) k = Number.MAX_SAFE_INTEGER;\n        else k = (points[i].x - points[j].x) / (points[i].y - points[j].y);\n        if (!map[k]) map[k] = 0;\n        map[k]++;\n        localMax = Math.max(localMax, map[k]);\n    }\n    localMax += samePoint;\n    max = Math.max(max, localMax);\n  }\n  return max;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "150. Evaluate Reverse Polish Notation",
+      "code": "var evalRPN = function(tokens) {\n  var stack = [];\n  var len = tokens.length;\n  var n1 = 0;\n  var n2 = 0;\n  var n3 = 0;\n  var token = '';\n  for (var i = 0; i < len; i++) {\n    token = tokens[i];\n    switch (token) {\n      case '+':\n        stack.push(stack.pop() + stack.pop());\n        break;\n      case '-':\n        n1 = stack.pop();\n        n2 = stack.pop();\n        stack.push(n2 - n1);\n        break;\n      case '*':\n        stack.push(stack.pop() * stack.pop());\n        break;\n      case '/':\n        n1 = stack.pop();\n        n2 = stack.pop();\n        n3 = n2 / n1;\n        stack.push(n3 > 0 ? Math.floor(n3) : Math.ceil(n3));\n        break;\n      default:\n        stack.push(Number(token));\n    }\n  }\n  return stack.pop();\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "151. Reverse Words in a String",
+      "code": "var reverseWords = function(str) {\n  return str.split(' ').filter(s => s !== '').reverse().join(' ');\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "152. Maximum Product Subarray",
+      "code": "var maxProduct = function(nums) {\n  if (!nums.length) return 0;\n  var localMax = 0;\n  var localMin = 0;\n  var lastMax = nums[0];\n  var lastMin = nums[0];\n  var max = nums[0];\n  for (var i = 1; i < nums.length; i++) {\n    localMax = Math.max(lastMax * nums[i], lastMin * nums[i], nums[i]);\n    localMin = Math.min(lastMax * nums[i], lastMin * nums[i], nums[i]);\n    max = Math.max(max, localMax);\n    lastMax = localMax;\n    lastMin = localMin;\n  }\n  return max;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "153. Find Minimum in Rotated Sorted Array",
+      "code": "var findMin = function(nums) {\n  var left = 0;\n  var right = nums.length - 1;\n  var mid = 0;\n  while (left < right) {\n    mid = Math.floor((left + right) / 2);\n    if (nums[mid - 1] > nums[mid]) return nums[mid];\n    if (nums[mid] < nums[left] || nums[mid] < nums[right]) {\n      right = mid - 1;\n    } else {\n      left = mid + 1;\n    }\n  }\n  return nums[left];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "154. Find Minimum in Rotated Sorted Array II",
+      "code": "var findMin = function(nums) {\n  var left = 0;\n  var right = nums.length - 1;\n  var mid = 0;\n  while (left < right) {\n    mid = Math.floor((left + right) / 2);\n    if (nums[mid] > nums[right]) {\n      left = mid + 1;\n    } else if (nums[mid] < nums[right]) {\n      right = mid;\n    } else {\n      right--;\n    }\n  }\n  return nums[left];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "155. Min Stack",
+      "code": "var MinStack = function() {\n  this.min = [];\n  this.stack = [];\n };\n\n/** \n * @param {number} x\n * @return {void}\n */\nMinStack.prototype.push = function(x) {\n  if (this.min.length === 0 || x <= this.min[this.min.length - 1]) this.min.push(x);\n  this.stack.push(x);\n };\n\n/**\n * @return {void}\n */\nMinStack.prototype.pop = function() {\n  var val = this.stack.pop();\n  if (val === this.min[this.min.length - 1]) this.min.pop();\n };\n\n/**\n * @return {number}\n */\nMinStack.prototype.top = function() {\n  return this.stack.length ? this.stack[this.stack.length - 1] : 0;\n };\n\n/**\n * @return {number}\n */\nMinStack.prototype.getMin = function() {\n  return this.min.length ? this.min[this.min.length - 1] : 0;\n };\n\n/** \n * Your MinStack object will be instantiated and called as such:\n * var obj = Object.create(MinStack).createNew()\n * obj.push(x)\n * obj.pop()\n * var param_3 = obj.top()\n * var param_4 = obj.getMin()\n */\n"
+    }
+  ],
+  [
+    {
+      "id": "160. Intersection of Two Linked Lists",
+      "code": "var getIntersectionNode = function(headA, headB) {\n  var lenA = getLen(headA);\n  var lenB = getLen(headB);\n  let diff = Math.abs(lenA - lenB);\n\n  if (lenA > lenB) {\n    while (diff--) headA = headA.next;\n  } else {\n    while (diff--) headB = headB.next;\n  }\n\n  while (headA !== headB) {\n    headA = headA.next;\n    headB = headB.next;\n  }\n\n  return headA;\n };\n\nvar getLen = function (head) {\n  var len = 0;\n  while (head) {\n    len++;\n    head = head.next;\n  }\n  return len;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "162. Find Peak Element",
+      "code": "var findPeakElement = function(nums) {\n  if (!nums.length) return -1;\n  var left = 0;\n  var right = nums.length - 1;\n  var mid1 = 0;\n  var mid2 = 0;\n  while (left < right) {\n    mid1 = Math.floor((left + right) / 2);\n    mid2 = mid1 + 1;\n    if (nums[mid1] < nums[mid2]) {\n      left = mid2;\n    } else {\n      right = mid1;\n    }\n  }\n  return left;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "164. Maximum Gap",
+      "code": "var maximumGap = function(nums) {\n  var len = nums.length;\n  if (len < 2) return 0;\n\n  var max = Math.max(...nums);\n  var min = Math.min(...nums);\n  if (max === min) return 0;\n\n  var minBuckets = Array(len - 1).fill(Number.MAX_SAFE_INTEGER);\n  var maxBuckets = Array(len - 1).fill(Number.MIN_SAFE_INTEGER);\n  var gap = Math.ceil((max - min) / (len - 1));\n  var index = 0;\n  for (var i = 0; i < len; i++) {\n    if (nums[i] === min || nums[i] === max) continue;\n    index = Math.floor((nums[i] - min) / gap);\n    minBuckets[index] = Math.min(minBuckets[index], nums[i]);\n    maxBuckets[index] = Math.max(maxBuckets[index], nums[i]);\n  }\n\n  var maxGap = Number.MIN_SAFE_INTEGER;\n  var preVal = min;\n  for (var j = 0; j < len - 1; j++) {\n    if (minBuckets[j] === Number.MAX_SAFE_INTEGER && maxBuckets[j] === Number.MIN_SAFE_INTEGER) continue;\n    maxGap = Math.max(maxGap, minBuckets[j] - preVal);\n    preVal = maxBuckets[j];\n  }\n  maxGap = Math.max(maxGap, max - preVal);\n\n  return maxGap;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "165. Compare Version Numbers",
+      "code": "var compareVersion = function(version1, version2) {\n  var v1 = version1.split('.');\n  var v2 = version2.split('.');\n  var len = Math.max(v1.length, v2.length);\n  var t1 = 0;\n  var t2 = 0;\n  for (var i = 0; i < len; i++) {\n    t1 = parseInt(v1[i] || 0);\n    t2 = parseInt(v2[i] || 0);\n    if (t1 > t2) return 1;\n    if (t1 < t2) return -1;\n  }\n  return 0;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "166. Fraction to Recurring Decimal",
+      "code": "var fractionToDecimal = function(numerator, denominator) {\n  if (denominator === 0) return 'NaN';\n\n  var sign = numerator !== 0 && ((numerator > 0) ^ (denominator > 0));\n  var num = Math.abs(numerator);\n  var de = Math.abs(denominator);\n  var result = sign ? '-' : '';\n  var map = {};\n\n  result += Math.floor(num / de);\n  num %= de;\n\n  if (num === 0) return result;\n\n  result += '.';\n\n  while (num > 0) {\n    num *= 10;\n\n    if (map[num] !== undefined) {\n      result = result.substr(0, map[num]) + '(' + result.substr(map[num]) + ')';\n      break;\n    } else {\n      map[num] = result.length;\n    }\n\n    result += Math.floor(num / de);\n    num %= de;\n  }\n\n  return result;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "167. Two Sum II - Input array is sorted",
+      "code": "var twoSum = function(numbers, target) {\n  var sum = 0;\n  var left = 0;\n  var right = numbers.length - 1;\n  while (left < right) {\n    sum = numbers[left] + numbers[right];\n    if (sum === target) {\n      return [left + 1, right + 1];\n    } else if (sum > target) {\n      right--;\n    } else {\n      left++;\n    }\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "168. Excel Sheet Column Title",
+      "code": "var convertToTitle = function(n) {\n  var num = n;\n  var tmp = 0;\n  var res = '';\n  while (num > 0) {\n    tmp = num % 26;\n    if (tmp === 0) tmp = 26;\n    res = getChar(tmp) + res;\n    num = (num - tmp) / 26;\n  }\n  return res;\n };\n\nvar getChar = function (num) {\n  var start = 'A'.charCodeAt(0);\n  return String.fromCharCode(start + num - 1);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "169. Majority Element",
+      "code": "var majorityElement = function(nums) {\n  var map = {};\n  var max = 0;\n  var majorNum = 0;\n  var len = nums.length;\n  for (var i = 0; i < len; i++) {\n    if (!map[nums[i]]) map[nums[i]] = 0;\n    map[nums[i]]++;\n    if (map[nums[i]] > max) {\n      majorNum = nums[i];\n      max = map[nums[i]];\n    }\n  }\n  return majorNum;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "171. Excel Sheet Column Number",
+      "code": "var titleToNumber = function(s) {\n  var res = 0;\n  var num = 0;\n  var len = s.length;\n  for (var i = 0; i < len; i++) {\n    num = getNum(s[len - 1 - i]);\n    res += Math.pow(26, i) * num;\n  }\n  return res;\n };\n\nvar getNum = function (char) {\n  var start = 'A'.charCodeAt(0) - 1;\n  return char.charCodeAt(0) - start;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "172. Factorial Trailing Zeroes",
+      "code": "var trailingZeroes = function(n) {\n  if (n === 0) return 0;\n  return Math.floor(n / 5) + trailingZeroes(Math.floor(n / 5));\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "173. Binary Search Tree Iterator",
+      "code": "var BSTIterator = function(root) {\n  this.stack = [];\n  this.pushAll(root);\n };\n\n\n\nBSTIterator.prototype.hasNext = function() {\n  return this.stack.length !== 0;\n };\n\n\nBSTIterator.prototype.next = function() {\n  var node = this.stack.pop();\n  this.pushAll(node.right);\n  return node.val;\n };\n\n\n\nBSTIterator.prototype.pushAll = function (node) {\n  while (node) {\n    this.stack.push(node);\n    node = node.left;\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "174. Dungeon Game",
+      "code": "var calculateMinimumHP = function(dungeon) {\n  var m = dungeon.length;\n  var n = dungeon[0].length;\n  var dp = Array(m + 1).fill(0).map(_ => Array(n + 1).fill(Number.MAX_SAFE_INTEGER));\n  var tmp = 0;\n\n  dp[m][ n - 1] = 1;\n  dp[m - 1][n] = 1;\n\n  for (var i = m - 1; i >= 0; i--) {\n    for (var j = n - 1; j >= 0; j--) {\n      tmp = Math.min(dp[i][j + 1], dp[i + 1][j]) - dungeon[i][j];\n      dp[i][j] = tmp <= 0 ? 1 : tmp;\n    }\n  }\n\n  return dp[0][0];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "176. Second Highest Salary",
+      "code": "# Write your MySQL query statement below\nselect max(Salary) as SecondHighestSalary from Employee where Salary < (select max(Salary) from Employee)\n"
+    }
+  ],
+  [
+    {
+      "id": "178. Rank Scores",
+      "code": "# Write your MySQL query statement below\nSELECT\n  Score,\n  (SELECT count(distinct Score) FROM Scores WHERE Score >= s.Score) as Rank\nFROM\n  Scores s\nORDER BY\n  Score DESC\n"
+    }
+  ],
+  [
+    {
+      "id": "179. Largest Number",
+      "code": "var largestNumber = function(nums) {\n  var res = nums.sort(function (a, b) {\n    var str1 = '' + a + b;\n    var str2 = '' + b + a;\n    if (str1 === str2) return 0;\n    return str1 > str2 ? -1 : 1;\n  }).join('');\n  return res[0] === '0' ? '0' : res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "187. Repeated DNA Sequences",
+      "code": "var findRepeatedDnaSequences = function(s) {\n    var res = [];\n    var map = {};\n    for (var i = 0; i <= s.length - 10; i++) {\n        var str = s.slice(i, i + 10);\n        var num = map[str];\n        if (num === -1) continue;\n        if (num === 1) {\n            map[str] = -1;\n            res.push(str);\n            continue;\n        }\n        map[str] = 1;\n    }\n    return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "191. Number of 1 Bits",
+      "code": "var hammingWeight = function(n) {\n    var count = 0;\n    while (n) {\n        if (n & 1) count++;\n        n >>>= 1;\n    }\n    return count;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "196. Delete Duplicate Emails",
+      "code": "# Write your MySQL query statement below\nDELETE p1 FROM Person p1, Person p2 WHERE p1.email = p2.email AND p1.id > p2.id;\n"
+    }
+  ],
+  [
+    {
+      "id": "198. House Robber",
+      "code": "var rob = function (nums) {\n  return helper([], 0, nums);\n };\n\nvar helper = function (dp, i, nums) {\n  if (i >= nums.length) return 0;\n  if (dp[i] === undefined) {\n    dp[i] = Math.max(\n      helper(dp, i + 1, nums),\n      nums[i] + helper(dp, i + 2, nums)\n    );\n  }\n  return dp[i];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "199. Binary Tree Right Side View",
+      "code": "var rightSideView = function(root) {\n  var queue = [{ node: root, level: 0 }];\n  var result = [];\n  var now = null;\n  while (now = queue.shift()) {\n    if (!now.node) continue;\n    result[now.level] = now.node.val;\n    queue.push({ node: now.node.left, level: now.level + 1 });\n    queue.push({ node: now.node.right, level: now.level + 1 });\n  }\n  return result;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "200. Number of Islands",
+      "code": "var numIslands = function(grid) {\n  var m = grid.length;\n  var n = (grid[0] || []).length;\n  var dp = Array(m).fill(0).map(_ => Array(n));\n  var num = 0;\n  for (var i = 0; i < n; i++) {\n    for (var j = 0; j < m; j++) {\n      if (dp[j][i] !== true && grid[j][i] === '1') {\n        num++;\n        mark(dp, j, i, grid);\n      }\n    }\n  }\n  return num;\n };\n\nvar mark = function (dp, j, i, grid) {\n  if (dp[j] && dp[j][i] !== true && grid[j][i] === '1') {\n    dp[j][i] = true;\n    mark(dp, j - 1, i, grid);\n    mark(dp, j + 1, i, grid);\n    mark(dp, j, i - 1, grid);\n    mark(dp, j, i + 1, grid);\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "201. Bitwise AND of Numbers Range",
+      "code": "var rangeBitwiseAnd = function(left, right) {\n    var count = 0;\n    while (left !== right) {\n        left >>= 1;\n        right >>= 1;\n        count += 1;\n    }\n    return left << count;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "202. Happy Number",
+      "code": "var isHappy = function(n) {\n  var map = {};\n  var tmp = 0;\n\n  if (n < 1) return false;\n\n  while (n !== 1 && !map[n]) {\n    map[n] = true;\n    tmp = 0;\n\n    while (n > 0) {\n      tmp += Math.pow(n % 10, 2);\n      n = Math.floor(n / 10);\n    }\n\n    n = tmp;\n  }\n\n  return n === 1;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "206. Reverse Linked List",
+      "code": "var reverseList = function(head) {\n  var newHead = null;\n  var tmp = null;\n  while (head) {\n    tmp = head.next;\n    head.next = newHead;\n    newHead = head;\n    head = tmp;\n  }\n  return newHead;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "207. Course Schedule",
+      "code": "var canFinish = function(numCourses, prerequisites) {\n  var edges = Array(numCourses).fill(0).map(_ => Array(numCourses).fill(0));\n  var incoming = Array(numCourses).fill(0);\n  var len = prerequisites.length;\n  var post = 0;\n  var prev = 0;\n  var queue = [];\n  var num = 0;\n  var count = 0;\n\n  for (var i = 0; i < len; i++) {\n    prev = prerequisites[i][1];\n    post = prerequisites[i][0];\n    if (edges[prev][post] === 0) {\n      incoming[post]++;\n      edges[prev][post] = 1;\n    }\n  }\n\n  for (var j = 0; j < numCourses; j++) {\n    if (incoming[j] === 0) queue.push(j);\n  }\n\n  while (queue.length) {\n    count++;\n    num = queue.pop()\n    for (var k = 0; k < numCourses; k++) {\n      if (edges[num][k] === 1 && --incoming[k] === 0) queue.push(k);\n    }\n  }\n\n  return count === numCourses;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "208. Implement Trie (Prefix Tree)",
+      "code": "var Node = function () {\n  this.children = {};\n  this.isWord = false;\n };\n\n\nvar Trie = function() {\n  this.root = new Node();\n };\n\n\nTrie.prototype.insert = function(word) {\n  var len = word.length;\n  var node = this.root;\n  var char = 0;\n  for (var i = 0; i < len; i++) {\n    char = word[i];\n    if (!node[char]) node[char] = new Node();\n    node = node[char];\n  }\n  node.isWord = true;\n };\n\n\nTrie.prototype.search = function(word) {\n  var len = word.length;\n  var node = this.root;\n  var char = 0;\n  for (var i = 0; i < len; i++) {\n    char = word[i];\n    if (!node[char]) return false;\n    node = node[char];\n  }\n  return node.isWord;\n };\n\n\nTrie.prototype.startsWith = function(prefix) {\n  var len = prefix.length;\n  var node = this.root;\n  var char = 0;\n  for (var i = 0; i < len; i++) {\n    char = prefix[i];\n    if (!node[char]) return false;\n    node = node[char];\n  }\n  return true;\n };\n\n\n"
+    }
+  ],
+  [
+    {
+      "id": "209. Minimum Size Subarray Sum",
+      "code": "var minSubArrayLen = function(target, nums) {\n    var left = 0;\n    var right = 0;\n    var sum = nums[0];\n    var min = Number.MAX_SAFE_INTEGER;\n    while (right < nums.length && left <= right) {\n        if (sum < target) {\n            right++;\n            sum += nums[right];\n        } else {\n            min = Math.min(min, right - left + 1);\n            sum -= nums[left];\n            left++;\n        }\n    }\n    return min === Number.MAX_SAFE_INTEGER ? 0 : min;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "213. House Robber II",
+      "code": "var rob = function(nums) {\n    var arr1 = Array(nums.length); \n    var arr2 = Array(nums.length); \n    for (var i = nums.length - 1; i > 0; i--) {\n      arr1[i] = Math.max(nums[i] + (arr1[i + 2] || 0), arr1[i + 1] || 0);\n      arr2[i] = i === nums.length - 1 ? 0 : Math.max(nums[i] + (arr2[i + 2] || 0), arr2[i + 1] || 0);\n    }\n    return Math.max(nums[0] + (arr2[2] || 0), arr1[1] || 0);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "215. Kth Largest Element in an Array",
+      "code": "var findKthLargest = function(nums, k) {\n  return quickSelect(nums, 0, nums.length - 1, k);\n };\n\nvar quickSelect = function (nums, left, right, k) {\n  var le = left;\n  var ri = right;\n  var mid = nums[right];\n  while (le < ri) {\n    if (nums[le++] > mid) swap(nums, --le, --ri);\n  }\n  swap(nums, le, right);\n  var len = right - le;\n  if (len === k - 1) return nums[le];\n  else if (len < k - 1) return quickSelect(nums, left, le - 1, k - len - 1);\n  else return quickSelect(nums, le + 1, right, k);\n };\n\nvar swap = function (nums, i, j) {\n  var tmp = nums[i];\n  nums[i] = nums[j];\n  nums[j] = tmp;\n}\n"
+    }
+  ],
+  [
+    {
+      "id": "221. Maximal Square",
+      "code": "var maximalSquare = function(matrix) {\n  var m = matrix.length;\n  var n = (matrix[0] || []).length;\n  var dp = Array(m).fill(0).map(_ => Array(n));\n  var max = 0;\n\n  for (var k = 0; k < m; k++) {\n    dp[k][0] = matrix[k][0] === '1' ? 1 : 0;\n    max = Math.max(max, dp[k][0]);\n  }\n\n  for (var p = 0; p < n; p++) {\n    dp[0][p] = matrix[0][p] === '1' ? 1 : 0;\n    max = Math.max(max, dp[0][p]);\n  }\n\n  for (var i = 1; i < m; i++) {\n    for (var j = 1; j < n; j++) {\n      if (matrix[i][j] === '1') {\n        dp[i][j] = Math.min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]) + 1;\n        max = Math.max(max, dp[i][j]);\n      } else {\n        dp[i][j] = 0;\n      }\n    }\n  }\n\n  return max * max;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "224. Basic Calculator",
+      "code": "var calculate = function(s) {\n    var res = 0;\n    var i = 0;\n    var isPlus = true;\n    while (i < s.length) {\n        switch (s[i]) {\n            case ' ':\n                i++;\n                break;\n            case '+':\n                isPlus = true;\n                i++;\n                break;\n            case '-':\n                isPlus = false;\n                i++;\n                break;\n            case '(':\n                i++;\n                var num = 0;\n                var from = i;\n                while (!(num === 0 && s[i] === ')')) {\n                    if (s[i] === '(') num++;\n                    if (s[i] === ')') num--;\n                    i++;\n                }\n                isPlus\n                    ? (res += calculate(s.slice(from, i)))\n                    : (res -= calculate(s.slice(from, i)))\n                i++;\n                break;\n            default:\n                var num = Number(s[i]);\n                while (s[i + 1] >= '0' && s[i + 1] <= '9') {\n                    i++;\n                    num *= 10;\n                    num += Number(s[i]);\n                }\n                isPlus ? (res += num) : (res -= num);\n                i++;\n                break;\n        }\n    }\n    return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "226. Invert Binary Tree",
+      "code": "var invertTree = function(root) {\n  if (root) {\n    swap(root);\n    invertTree(root.left);\n    invertTree(root.right);\n  }\n  return root;\n };\n\nvar swap = function (node) {\n  var left = node.left;\n  node.left = node.right;\n  node.right = left;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "229. Majority Element II",
+      "code": "var majorityElement = function(nums) {\n    var num1 = Number.MAX_SAFE_INTEGER;\n    var count1 = 0;\n    var num2 = Number.MAX_SAFE_INTEGER;\n    var count2 = 0;\n    for (var i = 0; i < nums.length; i++) {\n        if (nums[i] === num1) {\n            count1 += 1;\n        } else if (nums[i] === num2) {\n            count2 += 1;\n        } else if (count1 === 0) {\n            num1 = nums[i];\n            count1 += 1;\n        } else if (count2 === 0) {\n            num2 = nums[i];\n            count2 += 1;\n        } else {\n            count1 -= 1;\n            count2 -= 1;\n        }\n    }\n    var realCount1 = 0;\n    var realCount2 = 0;\n    for (var i = 0; i < nums.length; i++) {\n        if (nums[i] === num1) realCount1++;\n        if (nums[i] === num2) realCount2++;\n    }\n    return (realCount1 > nums.length / 3) && (realCount2 > nums.length / 3)\n        ? [num1, num2]\n        : ((realCount1 > nums.length / 3) ? [num1] : ((realCount2 > nums.length / 3) ? [num2] : []))\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "230. Kth Smallest Element in a BST",
+      "code": "var kthSmallest = function(root, k) {\n    var queue = [root];\n    var num = 0;\n    while (queue.length) {\n        var node = queue.pop();\n        node.right && queue.push(node.right);\n        if (node.left) {\n            queue.push(new TreeNode(node.val));\n            queue.push(node.left);\n        } else {\n            num++;\n            if (num === k) return node.val;\n        }\n    }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "231. Power of Two",
+      "code": "var isPowerOfTwo = function(n) {\n    if (n <= 0) return false;\n    if (n === 1) return true;\n    if (n % 2) return false;\n    return isPowerOfTwo(n / 2);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "232. Implement Queue using Stacks",
+      "code": "var MyQueue = function() {\n    this.stack1 = [];\n    this.stack2 = [];\n };\n\n\nMyQueue.prototype.push = function(x) {\n    this.stack1.push(x);\n };\n\n\nMyQueue.prototype.pop = function() {\n    if (this.stack2.length === 0) {\n        while (this.stack1.length) this.stack2.push(this.stack1.pop());\n    }\n    return this.stack2.pop();\n };\n\n\nMyQueue.prototype.peek = function() {\n    if (this.stack2.length === 0) {\n        while (this.stack1.length) this.stack2.push(this.stack1.pop());\n    }\n    return this.stack2[this.stack2.length - 1];\n };\n\n\nMyQueue.prototype.empty = function() {\n    return this.stack1.length === 0 && this.stack2.length === 0;\n };\n\n\n"
+    }
+  ],
+  [
+    {
+      "id": "234. Palindrome Linked List",
+      "code": "var isPalindrome = function(head) {\n  var left = null;\n  var right = null;\n  var slow = head;\n  var fast = head;\n  var tmp = null;\n\n  while (fast && fast.next) {\n    fast = fast.next.next;\n    tmp = slow.next;\n    slow.next = left;\n    left = slow;\n    slow = tmp;\n  }\n  right = fast ? slow.next : slow;\n\n  while (left && right) {\n    if (left.val !== right.val) return false;\n    left = left.next;\n    right = right.next;\n  }\n\n  return true;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "238. Product of Array Except Self",
+      "code": "var productExceptSelf = function(nums) {\n  var len = nums.length;\n  var left = Array(len + 1);\n  var right = Array(len + 1);\n  var res = Array(len);\n\n  left[0] = 1;\n  right[0] = 1;\n\n  for (var i = 0; i < len; i++) {\n    left[i + 1] = left[i] * nums[i];\n  }\n\n  for (var j = 0; j < len; j++) {\n    right[j + 1] = right[j] * nums[len - 1 - j];\n  }\n\n  for (var k = 0; k < len; k++) {\n    res[k] = left[k] * right[len - k - 1];\n  }\n\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "239. Sliding Window Maximum",
+      "code": "var maxSlidingWindow = function(nums, k) {\n    var arr = [];\n    var res = [];\n    for (var i = 0; i < nums.length; i++) {\n        while (arr.length && i - arr[0] >= k) arr.shift();\n        while (arr.length && nums[i] > nums[arr[arr.length - 1]]) arr.pop();\n        arr.push(i);\n        if (i >= k - 1) res.push(nums[arr[0]]);\n    }\n    return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "240. Search a 2D Matrix II",
+      "code": "var searchMatrix = function(matrix, target) {\n  var n = matrix.length;\n  var m = (matrix[0] || []).length;\n  var x = m - 1;\n  var y = 0;\n  var tmp = 0;\n  while (x >= 0 && y < n) {\n    tmp = matrix[y][x];\n    if (target === tmp) {\n      return true;\n    } else if (target > tmp) {\n      y++;\n    } else {\n      x--;\n    }\n  }\n  return false;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "242. Valid Anagram",
+      "code": "var isAnagram = function(s, t) {\n  var lenA = s.length;\n  var lenB = t.length;\n  var map = {};\n\n  if (lenA !== lenB) return false;\n\n  for (var i = 0; i < lenA; i++) {\n    if (!map[s[i]]) map[s[i]] = 0;\n    map[s[i]]++;\n  }\n\n  for (var j = 0; j < lenB; j++) {\n    if (!map[t[j]]) return false;\n    map[t[j]]--;\n  }\n\n  return true;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "258. Add Digits",
+      "code": "var addDigits = function(num) {\n    var res = 0;\n    while (num) {\n        res += num % 10;\n        num = Math.floor(num / 10);\n    }\n    return res < 10 ? res : addDigits(res);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "260. Single Number III",
+      "code": "var singleNumber = function(nums) {\n    var num = nums.reduce((s, n) => s ^ n, 0);\n    var lastBitNum = num & -num;\n    var res = [0, 0];\n    for (var i = 0; i < nums.length; i++) {\n        if (nums[i] & lastBitNum) {\n            res[0] ^= nums[i];\n        } else {\n            res[1] ^= nums[i];\n        }\n    }\n    return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "263. Ugly Number",
+      "code": "var isUgly = function(num) {\n  if (num < 1) return false;\n  if (num === 1) return true;\n\n  var divisor = [2, 3, 5];\n\n  for (var i = 0; i < divisor.length; i++) {\n    while (num && num % divisor[i] === 0) {\n      num = Math.floor(num / divisor[i]);\n    }\n  }\n\n  return num === 1;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "264. Ugly Number II",
+      "code": "var nthUglyNumber = function(n) {\n  if (n < 1) return 0;\n\n  var dp = [1];\n  var t2 = 0;\n  var t3 = 0;\n  var t5 = 0;\n\n  for (var i = 1; i < n; i++) {\n    dp[i] = Math.min(dp[t2] * 2, dp[t3] * 3, dp[t5] * 5);\n    if(dp[i] === dp[t2]*2) t2++; \n    if(dp[i] === dp[t3]*3) t3++;\n    if(dp[i] === dp[t5]*5) t5++;\n  }\n\n  return dp[n - 1];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "268. Missing Number",
+      "code": "var missingNumber = function(nums) {\n    var sum = nums.reduce((s, i) => s + i, 0);\n    return nums.length * (nums.length + 1) / 2 - sum;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "283. Move Zeroes",
+      "code": "var moveZeroes = function(nums) {\n  var len = nums.length;\n  var lastZeroIndex = -1;\n  for (var i = 0; i < len; i++) {\n    if (nums[i] === 0 && lastZeroIndex === -1) {\n      lastZeroIndex = i;\n    } else if (nums[i] !== 0 && lastZeroIndex !== -1) {\n      swap(nums, i, lastZeroIndex);\n      lastZeroIndex += 1;\n    }\n  }\n };\n\nvar swap = function(arr, i, j) {\n  var tmp = arr[i];\n  arr[i] = arr[j];\n  arr[j] = tmp;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "287. Find the Duplicate Number",
+      "code": "var findDuplicate = function(nums) {\n  var left = 0;\n  var right = nums.length - 1;\n  while (left < right) {\n      var mid = left + Math.floor((right - left) / 2);\n      var num = getNum(nums, mid);\n      if (num <= mid) {\n          left = mid + 1;\n      } else {\n          right = mid;\n      }\n  }\n  return left;\n };\n\nvar getNum = function(nums, n) {\n    var num = 0;\n    for (var i = 0; i < nums.length; i++) {\n        if (nums[i] <= n) num++;\n    }\n    return num;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "292. Nim Game",
+      "code": "var canWinNim = function(n) {\n    return n % 4 ? true : false;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "295. Find Median from Data Stream",
+      "code": "var MedianFinder = function() {\n    this.arr = [];\n };\n\n\nMedianFinder.prototype.addNum = function(num) {\n    if (!this.arr.length) {\n        this.arr.push(num);\n        return;\n    }\n    var left = 0;\n    var right = this.arr.length - 1;\n    while (left <= right) {\n        if (left === right) {\n            this.arr.splice(this.arr[left] >= num ? left : (left + 1), 0, num);\n            return;\n        }\n        var mid = left + Math.floor((right - left) / 2);\n        if (this.arr[mid] === num) {\n            left = mid;\n            right = mid;\n        } else if (this.arr[mid] > num) {\n            right = mid;\n        } else {\n            left = mid + 1;\n        }\n    }\n };\n\n\nMedianFinder.prototype.findMedian = function() {\n    return this.arr.length % 2\n        ? this.arr[(this.arr.length - 1) / 2]\n        : (this.arr[this.arr.length / 2] + this.arr[this.arr.length / 2 - 1]) / 2;\n\n };\n\n\n"
+    }
+  ],
+  [
+    {
+      "id": "300. Longest Increasing Subsequence",
+      "code": "var lengthOfLIS = function(nums) {\n    var arr = [nums[0]];\n    for (var i = 1; i < nums.length; i++) {\n        if (nums[i] > arr[arr.length - 1]) {\n            arr.push(nums[i]);\n        } else {\n            var index = binarySearch(arr, nums[i]);\n            arr[index] = nums[i];\n        }\n    }\n    return arr.length;\n };\n\nvar binarySearch = function(arr, num) {\n    var left = 0;\n    var right = arr.length - 1;\n    while (left < right) {\n        var mid = left + Math.floor((right - left) / 2);\n        if (arr[mid] > num) {\n            right = mid;\n        } else if (arr[mid] === num) {\n            return mid;\n        } else {\n            left = mid + 1;\n        }\n    }\n    return left;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "303. Range Sum Query - Immutable",
+      "code": "var NumArray = function(nums) {\n    this.leftSum = Array(nums.length);\n    for (var i = 0; i < nums.length; i++) {\n        this.leftSum[i] = (this.leftSum[i - 1] || 0) + nums[i];\n    }\n };\n\n\nNumArray.prototype.sumRange = function(left, right) {\n    return this.leftSum[right] - (this.leftSum[left - 1] || 0);\n };\n\n\n"
+    }
+  ],
+  [
+    {
+      "id": "304. Range Sum Query 2D - Immutable",
+      "code": "var NumMatrix = function(matrix) {\n    var m = matrix.length;\n    var n = matrix[0].length;\n    var cache = Array(m + 1).fill(0).map(() => Array(n + 1).fill(0));\n    for (var i = 1; i <= m; i++) {\n        for (var j = 1; j <= n; j++) {\n            cache[i][j] = cache[i - 1][j] + cache[i][j - 1] - cache[i - 1][j - 1] + matrix[i - 1][j - 1];\n        }\n    }\n    this.cache = cache;\n };\n\n\nNumMatrix.prototype.sumRegion = function(row1, col1, row2, col2) {\n    return this.cache[row2 + 1][col2 + 1] - this.cache[row2 + 1][col1] - this.cache[row1][col2 + 1] + this.cache[row1][col1];\n };\n\n\n"
+    }
+  ],
+  [
+    {
+      "id": "315. Count of Smaller Numbers After Self",
+      "code": "var countSmaller = function(nums) {\n    var arr = nums.map((num, i) => [num, i]);\n    var res = Array(nums.length).fill(0);\n    mergeSort(arr, res);\n    return res;\n };\n\nvar mergeSort = function(arr, res) {\n    if (arr.length === 1) return arr;\n    var mid = Math.floor(arr.length / 2);\n    var left = mergeSort(arr.slice(0, mid), res);\n    var right = mergeSort(arr.slice(mid), res);\n    return merge(left, right, res);\n };\n\nvar merge = function(left, right, res) {\n    var arr = [];\n    var leftIndex = 0;\n    var rightIndex = 0;\n    while (leftIndex < left.length || rightIndex < right.length) {\n        if (!right[rightIndex] || (left[leftIndex] && left[leftIndex][0] > right[rightIndex][0])) {\n            arr.push(left[leftIndex]);\n            res[left[leftIndex][1]] += right.length - rightIndex;\n            leftIndex += 1;\n        } else {\n            arr.push(right[rightIndex]);\n            rightIndex += 1;\n        }\n    }\n    return arr;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "316. Remove Duplicate Letters",
+      "code": "var removeDuplicateLetters = function(s) {\n  var count = {};\n  var len = s.length;\n  var index = 0;\n\n  if (!len) return '';\n\n  for (var i = 0; i < len; i++) {\n    if (count[s[i]] === undefined) count[s[i]] = 0;\n    count[s[i]]++;\n  }\n\n  for (var j = 0; j < len; j++) {\n    if (s[j] < s[index]) index = j;\n    if (--count[s[j]] === 0) break;\n  }\n\n  var firstChar = s[index];\n  var restString = s.substr(index + 1);\n\n  restString = restString.replace(new RegExp(firstChar, 'g'), '');\n\n  return firstChar + removeDuplicateLetters(restString);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "319. Bulb Switcher",
+      "code": "var bulbSwitch = function(n) {\n    return Math.floor(Math.sqrt(n));\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "322. Coin Change",
+      "code": "var coinChange = function(coins, amount) {\n  var dp = [];\n  return coin(coins, amount, dp);\n };\n\nvar coin = function (coins, amount, dp) {\n  if (dp[amount - 1] !== undefined) return dp[amount - 1];\n  if (amount < 0) return -1;\n  if (amount === 0) return 0;\n\n  var count = Number.MAX_SAFE_INTEGER;\n  var tmp = 0;\n\n  for (var i = 0; i < coins.length; i++) {\n    tmp = coin(coins, amount - coins[i], dp);\n    if (tmp !== -1) count = Math.min(count, tmp + 1);\n  }\n\n  dp[amount - 1] = count === Number.MAX_SAFE_INTEGER ? -1 : count;\n\n  return dp[amount - 1];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "332. Reconstruct Itinerary",
+      "code": "var findItinerary = function(tickets) {\n  tickets.sort((a, b) => (a[1] === b[1] ? 0 : (a[1] < b[1] ? -1 : 1)));\n\n  var map = {};\n  for (var i = 0; i < tickets.length; i++) {\n    if (!map[tickets[i][0]]) map[tickets[i][0]] = [];\n    map[tickets[i][0]].push(tickets[i][1]);\n  }\n\n  var itinerary = [];\n  dfs('JFK', map, itinerary);\n  return itinerary.reverse();\n };\n\nvar dfs = function(airport, map, itinerary) {\n  while (map[airport]?.length) {\n    dfs(map[airport].shift(), map, itinerary);\n  }\n  itinerary.push(airport);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "338. Counting Bits",
+      "code": "var countBits = function(n) {\n    var res = Array(n + 1);\n    var num = 2;\n    var nextNum = 4;\n    for (var i = 0; i <= n; i++) {\n        if (i === 0) {\n            res[i] = 0;\n        } else if (i === 1) {\n            res[i] = 1;\n        } else {\n            if (i === nextNum) {\n                num = nextNum;\n                nextNum *= 2;\n            }\n            res[i] = 1 + res[i - num];\n        }\n    }\n    return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "341. Flatten Nested List Iterator",
+      "code": "var NestedIterator = function(nestedList) {\n    this.index = 0;\n    this.list = [];\n    const flatten = (list) => {\n        for (var item of list) {\n            if (item.isInteger()) {\n                this.list.push(item.getInteger());\n            } else {\n                flatten(item.getList());\n            }\n        }\n    };\n    flatten(nestedList);\n };\n\n\n\nNestedIterator.prototype.hasNext = function() {\n    return this.index < this.list.length;\n };\n\n\nNestedIterator.prototype.next = function() {\n    return this.list[this.index++];\n };\n\n\n"
+    }
+  ],
+  [
+    {
+      "id": "342. Power of Four",
+      "code": "var isPowerOfFour = function(n) {\n    var num = 0b1010101010101010101010101010101;\n    return n > 0 && (n & (n - 1)) === 0 && (n & num) === n;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "343. Integer Break",
+      "code": "var integerBreak = function(n) {\n    if (n < 4) return n - 1;\n    var res = 1;\n    while (n) {\n        if (n > 4) {\n            res *= 3;\n            n -= 3;\n        } else if (n <= 4 && n >= 2) {\n            res *= n;\n            n = 0;\n        } else if (n === 1) {\n            n = 0;\n        }\n    }\n    return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "377. Combination Sum IV",
+      "code": "var combinationSum4 = function(nums, target, map = {}) {\n    if (target === 0) return 1;\n    if (map[target] !== undefined) return map[target];\n    var res = 0;\n    for (var i = 0; i < nums.length; i++) {\n        if (nums[i] > target) continue;\n        res += combinationSum4(nums, target - nums[i], map);\n    }\n    map[target] = res;\n    return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "380. Insert Delete GetRandom O(1)",
+      "code": "var RandomizedSet = function() {\n    this.map = {};\n    this.arr = [];\n };\n\n\nRandomizedSet.prototype.insert = function(val) {\n    if (this.map[val] === undefined) {\n        this.map[val] = this.arr.length;\n        this.arr.push(val);\n        return true;\n    }\n    return false;\n };\n\n\nRandomizedSet.prototype.remove = function(val) {\n    if (this.map[val] !== undefined) {\n        var delIndex = this.map[val];\n        var lastVal = this.arr.pop();\n        if (delIndex < this.arr.length) {\n            this.arr[delIndex] = lastVal;\n            this.map[lastVal] = delIndex;\n        }\n        delete this.map[val];\n        return true;\n    }\n    return false;\n };\n\n\nRandomizedSet.prototype.getRandom = function() {\n    const num = Math.floor(Math.random() * this.arr.length);\n    return this.arr[num];\n };\n\n\n"
+    }
+  ],
+  [
+    {
+      "id": "381. Insert Delete GetRandom O(1) - Duplicates allowed",
+      "code": "var RandomizedCollection = function() {\n    this.map = {};\n    this.arr = [];\n };\n\n\nRandomizedCollection.prototype.insert = function(val) {\n    var notFound = this.map[val] === undefined;\n    if (notFound) this.map[val] = { arr: [], map: {} };\n    this.map[val].map[this.arr.length] = this.map[val].arr.length;\n    this.map[val].arr.push(this.arr.length);\n    this.arr.push(val);\n    return notFound;\n };\n\n\nRandomizedCollection.prototype.remove = function(val) {\n    if (this.map[val] === undefined) return false;\n    var valIndexs = this.map[val].arr;\n    var delIndex = valIndexs[valIndexs.length - 1];\n    var lastValue = this.arr.pop();\n    if (valIndexs.length === 1) {\n        delete this.map[val];\n    } else {\n        valIndexs.pop();\n        delete this.map[val].map[delIndex];\n    }\n    if (lastValue !== val) {\n        var lastValueIndex = this.map[lastValue].map[this.arr.length];\n        this.map[lastValue].arr[lastValueIndex] = delIndex;\n        delete this.map[lastValue].map[this.arr.length];\n        this.map[lastValue].map[delIndex] = lastValueIndex;\n        this.arr[delIndex] = lastValue;\n    }\n    return true;\n };\n\n\nRandomizedCollection.prototype.getRandom = function() {\n    var num = Math.floor(Math.random() * this.arr.length);\n    return this.arr[num];\n };\n\n\n"
+    }
+  ],
+  [
+    {
+      "id": "387. First Unique Character in a String",
+      "code": "var firstUniqChar = function(s) {\n    var map = {};\n    for (var i = 0; i < s.length; i++) {\n        map[s[i]] = (map[s[i]] || 0) + 1;\n    }\n    for (var i = 0; i < s.length; i++) {\n        if (map[s[i]] === 1) return i;\n    }\n    return -1;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "389. Find the Difference",
+      "code": "var findTheDifference = function(s, t) {\n    var num = 0;\n    for (var i = 0; i < t.length; i++) {\n        num += t[i].charCodeAt(0);\n    }\n    for (var j = 0; j < s.length; j++) {\n        num -= s[j].charCodeAt(0);\n    }\n    return String.fromCharCode(num);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "392. Is Subsequence",
+      "code": "var isSubsequence = function(s, t) {\n    var j = 0;\n    for (var i = 0; i < s.length; i++) {\n        while (s[i] !== t[j] && j < t.length - 1) j++;\n        if (s[i] != t[j]) return false;\n        j++;\n    }\n    return true;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "401. Binary Watch",
+      "code": "var readBinaryWatch = function(num) {\n  var res = [];\n  helper(num, 0, 0, res, 0);\n  return res;\n };\n\nvar helper = function (num, hours, minute, res, index) {\n  if (num < 0 || index > 10 || hours > 11 || minute > 59) {\n    return;\n  } else if (num === 0) {\n    res.push(hours + ':' + (minute < 10 ? ('0' + minute) : minute));\n  } else if (index < 4) {\n    helper(num - 1, hours + Math.pow(2, index), minute, res, index + 1);\n    helper(num, hours, minute, res, index + 1);\n  } else if (index >= 4) {\n    helper(num - 1, hours, minute + Math.pow(2, index - 4), res, index + 1);\n    helper(num, hours, minute, res, index + 1);\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "403. Frog Jump",
+      "code": "var canCross = function(stones) {\n    return stones[1] - stones[0] === 1\n        ? helper(stones, 1, 1, Array(stones.length).fill(0).map(() => ({})))\n        : false;\n };\n\nvar helper = function(stones, i, k, dp) {\n    if (dp[i][k]) return false;\n    for (var j = i + 1; j < stones.length; j++) {\n        var diff = stones[j] - stones[i];\n        if (diff > k + 1) break;\n        if (diff < k - 1) continue;\n        if (helper(stones, j, diff, dp)) return true;\n    }\n    dp[i][k] = true;\n    return i === stones.length - 1;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "415. Add Strings",
+      "code": "var addStrings = function(num1, num2) {\n    var len1 = num1.length;\n    var len2 = num2.length;\n    var max = Math.max(len1, len2);\n    var res = Array(max);\n    var carry = 0;\n    var val = 0;\n\n    for (var i = 0; i < max; i++) {\n        val = Number(num1[len1 - 1 - i] || 0) + Number(num2[len2 - 1 - i] || 0) + carry;\n        carry = Math.floor(val / 10);\n        res[max - 1 - i] = val % 10;\n    }\n\n    return (carry || '') + res.join('');\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "445. Add Two Numbers II",
+      "code": "var addTwoNumbers = function(l1, l2) {\n    var r1 = reverse(l1);\n    var r2 = reverse(l2);\n    var root = new ListNode();\n    var node = root;\n    var carry = 0;\n    var val = 0;\n    while (r1 || r2) {\n        val = (r1 ? r1.val : 0) + (r2 ? r2.val : 0) + carry;\n        node.next = new ListNode(val % 10);\n        node = node.next;\n        carry = (val - node.val) / 10;\n        r1 = r1 ? r1.next : null;\n        r2 = r2 ? r2.next : null;\n    }\n    if (carry) {\n        node.next = new ListNode(carry);\n        node = node.next;\n    }\n    return reverse(root.next);\n };\n\nvar reverse = function(root) {\n    var node = root.next;\n    var last = root;\n    var tmp = null;\n    last.next = null;\n    while (node) {\n        tmp = node.next;\n        node.next = last;\n        last = node;\n        node = tmp;\n    }\n    return last;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "454. 4Sum II",
+      "code": "var fourSumCount = function(A, B, C, D) {\n  var map = {};\n  var res = 0;\n  var key = 0;\n\n  for (var i = 0; i < A.length; i++) {\n    for (var j = 0; j < B.length; j++) {\n      key = A[i] + B[j];\n      map[key] = (map[key] || 0) + 1;\n    }\n  }\n\n  for (var i = 0; i < C.length; i++) {\n    for (var j = 0; j < D.length; j++) {\n      key = - (C[i] + D[j]);\n      res += (map[key] || 0);\n    }\n  }\n\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "455. Assign Cookies",
+      "code": "var findContentChildren = function(g, s) {\n    g.sort((a, b) => a - b);\n    s.sort((a, b) => a - b);\n    var j = 0;\n    for (var i = 0; i < g.length; i++) {\n        while (s[j] < g[i] && j < s.length) j++;\n        if (j === s.length) return i;\n        j++;\n    }\n    return g.length;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "456. 132 Pattern",
+      "code": "var find132pattern = function(nums) {\n    if (nums.length < 3) return false;\n    var stack = [];\n    var min = Array(nums.length);\n    min[0] = nums[0];\n    for (var i = 1; i < nums.length; i++) {\n        min[i] = Math.min(min[i - 1], nums[i]);\n    }\n    for (var j = nums.length - 1; j >= 0; j--) {\n        if (nums[j] > min[j]) {\n            while (stack.length && stack[stack.length - 1] <= min[j]) stack.pop();\n            if (stack.length && stack[stack.length - 1] < nums[j]) return true;\n            stack.push(nums[j]);\n        }\n    }\n    return false;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "458. Poor Pigs",
+      "code": "var poorPigs = function(buckets, minutesToDie, minutesToTest) {\n    return Math.ceil(Math.log2(buckets) / Math.log2(Math.floor(minutesToTest/minutesToDie) + 1));\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "459. Repeated Substring Pattern",
+      "code": "var repeatedSubstringPattern = function(s) {\n    return `${s}${s}`.slice(1, s.length * 2 - 1).includes(s);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "478. Generate Random Point in a Circle",
+      "code": "var Solution = function(radius, x_center, y_center) {\n    this.radius = radius;\n    this.centerX = x_center;\n    this.centerY = y_center;\n };\n\n\nSolution.prototype.randPoint = function() {\n    var radius = Math.sqrt(Math.random()) * this.radius;\n    var rand = Math.random();\n    var degree = Math.PI / 2 * (rand === 1 ? 0 : rand);\n    var x = Math.cos(degree) * radius;\n    var y = Math.sin(degree) * radius;\n    return [\n        this.centerX + (Math.random() > 0.5 ? 1 : -1) * x,\n        this.centerY + (Math.random() > 0.5 ? 1 : -1) * y,\n    ];\n };\n\n\n"
+    }
+  ],
+  [
+    {
+      "id": "486. Predict the Winner",
+      "code": "var PredictTheWinner = function(nums) {\n    return maxDiff(nums, 0, nums.length - 1) >= 0;\n };\n\nvar maxDiff = function(nums, left, right) {\n    if (left === right) return nums[left];\n    return Math.max(\n        nums[left] - maxDiff(nums, left + 1, right),\n        nums[right] - maxDiff(nums, left, right - 1),\n    );\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "496. Next Greater Element I",
+      "code": "var nextGreaterElement = function(nums1, nums2) {\n    var map = {};\n    var stack = [];\n    for (var i = nums2.length - 1; i >= 0; i--) {\n        while (stack.length && stack[stack.length - 1] <= nums2[i]) stack.pop();\n        map[nums2[i]] = stack.length ? stack[stack.length - 1] : -1;\n        stack.push(nums2[i]);\n    }\n    return nums1.map(num => map[num]);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "501. Find Mode in Binary Search Tree",
+      "code": "var findMode = function(root) {\n    var max = 0;\n    var res = [];\n    var num = 0.1;\n    var count = 0;\n    var update = () => {\n        if (count === max) {\n            res.push(num);\n        } else if (count > max) {\n            max = count;\n            res = [num];\n        }\n    };\n    preOrder(root, node => {\n        if (node.val === num) {\n            count += 1;\n        } else {\n            update();\n            num = node.val;\n            count = 1;\n        }\n    });\n    update();\n    return res;\n };\n\nvar preOrder = function(root, visit) {\n    root.left && preOrder(root.left, visit);\n    visit(root);\n    root.right && preOrder(root.right, visit);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "503. Next Greater Element II",
+      "code": "var nextGreaterElements = function(nums) {\n    var map = Array(nums.length);\n    var stack = [];\n    for (var i = nums.length * 2 - 1; i >= 0; i--) {\n        var index = i % nums.length;\n        while (stack.length && stack[stack.length - 1] <= nums[index]) stack.pop();\n        map[index] = stack.length ? stack[stack.length - 1] : -1;\n        stack.push(nums[index]);\n    }\n    return map;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "515. Find Largest Value in Each Tree Row",
+      "code": "var largestValues = function(root) {\n    var res = [];\n    dfs(root, 0, res);\n    return res;\n };\n\nvar dfs = function(root, row, res) {\n    if (!root) return;\n    res[row] = Math.max(\n        res[row] === undefined ? Number.MIN_SAFE_INTEGER : res[row],\n        root.val,\n    );\n    dfs(root.left, row + 1, res);\n    dfs(root.right, row + 1, res);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "516. Longest Palindromic Subsequence",
+      "code": "var longestPalindromeSubseq = function(s) {\n    var dp = Array(s.length).fill(0).map(() => Array(s.length));\n    var helper = function(i, j) {\n        if (j < i) return 0;\n        if (dp[i][j] !== undefined) return dp[i][j];\n        if (s[i] === s[j]) {\n            dp[i][j] = (i === j ? 1 : 2) + helper(i + 1, j - 1);\n        } else {\n            dp[i][j] = Math.max(\n                helper(i + 1, j),\n                helper(i, j - 1),\n                helper(i + 1, j - 1),\n            );\n        }\n        return dp[i][j];\n    };\n    return helper(0, s.length - 1);\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "518. Coin Change II",
+      "code": "var change = function(amount, coins) {\n    coins.sort((a, b) => b - a);\n    return helper(amount, coins, Array(coins.length + 1).fill(0).map(() => []));\n };\n\nvar helper = function(amount, coins, dp) {\n    if (amount === 0) return 1;\n    if (dp[coins.length][amount] !== undefined) return dp[coins.length][amount];\n    var res = 0;\n    for (var i = 0; i < coins.length; i++) {\n        if (amount >= coins[i]) {\n            res += helper(amount - coins[i], coins.slice(i), dp);\n        }\n    }\n    dp[coins.length][amount] = res;\n    return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "525. Contiguous Array",
+      "code": "var findMaxLength = function(nums) {\n    var map = {};\n    var count = 0;\n    var max = 0;\n    map[0] = -1;\n    for (var i = 0; i < nums.length; i++) {\n        count += (nums[i] === 1 ? 1 : -1);\n        if (map[count] !== undefined) {\n            max = Math.max(max, i - map[count])\n        } else {\n            map[count] = i;\n        }\n    }\n    return max;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "537. Complex Number Multiplication",
+      "code": "var complexNumberMultiply = function(a, b) {\n  var a = parse(a);\n  var b = parse(b);\n  var x = (a.x * b.x) - (a.y * b.y);\n  var y = (a.x * b.y) + (a.y * b.x);\n  return stringify(x, y);\n };\n\nvar parse = function (str) {\n  var res = /^(-?\\d+)\\+(-?\\d+)i$/.exec(str);\n  return { x: Number(res[1]), y: Number(res[2]) };\n };\n\nvar stringify = function (x, y) {\n  return `${x}+${y}i`\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "542. 01 Matrix",
+      "code": "var updateMatrix = function(mat) {\n    var arr = [];\n    var m = mat.length;\n    var n = mat[0].length;\n    var res = Array(m).fill(0).map(() => Array(n));\n    var mark = function(i, j, distance) {\n        if (mat[i] === undefined || mat[i][j] === undefined) return;\n        if (res[i][j] !== undefined) return;\n        arr.push([i, j]);\n        res[i][j] = distance;\n    };\n    for (var i = 0; i < m; i++) {\n        for (var j = 0; j < n; j++) {\n            mat[i][j] === 0 && mark(i, j, 0);\n        }\n    }\n    while (arr.length) {\n        var [i, j] = arr.shift();\n        mark(i - 1, j, res[i][j] + 1);\n        mark(i + 1, j, res[i][j] + 1);\n        mark(i, j - 1, res[i][j] + 1);\n        mark(i, j + 1, res[i][j] + 1);\n    }\n    return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "547. Friend Circles",
+      "code": "var findCircleNum = function(M) {\n  var count = 0;\n  var n = M.length;\n  var map = Array(n);\n\n  for (var i = 0; i < n; i++) {\n    if (!map[i]) {\n      find(map, i, M);\n      count++;\n    }\n  }\n\n  return count;\n };\n\nvar find = function (map, i, M) {\n  for (var j = 0; j < M.length; j++) {\n    if (i !== j && M[i][j] === 1 && !map[j]) {\n      map[j] = 1;\n      find(map, j, M);\n    }\n  }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "556. Next Greater Element III",
+      "code": "var nextGreaterElement = function(n) {\n    var nums = n.toString().split('');\n    var i = nums.length - 1;\n    while (i > 0 && nums[i] <= nums[i - 1]) i--;\n    if (i === 0) return -1;\n    var j = i;\n    while (j <= nums.length - 1 && nums[j] > nums[i - 1]) j++;\n    swap(nums, i - 1, j - 1);\n    var newNums = nums.slice(0, i).concat(nums.slice(i).reverse());\n    var newNum = Number(newNums.join(''));\n    return newNum > Math.pow(2, 31) - 1 ? -1 : newNum;\n };\n\nvar swap = function(nums, i, j) {\n    var tmp = nums[i];\n    nums[i] = nums[j];\n    nums[j] = tmp;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "557. Reverse Words in a String III",
+      "code": "var reverseWords = function(s) {\n  return s.split(' ').map(reverse).join(' ');\n };\n\nvar reverse = function (word) {\n  var len = word.length;\n  var res = '';\n  for (var i = 0; i < len; i++) {\n    res += word[len - i - 1];\n  }\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "560. Subarray Sum Equals K",
+      "code": "var subarraySum = function(nums, k) {\n  var map = {};\n  var len = nums.length;\n  var sum = 0;\n  var res = 0;\n\n  map[0] = 1;\n\n  for (var i = 0; i < len; i++) {\n    sum += nums[i];\n    res += (map[sum - k] || 0);\n    map[sum] = (map[sum] || 0) + 1;\n  }\n\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "566. Reshape the Matrix",
+      "code": "var matrixReshape = function(nums, r, c) {\n  var m = nums.length;\n  var n = nums[0].length;\n\n  if (m * n !== r * c) return nums;\n\n  var res = Array(r).fill(0).map(_ => Array(c));\n  var num = r * c;\n\n  for (var i = 0; i < num; i++) {\n    res[Math.floor(i / c)][i % c] = nums[Math.floor(i / n)][i % n];\n  }\n\n  return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "576. Out of Boundary Paths",
+      "code": "var findPaths = function(m, n, maxMove, startRow, startColumn) {\n    var matrix = Array(m).fill(0).map(() => Array(n).fill(0));\n    matrix[startRow][startColumn] = 1;\n    var res = 0;\n    var mod = Math.pow(10, 9) + 7;\n    for (var k = 0; k < maxMove; k++) {\n        var newMatrix = Array(m).fill(0).map(() => Array(n).fill(0));\n        for (var i = 0; i < m; i++) {\n            for (var j = 0; j < n; j++) {\n                newMatrix[i][j] = (\n                    (matrix[i - 1] ? matrix[i - 1][j] : 0) +\n                    (matrix[i][j - 1] || 0) +\n                    (matrix[i + 1] ? matrix[i + 1][j] : 0) +\n                    (matrix[i][j + 1] || 0)\n                ) % mod;\n                if (i === 0) res += matrix[i][j];\n                if (i === m - 1) res += matrix[i][j];\n                if (j === 0) res += matrix[i][j];\n                if (j === n - 1) res += matrix[i][j];\n                res %= mod;\n            }\n        }\n        matrix = newMatrix;\n    }\n    return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "606. Construct String from Binary Tree",
+      "code": "var tree2str = function(root) {\n    if (!root) return '';\n    var res = `${root.val}`;\n    if (root.left || root.right) res += `(${tree2str(root.left)})`;\n    if (root.right) res += `(${tree2str(root.right)})`;\n    return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "617. Merge Two Binary Trees",
+      "code": "var mergeTrees = function(t1, t2) {\n  if (!t1 && !t2) return null;\n  var root = new TreeNode((t1 ? t1.val : 0) + (t2 ? t2.val : 0));\n  root.left = mergeTrees(t1 ? t1.left : null, t2 ? t2.left : null);\n  root.right = mergeTrees(t1 ? t1.right : null, t2 ? t2.right : null);\n  return root;\n\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "623. Add One Row to Tree",
+      "code": "var addOneRow = function(root, v, d) {\n  var head = new TreeNode(0);\n  head.left = root;\n  helper(head, v, d, 1);\n  return head.left;\n };\n\nvar helper = function (root, v, d, depth) {\n  if (!root) return;\n  if (depth === d) {\n    insert(root, v, 'left');\n    insert(root, v, 'right');\n  } else {\n    helper(root.left, v, d, depth + 1);\n    helper(root.right, v, d, depth + 1);\n  }\n };\n\nvar insert = function (root, val, type) {\n  var node = new TreeNode(val);\n  node[type] = root[type];\n  root[type] = node;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "645. Set Mismatch",
+      "code": "var findErrorNums = function(nums) {\n    var missing = 0;\n    var duplicated = 0;\n    for (var i = 0; i < nums.length; i++) {\n        if (nums[Math.abs(nums[i]) - 1] < 0) {\n            duplicated = Math.abs(nums[i]);\n        } else {\n            nums[Math.abs(nums[i]) - 1] *= -1;\n        }\n    }\n    for (var i = 0; i < nums.length; i++) {\n        if (nums[i] > 0) {\n            missing = i + 1;\n        }\n    }\n    return [duplicated, missing];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "646. Maximum Length of Pair Chain",
+      "code": "var findLongestChain = function(pairs) {\n    pairs.sort((a, b) => a[0] - b[0]);\n    var dp = Array(pairs.length);\n    for (var i = pairs.length - 1; i >= 0; i--) {\n        var j = i + 1;\n        while (j < pairs.length && pairs[j][0] <= pairs[i][1]) j++;\n        dp[i] = Math.max(\n            dp[i + 1] || 0,\n            1 + (dp[j] || 0),\n        );\n    }\n    return dp[0];\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "649. Dota2 Senate",
+      "code": "var predictPartyVictory = function(senate) {\n    var s1 = [];\n    var s2 = [];\n    for (var i = 0; i < senate.length; i++) {\n        if (senate[i] === 'R') {\n            s1.push(i);\n        } else {\n            s2.push(i);\n        }\n    }\n    while (s1.length && s2.length) {\n        if (s1[0] < s2[0]) {\n            s1.push(s1.shift() + senate.length);\n            s2.shift();\n        } else {\n            s2.push(s2.shift() + senate.length);\n            s1.shift();\n        }\n    }\n    return s1.length ? 'Radiant' : 'Dire';\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "654. Maximum Binary Tree",
+      "code": "var constructMaximumBinaryTree = function(nums) {\n    return solve(nums, 0, nums.length - 1);\n };\n\nvar solve = function(nums, left, right) {\n    var maxI = left;\n    for (var i = left + 1; i <= right; i++) {\n        if (nums[i] > nums[maxI]) {\n            maxI = i;\n        }\n    }\n    return new TreeNode(\n        nums[maxI],\n        maxI > left ? solve(nums, left, maxI - 1) : null,\n        maxI < right ? solve(nums, maxI + 1, right) : null,\n    );\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "661. Image Smoother",
+      "code": "var imageSmoother = function(img) {\n    var res = Array(img.length).fill(0).map(() => Array(img[0].length));\n    for (var i = 0; i < img.length; i++) {\n        for (var j = 0; j < img[i].length; j++) {\n            var count = 1;\n            var num = img[i][j];\n            if (img[i - 1]) {\n                if (img[i - 1][j - 1] !== undefined) {\n                    count += 1;\n                    num += img[i - 1][j - 1];\n                }\n                count += 1;\n                num += img[i - 1][j];\n                if (img[i - 1][j + 1] !== undefined) {\n                    count += 1;\n                    num += img[i - 1][j + 1];\n                }\n            }\n            if (img[i][j - 1] !== undefined) {\n                    count += 1;\n                    num += img[i][j - 1];\n                }\n            if (img[i][j + 1] !== undefined) {\n                count += 1;\n                num += img[i][j + 1];\n            }\n            if (img[i + 1]) {\n                if (img[i + 1][j - 1] !== undefined) {\n                    count += 1;\n                    num += img[i + 1][j - 1];\n                }\n                count += 1;\n                num += img[i + 1][j];\n                if (img[i + 1][j + 1] !== undefined) {\n                    count += 1;\n                    num += img[i + 1][j + 1];\n                }\n            }\n            res[i][j] = Math.floor(num / count);\n        }\n    }\n    return res;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "669. Trim a Binary Search Tree",
+      "code": "var trimBST = function(root, L, R) {\n  if (!root) return null;\n  if (root.val < L) return trimBST(root.right, L, R);\n  if (root.val > R) return trimBST(root.left, L, R);\n  root.left = trimBST(root.left, L, R);\n  root.right = trimBST(root.right, L, R);\n  return root;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "688. Knight Probability in Chessboard",
+      "code": "var knightProbability = function(n, k, row, column) {\n    var dp = Array(n).fill(0).map(() => Array(n).fill(0).map(() => Array(k + 1)));\n    for (var m = 0; m <= k; m++) {\n        for (var i = 0; i < n; i++) {\n            for (var j = 0; j < n; j++) {\n                solve(n, m, i, j, dp);\n            }\n        }\n    }\n    return dp[row][column][k];\n };\n\nvar directions = [\n    [-1, -2],\n    [-2, -1],\n    [-2, 1],\n    [-1, 2],\n    [1, 2],\n    [2, 1],\n    [2, -1],\n    [1, -2]\n];\n\nvar solve = function(n, k, row, column, dp) {\n    if (k === 0) {\n        dp[row][column][k] = 1;\n        return;\n    }\n    dp[row][column][k] = 0;\n    for (var i = 0; i < directions.length; i++) {\n        var x = row + directions[i][0];\n        var y = column + directions[i][1];\n        if (x < 0 || x >= n || y < 0 || y >= n) continue;\n        dp[row][column][k] += dp[x][y][k - 1] * 0.125;\n    }\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "697. Degree of an Array",
+      "code": "var findShortestSubArray = function(nums) {\n    var map = {};\n    var degree = 0;\n    for (var i = 0; i < nums.length; i++) {\n        if (!map[nums[i]]) {\n            map[nums[i]] = {\n                left: i,\n                right: i,\n                num: 1,\n            };\n        } else {\n            map[nums[i]].right = i;\n            map[nums[i]].num += 1;\n        }\n        degree = Math.max(degree, map[nums[i]].num);\n    }\n    var min = Number.MAX_SAFE_INTEGER;\n    for (var i = 0; i < nums.length; i++) {\n        if (map[nums[i]].num === degree) {\n            min = Math.min(map[nums[i]].right - map[nums[i]].left + 1, min);\n        }\n    }\n    return min;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "704. Binary Search",
+      "code": "var search = function(nums, target) {\n    var left = 0;\n    var right = nums.length - 1;\n    while (left <= right) {\n        var mid = left + Math.floor((right - left) / 2);\n        if (nums[mid] === target) {\n            return mid;\n        } else if (nums[mid] > target) {\n            right = mid - 1;\n        } else {\n            left = mid + 1;\n        }\n    }\n    return -1;\n };\n"
+    }
+  ],
+  [
+    {
+      "id": "706. Design HashMap",
+      "code": "var MyHashMap = function() {\n    this.map = [];\n };\n\n\nMyHashMap.prototype.put = function(key, value) {\n    this.map[key] = value;\n };\n\n\nMyHashMap.prototype.get = function(key) {\n    return this.map[key] ?? -1;\n };\n\n\nMyHashMap.prototype.remove = function(key) {\n    this.map[key] = undefined;\n };\n\n\n"
+    }
+  ],
+  [
+    {
+      "id": "712. Minimum ASCII Delete Sum for Two Strings",
+      "code": "var minimumDeleteSum = function(s1, s2) {\n    var map = {};\n    var dfs = function(i, j) {\n        var key = i + ',' + j;\n        if (map[key]) return map[key];\n        if (!s1[i] && !s2[j]) return 0;\n        if (!s1[i]) return map[key] = s2.slice(j).split('').reduce((sum, s) => sum + s.charCodeAt(0), 0);\n        if (!s2[j]) return map[key] = s1.slice(i).split('').reduce((sum, s) => sum + s.charCodeAt(0), 0);\n        if (s1[i] === s2[j]) return map[key] = dfs(i + 1, j + 1);\n        return map[key] = Math.min(\n            dfs(i + 1, j) + s1.charCodeAt(i),\n            dfs(i, j + 1) + s2.charCodeAt(j),\n        );\n    };\n    return dfs(0, 0);\n };\n"
+    }
+  ]
+]
