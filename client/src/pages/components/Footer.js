@@ -1,13 +1,13 @@
 import React from "react";
-import {Box, Text, Center, useDisclosure, HStack, VStack, Tooltip, Badge} from "@chakra-ui/react";
-import {Link, NavLink} from "react-router-dom";
+import {Box, Link, Text, Center, useDisclosure, HStack, VStack, Tooltip, Badge} from "@chakra-ui/react";
+import {NavLink} from "react-router-dom";
 import ChangelogModal from "./ChangelogModal.js";
 import FeedbackModal from "./FeedbackModal";
 
 export default function Footer({config}) {
   const {isOpen: isChangeOpen, onClose: onChangeClose, onOpen: onChangeOpen} = useDisclosure();
   const {isOpen: isFeedbackOpen, onClose: onFeedbackClose, onOpen: onFeedbackOpen} = useDisclosure();
-  const lastUpdateTime = 1704644920000;
+  const lastUpdateTime = 1708544877000;
   // console.log(Date.parse(new Date()));
   const seenUpdate = localStorage.getItem("lastCheckedUpdate") > lastUpdateTime;
 
@@ -21,7 +21,8 @@ export default function Footer({config}) {
       <HStack spacing={5} paddingTop="12px">
         <Tooltip label={"github"}>
           <Box pb={2} fontSize="34px">
-            <Link to="https://github.com/max-lee-dev/hackertype">
+            <Link isExternal href="https://github.com/max-lee-dev/hackertype">
+
               <Center>
                 <Box color={config["subtleText"]}>
                   <ion-icon name="logo-github"></ion-icon>
@@ -56,6 +57,17 @@ export default function Footer({config}) {
               </Box>
 
             </NavLink>
+          </Tooltip>
+        </Box>
+        <Box fontSize="30px" className="mainFont">
+          <Tooltip label="join the discord!">
+            <Link href={'https://discord.gg/wUVBsts7VJ'} isExternal>
+
+              <Box paddingBottom="4px" color={config["subtleText"]}>
+                <ion-icon name="logo-discord"></ion-icon>
+              </Box>
+
+            </Link>
           </Tooltip>
         </Box>
       </HStack>
