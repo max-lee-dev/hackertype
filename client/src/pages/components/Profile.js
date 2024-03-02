@@ -14,360 +14,340 @@ import DailySolutionChart from "./DailySolutionChart";
 import Section from "./Section";
 
 export default function Profile({config}) {
-    async function signout() {
-        await signOut(auth);
-        window.location.replace("/");
+  async function signout() {
+    await signOut(auth);
+    window.location.replace("/");
+  }
+
+  const [profileUserData, setUserData] = useState(null);
+  const auth = getAuth();
+  const {username} = useParams();
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState({});
+  const [recentSubmissions, setRecentSubmissions] = useState([]);
+  const [bestSubmissions, setBestSubmissions] = useState([]);
+  const submissionsCollectionRef = collection(db, "submissions");
+  const q = query(submissionsCollectionRef, where("user", "==", username));
+
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+    //eslint-disable-next-line
+  }, [loading]);
+
+  useEffect(() => {
+    setLoading(true);
+
+    async function getUserSettings() {
+      const usersQuery = query(collection(db, "users"));
+
+      const querySnapshot = await getDocs(usersQuery);
+
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+
+        if (doc.data().displayName === username) setUserData(doc.data());
+      });
     }
 
-    const [profileUserData, setUserData] = useState(null);
-    const auth = getAuth();
-    const {username} = useParams();
-    const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState({});
-    const [recentSubmissions, setRecentSubmissions] = useState([]);
-    const [bestSubmissions, setBestSubmissions] = useState([]);
-    const [numberWorldRecords, setNumberWorldRecords] = useState(0);
 
-    useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                setUser(user);
-            } else {
-                setUser(null);
-            }
-        });
-        //eslint-disable-next-line
-    }, [loading]);
-
-    useEffect(() => {
-        setLoading(true);
-
-        async function getUserSettings() {
-            const q = query(collection(db, "users"));
-
-            const querySnapshot = await getDocs(q);
-
-            querySnapshot.forEach((doc) => {
-                // doc.data() is never undefined for query doc snapshots
-
-                if (doc.data().displayName === username) setUserData(doc.data());
-            });
-        }
-
-        async function getRecentSubmissions() {
-            const q = query(submissionsCollectionRef, where("user", "==", username));
-            const top = query(q, orderBy("when", "desc"), limit(5));
-            const recentQuerySnapshot = await getDocs(top);
-            const tempArray = [];
-            recentQuerySnapshot.forEach((doc) => {
-                tempArray.push(doc.id);
-            });
-            setRecentSubmissions(tempArray);
-        }
-
-        async function getBestSubmissions() {
-            const q = query(submissionsCollectionRef, where("user", "==", username));
-            const best = query(q, where("isBestSubmission", "==", true));
-
-            const bestQuerySnapshot = await getDocs(best);
-            const tempArray = [];
-
-
-            bestQuerySnapshot.forEach((doc) => {
-                tempArray.push(doc);
-            });
-            // filter to top 5 best wpm
-            tempArray.sort((a, b) => {
-                    return b.data().wpm - a.data().wpm;
-                }
-            );
-            tempArray.splice(5, tempArray.length - 5);
-
-
-            setBestSubmissions(tempArray);
-        }
-
-        async function getNumberWorldRecords() {
-            const q = query(submissionsCollectionRef, where("user", "==", username));
-            const top = query(q, where("rank", "==", 1));
-            const isBest = query(top, where("isBestSubmission", "==", true));
-            const bestQuerySnapshot = await getDocs(isBest);
-            const size = bestQuerySnapshot.size;
-            setNumberWorldRecords(size);
-        }
-
-        getNumberWorldRecords();
-        getUserSettings();
-        getBestSubmissions();
-        getRecentSubmissions().then(() => setLoading(false));
-        console.log("ho");
-    }, [username]);
-
-    const submissionsCollectionRef = collection(db, "submissions");
-    var dateArr = profileUserData?.account_created.split(" ");
-    var dateString = "";
-
-    // pre update fix
-    if (profileUserData && dateArr.length === 3) {
-        // american
-        dateString = dateArr[0].substring(0, dateArr[0].length - 1);
-    } else if (profileUserData && !dateArr[2]) {
-        dateString = dateArr[1];
-        // vietnamese
-    } else if (profileUserData) {
-        dateString = dateArr[2] + " " + dateArr[1] + ", " + dateArr[3];
+    async function getRecentSubmissions() {
+      const top = query(q, orderBy("when", "desc"), limit(5));
+      const recentQuerySnapshot = await getDocs(top);
+      const tempArray = [];
+      recentQuerySnapshot.forEach((doc) => {
+        tempArray.push(doc.id);
+      });
+      setRecentSubmissions(tempArray);
     }
 
-    return (
-        <Section delay={0.1}>
-
-            <Center>
-
-                <VStack width={['90%', '90%', '90%', '70%']} paddingTop="30px" spacing={5}>
-                    <Box className="userTitleContainer">
-                        <Section delay={0.1}>
-                            <Box display={'flex'} flexDir={['column', 'column', 'column', 'row']}
-
-                                 justifyContent={'space-between'} mt={30}
-                                 color={config["mainText"]}>
-                                <Box mt={5} className="mainFont font500" width={['100%', '100%', '100%', '50%']}>
-                                    <HStack spacing="-1">
-                                        {!loading && !profileUserData &&
-                                            <Text fontSize="56px">User not found...</Text>}
-                                        <Text fontSize="2em">{profileUserData?.displayName}</Text>
-                                        {!loading && username === user?.displayName && (
-                                            <Tooltip label="Sign out" aria-label="A tooltip">
-                                                <Button
-                                                    color={config["logoColor"]}
-                                                    _hover={{bgColor: "transparent", color: config["mainText"]}}
-                                                    marginTop="20px"
-                                                    fontSize="40px"
-                                                    bgColor="transparent"
-                                                    onClick={signout}>
-                                                    <ion-icon name="log-out-outline"></ion-icon>
-                                                </Button>
-                                            </Tooltip>
-                                        )}
-                                    </HStack>
-                                    {profileUserData && (
-                                        <Text fontSize="22px" color={config["subtleText"]} className=" font400">
-                                            joined {dateString}
-                                        </Text>
-                                    )}
-                                    <Box className="signoutButton"></Box>
-                                </Box>
+    async function getBestSubmissions() {
+      const best = query(q, where("isBestSubmission", "==", true));
+      const bestQuerySnapshot = await getDocs(best);
+      const tempArray = [];
 
 
-                                <Box justifyContent={'space-between'} pt={[0, 0, 0, 5]}
-                                     width={['80%', '100%', '100%', '100%']}
-                                     className={'mainFont'}
-                                     display={'flex'}
-                                     flexDir={['row']} flexWrap={'wrap'}>
+      bestQuerySnapshot.forEach((doc) => {
+        tempArray.push(doc);
+      });
+      // filter to top 5 best wpm
+      tempArray.sort((a, b) => {
+          return b.data().wpm - a.data().wpm;
+        }
+      );
+      tempArray.splice(5, tempArray.length - 5);
 
 
-                                    <Box width={'fit-content'}>
-                                        <Text fontSize="26px" className="font400">
-                                            {numberWorldRecords ? numberWorldRecords : 0}
-                                        </Text>
-                                        <Text fontSize="18px" color={config["subtleText"]}
-                                              className=" font400">
-                                            world records
-                                        </Text>
-                                    </Box>
+      setBestSubmissions(tempArray);
+    }
 
-                                    <Box width={'fit-content'}>
-                                        <Text fontSize="26px" className="font400">
-                                            {profileUserData?.average_wpm ? profileUserData?.average_wpm : 0}
-                                        </Text>
-                                        <Text fontSize="18px" color={config["subtleText"]}
-                                              className=" font400">
-                                            average WPM
-                                        </Text>
-                                    </Box>
 
-                                    <Box>
-                                        <Text fontSize="26px" className="font400">
-                                            {profileUserData?.tests_started ? profileUserData?.tests_started : 0}
-                                        </Text>
-                                        <Text fontSize="18px" color={config["subtleText"]}
-                                              className=" font400">
-                                            started
-                                        </Text>
-                                    </Box>
+    getUserSettings();
+    getBestSubmissions();
+    getRecentSubmissions().then(() => setLoading(false));
+    console.log("ho");
+  }, [username]);
 
-                                    <Box>
-                                        <Text fontSize="26px" className="font400">
-                                            {profileUserData?.tests_completed ? profileUserData?.tests_completed : 0}
-                                        </Text>
-                                        <Text fontSize="18px" color={config["subtleText"]}
-                                              className=" font400">
-                                            completed
-                                        </Text>
-                                    </Box>
-                                    <Box>
-                                        <Text fontSize="26px" className="font400">
-                                            <HStack>
-                                                <Box fontSize={'20px'} paddingTop={2}>
-                                                    <ion-icon icon={'flame'}></ion-icon>
-                                                </Box>
-                                                <Text>
-                                                    {profileUserData?.streak ? profileUserData?.streak : 0}
-                                                </Text>
-                                            </HStack>
-                                        </Text>
-                                        <Text fontSize="18px" color={config["subtleText"]}
-                                              className=" font400">
-                                            streak
-                                        </Text>
+  var dateArr = profileUserData?.account_created.split(" ");
+  var dateString = "";
 
-                                    </Box>
+  // pre update fix
+  if (profileUserData && dateArr.length === 3) {
+    // american
+    dateString = dateArr[0].substring(0, dateArr[0].length - 1);
+  } else if (profileUserData && !dateArr[2]) {
+    dateString = dateArr[1];
+    // vietnamese
+  } else if (profileUserData) {
+    dateString = dateArr[2] + " " + dateArr[1] + ", " + dateArr[3];
+  }
 
-                                </Box>
-                            </Box>
-                        </Section>
-                    </Box>
-                    <Box paddingTop="0px">
-                        {loading && (
-                            <Center>
-                                <Box className="loader"></Box>
-                            </Center>
+  return (
+    <Section delay={0.1}>
+
+      <Center>
+
+        <VStack width={['90%', '90%', '90%', '70%']} paddingTop="30px" spacing={5}>
+          <Box className="userTitleContainer">
+            <Section delay={0.1}>
+              <Box display={'flex'} flexDir={['column', 'column', 'column', 'row']}
+
+                   justifyContent={'space-between'} mt={30}
+                   color={config["mainText"]}>
+                <Box mt={5} className="mainFont font500" width={['100%', '100%', '100%', '50%']}>
+                  <HStack spacing="-1">
+                    {!loading && !profileUserData &&
+                      <Text fontSize="56px">User not found...</Text>}
+                    <Text fontSize="2em">{profileUserData?.displayName}</Text>
+                    {!loading && username === user?.displayName && (
+                      <Tooltip label="Sign out" aria-label="A tooltip">
+                        <Button
+                          color={config["logoColor"]}
+                          _hover={{bgColor: "transparent", color: config["mainText"]}}
+                          marginTop="20px"
+                          fontSize="40px"
+                          bgColor="transparent"
+                          onClick={signout}>
+                          <ion-icon name="log-out-outline"></ion-icon>
+                        </Button>
+                      </Tooltip>
+                    )}
+                  </HStack>
+                  {profileUserData && (
+                    <Text fontSize="22px" color={config["subtleText"]} className=" font400">
+                      joined {dateString}
+                    </Text>
+                  )}
+                  <Box className="signoutButton"></Box>
+                </Box>
+
+
+                <Box justifyContent={'space-between'} pt={[0, 0, 0, 5]}
+                     width={['80%', '100%', '100%', '100%']}
+                     className={'mainFont'}
+                     display={'flex'}
+                     flexDir={['row']} flexWrap={'wrap'}>
+
+
+                  <Box width={'fit-content'}>
+                    <Text fontSize="26px" className="font400">
+                      {profileUserData?.average_wpm ? profileUserData?.average_wpm : 0}
+                    </Text>
+                    <Text fontSize="18px" color={config["subtleText"]}
+                          className=" font400">
+                      average WPM
+                    </Text>
+                  </Box>
+
+                  <Box>
+                    <Text fontSize="26px" className="font400">
+                      {profileUserData?.tests_started ? profileUserData?.tests_started : 0}
+                    </Text>
+                    <Text fontSize="18px" color={config["subtleText"]}
+                          className=" font400">
+                      started
+                    </Text>
+                  </Box>
+
+                  <Box>
+                    <Text fontSize="26px" className="font400">
+                      {profileUserData?.tests_completed ? profileUserData?.tests_completed : 0}
+                    </Text>
+                    <Text fontSize="18px" color={config["subtleText"]}
+                          className=" font400">
+                      completed
+                    </Text>
+                  </Box>
+                  <Box>
+                    <Text fontSize="26px" className="font400">
+                      <HStack>
+                        <Box fontSize={'20px'} paddingTop={2}>
+                          <ion-icon icon={'flame'}></ion-icon>
+                        </Box>
+                        <Text>
+                          {profileUserData?.streak ? profileUserData?.streak : 0}
+                        </Text>
+                      </HStack>
+                    </Text>
+                    <Text fontSize="18px" color={config["subtleText"]}
+                          className=" font400">
+                      streak
+                    </Text>
+
+                  </Box>
+
+                </Box>
+              </Box>
+            </Section>
+          </Box>
+          <Box paddingTop="0px">
+            {loading && (
+              <Center>
+                <Box className="loader"></Box>
+              </Center>
+            )}
+          </Box>
+          <Box width={'100%'}>
+            <Section delay={0.2}>
+              <Center>
+                <HStack h={'fit-content'} width={'100%'} mt={[100, 100, 100, 0]}>
+                  <Box width={'50%'}>
+                    <Box>
+                      <Center>
+                        <Box style={{
+                          width: '100%',
+
+                        }}>
+                          <LineChart q={q}/>
+                        </Box>
+                      </Center>
+
+                      <Center>
+                        {!loading && (
+                          <Text
+                            alignSelf="center"
+                            paddingLeft="20px"
+                            color={config["subtleText"]}
+                            fontSize="15px"
+                            className="mainFont"
+                            fontWeight="200">
+                            submission history
+                          </Text>
                         )}
+                      </Center>
                     </Box>
-                    <Box width={'100%'}>
-                        <Section delay={0.2}>
-                            <Center>
-                                <HStack h={'fit-content'} width={'100%'} mt={[100, 100, 100, 0]}>
-                                    <Box width={'50%'}>
-                                        <Box>
-                                            <Center>
-                                                <Box style={{
-                                                    width: '100%',
-
-                                                }}>
-                                                    <LineChart username={username}/>
-                                                </Box>
-                                            </Center>
-
-                                            <Center>
-                                                {!loading && (
-                                                    <Text
-                                                        alignSelf="center"
-                                                        paddingLeft="20px"
-                                                        color={config["subtleText"]}
-                                                        fontSize="15px"
-                                                        className="mainFont"
-                                                        fontWeight="200">
-                                                        submission history
-                                                    </Text>
-                                                )}
-                                            </Center>
-                                        </Box>
-                                    </Box>
-                                    <Box width="50%">
-                                        <Box>
-                                            <Center>
-                                                <Box style={{
-                                                    width: '100%',
-                                                }}>
-                                                    <DailySolutionChart username={username}/>
-                                                </Box>
-                                            </Center>
-                                            <Center>
-                                                {!loading && (
-                                                    <Text
-                                                        alignSelf="center"
-                                                        paddingLeft="20px"
-                                                        color={config["subtleText"]}
-                                                        fontSize="15px"
-                                                        className="mainFont"
-                                                        fontWeight="200">
-                                                        daily submissions
-                                                    </Text>
-                                                )}
-                                            </Center>
-                                        </Box>
-                                    </Box>
-                                </HStack>
-                            </Center>
-                        </Section>
+                  </Box>
+                  <Box width="50%">
+                    <Box>
+                      <Center>
+                        <Box style={{
+                          width: '100%',
+                        }}>
+                          <DailySolutionChart q={q}/>
+                        </Box>
+                      </Center>
+                      <Center>
+                        {!loading && (
+                          <Text
+                            alignSelf="center"
+                            paddingLeft="20px"
+                            color={config["subtleText"]}
+                            fontSize="15px"
+                            className="mainFont"
+                            fontWeight="200">
+                            daily submissions
+                          </Text>
+                        )}
+                      </Center>
                     </Box>
-                    <Box width={'100%'}>
-                        <Section delay={0.4}>
-                            <Box width={'100%'}>
-                                <Center>
-                                    <Box className="mainFont" width={'100%'}>
-                                        <Box color={config["mainText"]}>
-                                            <Box width="100%" marginLeft={"0px"}>
-                                                <Box>
-                                                    <Stack direction={["column", "row", "row", "row"]}>
-                                                        <Box className="mainFont" width={["100%", "50%", "50%", "50%"]}>
-                                                            {!loading && (
-                                                                <Text fontSize="20px" color={config["subtleText"]}
-                                                                      fontWeight={600}
-                                                                >
-                                                                    recent
-                                                                </Text>
-                                                            )}
+                  </Box>
+                </HStack>
+              </Center>
+            </Section>
+          </Box>
+          <Box width={'100%'}>
+            <Section delay={0.4}>
+              <Box width={'100%'}>
+                <Center>
+                  <Box className="mainFont" width={'100%'}>
+                    <Box color={config["mainText"]}>
+                      <Box width="100%" marginLeft={"0px"}>
+                        <Box>
+                          <Stack direction={["column", "row", "row", "row"]}>
+                            <Box className="mainFont" width={["100%", "50%", "50%", "50%"]}>
+                              {!loading && (
+                                <Text fontSize="20px" color={config["subtleText"]}
+                                      fontWeight={600}
+                                >
+                                  recent
+                                </Text>
+                              )}
 
-                                                            <VStack spacing={5}>
-                                                                {!loading &&
-                                                                    recentSubmissions.map((submission) => (
-                                                                        <Box width={'100%'}>
-                                                                            <Submission uid={submission}
-                                                                                        config={config}/>
+                              <VStack spacing={5}>
+                                {!loading &&
+                                  recentSubmissions.map((submission) => (
+                                    <Box width={'100%'}>
+                                      <Submission uid={submission}
+                                                  config={config}/>
 
-                                                                        </Box>
-
-                                                                    ))}
-                                                            </VStack>
-
-                                                            {!loading && !recentSubmissions[0] && (
-                                                                <Text fontSize="22px" color={config["subtleText"]}
-                                                                      className=" font400">
-                                                                    no recent submissions
-                                                                </Text>
-                                                            )}
-                                                        </Box>
-
-                                                        <Divider
-                                                            orientation="vertical"
-                                                            border={"1px solid"}
-                                                            borderColor="transparent"
-                                                            variant="none"
-                                                        />
-                                                        <Box className="mainFont" width={["100%", "50%", "50%", "50%"]}>
-                                                            {!loading && (
-                                                                <Text fontSize="20px" color={config["subtleText"]}
-                                                                      fontWeight={600}>
-                                                                    best
-                                                                </Text>
-                                                            )}
-                                                            <VStack spacing={5}>
-
-                                                                {!loading && bestSubmissions.map((submission) =>
-                                                                    <Box width={'100%'}>
-                                                                        <Submission uid={submission.id}/>
-                                                                    </Box>
-                                                                )}
-                                                            </VStack>
-
-                                                            {!loading && !bestSubmissions[0] && (
-                                                                <Text fontSize="22px" color={config["subtleText"]}
-                                                                      className=" font400">
-                                                                    no recent submissions
-                                                                </Text>
-                                                            )}
-                                                        </Box>
-                                                    </Stack>
-                                                </Box>
-                                            </Box>
-                                        </Box>
                                     </Box>
-                                </Center>
+
+                                  ))}
+                              </VStack>
+
+                              {!loading && !recentSubmissions[0] && (
+                                <Text fontSize="22px" color={config["subtleText"]}
+                                      className=" font400">
+                                  no recent submissions
+                                </Text>
+                              )}
                             </Box>
-                        </Section>
+
+                            <Divider
+                              orientation="vertical"
+                              border={"1px solid"}
+                              borderColor="transparent"
+                              variant="none"
+                            />
+                            <Box className="mainFont" width={["100%", "50%", "50%", "50%"]}>
+                              {!loading && (
+                                <Text fontSize="20px" color={config["subtleText"]}
+                                      fontWeight={600}>
+                                  best
+                                </Text>
+                              )}
+                              <VStack spacing={5}>
+
+                                {!loading && bestSubmissions.map((submission) =>
+                                  <Box width={'100%'}>
+                                    <Submission uid={submission.id}/>
+                                  </Box>
+                                )}
+                              </VStack>
+
+                              {!loading && !bestSubmissions[0] && (
+                                <Text fontSize="22px" color={config["subtleText"]}
+                                      className=" font400">
+                                  no recent submissions
+                                </Text>
+                              )}
+                            </Box>
+                          </Stack>
+                        </Box>
+                      </Box>
                     </Box>
-                    {/* {!loading && profileUserData && <Box className = 'about'>
+                  </Box>
+                </Center>
+              </Box>
+            </Section>
+          </Box>
+          {/* {!loading && profileUserData && <Box className = 'about'>
                                         <h1>WPM: {profileUserData?.wpm}</h1>
                                         <h1>Accuracy: {profileUserData?.accuracy}</h1>
                                         <h1>Last Language: {profileUserData?.lastLanguage}</h1>
@@ -394,8 +374,8 @@ export default function Profile({config}) {
 
 
                                 </Box> */}
-                </VStack>
-            </Center>
-        </Section>
-    );
+        </VStack>
+      </Center>
+    </Section>
+  );
 }

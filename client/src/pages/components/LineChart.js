@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Chart, Line } from "react-chartjs-2";
-import { collection, getDocs, where, orderBy, query, limit } from "firebase/firestore";
-import { Chart as ChartJS } from "chart.js/auto";
-import { db } from "./firebase";
+import React, {useState, useEffect} from "react";
+import {Chart, Line} from "react-chartjs-2";
+import {collection, getDocs, where, orderBy, query, limit} from "firebase/firestore";
+import {Chart as ChartJS} from "chart.js/auto";
+import {db} from "./firebase";
 
-export default function LineChart({ username }) {
+export default function LineChart({q}) {
   const [loading, setLoading] = useState(true);
   const [graphData, setGraphData] = useState({});
   const [solutionTitles, setSolutionTitles] = useState([]);
@@ -14,8 +14,8 @@ export default function LineChart({ username }) {
   var mainText = style.getPropertyValue("--maintext");
   useEffect(() => {
     setLoading(true);
+
     async function getGraphSubmissions() {
-      const q = query(submissionsCollectionRef, where("user", "==", username));
       const topd = query(q, orderBy("when", "desc"), limit(50));
       const recentQuerySnapshot = await getDocs(topd);
       let tempArray = [];
@@ -51,7 +51,7 @@ export default function LineChart({ username }) {
     ChartJS.defaults.scale.grid.color = "transparent";
 
     getGraphSubmissions().then(() => setLoading(false));
-  }, [username]);
+  }, [q]);
   const submissionsCollectionRef = collection(db, "submissions");
   if (!loading) {
     return (

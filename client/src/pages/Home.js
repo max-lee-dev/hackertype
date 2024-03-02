@@ -15,7 +15,7 @@ import {FaCrown} from "react-icons/fa";
 import Section from "./components/Section.js";
 import SmoothCaret from "./components/smooth-caret/SmoothCaret.js";
 
-import {doc, updateDoc, getDocs, collection, query, where, onSnapshot} from "firebase/firestore";
+import {doc, updateDoc, getDocs, collection, query, where, onSnapshot, getDoc} from "firebase/firestore";
 import {ref as sRef} from "firebase/storage";
 import {db} from "./components/firebase.js";
 import {
@@ -284,13 +284,14 @@ function App({user}) {
       setRetriveingData(true);
 
       async function getUserSettings() {
-        const q = query(collection(db, "users"), where("uid", "==", user.uid));
         let givenLineLimit = 0;
-        const querySnapshot = await getDocs(q);
+
         const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
           setLastDaily(doc.data().last_daily);
         });
-        querySnapshot.forEach((doc) => {
+
+        const userDoc = doc(db, "users", user.uid);
+        await getDoc(userDoc).then((doc) => {
           if (number) {
             chosenID.current = number;
             setId(number);
@@ -431,7 +432,7 @@ function App({user}) {
       var randInt = Math.floor(Math.random() * codeLang.length);
       var pulledCode = codeLang[randInt]; // contains /**  in java
       pulledCode = codeLang[randInt];
-  
+
       while (pulledCode === null || (solutionSize !== 1 && pulledCode === lastCode)) {
         randInt = Math.floor(Math.random() * codeLang.length);
         pulledCode = codeLang[randInt];

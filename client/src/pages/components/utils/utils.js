@@ -2,7 +2,6 @@ export function coordinatesOfChar(id, maxLength) {
   let idName = id;
   const letter = idName.split("-")[1];
 
-  console.log(idName, letter, maxLength)
 
   const windowH = window.innerHeight;
   const isLast = parseInt(letter) >= parseInt(maxLength);

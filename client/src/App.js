@@ -103,14 +103,10 @@ function App() {
     setLoading(true);
 
     async function getUserSettings() {
-      const q = query(collection(db, "users"), where("uid", "==", user?.uid));
-      const querySnapshot = await getDocs(q);
       const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
         setUserData(doc.data());
       });
-      // querySnapshot.forEach((doc) => {
-      //     setUserData(doc.data());
-      // });
+    
     }
 
     if (user) getUserSettings().then(() => setLoading(false));
