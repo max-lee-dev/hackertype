@@ -7,11 +7,13 @@ import LineChart from "./LineChart";
 
 import {useState, useEffect} from "react";
 import {useParams} from "react-router-dom";
-import {collection, getDocs, query, where, orderBy, limit} from "firebase/firestore";
+import {collection, getDocs, query, where, orderBy, limit, doc} from "firebase/firestore";
 import {db} from "./firebase"; // import your Firebase app instance
 import Submission from "./Submission";
 import DailySolutionChart from "./DailySolutionChart";
 import Section from "./Section";
+import StreakGraph from "./ProfileGraphs/StreakGraph";
+import {updateDoc} from "firebase/firestore";
 
 export default function Profile({config}) {
   async function signout() {
@@ -91,7 +93,6 @@ export default function Profile({config}) {
     getUserSettings();
     getBestSubmissions();
     getRecentSubmissions().then(() => setLoading(false));
-    console.log("ho");
   }, [username]);
 
   var dateArr = profileUserData?.account_created.split(" ");
@@ -249,7 +250,7 @@ export default function Profile({config}) {
                         <Box style={{
                           width: '100%',
                         }}>
-                          <DailySolutionChart q={q}/>
+                          <StreakGraph user={profileUserData}/>
                         </Box>
                       </Center>
                       <Center>
@@ -261,7 +262,7 @@ export default function Profile({config}) {
                             fontSize="15px"
                             className="mainFont"
                             fontWeight="200">
-                            daily submissions
+                            streak history
                           </Text>
                         )}
                       </Center>

@@ -19,13 +19,44 @@ export default function DailyButton({config, user}) {
     async function checkDaily() {
       if (dailyNum - user.last_daily > 1) {
         // if they missed a day
-        await updateDoc(doc(db, "users", user.uid), {
-          streak: 0,
-        });
+
+        // FILL IN THE MISSING STREAKS
+        let streakArr = user.streakArr ? user.streakArr : [];
+        let userLastDaily = user.last_daily;
+        while (dailyNum > userLastDaily) {
+          streakArr.push({
+            dailyNum: userLastDaily,
+            streak: 0
+          })
+          userLastDaily++
+        }
+        const lastAccountedStreak = user.streakArr ? user.streakArr[streakArr.length - 1].dailyNum : 0;
+        const shouldBeStreak = streakArr[streakArr.length - 1].dailyNum;
+        if (shouldBeStreak !== lastAccountedStreak) {
+          await updateDoc(doc(db, "users", user.uid), {
+            streak: 0,
+            streakArr: streakArr,
+          });
+        }
+
+
         setStreak(0)
 
       } else {
         setStreak(user.streak)
+        if (!user.streakArr || user.streakArr[user.streakArr.length - 1].dailyNum !== dailyNum) {
+          let streakArr = user.streakArr ? user.streakArr : [];
+
+          const today = {
+            dailyNum: dailyNum,
+            streak: user.streak
+          }
+
+          await updateDoc(doc(db, "users", user.uid), {
+            streakArr: [...streakArr, today],
+          })
+        }
+
       }
 
     }
