@@ -16,13 +16,8 @@ export default function LineChart({q}) {
     setLoading(true);
 
     async function getGraphSubmissions() {
-      const topd = query(q, orderBy("when", "desc"), limit(50));
-      const recentQuerySnapshot = await getDocs(topd);
-      let tempArray = [];
-      recentQuerySnapshot.forEach((doc) => {
-        tempArray.push(doc.data());
-      });
-      tempArray = tempArray.reverse();
+
+      const tempArray = q.reverse();
       const tempSolTitles = tempArray.map((data) => data.solution_id);
       setSolutionTitles(tempSolTitles);
       setGraphData({

@@ -27,9 +27,8 @@ export default function Profile({config}) {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
   const [recentSubmissions, setRecentSubmissions] = useState([]);
+  const [allSubmissions, setAllSubmissions] = useState([]);
   const [bestSubmissions, setBestSubmissions] = useState([]);
-  const submissionsCollectionRef = collection(db, "submissions");
-  const q = query(submissionsCollectionRef, where("user", "==", username));
 
 
   useEffect(() => {
@@ -47,52 +46,27 @@ export default function Profile({config}) {
     setLoading(true);
 
     async function getUserSettings() {
-      const usersQuery = query(collection(db, "users"));
-
+      const usersQuery = query(collection(db, "users",));
       const querySnapshot = await getDocs(usersQuery);
-
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
-
-        if (doc.data().displayName === username) setUserData(doc.data());
-      });
-    }
-
-
-    async function getRecentSubmissions() {
-      const top = query(q, orderBy("when", "desc"), limit(5));
-      const recentQuerySnapshot = await getDocs(top);
-      const tempArray = [];
-      recentQuerySnapshot.forEach((doc) => {
-        tempArray.push(doc.id);
-      });
-      setRecentSubmissions(tempArray);
-    }
-
-    async function getBestSubmissions() {
-      const best = query(q, where("isBestSubmission", "==", true));
-      const bestQuerySnapshot = await getDocs(best);
-      const tempArray = [];
-
-
-      bestQuerySnapshot.forEach((doc) => {
-        tempArray.push(doc);
-      });
-      // filter to top 5 best wpm
-      tempArray.sort((a, b) => {
-          return b.data().wpm - a.data().wpm;
+        if (doc.data().displayName === username) {
+          setUserData(doc.data());
+          const user = doc.data();
+          let submissions = user.submissions ? user.submissions : [];
+          setAllSubmissions(submissions);
+          const recentSubs = submissions.slice(Math.max(submissions.length - 5, 0)).reverse();
+          setRecentSubmissions(recentSubs);
+          submissions.sort((a, b) => b.wpm - a.wpm);
+          const bestSubs = submissions.slice(0, 5);
+          setBestSubmissions(bestSubs);
         }
-      );
-      tempArray.splice(5, tempArray.length - 5);
+      });
 
 
-      setBestSubmissions(tempArray);
     }
 
-
-    getUserSettings();
-    getBestSubmissions();
-    getRecentSubmissions().then(() => setLoading(false));
+    getUserSettings().then(() => setLoading(false));
   }, [username]);
 
   var dateArr = profileUserData?.account_created.split(" ");
@@ -225,7 +199,9 @@ export default function Profile({config}) {
                           width: '100%',
 
                         }}>
-                          <LineChart q={q}/>
+                          {!loading &&
+                            <LineChart q={allSubmissions}/>
+                          }
                         </Box>
                       </Center>
 
@@ -250,7 +226,9 @@ export default function Profile({config}) {
                         <Box style={{
                           width: '100%',
                         }}>
-                          <StreakGraph user={profileUserData}/>
+                          {!loading && profileUserData &&
+                            <StreakGraph user={profileUserData}/>
+                          }
                         </Box>
                       </Center>
                       <Center>
@@ -294,7 +272,7 @@ export default function Profile({config}) {
                                 {!loading &&
                                   recentSubmissions.map((submission) => (
                                     <Box width={'100%'}>
-                                      <Submission uid={submission}
+                                      <Submission submission={submission}
                                                   config={config}/>
 
                                     </Box>
@@ -327,7 +305,7 @@ export default function Profile({config}) {
 
                                 {!loading && bestSubmissions.map((submission) =>
                                   <Box width={'100%'}>
-                                    <Submission uid={submission.id}/>
+                                    <Submission submission={submission}/>
                                   </Box>
                                 )}
                               </VStack>

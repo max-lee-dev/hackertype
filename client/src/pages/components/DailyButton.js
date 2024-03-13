@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 import {Box, Text, Center, HStack} from "@chakra-ui/react";
 import dailySolutions from "./codefiles/dailySolutions";
 import {doc, updateDoc, onSnapshot} from "firebase/firestore";
-import {db} from "./firebase";
+import {auth, db} from "./firebase";
 
 
 export default function DailyButton({config, user}) {
@@ -17,12 +17,12 @@ export default function DailyButton({config, user}) {
 
 
     async function checkDaily() {
-      if (dailyNum - user.last_daily > 1) {
+      if (dailyNum - user?.last_daily > 1) {
         // if they missed a day
 
         // FILL IN THE MISSING STREAKS
         let streakArr = user.streakArr ? user.streakArr : [];
-        let userLastDaily = user.last_daily;
+        let userLastDaily = user?.last_daily;
         while (dailyNum > userLastDaily) {
           streakArr.push({
             dailyNum: userLastDaily,
@@ -38,13 +38,12 @@ export default function DailyButton({config, user}) {
             streakArr: streakArr,
           });
         }
-
-
         setStreak(0)
-
       } else {
         setStreak(user.streak)
-        if (!user.streakArr || user.streakArr[user.streakArr.length - 1].dailyNum !== dailyNum) {
+        console.log("daily: " + dailyNum)
+        const needsUpdate = !user.streakArr || user.streakArr[user.streakArr.length - 1].dailyNum !== dailyNum || user.streakArr[user.streakArr.length - 1].streak === user.streak[user.streakArr.length - 2].streak;
+        if (needsUpdate) { // if we already inputted the streak for today
           let streakArr = user.streakArr ? user.streakArr : [];
 
           const today = {
@@ -70,13 +69,13 @@ export default function DailyButton({config, user}) {
 
     <Box fontSize={'24px'} as='a'
          href={user?.displayName ? `/solutions/Java/${dailySolutions[dailyNum]}` : "/login"}>
-      {user.last_daily === dailyNum ? (
+      {user?.last_daily === dailyNum ? (
 
         <Box paddingBottom={0} color={config["logoColor"]}>
           <HStack spacing={0}>
             <ion-icon name="flame"></ion-icon>
             <Text fontSize={'20px'}>
-              {user.streak ? streak : 0}
+              {user?.streak ? streak : 0}
             </Text>
           </HStack>
         </Box>
@@ -85,7 +84,7 @@ export default function DailyButton({config, user}) {
           <HStack spacing={0}>
             <ion-icon name="flame-outline"></ion-icon>
             <Text fontSize={'20px'}>
-              {user.streak ? streak : 0}
+              {user?.streak ? streak : 0}
             </Text>
           </HStack>
         </Box>

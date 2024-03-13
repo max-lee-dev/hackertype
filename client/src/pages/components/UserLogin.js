@@ -47,9 +47,12 @@ export default function UserLogin({setGitLogin, config, user, setUser}) {
         email: googleEmail,
         account_created: new Date().toUTCString(),
         uid: uid,
+      }).then(() => {
+        console.log("new user created");
+        if (auth) updateProfile(auth.currentUser, {displayName: googleName}).catch((err) => console.log(err));
+        window.location.replace(`/profile/${googleName}`);
       });
-      if (auth) updateProfile(auth.currentUser, {displayName: googleName}).catch((err) => console.log(err));
-      window.location.replace(`/profile/${googleName}`);
+
     } else {
       await setDoc(doc(db, "users", uid), {
         displayName: username,
@@ -123,6 +126,7 @@ export default function UserLogin({setGitLogin, config, user, setUser}) {
         const email = result.user.email;
         const uid = result.user.uid;
         users.map((user) => {
+          console.log(user.uid, uid);
           if (user.uid === uid) {
             login = true;
           }
@@ -422,16 +426,7 @@ export default function UserLogin({setGitLogin, config, user, setUser}) {
             </Stack>
           </Box>
         </Center>
-        <Center>
-          {user && (
-            <Box className="standardButton">
-              <Text paddingTop="24px" fontSize="24px">
-                Signed in as: {user.displayName}
-              </Text>
-              <Button onClick={() => signOut(auth)}>Sign out</Button>
-            </Box>
-          )}
-        </Center>
+
       </Box>
     </Center>
   );

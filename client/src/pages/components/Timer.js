@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import dailySolutions from "./codefiles/dailySolutions";
-import {addDoc} from "firebase/firestore";
+import {addDoc, getDoc} from "firebase/firestore";
 import {db} from "./firebase";
 import {collection, increment, updateDoc, doc, getDocs} from "firebase/firestore";
 import {StarIcon} from "@chakra-ui/icons";
@@ -405,7 +405,7 @@ function Timer({
           return "";
         });
 
-     
+
       setTotalOpponents(totalOppo);
       setRank(myRank);
 
@@ -458,6 +458,20 @@ function Timer({
         return dateArray;
       }
 
+      const thisSubmission = {
+        solution_id: leetcodeTitle,
+        user: user.displayName,
+        wpm: finalWPM,
+        acc: newAcc,
+        language: language,
+        user_uid: user.uid,
+        date: createDate(),
+        when: Date.parse(new Date()),
+        isBestSubmission: isBestSubmission,
+        rank: myRank,
+        totalOpponents: totalOppo,
+      }
+
       await addDoc(submissionsCollectionRef, {
         solution_id: leetcodeTitle,
         user: user.displayName,
@@ -470,6 +484,16 @@ function Timer({
         isBestSubmission: isBestSubmission,
         rank: myRank,
         totalOpponents: totalOppo,
+      });
+      const userDoc = doc(db, "users", user?.uid);
+      const userSnap = await getDoc(userDoc);
+      const userData = userSnap.data();
+
+
+      const userSubmissions = userData.submissions ? userData.submissions : [];
+      userSubmissions.push(thisSubmission);
+      await updateDoc(doc(db, "users", userData?.uid), {
+        submissions: userSubmissions,
       });
     } else {
       let myRank = 1;

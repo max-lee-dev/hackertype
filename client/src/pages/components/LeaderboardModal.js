@@ -58,8 +58,6 @@ export default function LeaderboardModal({
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
   const [loading, setLoading] = useState(false);
-  const [userList, setUserList] = useState([]);
-  const [userInput, setUserInput] = useState("");
   const [solutionList, setSolutionList] = useState([]);
   const [dateArrs, setDateArrs] = useState([]);
   const [user, setUser] = useState({});
@@ -85,7 +83,6 @@ export default function LeaderboardModal({
   }, []);
   useEffect(() => {
     setLoading(true);
-    setUserList([]);
 
     async function getSolutionList() {
       const tempArr = [];
@@ -104,8 +101,10 @@ export default function LeaderboardModal({
       setSolutionList(tempArr);
     }
 
-    getSolutionList().then(() => setLoading(false));
-  }, [userInput, isLeaderboardOpen]);
+    if (isLeaderboardOpen) {
+      getSolutionList().then(() => setLoading(false));
+    }
+  }, [isLeaderboardOpen]);
 
 
   const css = document.querySelector(":root");
@@ -299,7 +298,5 @@ export default function LeaderboardModal({
 
   function closeModal() {
     onLeaderboardClose();
-    setUserInput("");
-    setUserList([]);
   }
 }

@@ -106,7 +106,7 @@ function App() {
       const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
         setUserData(doc.data());
       });
-    
+
     }
 
     if (user) getUserSettings().then(() => setLoading(false));
