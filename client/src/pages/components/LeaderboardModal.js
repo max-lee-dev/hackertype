@@ -59,7 +59,6 @@ export default function LeaderboardModal({
   const finalRef = React.useRef(null);
   const [loading, setLoading] = useState(false);
   const [solutionList, setSolutionList] = useState([]);
-  const [dateArrs, setDateArrs] = useState([]);
   const [user, setUser] = useState({});
 
   const titleArray = givenSolName.split(".");
@@ -87,17 +86,20 @@ export default function LeaderboardModal({
     async function getSolutionList() {
       const tempArr = [];
       const dateArrs = [];
-      const q = query(collection(db, "submissions"), where("language", "==", selectedLanguage), where("solution_id", "==", givenSolName), orderBy("rank", "asc"), where("isBestSubmission", "==", true));
+
+      const q = query(collection(db, givenSolName), where("language", "==", selectedLanguage), where("isBestSubmission", "==", true));
+      // , where("language", "==", selectedLanguage), where("solution_id", "==", givenSolName), orderBy("rank", "asc"), where("isBestSubmission", "==", true))
 
       const querySnapshot = await getDocs(q);
 
+      // sort both date arrs and temp arr
+
+
       querySnapshot.forEach((doc) => {
         tempArr.push(doc.data());
-        const thisDate = new Date(doc.data().date);
-        const UTCDate = thisDate.toUTCString();
-        dateArrs.push(formatDate(doc.data().when));
       });
-      setDateArrs(dateArrs);
+      tempArr.sort((a, b) => a.rank - b.rank);
+
       setSolutionList(tempArr);
     }
 
@@ -206,7 +208,7 @@ export default function LeaderboardModal({
                                     <HStack>
                                       <Text fontSize="18px" color={subtleText}>
                                         {" "}
-                                        {dateArrs[i]}
+                                        {formatDate(sol.when)}
                                       </Text>
                                     </HStack>
                                   </Text>
@@ -264,7 +266,7 @@ export default function LeaderboardModal({
                                         <Text fontSize="18px"
                                               color={subtleText}>
                                           {" "}
-                                          {dateArrs[i]}
+                                          {formatDate(sol.when)}
                                         </Text>
                                       </HStack>
                                     </Text>

@@ -143,7 +143,6 @@ function App({user}) {
 
   function handleChange(event, bool) {
     let {name, value} = event.target;
-    console.log(name, value);
     const parseBoolean = (value) => value === "true" || value === true;
 
     if (bool) value = !parseBoolean(stateConfig[name]);
@@ -188,7 +187,6 @@ function App({user}) {
   const [correctCharsArray, setCorrectCharsArray] = useState([]);
   const [preGeneratedLineIndex, setPreGeneratedLineIndex] = useState([]);
   const [thisSolutionPR, setThisSolutionPR] = useState(0);
-  const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const submissionsCollectionRef = collection(db, "submissions");
   const [id, setId] = useState(chosenID.current);
@@ -201,6 +199,7 @@ function App({user}) {
   const [finished, setFinished] = useState(false);
   const [last_daily, setLastDaily] = useState(undefined);
   const [showCustomCaret, setShowCustomCaret] = useState(false);
+  const [userData, setUserData] = useState({});
 
   // check if user missed the daily
   const ogDay = 1703662239000 - 27039000;
@@ -254,27 +253,19 @@ function App({user}) {
 
   }, [startCounting]);
 
-  useEffect(() => {
-    const getSubmissions = async () => {
-      const data = await getDocs(submissionsCollectionRef);
-      setSubmissions(data.docs.map((doc) => ({...doc.data(), id: doc.id})));
-    };
-    getSubmissions();
 
-    //eslint-disable-next-line
-  }, [finished]);
-
-  useEffect(() => {
-    if (user && !finished) {
-      submissions.map((submission) => {
-        if (submission.user !== user.displayName) return "";
-        if (submission.solution_id !== leetcodeTitle) return "";
-        if (submission.language !== language) return "";
-        if (!submission.isBestSubmission) return "";
-        setThisSolutionPR(submission.wpm);
-      });
-    }
-  }, [submissions]);
+  // useEffect(() => {
+  //   if (user && !finished) {
+  //     userData.submissions?.map((submission) => {
+  //       console.log("HEY")
+  //       if (submission.user !== user.displayName) return "";
+  //       if (submission.solution_id !== leetcodeTitle) return "";
+  //       if (submission.language !== language) return "";
+  //       if (!submission.isBestSubmission) return "";
+  //       setThisSolutionPR(submission.pm);
+  //     });
+  //   }
+  // }, [userData]);
 
   // if given a solution id, load the pr
 
@@ -288,10 +279,13 @@ function App({user}) {
 
         const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
           setLastDaily(doc.data().last_daily);
+          setUserData(doc.data());
+
         });
 
         const userDoc = doc(db, "users", user.uid);
         await getDoc(userDoc).then((doc) => {
+
           if (number) {
             chosenID.current = number;
             setId(number);
@@ -333,7 +327,7 @@ function App({user}) {
   );
 
   useEffect(() => {
-    console.log("wtf");
+
     handleChange({target: {name: "language", value: language}});
   }, [language]);
 
@@ -380,16 +374,7 @@ function App({user}) {
     }
     const lcID = leetcodeTitle.split(".")[0].trim();
 
-    if (retrySame) {
-      if (user && !finished) {
-        submissions.map((submission) => {
-          if (submission.user !== user.displayName) return "";
-          if (submission.solution_id !== leetcodeTitle) return "";
-          if (submission.language !== language) return "";
-          if (!submission.isBestSubmission) return "";
-          setThisSolutionPR(submission.wpm);
-        });
-      }
+    if (retrySame === true) {
       Reset(codingLanguage, maxWords, lcID);
     }
 
@@ -426,6 +411,7 @@ function App({user}) {
 
     if (codeLang[id] === null) {
       setError(`This solution doesn't exist for ${codingLanguage}`);
+      return "";
     }
 
     while (true) {
@@ -440,7 +426,7 @@ function App({user}) {
       if (id !== undefined && !isNaN(id)) {
         if (codeLang[parseInt(id)] === undefined) {
           setError(`This solution doesn't exist for ${codingLanguage}`);
-
+          return "";
         }
         pulledCode = codeLang[parseInt(id)];
       }
@@ -465,16 +451,14 @@ function App({user}) {
     if (user) {
       let found = false;
       setFindingPR(true);
-      submissions.map((submission) => {
-        if (submission.user !== user.displayName) return "";
+      userData.submissions?.map((submission) => {
         if (submission.solution_id !== codeTitle) return "";
         if (submission.language !== codingLanguage) return "";
         if (!submission.isBestSubmission) return "";
         setThisSolutionPR(submission.wpm);
         found = true;
       });
-      if (!found && !retrySame) {
-        console.log("test");
+      if (!found) {
         setThisSolutionPR(0);
       }
       setFindingPR(false);
@@ -486,6 +470,7 @@ function App({user}) {
   function Reset(codingLanguage, maxWords, id) {
     // solution range
     ////////////////////////// C++
+
     let codeLang = cppCode;
     let cppSolutions = 0;
     let javaSolutions = 0;
@@ -1205,7 +1190,6 @@ function App({user}) {
                         submitted={submitted}
                         leetcodeTitle={leetcodeTitle}
                         setSubmitted={setSubmitted}
-                        submissions={submissions}
                         user={user}
                         last_daily={last_daily}
                         thisSolutionPR={thisSolutionPR}

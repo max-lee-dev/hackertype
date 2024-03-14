@@ -16,8 +16,10 @@ export default function LineChart({q}) {
     setLoading(true);
 
     async function getGraphSubmissions() {
-
-      const tempArray = q.reverse();
+      console.log(q[q.length - 1].solution_id);
+      let tempArray = q;
+      tempArray = tempArray.sort((a, b) => b.when - a.when);
+      tempArray = tempArray.reverse();
       const tempSolTitles = tempArray.map((data) => data.solution_id);
       setSolutionTitles(tempSolTitles);
       setGraphData({

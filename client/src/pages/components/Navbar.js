@@ -1,9 +1,25 @@
 import React, {useEffect, useState} from "react";
 import {NavLink} from "react-router-dom";
-import {auth} from "./firebase";
+import {auth, db} from "./firebase";
 import DailyButton from "./DailyButton";
 import logo from "./assets/favicon.ico";
+import javaCode from "./codefiles/javaCode.json"
+import cppCode from "./codefiles/cppCode.json"
 import ChangelogModal from "./ChangelogModal.js";
+import {
+  doc,
+  deleteDoc,
+  addDoc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  collection,
+  getDocs,
+  query,
+  where,
+  orderBy,
+  limit
+} from "firebase/firestore";
 
 import {
   Menu,
@@ -45,6 +61,71 @@ export default function Navbar({userData, updatedConfig}) {
       window.location.replace(`/`);
     }
   }
+
+  async function lol() {
+    // const allsubs = query(collection(db, "submissions"));
+    // const subs = await getDocs(allsubs);
+    // let num = 0;
+    // subs.forEach((d) => {
+    //   if (num < 2) {
+    //     console.log("number: " + num + "/" + subs.size)
+    //     const leetcodeTitle = d.data().solution_id;
+    //     const user = d.data().user;
+    //     const wpm = d.data().wpm;
+    //     const acc = d.data().acc;
+    //     const language = d.data().language;
+    //     const user_uid = d.data().user_uid;
+    //     const date = d.data().date;
+    //     const when = d.data().when;
+    //     const isBestSubmission = d.data().isBestSubmission;
+    //     const id = d.id;
+    //     const rank = d.data().rank;
+    //     const totalOpponents = d.data().totalOpponents;
+    //     try {
+    //       setDoc(doc(db, leetcodeTitle, id), {
+    //         solution_id: leetcodeTitle,
+    //         user: user,
+    //         wpm: wpm,
+    //         acc: acc,
+    //         id: id,
+    //         language: language,
+    //         user_uid: user_uid,
+    //         date: date,
+    //         when: when,
+    //         isBestSubmission: isBestSubmission,
+    //         rank: rank,
+    //         totalOpponents: totalOpponents
+    //
+    //       }).then(() => {
+    //         num++;
+    //
+    //         console.log("done: " + num + "/" + subs.size)
+    //       });
+    //     } catch (e) {
+    //       console.log(e);
+    //     }
+    //   }
+    // });
+    // console.log(javaCode.length);
+    // for (let i = 0; i < cppCode.length; i++) {
+    //   const thisSol = cppCode[i];
+    //   if (!thisSol) continue;
+    //   let title;
+    //   thisSol.map((codeInfo) => {
+    //     title = codeInfo.id;
+    //     return 0;
+    //   });
+    //   const thisCollection = collection(db, title);
+    //   const thisQuery = query(thisCollection);
+    //   const thisDocs = await getDocs(thisQuery);
+    //   thisDocs.forEach((doc) => {
+    //     deleteDoc(d.ref);
+    //   });
+    // }
+
+
+  }
+
 
   //eslint-disable-next-line
   return (
@@ -100,6 +181,7 @@ export default function Navbar({userData, updatedConfig}) {
               <li>
                 <NavLink to="/about">&lt;about&gt;</NavLink>
               </li>
+              
               <li>
                 <Stack direction="row">
                   {!user && (
