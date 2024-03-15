@@ -520,6 +520,23 @@ function Timer({
         rank: myRank,
         totalOpponents: totalOppo,
       });
+
+      // add to all submissions for me to check
+      const allSubmissionsRef = collection(db, "submissions");
+      await addDoc(allSubmissionsRef, {
+        solution_id: leetcodeTitle,
+        user: user.displayName,
+        wpm: finalWPM,
+        acc: newAcc,
+        language: language,
+        user_uid: user.uid,
+        date: createDate(),
+        when: Date.parse(new Date()),
+        isBestSubmission: isBestSubmission,
+        rank: myRank,
+        totalOpponents: totalOppo,
+      });
+
       await updateDoc(submissionDoc, {
         id: submissionDoc.id,
       });
