@@ -1,0 +1,310 @@
+[
+  [
+    "Given nums = [2, 7, 11, 15], target = 9,\nBecause nums[0] + nums[1] = 2 + 7 = 9,\nreturn [0, 1].\n",
+    "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number[]}\n */\nvar twoSum = function(nums, target) {\n  var hash = {};\n  var len = nums.length;\n  for (var i = 0; i < len; i++) {\n    if (nums[i] in hash) return [hash[nums[i]], i];\n    hash[target - nums[i]] = i\n  }\n  return [-1, -1];\n};\n"
+  ],
+  [
+    "Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)\nOutput: 7 -> 0 -> 8\nExplanation: 342 + 465 = 807.\n",
+    "/**\n * Definition for singly-linked list.\n * function ListNode(val) {\n *     this.val = val;\n *     this.next = null;\n * }\n */\n/**\n * @param {ListNode} l1\n * @param {ListNode} l2\n * @return {ListNode}\n */\nvar addTwoNumbers = function(l1, l2) {\n  var carry = 0;\n  var sum = 0;\n  var head = new ListNode(0);\n  var now = head;\n  var a = l1;\n  var b = l2;\n  while (a !== null || b !== null) {\n    sum = (a ? a.val : 0) + (b ? b.val : 0) + carry;\n    carry = Math.floor(sum / 10);\n    now.next = new ListNode(sum % 10);\n    now = now.next;\n    a = a ? a.next : null;\n    b = b ? b.next : null;\n  }\n  if (carry) now.next = new ListNode(carry);\n  return head.next;\n};\n"
+  ],
+  [
+    "\"abcabcbb\"",
+    "\"abc\"",
+    "\"bbbbb\"",
+    "\"b\"",
+    "\"pwwkew\"",
+    "\"wke\"",
+    "\"pwke\"",
+    "/**\n * @param {string} s\n * @return {number}\n */\nvar lengthOfLongestSubstring = function(s) {\n  var map = {};\n  var len = s.length;\n  var max = 0;\n  var start = 0;\n  for (var i = 0; i < len; i++) {\n    if (map[s[i]] !== undefined) {\n      start = Math.max(start, map[s[i]] + 1);\n    }\n    map[s[i]] = i;\n    max = Math.max(max, i - start + 1);\n  }\n  return max;\n};\n"
+  ],
+  [
+    "nums1 = [1, 3]\nnums2 = [2]\n\nThe median is 2.0\n",
+    "nums1 = [1, 2]\nnums2 = [3, 4]\n\nThe median is (2 + 3)/2 = 2.5\n",
+    "/**\n * @param {number[]} nums1\n * @param {number[]} nums2\n * @return {number}\n */\nvar findMedianSortedArrays = function(nums1, nums2) {\n  var len1 = nums1.length;\n  var len2 = nums2.length;\n  var total = len1 + len2;\n\n  if (total % 2) {\n    return findKthOfTwoSortedArrays(nums1, len1, nums2, len2, parseInt(total / 2 + 1));\n  } else {\n    return (findKthOfTwoSortedArrays(nums1, len1, nums2, len2, total / 2)\n        + findKthOfTwoSortedArrays(nums1, len1, nums2, len2, total / 2 + 1)) / 2;\n  }\n};\n\nfunction findKthOfTwoSortedArrays (p, m, q, n, k) {\n\n    if (m > n) {\n        return findKthOfTwoSortedArrays(q, n, p, m, k);\n    }\n\n    if (m === 0) {\n        return q[k - 1];\n    }\n\n    if (k === 1) {\n        return Math.min(p[0], q[0]);\n    }\n\n    var pa = Math.min(parseInt(k / 2), m);\n    var qa = k - pa;\n\n    if (p[pa - 1] < q[qa - 1]) {\n        return findKthOfTwoSortedArrays(p.slice(pa), m - pa, q, n, k - pa);\n    } else if (q[qa - 1] < p[pa - 1]) {\n        return findKthOfTwoSortedArrays(p, m, q.slice(qa), n - qa, k - qa);\n    } else {\n        return p[pa - 1];\n    }\n}\n"
+  ],
+  [
+    "Input: \"babad\"\nOutput: \"bab\"\nNote: \"aba\" is also a valid answer.\n",
+    "Input: \"cbbd\"\nOutput: \"bb\"\n",
+    "/**\n * @param {string} s\n * @return {string}\n */\nvar longestPalindrome = function(s) {\n  var start = 0;\n  var end = 0;\n  var len = s.length;\n  var num = 0;\n  for (var i = 0; i < len; i++) {\n    num = Math.max(expandAroundCenter(s, i, i), expandAroundCenter(s, i, i + 1));\n    if (num > end - start) {\n      start = i - Math.floor((num - 1) / 2);\n      end = i + Math.floor(num / 2);\n    }\n  }\n  return s.slice(start, end + 1);\n};\n\nvar expandAroundCenter = function (s, left, right) {\n  var l = left;\n  var r = right;\n  var len = s.length;\n  while (l >= 0 && r < len && s[l] === s[r]) {\n    l--;\n    r++;\n  }\n  return r - l - 1;\n};\n",
+    "/**\n * @param {string} s\n * @return {string}\n */\nvar longestPalindrome = function(s) {\n    let startIndex = 0;\n    let maxLength = 1;\n\n    function expandAroundCenter(left, right) {\n        while (left >=0 && right < s.length && s[left] === s[right]) {\n            const currentPalLength = right - left + 1;\n            if (currentPalLength > maxLength) {\n                maxLength = currentPalLength;\n                startIndex = left;\n            }\n            left -= 1;\n            right += 1;\n        }\n    }\n\n    for (let i = 0; i < s.length; i++) {\n            expandAroundCenter(i-1, i+1);\n            expandAroundCenter(i, i+1);\n        }\n\n    return s.slice(startIndex, startIndex + maxLength)\n};\n"
+  ],
+  [
+    "\"PAYPALISHIRING\"",
+    "P   A   H   N\nA P L S I I G\nY   I   R\n",
+    "\"PAHNAPLSIIGYIR\"",
+    "string convert(string s, int numRows);\n",
+    "Input: s = \"PAYPALISHIRING\", numRows = 3\nOutput: \"PAHNAPLSIIGYIR\"\n",
+    "Input: s = \"PAYPALISHIRING\", numRows =&nbsp;4\nOutput:&nbsp;\"PINALSIGYAHRPI\"\nExplanation:\n\nP     I    N\nA   L S  I G\nY A   H R\nP     I\n",
+    "/**\n * @param {string} s\n * @param {number} numRows\n * @return {string}\n */\nvar convert = function(s, numRows) {\n  if (s.length <= numRows || numRows < 2) return s;\n  var len = s.length;\n  var num = 2 * (numRows - 1);\n  var res = Array(numRows).fill('');\n  var tmp = 0;\n  for (var i = 0; i < len; i++) {\n    tmp = i % num;\n    if (tmp < numRows) {\n      res[tmp] += s[i];\n    } else {\n      res[num - tmp] += s[i];\n    }\n  }\n  return res.join('');\n};\n",
+    "2 * (numRows - 1)"
+  ],
+  [
+    "Input: 123\nOutput: 321\n",
+    "Input: -123\nOutput: -321\n",
+    "Input: 120\nOutput: 21\n",
+    "/**\n * @param {number} x\n * @return {number}\n */\nvar reverse = function(x) {\n  var INT_MAX = 2147483647;\n  var INT_MIN = - INT_MAX - 1;\n  var res = 0;\n  var num = x;\n  while (num !== 0) {\n    res = (res * 10) + (num % 10);\n    num = num > 0 ? Math.floor(num / 10) : Math.ceil(num / 10);\n    if (res > INT_MAX || res < INT_MIN) return 0;\n  }\n  return res;\n};\n"
+  ],
+  [
+    "atoi",
+    "' '",
+    "Input: \"42\"\nOutput: 42\n",
+    "Input: \"   -42\"\nOutput: -42\nExplanation: The first non-whitespace character is '-', which is the minus sign.\n&nbsp;            Then take as many numerical digits as possible, which gets 42.\n",
+    "Input: \"4193 with words\"\nOutput: 4193\nExplanation: Conversion stops at digit '3' as the next character is not a numerical digit.\n",
+    "Input: \"words and 987\"\nOutput: 0\nExplanation: The first non-whitespace character is 'w', which is not a numerical \n&nbsp;            digit or a +/- sign. Therefore no valid conversion could be performed.\n",
+    "Input: \"-91283472332\"\nOutput: -2147483648\nExplanation: The number \"-91283472332\" is out of the range of a 32-bit signed integer.\n&nbsp;            Thefore INT_MIN (−231) is returned.\n",
+    "/**\n * @param {string} str\n * @return {number}\n */\nvar myAtoi = function(str) {\n  var i = 0;\n  var sign = 1;\n  var res = 0;\n  var len = str.length;\n  var INT_MAX = 2147483647;\n  var INT_MIN = - INT_MAX - 1;\n\n  while (str[i] === ' ') i++;\n\n  if (str[i] === '+' || str[i] === '-') {\n    sign = str[i] === '+' ? 1 : -1;\n    i++;\n  }\n\n  while (str[i] >= '0' && str[i] <= '9') {\n    res = (res * 10) + (str[i] - 0);\n    if (sign === 1 && res > INT_MAX) return INT_MAX;\n    if (sign === -1 && res > INT_MAX + 1) return INT_MIN;\n    i++;\n  }\n\n  return res * sign;\n};\n"
+  ],
+  [
+    "Input: 121\nOutput: true\n",
+    "Input: -121\nOutput: false\nExplanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.\n",
+    "Input: 10\nOutput: false\nExplanation: Reads 01 from right to left. Therefore it is not a palindrome.\n",
+    "/**\n * @param {number} x\n * @return {boolean}\n */\nvar isPalindrome = function(x) {\n  var s = '' + x;\n  var l = 0;\n  var r = s.length - 1;\n  while (l < r) {\n    if (s[l] !== s[r]) return false;\n    l++;\n    r--;\n  }\n  return true;\n};\n",
+    "/**\n * @param {number} x\n * @return {boolean}\n */\nvar isPalindrome = function(x) {\n  if (x < 0) return false;\n  var num = x;\n  var res = 0;\n  while (num !== 0) {\n    res = (res * 10) + (num % 10);\n    num = Math.floor(num / 10);\n  }\n  return res === x;\n};\n"
+  ],
+  [
+    "s",
+    "p",
+    "'.'",
+    "'*'",
+    "'.' Matches any single character.\n'*' Matches zero or more of the preceding element.\n",
+    "s",
+    "a-z",
+    "p",
+    "a-z",
+    ".",
+    "*",
+    "Input:\ns = \"aa\"\np = \"a\"\nOutput: false\nExplanation: \"a\" does not match the entire string \"aa\".\n",
+    "Input:\ns = \"aa\"\np = \"a*\"\nOutput: true\nExplanation:&nbsp;'*' means zero or more of the precedeng&nbsp;element, 'a'. Therefore, by repeating 'a' once, it becomes \"aa\".\n",
+    "Input:\ns = \"ab\"\np = \".*\"\nOutput: true\nExplanation:&nbsp;\".*\" means \"zero or more (*) of any character (.)\".\n",
+    "Input:\ns = \"aab\"\np = \"c*a*b\"\nOutput: true\nExplanation:&nbsp;c can be repeated 0 times, a can be repeated 1 time. Therefore it matches \"aab\".\n",
+    "Input:\ns = \"mississippi\"\np = \"mis*is*p*.\"\nOutput: false\n",
+    "/**\n * @param {string} s\n * @param {string} p\n * @return {boolean}\n */\nvar isMatch = function(s, p) {\n  var dp = Array(s.length + 1).fill(0).map(_ => Array(p.length + 1));\n  return helper(dp, 0, 0, s, p);\n};\n\nvar helper = function (dp, i, j, s, p) {\n  var res = false;\n  if (dp[i][j] !== undefined) return dp[i][j];\n  if (j === p.length) {\n    res = i === s.length;\n  } else {\n    if (i === s.length) {\n      res = p[j + 1] === '*' && helper(dp, i, j + 2, s, p);\n    } else if (s[i] === p[j] || p[j] === '.') {\n      if (p[j + 1] === '*') {\n        res = helper(dp, i + 1, j, s, p) || helper(dp, i, j + 2, s, p) || helper(dp, i + 1, j + 2, s, p);\n      } else {\n        res = helper(dp, i + 1, j + 1, s, p);\n      }\n    } else {\n      res = p[j + 1] === '*' && helper(dp, i, j + 2, s, p);\n    }\n  }\n  dp[i][j] = res;\n  return res;\n};\n",
+    "dp[i][j]",
+    "s[i]",
+    "p[j]"
+  ],
+  [
+    "/**\n * @param {number[]} height\n * @return {number}\n */\nvar maxArea = function(height) {\n  var max = 0;\n  var l = 0;\n  var r = height.length - 1;\n  while (l < r) {\n    max = Math.max(max, Math.min(height[l], height[r]) * (r - l));\n    if (height[l] < height[r]) {\n      l++;\n    } else {\n      r--;\n    }\n  }\n  return max;\n};\n"
+  ],
+  [
+    "I",
+    "V",
+    "X",
+    "L",
+    "C",
+    "D",
+    "M",
+    "Symbol       Value\nI             1\nV             5\nX             10\nL             50\nC             100\nD             500\nM             1000\n",
+    "II",
+    "XII",
+    "X",
+    "II",
+    "XXVII",
+    "XX",
+    "V",
+    "II",
+    "IIII",
+    "IV",
+    "IX",
+    "I",
+    "V",
+    "X",
+    "X",
+    "L",
+    "C",
+    "C",
+    "D",
+    "M",
+    "Input:&nbsp;3\nOutput: \"III\"\n",
+    "Input:&nbsp;4\nOutput: \"IV\"\n",
+    "Input:&nbsp;9\nOutput: \"IX\"\n",
+    "Input:&nbsp;58\nOutput: \"LVIII\"\nExplanation: C = 100, L = 50, XXX = 30 and III = 3.\n",
+    "Input:&nbsp;1994\nOutput: \"MCMXCIV\"\nExplanation: M = 1000, CM = 900, XC = 90 and IV = 4.\n",
+    "/**\n * @param {number} num\n * @return {string}\n */\nvar intToRoman = function(num) {\n  var str = [\n    ['I', 'V'],\n    ['X', 'L'],\n    ['C', 'D'],\n    ['M']\n  ];\n  var res = '';\n  var i = 0;\n  var tmp = 0;\n  while (num > 0) {\n    tmp = num % 10;\n    if (tmp === 9) {\n      res = str[i][0] + str[i + 1][0] + res;\n    } else if (tmp >= 5) {\n      res = str[i][1] + str[i][0].repeat(tmp - 5) + res;\n    } else if (tmp === 4) {\n      res = str[i][0] + str[i][1] + res;\n    } else {\n      res = str[i][0].repeat(tmp) + res;\n    }\n    num = Math.floor(num / 10);\n    i++;\n  }\n  return res;\n};\n",
+    "/**\n * @param {number} num\n * @return {string}\n */\nvar intToRoman = function(num) {\n  var map = [\n    [1, \"I\"],\n    [4, \"IV\"],\n    [5, \"V\"],\n    [9, \"IX\"],\n    [10, \"X\"],\n    [40, \"XL\"],\n    [50, \"L\"],\n    [90, \"XC\"],\n    [100, \"C\"],\n    [400, \"CD\"],\n    [500, \"D\"],\n    [900, \"CM\"],\n    [1000, \"M\"]\n  ];\n  var res = '';\n  var i = 12;\n  var tmp = 0;\n  while (num > 0) {\n    res += map[i][1].repeat(Math.floor(num / map[i][0]));\n    num %= map[i][0];\n    i--;\n  }\n  return res;\n};\n",
+    "/**\n * @param {number} num\n * @return {string}\n */\nvar intToRoman = function(num) {\n  var M =[\"\", \"M\", \"MM\", \"MMM\"];\n  var C = [\"\", \"C\", \"CC\", \"CCC\", \"CD\", \"D\", \"DC\", \"DCC\", \"DCCC\", \"CM\"];\n  var X = [\"\", \"X\", \"XX\", \"XXX\", \"XL\", \"L\", \"LX\", \"LXX\", \"LXXX\", \"XC\"];\n  var I = [\"\", \"I\", \"II\", \"III\", \"IV\", \"V\", \"VI\", \"VII\", \"VIII\", \"IX\"];\n  return M[Math.floor(num / 1000)]\n        + C[Math.floor((num % 1000) / 100)]\n        + X[Math.floor((num % 100) / 10)]\n        + I[num % 10];\n};\n"
+  ],
+  [
+    "I",
+    "V",
+    "X",
+    "L",
+    "C",
+    "D",
+    "M",
+    "Symbol       Value\nI             1\nV             5\nX             10\nL             50\nC             100\nD             500\nM             1000\n",
+    "II",
+    "XII",
+    "X",
+    "II",
+    "XXVII",
+    "XX",
+    "V",
+    "II",
+    "IIII",
+    "IV",
+    "IX",
+    "I",
+    "V",
+    "X",
+    "X",
+    "L",
+    "C",
+    "C",
+    "D",
+    "M",
+    "Input:&nbsp;\"III\"\nOutput: 3\n",
+    "Input:&nbsp;\"IV\"\nOutput: 4\n",
+    "Input:&nbsp;\"IX\"\nOutput: 9\n",
+    "Input:&nbsp;\"LVIII\"\nOutput: 58\nExplanation: C = 100, L = 50, XXX = 30 and III = 3.\n",
+    "Input:&nbsp;\"MCMXCIV\"\nOutput: 1994\nExplanation: M = 1000, CM = 900, XC = 90 and IV = 4.\n",
+    "/**\n * @param {string} s\n * @return {number}\n */\nvar romanToInt = function(s) {\n  var map = {\n    I: 1,\n    IV: 4,\n    V: 5,\n    IX: 9,\n    X: 10,\n    XL: 40,\n    L: 50,\n    XC: 90,\n    C: 100,\n    CD: 400,\n    D: 500,\n    CM: 900,\n    M: 1000\n  };\n  var len = s.length;\n  var i = 0;\n  var res = 0;\n  while (i < len) {\n    if (map[s.substr(i, 2)]) {\n      res += map[s.substr(i, 2)];\n      i += 2;\n    } else {\n      res += map[s[i]];\n      i += 1;\n    }\n  }\n  return res;\n};\n"
+  ],
+  [
+    "\"\"",
+    "Input: [\"flower\",\"flow\",\"flight\"]\nOutput: \"fl\"\n",
+    "Input: [\"dog\",\"racecar\",\"car\"]\nOutput: \"\"\nExplanation: There is no common prefix among the input strings.\n",
+    "a-z",
+    "/**\n * @param {string[]} strs\n * @return {string}\n */\nvar longestCommonPrefix = function(strs) {\n  if (strs.length === 0) return '';\n  var len1 = strs.length;\n  var len2 = strs[0].length;\n  var tmp = '';\n  var res = '';\n  outer: for (var i = 0; i < len2; i++) {\n    tmp = strs[0][i];\n    inner: for (var j = 1; j < len1; j++) {\n      if (strs[j][i] !== tmp) break outer;\n    }\n    res += tmp;\n  }\n  return res;\n};\n"
+  ],
+  [
+    "nums",
+    "nums",
+    "Given array nums = [-1, 0, 1, 2, -1, -4],\n\nA solution set is:\n[\n  [-1, 0, 1],\n  [-1, -1, 2]\n]\n",
+    "/**\n * @param {number[]} nums\n * @return {number[][]}\n */\nvar threeSum = function(nums) {\n  var len = nums.length;\n  var res = [];\n  var l = 0;\n  var r = 0;\n  nums.sort((a, b) => (a - b));\n  for (var i = 0; i < len; i++) {\n    if (i > 0 && nums[i] === nums[i - 1]) continue;\n    l = i + 1;\n    r = len - 1;\n    while (l < r) {\n      if (nums[i] + nums[l] + nums[r] < 0) {\n        l++;\n      } else if (nums[i] + nums[l] + nums[r] > 0) {\n        r--;\n      } else {\n        res.push([nums[i], nums[l], nums[r]]);\n        while (l < r && nums[l] === nums[l + 1]) l++;\n        while (l < r && nums[r] === nums[r - 1]) r--;\n        l++;\n        r--;\n      }\n    }\n  }\n  return res;\n};\n"
+  ],
+  [
+    "nums",
+    "target",
+    "nums",
+    "target",
+    "Given array nums = [-1, 2, 1, -4], and target = 1.\n\nThe sum that is closest to the target is 2. (-1 + 2 + 1 = 2).\n",
+    "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number}\n */\nvar threeSumClosest = function(nums, target) {\n  var len = nums.length;\n  var res = nums[0] + nums[1] + nums[2];\n  var sum = 0;\n  var l = 0;\n  var r = 0;\n  nums.sort((a, b) => (a - b));\n  for (var i = 0; i < len - 2; i++) {\n    if (i > 0 && nums[i] === nums[i - 1]) continue;\n    l = i + 1;\n    r = len - 1;\n    while (l < r) {\n      sum = nums[i] + nums[l] + nums[r];\n      if (sum < target) {\n        l++;\n      } else if (sum > target) {\n        r--;\n      } else {\n        return sum;\n      }\n      if (Math.abs(sum - target) < Math.abs(res - target)) res = sum;\n    }\n  }\n  return res;\n};\n"
+  ],
+  [
+    "2-9",
+    "Input: \"23\"\nOutput: [\"ad\", \"ae\", \"af\", \"bd\", \"be\", \"bf\", \"cd\", \"ce\", \"cf\"].\n",
+    "/**\n * @param {string} digits\n * @return {string[]}\n */\nvar letterCombinations = function(digits) {\n  if (digits.length === 0) return [];\n  var res = [''];\n  var mapping = ['', '', 'abc', 'def', 'ghi', 'jkl', 'mno', 'pqrs', 'tuv', 'wxyz'];\n  bfs(res, 0, digits, mapping, true);\n  return res;\n};\n\nvar bfs = function (res, index, digits, mapping, lead) {\n  if (res.length === 0 || index === digits.length) return;\n  var tmp = res.pop();\n  var chars = mapping[digits[index]];\n  bfs(res, index, digits, mapping, false);\n  for (var i = 0; i < chars.length; i++) res.push(tmp + chars[i]);\n  if (lead) bfs(res, index + 1, digits, mapping, true);\n};\n",
+    "lead"
+  ],
+  [
+    "nums",
+    "target",
+    "nums",
+    "target",
+    "target",
+    "Given array nums = [1, 0, -1, 0, -2, 2], and target = 0.\n\nA solution set is:\n[\n  [-1,  0, 0, 1],\n  [-2, -1, 1, 2],\n  [-2,  0, 0, 2]\n]\n",
+    "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number[][]}\n */\nvar fourSum = function(nums, target) {\n  if (nums.length < 4) return [];\n\n  var len = nums.length;\n  var res = [];\n  var l = 0;\n  var r = 0;\n  var sum = 0;\n\n  nums.sort((a, b) => (a - b));\n\n  for (var i = 0; i < len - 3; i++) {\n    if (i > 0 && nums[i] === nums[i - 1]) continue;\n    if (nums[i] + nums[i + 1] + nums[i + 2] + nums[i + 3] > target) break;\n    if (nums[i] + nums[len - 1] + nums[len - 2] + nums[len - 3] < target) continue;\n\n    for (var j = i + 1; j < len - 2; j++) {\n      if (j > i + 1 && nums[j] === nums[j - 1]) continue;\n      if (nums[i] + nums[j] + nums[j + 1] + nums[j + 2] > target) break;\n      if (nums[i] + nums[j] + nums[len - 1] + nums[len - 2] < target) continue;\n\n      l = j + 1;\n      r = len - 1;\n\n      while (l < r) {\n        sum = nums[i] + nums[j] + nums[l] + nums[r];\n\n        if (sum < target) {\n          l++;\n        } else if (sum > target) {\n          r--;\n        } else {\n          res.push([nums[i], nums[j], nums[l], nums[r]]);\n          while (l < r && nums[l] === nums[l + 1]) l++;\n          while (l < r && nums[r] === nums[r - 1]) r--;\n          l++;\n          r--;\n        }\n      }\n    }\n  }\n\n  return res;\n};\n"
+  ],
+  [
+    "Given linked list: 1->2->3->4->5, and n = 2.\n\nAfter removing the second node from the end, the linked list becomes 1->2->3->5.\n",
+    "/**\n * Definition for singly-linked list.\n * function ListNode(val) {\n *     this.val = val;\n *     this.next = null;\n * }\n */\n/**\n * @param {ListNode} head\n * @param {number} n\n * @return {ListNode}\n */\nvar removeNthFromEnd = function(head, n) {\n  var h = new ListNode(0);\n  var ll = h;\n  var rr = h;\n\n  h.next = head;\n\n  for (var i = 0; i < n + 1; i++) {\n    rr = rr.next;\n  }\n\n  while (rr !== null) {\n    ll = ll.next;\n    rr= rr.next;\n  }\n\n  ll.next = ll.next.next;\n\n  return h.next;\n};\n",
+    "a",
+    "b",
+    "b",
+    "n",
+    "b",
+    "n",
+    "a",
+    "n+1",
+    "a",
+    "n",
+    "head"
+  ],
+  [
+    "'('",
+    "')'",
+    "'{'",
+    "'}'",
+    "'['",
+    "']'",
+    "Input: \"()\"\nOutput: true\n",
+    "Input: \"()[]{}\"\nOutput: true\n",
+    "Input: \"(]\"\nOutput: false\n",
+    "Input: \"([)]\"\nOutput: false\n",
+    "Input: \"{[]}\"\nOutput: true\n",
+    "/**\n * @param {string} s\n * @return {boolean}\n */\nvar isValid = function(s) {\n  var stack = [];\n  var len = s.length;\n  var map = {\n    '(': ')',\n    '[': ']',\n    '{': '}'\n  };\n  for (var i = 0; i < len; i++) {\n    if (stack.length > 0 && map[stack[stack.length - 1]] === s[i]) {\n      stack.pop();\n    } else {\n      stack.push(s[i]);\n    }\n  }\n  return stack.length === 0;\n};\n"
+  ],
+  [
+    "Input: 1->2->4, 1->3->4\nOutput: 1->1->2->3->4->4\n",
+    "/**\n * Definition for singly-linked list.\n * function ListNode(val) {\n *     this.val = val;\n *     this.next = null;\n * }\n */\n/**\n * @param {ListNode} l1\n * @param {ListNode} l2\n * @return {ListNode}\n */\nvar mergeTwoLists = function(l1, l2) {\n  var head = new ListNode(0);\n  var now = head;\n  var p1 = l1;\n  var p2 = l2;\n  while (p1 || p2) {\n    if (p1 === null || (p2 !== null && p2.val < p1.val)) {\n      now.next = p2;\n      p2 = p2.next;\n    } else {\n      now.next = p1;\n      p1 = p1.next;\n    }\n    now = now.next;\n  }\n  return head.next;\n};\n"
+  ],
+  [
+    "[\n  \"((()))\",\n  \"(()())\",\n  \"(())()\",\n  \"()(())\",\n  \"()()()\"\n]\n",
+    "/**\n * @param {number} n\n * @return {string[]}\n */\nvar generateParenthesis = function(n) {\n  var res = [];\n  if (n < 1) return res;\n  generate(res, '', n, n);\n  return res;\n};\n\nvar generate = function (res, str, ll, rr) {\n  if (ll || rr) {\n    if (rr > ll) generate(res, str + ')', ll, rr - 1);\n    if (ll) generate(res, str + '(', ll - 1, rr);\n  } else {\n    res.push(str);\n  }\n};\n"
+  ],
+  [
+    "Input:\n[\n&nbsp; 1->4->5,\n&nbsp; 1->3->4,\n&nbsp; 2->6\n]\nOutput: 1->1->2->3->4->4->5->6\n",
+    "/**\n * Definition for singly-linked list.\n * function ListNode(val) {\n *     this.val = val;\n *     this.next = null;\n * }\n */\n/**\n * @param {ListNode[]} lists\n * @return {ListNode}\n */\nvar mergeKLists = function(lists) {\n  var res = [];\n  var tmp = null;\n  for (var i = 0; i < lists.length; i++) {\n    tmp = lists[i];\n    while (tmp !== null) {\n      res.push(tmp);\n      tmp = tmp.next;\n    }\n  }\n  res.sort((a, b) => (a.val - b.val));\n  for (var j = 0; j < res.length; j++) {\n    res[j].next = res[j + 1] || null;\n  }\n  return res[0] || null;\n};\n",
+    "n",
+    "/**\n * Definition for singly-linked list.\n * function ListNode(val) {\n *     this.val = val;\n *     this.next = null;\n * }\n */\n/**\n * @param {ListNode[]} lists\n * @return {ListNode}\n */\nvar mergeKLists = function(lists) {\n  var head = new ListNode(0);\n  var now = head;\n  var i = 0;\n  var index = 0;\n  var min = null;\n  var len = lists.length;\n  while (true) {\n    min = null;\n    for (i = 0; i < len; i++) {\n      if (lists[i] && (!min || lists[i].val < min.val)) {\n        min = lists[i];\n        index = i;\n      }\n    }\n    if (min) {\n      now.next = min;\n      now = now.next;\n      lists[index] = lists[index].next;\n    } else {\n      break;\n    }\n  }\n  return head.next;\n};\n",
+    "n",
+    "k",
+    "/**\n * Definition for singly-linked list.\n * function ListNode(val) {\n *     this.val = val;\n *     this.next = null;\n * }\n */\n/**\n * @param {ListNode[]} lists\n * @return {ListNode}\n */\nvar mergeKLists = function(lists) {\n  var res = null;\n  for (var i = 0; i < lists.length; i++) {\n    res = merge(res, lists[i]);\n  }\n  return res;\n};\n\nvar merge = function (a, b) {\n  if (!a) return b;\n  if (!b) return a;\n\n  var head = new ListNode(0);\n  var now = head;\n\n  while (a || b) {\n    if (!a || (b && b.val < a.val)) {\n      now.next = b;\n      b = b.next;\n    } else {\n      now.next = a;\n      a = a.next;\n    }\n    now = now.next;\n  }\n\n  return head.next;\n};\n",
+    "n",
+    "k",
+    "/**\n * Definition for singly-linked list.\n * function ListNode(val) {\n *     this.val = val;\n *     this.next = null;\n * }\n */\n/**\n * @param {ListNode[]} lists\n * @return {ListNode}\n */\nvar mergeKLists = function(lists) {\n  var len = lists.length;\n  var half = Math.ceil(len / 2);\n  var i = 0;\n  while (len > 1) {\n    while (i < half) {\n      lists[i] = merge(lists[i * 2], (i * 2 + 1) < len ? lists[i * 2 + 1] : null);\n      i++;\n    }\n    len = half;\n    half = Math.ceil(len / 2);\n    i = 0;\n  }\n  return lists[0] || null;\n};\n\nvar merge = function (a, b) {\n  if (!a) return b;\n  if (!b) return a;\n  if (a === b) return a;\n\n  var head = new ListNode(0);\n  var now = head;\n\n  while (a || b) {\n    if (!a || (b && b.val < a.val)) {\n      now.next = b;\n      b = b.next;\n    } else {\n      now.next = a;\n      a = a.next;\n    }\n    now = now.next;\n  }\n\n  return head.next;\n};\n",
+    "n",
+    "k"
+  ],
+  [
+    "Given 1->2->3->4, you should return the list as 2->1->4->3.\n",
+    "/**\n * Definition for singly-linked list.\n * function ListNode(val) {\n *     this.val = val;\n *     this.next = null;\n * }\n */\n/**\n * @param {ListNode} head\n * @return {ListNode}\n */\nvar swapPairs = function(head) {\n  var out = new ListNode(0);\n  var now = out;\n\n  out.next = head;\n\n  while (now.next && now.next.next) {\n    now = swap(now, now.next, now.next.next);\n  }\n\n  return out.next;\n};\n\nvar swap = function (a, b, c) {\n  a.next = c;\n  b.next = c.next;\n  c.next = b;\n  return b;\n};\n"
+  ],
+  [
+    "1->2->3->4->5",
+    "2->1->4->3->5",
+    "3->2->1->4->5",
+    "/**\n * Definition for singly-linked list.\n * function ListNode(val) {\n *     this.val = val;\n *     this.next = null;\n * }\n */\n/**\n * @param {ListNode} head\n * @param {number} k\n * @return {ListNode}\n */\nvar reverseKGroup = function(head, k) {\n  if (!head || k < 2) return head;\n\n  var count = 0;\n  var now = head;\n  var last = head;\n  var tmp = null;\n\n  while (now && count < k) {\n    now = now.next;\n    count++;\n  }\n\n  if (count === k) {\n    now = reverseKGroup(now, k);\n    while (count-- > 0) {\n      tmp = last.next;\n      last.next = now;\n      now = last;\n      last = tmp;\n    }\n    last = now;\n  }\n\n  return last;\n};\n"
+  ],
+  [
+    "Given nums = [1,1,2],\n\nYour function should return length = 2, with the first two elements of nums being 1 and 2 respectively.\n\nIt doesn't matter what you leave beyond the returned length.\n",
+    "Given nums = [0,0,1,1,1,2,2,3,3,4],\n\nYour function should return length = 5, with the first five elements of nums being modified to&nbsp;0, 1, 2, 3, and&nbsp;4 respectively.\n\nIt doesn't matter what values are set beyond&nbsp;the returned length.\n",
+    "// nums is passed in by reference. (i.e., without making a copy)\nint len = removeDuplicates(nums);\n\n// any modification to nums in your function would be known by the caller.\n// using the length returned by your function, it prints the first len elements.\nfor (int i = 0; i < len; i++) {\n&nbsp; &nbsp; print(nums[i]);\n}\n",
+    "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar removeDuplicates = function(nums) {\n  var len = nums.length;\n  var last = NaN;\n  var count = 0;\n  for (var i = 0; i < len; i++) {\n    if (nums[i] !== last) {\n      nums[count] = nums[i];\n      last = nums[i];\n      count++;\n    }\n  }\n  return count;\n};\n"
+  ],
+  [
+    "Given nums = [3,2,2,3], val = 3,\n\nYour function should return length = 2, with the first two elements of nums being 2.\n\nIt doesn't matter what you leave beyond the returned length.\n",
+    "Given nums = [0,1,2,2,3,0,4,2], val = 2,\n\nYour function should return length = 5, with the first five elements of nums containing&nbsp;0, 1, 3, 0, and&nbsp;4.\n\nNote that the order of those five elements can be arbitrary.\n\nIt doesn't matter what values are set beyond&nbsp;the returned length.\n",
+    "// nums is passed in by reference. (i.e., without making a copy)\nint len = removeElement(nums, val);\n\n// any modification to nums in your function would be known by the caller.\n// using the length returned by your function, it prints the first len elements.\nfor (int i = 0; i < len; i++) {\n&nbsp; &nbsp; print(nums[i]);\n}\n",
+    "/**\n * @param {number[]} nums\n * @param {number} val\n * @return {number}\n */\nvar removeElement = function(nums, val) {\n  var len = nums.length;\n  var count = 0;\n  for (var i = 0; i < len; i++) {\n    if (nums[i] !== val) nums[count++] = nums[i];\n  }\n  return count;\n};\n"
+  ],
+  [
+    "Input: haystack = \"hello\", needle = \"ll\"\nOutput: 2\n",
+    "Input: haystack = \"aaaaa\", needle = \"bba\"\nOutput: -1\n",
+    "needle",
+    "needle",
+    "/**\n * @param {string} haystack\n * @param {string} needle\n * @return {number}\n */\nvar strStr = function(haystack, needle) {\n  var len1 = haystack.length;\n  var len2 = needle.length;\n  if (!len2) return 0;\n  for (var i = 0; i < len1; i++) {\n    for (var j = 0; j < len2; j++) {\n      if (i + j === len1) return -1;\n      if (haystack[i + j] !== needle[j]) break;\n      if (j === len2 - 1) return i;\n    }\n  }\n  return -1;\n};\n"
+  ],
+  [
+    "dividend",
+    "divisor",
+    "dividend",
+    "divisor",
+    "Input: dividend = 10, divisor = 3\nOutput: 3\n",
+    "Input: dividend = 7, divisor = -3\nOutput: -2\n",
+    "/**\n * @param {number} dividend\n * @param {number} divisor\n * @return {number}\n */\nvar divide = function(dividend, divisor) {\n  var did = Math.abs(dividend);\n  var dis = Math.abs(divisor);\n  var sign = (divisor > 0 && dividend > 0) || (divisor < 0 && dividend < 0);\n  var res = 0;\n  var arr = [dis];\n\n  if (dividend === 0 || did < dis) return 0;\n  if (divisor === -1 && dividend === -2147483648) return 2147483647;\n  if (dis === 1) return divisor > 0 ? dividend : -dividend;\n\n  while (arr[arr.length - 1] < did) arr.push(arr[arr.length - 1] + arr[arr.length - 1]);\n\n  for (var i = arr.length - 1; i >= 0; i--) {\n    if (did >= arr[i]) {\n      did -= arr[i];\n      res += i === 0 ? 1 : 2 << (i - 1);\n    }\n  }\n\n  return sign ? res : -res;\n};\n",
+    "-2147483648 / -1",
+    "dividend -= divisor << i; result += 2 << (i - 1);",
+    "long",
+    "long long",
+    "divisor << i",
+    "2 << 29",
+    "1073741824",
+    "2 << 30",
+    "divisor << i"
+  ],
+  [
+    "Input:\n  s = \"barfoothefoobarman\",\n  words = [\"foo\",\"bar\"]\nOutput: [0,9]\nExplanation: Substrings starting at index 0 and 9 are \"barfoor\" and \"foobar\" respectively.\nThe output order does not matter, returning [9,0] is fine too.\n",
+    "Input:\n  s = \"wordgoodstudentgoodword\",\n  words = [\"word\",\"student\"]\nOutput: []\n",
+    "/**\n * @param {string} s\n * @param {string[]} words\n * @return {number[]}\n */\nvar findSubstring = function(s, words) {\n  var sLen = s.length;\n  var wLen = words.length;\n  var wordLen = (words[0] || '').length;\n\n  if (!sLen || !wLen || !wordLen) return [];\n\n  var count = 0;\n  var tmp = '';\n  var map1 = {};\n  var map2 = {};\n  var res = [];\n\n  for (var i = 0; i < wLen; i++) {\n    map1[words[i]] = (map1[words[i]] || 0) + 1;\n  }\n\n  out: for (var j = 0; j <= sLen - (wLen * wordLen); j++) {\n    map2 = {};\n    count = 0;\n    while (count < wLen) {\n      tmp = s.substr(j + (count * wordLen), wordLen);\n      if (map1[tmp] === undefined || map1[tmp] === map2[tmp]) continue out;\n      map2[tmp] = (map2[tmp] || 0) + 1;\n      count++;\n    }\n    res.push(j);\n  }\n\n  return res;\n};\n"
+  ],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  []
+]

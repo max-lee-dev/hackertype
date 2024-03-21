@@ -17,22 +17,37 @@ export default function DailyButton({config, user}) {
 
 
     async function checkDaily() {
+      console.log("test")
+      let streakArr = user.streakArr ? user.streakArr.slice() : [];
+      console.log("streakArr: " + streakArr)
+      let userLastDaily = streakArr[streakArr.length - 1]?.dailyNum || 1;
+      console.log("userLastDaialy: " + userLastDaily)
+      console.log("dailyNuma: " + dailyNum)
+
+      userLastDaily++;
+      while (dailyNum > userLastDaily) {
+
+        console.log(userLastDaily)
+        streakArr.push({
+          dailyNum: userLastDaily,
+          streak: 0
+        })
+        userLastDaily++
+      }
       if (dailyNum - user?.last_daily > 1) {
         // if they missed a day
+        console.log("Testasd")
 
         // FILL IN THE MISSING STREAKS
-        let streakArr = user.streakArr ? user.streakArr : [];
-        let userLastDaily = streakArr ? streakArr[streakArr.length - 1].dailyNum : 1;
-        while (dailyNum - 2 > userLastDaily) {
-          streakArr.push({
-            dailyNum: userLastDaily,
-            streak: 0
-          })
-          userLastDaily++
-        }
-        const lastAccountedStreak = user.streakArr ? user.streakArr[streakArr.length - 1].dailyNum : 0;
-        const shouldBeStreak = streakArr[streakArr.length - 1].dailyNum;
+
+        const lastAccountedStreak = user.streakArr[user.streakArr.length - 1]?.dailyNum || 0;
+        console.log("lastAccountedaStreaak: " + lastAccountedStreak)
+
+        const shouldBeStreak = streakArr[streakArr.length - 1]?.dailyNum || 1;
+        console.log("shouldBeStreak: " + shouldBeStreak)
+        console.log("strakArr: " + streakArr)
         if (shouldBeStreak !== lastAccountedStreak) {
+
           await updateDoc(doc(db, "users", user.uid), {
             streak: 0,
             streakArr: streakArr,
@@ -40,8 +55,9 @@ export default function DailyButton({config, user}) {
         }
         setStreak(0)
       } else {
+        // if their last streak is today
         setStreak(user.streak)
-        console.log("daily: " + dailyNum)
+        console.log("dailyaaa: " + dailyNum)
 
         const stillHasToday = dailyNum - user?.last_daily === 1;
         const needsUpdate = !stillHasToday && (!user.streakArr || user.streakArr[user.streakArr.length - 1].dailyNum !== dailyNum || user.streakArr[user.streakArr.length - 1].streak === user.streak[user.streakArr.length - 2].streak);
@@ -50,7 +66,7 @@ export default function DailyButton({config, user}) {
 
           const today = {
             dailyNum: dailyNum,
-            streak: user.streak
+            streak: user.streak,
           }
 
           await updateDoc(doc(db, "users", user.uid), {
@@ -71,13 +87,13 @@ export default function DailyButton({config, user}) {
 
     <Box fontSize={'24px'} as='a'
          href={user?.displayName ? `/solutions/Java/${dailySolutions[dailyNum]}` : "/login"}>
-      {user?.last_daily === dailyNum ? (
+      {parseInt(user?.last_daily) === dailyNum ? (
 
         <Box paddingBottom={0} color={config["logoColor"]}>
           <HStack spacing={0}>
             <ion-icon name="flame"></ion-icon>
             <Text fontSize={'20px'}>
-              {user?.streak ? streak : 0}
+              {user?.streak ? user.streak : 0}
             </Text>
           </HStack>
         </Box>
@@ -86,7 +102,7 @@ export default function DailyButton({config, user}) {
           <HStack spacing={0}>
             <ion-icon name="flame-outline"></ion-icon>
             <Text fontSize={'20px'}>
-              {user?.streak ? streak : 0}
+              {user?.streak ? user.streak : 0}
             </Text>
           </HStack>
         </Box>
