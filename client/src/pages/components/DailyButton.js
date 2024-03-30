@@ -3,6 +3,7 @@ import {NavLink} from "react-router-dom";
 import {Box, Text, Center, HStack} from "@chakra-ui/react";
 import dailySolutions from "./codefiles/dailySolutions";
 import {doc, updateDoc, onSnapshot} from "firebase/firestore";
+import javaCode from "./codefiles/javaCode.json";
 import {auth, db} from "./firebase";
 
 
@@ -17,12 +18,8 @@ export default function DailyButton({config, user}) {
 
 
     async function checkDaily() {
-      console.log("test")
       let streakArr = user.streakArr ? user.streakArr.slice() : [];
-      console.log("streakArr: " + streakArr)
       let userLastDaily = streakArr[streakArr.length - 1]?.dailyNum || 1;
-      console.log("userLastDaialy: " + userLastDaily)
-      console.log("dailyNuma: " + dailyNum)
 
       userLastDaily++;
       while (dailyNum > userLastDaily) {
@@ -41,11 +38,8 @@ export default function DailyButton({config, user}) {
         // FILL IN THE MISSING STREAKS
 
         const lastAccountedStreak = user.streakArr[user.streakArr.length - 1]?.dailyNum || 0;
-        console.log("lastAccountedaStreaak: " + lastAccountedStreak)
 
         const shouldBeStreak = streakArr[streakArr.length - 1]?.dailyNum || 1;
-        console.log("shouldBeStreak: " + shouldBeStreak)
-        console.log("strakArr: " + streakArr)
         if (shouldBeStreak !== lastAccountedStreak) {
 
           await updateDoc(doc(db, "users", user.uid), {
@@ -57,8 +51,6 @@ export default function DailyButton({config, user}) {
       } else {
         // if their last streak is today
         setStreak(user.streak)
-        console.log("dailyaaa: " + dailyNum)
-
         const stillHasToday = dailyNum - user?.last_daily === 1;
         const needsUpdate = !stillHasToday && (!user.streakArr || user.streakArr[user.streakArr.length - 1].dailyNum !== dailyNum || user.streakArr[user.streakArr.length - 1].streak === user.streak[user.streakArr.length - 2].streak);
         if (needsUpdate) { // if we already inputted the streak for today
