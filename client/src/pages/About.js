@@ -19,7 +19,7 @@ export default function About({updatedConfig}) {
 
             <Section delay={0.1}>
               <Text mt="2" fontWeight="300" fontSize="18px">
-                HackerType is a simple typing test that allows you to test your programming/coding speed and
+                hackertype is a simple typing test that allows you to test your programming/coding speed and
                 accuracy using{" "}
                 <Link textDecor={"underline"} href="https://leetcode.com/" isExternal>
                   LeetCode
@@ -30,8 +30,8 @@ export default function About({updatedConfig}) {
                 <Link textDecor={"underline"} isExternal href="https://monkeytype.com">
                   monkeytype
                 </Link>
-                , I wanted to have the same experience for programming but couldn't find any for my liking ——
-                so I made my own. I hope you enjoy using HackerType!
+                , I wanted to have the same experience for programming but couldn't find any for my liking,
+                so I made my own. I hope you enjoy using hackertype!
               </Text>
             </Section>
           </Section>

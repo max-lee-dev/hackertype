@@ -39,9 +39,11 @@ import {
   Stack,
   useDisclosure
 } from "@chakra-ui/react";
+import StreakModal from "./StreakModal/StreakModal";
 
 export default function Navbar({userData, updatedConfig}) {
   const [user, setUser] = useState(null);
+  const {isOpen: isStreakOpen, onClose: onStreakClose, onOpen: onStreakOpen} = useDisclosure();
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
@@ -60,70 +62,6 @@ export default function Navbar({userData, updatedConfig}) {
     if (currentLocation === "/") {
       window.location.replace(`/`);
     }
-  }
-
-  async function lol() {
-    // const allsubs = query(collection(db, "submissions"));
-    // const subs = await getDocs(allsubs);
-    // let num = 0;
-    // subs.forEach((d) => {
-    //   if (num < 2) {
-    //     console.log("number: " + num + "/" + subs.size)
-    //     const leetcodeTitle = d.data().solution_id;
-    //     const user = d.data().user;
-    //     const wpm = d.data().wpm;
-    //     const acc = d.data().acc;
-    //     const language = d.data().language;
-    //     const user_uid = d.data().user_uid;
-    //     const date = d.data().date;
-    //     const when = d.data().when;
-    //     const isBestSubmission = d.data().isBestSubmission;
-    //     const id = d.id;
-    //     const rank = d.data().rank;
-    //     const totalOpponents = d.data().totalOpponents;
-    //     try {
-    //       setDoc(doc(db, leetcodeTitle, id), {
-    //         solution_id: leetcodeTitle,
-    //         user: user,
-    //         wpm: wpm,
-    //         acc: acc,
-    //         id: id,
-    //         language: language,
-    //         user_uid: user_uid,
-    //         date: date,
-    //         when: when,
-    //         isBestSubmission: isBestSubmission,
-    //         rank: rank,
-    //         totalOpponents: totalOpponents
-    //
-    //       }).then(() => {
-    //         num++;
-    //
-    //         console.log("done: " + num + "/" + subs.size)
-    //       });
-    //     } catch (e) {
-    //       console.log(e);
-    //     }
-    //   }
-    // });
-    // console.log(javaCode.length);
-    // for (let i = 0; i < cppCode.length; i++) {
-    //   const thisSol = cppCode[i];
-    //   if (!thisSol) continue;
-    //   let title;
-    //   thisSol.map((codeInfo) => {
-    //     title = codeInfo.id;
-    //     return 0;
-    //   });
-    //   const thisCollection = collection(db, title);
-    //   const thisQuery = query(thisCollection);
-    //   const thisDocs = await getDocs(thisQuery);
-    //   thisDocs.forEach((doc) => {
-    //     deleteDoc(d.ref);
-    //   });
-    // }
-
-
   }
 
 
@@ -159,15 +97,25 @@ export default function Navbar({userData, updatedConfig}) {
 
             <Divider marginLeft="10px" marginRight="10px"/>
           </Box>
-          <Box fontWeight={"500"} display={["none", "none", "inline-block"]}>
+          <HStack fontWeight={"500"} display={["none", "none", "inline-block"]}>
             <ul>
-              <Tooltip label={user ? "daily solution" : "log in to save your streak"}>
+              <Tooltip label={"streak leaderboard"}>
 
                 <li>
-                  <DailyButton config={updatedConfig} user={userData}/>
+                  <Button pt={2} bg={'transparent'} onClick={onStreakOpen}
+                          color={updatedConfig["mainText"]}>
+                    <Box color={updatedConfig["subtleText"]} fontSize="20px">
+                      <ion-icon name="podium"></ion-icon>
+                    </Box>
+                  </Button>
+                  <StreakModal isStreakOpen={isStreakOpen} onStreakClose={onStreakClose}/>
+
                 </li>
               </Tooltip>
 
+              <li>
+                <DailyButton config={updatedConfig} user={userData}/>
+              </li>
               <li>
                 <NavLink to={'/settings'}>
                   <Text fontSize="16px" paddingRight="5px" textColor="">
@@ -181,7 +129,7 @@ export default function Navbar({userData, updatedConfig}) {
               <li>
                 <NavLink to="/about">&lt;about&gt;</NavLink>
               </li>
-              
+
               <li>
                 <Stack direction="row">
                   {!user && (
@@ -208,7 +156,7 @@ export default function Navbar({userData, updatedConfig}) {
               </li>
 
             </ul>
-          </Box>
+          </HStack>
           <Box
             paddingTop="0px"
             paddingRight="40px"
