@@ -114,12 +114,25 @@ export default function StreakModal({
                 <Center>
 
                   <HStack alignItems={'flex-end'}>
-                    <Rank2 name={userList[1].displayName} streak={userList[1].streak} dailyNum={dailyNum}
-                           last_daily={userList[1].last_daily}/>
-                    <Rank1 name={userList[0].displayName} streak={userList[0].streak} dailyNum={dailyNum}
-                           last_daily={userList[0].last_daily}/>
-                    <Rank3 name={userList[2].displayName} streak={userList[2].streak} dailyNum={dailyNum}
-                           last_daily={userList[2].last_daily}/>
+                    <Rank2 name={userList[1]?.displayName ?
+                      userList[1]?.displayName : ""
+                    } streak={userList[1]?.streak ?
+                      userList[1]?.streak : 0
+                    } dailyNum={dailyNum}
+                           last_daily={userList[1]?.last_daily}/>
+                    <Rank1 name={userList[0]?.displayName ?
+                      userList[0]?.displayName : ""
+                    } streak={userList[0]?.streak ?
+                      userList[0]?.streak : 0
+                    } dailyNum={dailyNum}
+                           last_daily={userList[0]?.last_daily}/>
+
+                    <Rank3 name={userList[2]?.displayName ?
+                      userList[2]?.displayName : ""
+                    } streak={userList[2]?.streak ?
+                      userList[2]?.streak : 0
+                    } dailyNum={dailyNum}
+                           last_daily={userList[2]?.last_daily}/>
 
                   </HStack>
                 </Center>
