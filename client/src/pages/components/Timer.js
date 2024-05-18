@@ -100,7 +100,6 @@ function Timer({
     if (done) {
       getSubmissions().then((submissions) => {
         if (submissions) {
-          console.log("yo: " + submissions)
           createSubmission(submissions);
 
         }
@@ -326,7 +325,6 @@ function Timer({
     if (parseInt(leetcodeTitle.split(".")[0]) === dailySolutions[dailyNum] && parseInt(last_daily) !== parseInt(dailyNum)) {
       // this is the daily problem
 
-      console.log('hi' + dailyNum + " " + last_daily)
       await updateDoc(doc(db, "users", user?.uid), {
         last_daily: dailyNum,
         streak: increment(1),
@@ -342,7 +340,6 @@ function Timer({
     const userData = userSnap.data();
     if (user) {
       await checkDaily();
-      console.log("one")
       let totalWpm = parseInt(finalWPM); // database doesnt update during this func so start with the current wpm
       let testsCompleted = 1;
       let firstTime = true;
@@ -377,7 +374,6 @@ function Timer({
         }
         return "";
       });
-      console.log("two " + oldBestSubmission + isBestSubmission + " " + firstTime)
       let myRank = 1;
       let totalOppo = 1;
       // first update last one,
@@ -385,16 +381,13 @@ function Timer({
 
       if (isBestSubmission) {
         oldBestSubmission.map((submission) => {
-          console.log("old rank: " + submission.wpm)
           oldRank = parseInt(submission.rank);
-          console.log("hi")
           const title = leetcodeTitle;
           updateBestSubmission(submission);
 
           return "";
         });
       }
-      console.log("three")
       // AMOUNT BETTER = RANK
       // totalOppo = TOTAL
       submissions
@@ -421,7 +414,6 @@ function Timer({
               parseInt(finalWPM) >= parseInt(submission.wpm) &&
               (firstTime || parseInt(oldRank) >= parseInt(submission.rank))
             ) {
-              console.log("we're better than this submission");
               decreaseRank(submission);
             }
           }
@@ -431,7 +423,6 @@ function Timer({
           return "";
         });
 
-      console.log("four")
 
       setTotalOpponents(totalOppo);
       setRank(myRank);
@@ -440,7 +431,6 @@ function Timer({
       let avgWpm;
       if (userData.totalWpm) {
         avgWpm = (userData.totalWpm / userData.totalTests).toFixed(0);
-        console.log("hi: " + avgWpm)
 
       }
       try {
@@ -455,7 +445,6 @@ function Timer({
       } catch (e) {
         console.log("Error updating document: ", e);
       }
-      console.log("five")
 
       function createDate() {
         const convert = new Date();
@@ -500,7 +489,6 @@ function Timer({
         return dateArray;
       }
 
-      console.log("six")
 
       const thisSubmission = {
         solution_id: leetcodeTitle,
@@ -516,8 +504,6 @@ function Timer({
         totalOpponents: totalOppo,
       }
 
-
-      console.log(isBestSubmission + " wat")
 
       const submissionDoc = await addDoc(submissionsCollectionRef, {
         solution_id: leetcodeTitle,
@@ -606,9 +592,6 @@ function Timer({
   }
 
   async function updateBestSubmission(submission) {
-    console.log("broDASDS")
-    const docRef = doc(db, leetcodeTitle, submission.id);
-    console.log("a: " + docRef)
     await updateDoc(doc(db, leetcodeTitle, submission?.id), {
       isBestSubmission: false,
     }).catch((error) => {
