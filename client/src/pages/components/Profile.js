@@ -132,7 +132,7 @@ export default function Profile({config}) {
 
                   <Box width={'fit-content'}>
                     <Text fontSize="26px" className="font400">
-                      {profileUserData?.average_wpm ? profileUserData?.average_wpm : 0}
+                      {profileUserData?.avgWpm ? profileUserData?.avgWpm : 0}
                     </Text>
                     <Text fontSize="18px" color={config["subtleText"]}
                           className=" font400">

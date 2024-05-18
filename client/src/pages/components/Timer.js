@@ -337,6 +337,9 @@ function Timer({
 
   async function createSubmission(submissions) {
 
+    const userDoc = doc(db, "users", user?.uid);
+    const userSnap = await getDoc(userDoc);
+    const userData = userSnap.data();
     if (user) {
       await checkDaily();
       console.log("one")
@@ -369,6 +372,7 @@ function Timer({
 
           // calculate new average wpm
           totalWpm += parseInt(submission.wpm);
+
           testsCompleted++;
         }
         return "";
@@ -432,13 +436,21 @@ function Timer({
       setTotalOpponents(totalOppo);
       setRank(myRank);
 
-      const avgWpm = (totalWpm / testsCompleted).toFixed(0);
-      console.log(avgWpm)
+
+      let avgWpm;
+      if (userData.totalWpm) {
+        avgWpm = (userData.totalWpm / userData.totalTests).toFixed(0);
+        console.log("hi: " + avgWpm)
+
+      }
       try {
         const docRef = doc(db, "users", user?.uid);
         await updateDoc(docRef, {
           tests_completed: increment(1),
-          average_wpm: avgWpm,
+          totalWpm: increment(parseInt(finalWPM)),
+          totalTests: increment(1),
+          avgWpm: avgWpm ? avgWpm : finalWPM,
+
         });
       } catch (e) {
         console.log("Error updating document: ", e);
@@ -540,11 +552,6 @@ function Timer({
       await updateDoc(submissionDoc, {
         id: submissionDoc.id,
       });
-
-
-      const userDoc = doc(db, "users", user?.uid);
-      const userSnap = await getDoc(userDoc);
-      const userData = userSnap.data();
 
 
       const userSubmissions = userData.submissions ? userData.submissions : [];
