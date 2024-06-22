@@ -98,7 +98,7 @@ export default function Profile({config}) {
                   <HStack spacing="-1">
                     {!loading && !profileUserData &&
                       <Text fontSize="56px">User not found...</Text>}
-                    <Text fontSize="2em">{profileUserData?.displayName}</Text>
+                    <Text fontSize="2em" width={'90%'}>{profileUserData?.displayName}</Text>
                     {!loading && username === user?.displayName && (
                       <Tooltip label="Sign out" aria-label="A tooltip">
                         <Button

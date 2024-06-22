@@ -187,7 +187,7 @@ export default function LeaderboardModal({
                               <Box width="25%">
                                 <Link textDecoration={"underline"}
                                       href={`/profile/${sol.user}`}>
-                                  <Text>{sol.user}</Text>
+                                  <Text width={'80%'}>{sol.user}</Text>
                                 </Link>
                               </Box>
                               <Box width="25%">
