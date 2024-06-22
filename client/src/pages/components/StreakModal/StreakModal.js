@@ -106,7 +106,7 @@ export default function StreakModal({
             <Box>
               {loading ? (
                 <Box>
-                  <Text className="mainFont mainTextClass whiteText" fontSize="24px">
+                  <Text color={mainText} className="mainFont mainTextClass whiteText" fontSize="24px">
                     loading...
                   </Text>
                 </Box>

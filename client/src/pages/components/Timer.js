@@ -4,6 +4,7 @@ import {addDoc, getDoc} from "firebase/firestore";
 import {db} from "./firebase";
 import {collection, increment, updateDoc, doc, getDocs} from "firebase/firestore";
 import {StarIcon} from "@chakra-ui/icons";
+import {discordWebhook} from "./utils/utils";
 import {
   Text,
   Box,
@@ -335,6 +336,7 @@ function Timer({
 
   async function createSubmission(submissions) {
 
+
     const userDoc = doc(db, "users", user?.uid);
     const userSnap = await getDoc(userDoc);
     const userData = userSnap.data();
@@ -412,7 +414,7 @@ function Timer({
             if (
               isBestSubmission &&
               parseInt(finalWPM) >= parseInt(submission.wpm) &&
-              (firstTime || parseInt(oldRank) >= parseInt(submission.rank))
+              (firstTime || parseInt(oldRank) >= parseInt(submission.rank)) // if this is the first time
             ) {
               decreaseRank(submission);
             }
@@ -534,6 +536,8 @@ function Timer({
         rank: myRank,
         totalOpponents: totalOppo,
       });
+      discordWebhook(user.displayName, `${user.displayName} - ${leetcodeTitle} - ${finalWPM} WPM\n${newAcc}% accuracy\nRank: ${myRank}/${totalOppo}\n\n[View Leaderboard](https://www.hackertype.dev/solutions/${language}/${parseInt(leetcodeTitle.split(".")[0])})`);
+
 
       await updateDoc(submissionDoc, {
         id: submissionDoc.id,
@@ -564,6 +568,7 @@ function Timer({
         });
       setRank(myRank);
     }
+
   }
 
   async function decreaseRank(submission) {
