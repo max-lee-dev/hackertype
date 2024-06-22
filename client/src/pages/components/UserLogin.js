@@ -40,8 +40,13 @@ export default function UserLogin({setGitLogin, config, user, setUser}) {
   });
 
   async function createNewUser(uid, googleName, googleEmail) {
+
+
     if (googleName) {
       // if new user with google
+      await setDoc(doc(db, "usermap", googleName), {
+        uid: uid,
+      });
       await setDoc(doc(db, "users", uid), {
         displayName: googleName,
         email: googleEmail,
@@ -54,6 +59,9 @@ export default function UserLogin({setGitLogin, config, user, setUser}) {
       });
 
     } else {
+      await setDoc(doc(db, "usermap", username), {
+        uid: uid,
+      });
       await setDoc(doc(db, "users", uid), {
         displayName: username,
         email: registerEmail,

@@ -7,7 +7,7 @@ import LineChart from "./LineChart";
 
 import {useState, useEffect} from "react";
 import {useParams} from "react-router-dom";
-import {collection, getDocs, query, where, orderBy, limit, doc} from "firebase/firestore";
+import {collection, getDocs, query, where, orderBy, limit, doc, getDoc} from "firebase/firestore";
 import {db} from "./firebase"; // import your Firebase app instance
 import Submission from "./Submission";
 import DailySolutionChart from "./DailySolutionChart";
@@ -46,22 +46,21 @@ export default function Profile({config}) {
     setLoading(true);
 
     async function getUserSettings() {
-      const usersQuery = query(collection(db, "users",));
-      const querySnapshot = await getDocs(usersQuery);
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        if (doc.data().displayName === username) {
-          setUserData(doc.data());
-          const user = doc.data();
-          let submissions = user.submissions ? user.submissions : [];
-          setAllSubmissions(submissions);
-          const recentSubs = submissions.slice(Math.max(submissions.length - 5, 0)).reverse();
-          setRecentSubmissions(recentSubs);
-          submissions.sort((a, b) => b.wpm - a.wpm);
-          const bestSubs = submissions.slice(0, 5);
-          setBestSubmissions(bestSubs);
-        }
-      });
+
+      const userDoc = doc(db, "usermap", username);
+      const usernameDocSnap = await getDoc(userDoc);
+      const uid = usernameDocSnap.data().uid;
+      const userRef = doc(db, "users", uid);
+      const userDocSnap = await getDoc(userRef);
+      setUserData(userDocSnap.data());
+      const user = userDocSnap.data();
+      let submissions = user.submissions ? user.submissions : [];
+      setAllSubmissions(submissions);
+      const recentSubs = submissions.slice(Math.max(submissions.length - 5, 0)).reverse();
+      setRecentSubmissions(recentSubs);
+      submissions.sort((a, b) => b.wpm - a.wpm);
+      const bestSubs = submissions.slice(0, 5);
+      setBestSubmissions(bestSubs);
 
 
     }

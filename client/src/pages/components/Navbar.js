@@ -114,6 +114,7 @@ export default function Navbar({userData, updatedConfig}) {
               </Tooltip>
 
               <li>
+
                 <DailyButton config={updatedConfig} user={userData}/>
               </li>
               <li>

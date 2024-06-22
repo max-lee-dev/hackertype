@@ -51,10 +51,26 @@ export default function FeedbackModal({isFeedbackOpen, onFeedbackClose}) {
     }
   }, [isFeedbackOpen]);
 
+  async function discordWebhook() {
+    const webhook =
+      "https://discord.com/api/webhooks/1254165998416691302/6sZZ8pirBnK1bh5I4Q6G7L92SzX1sHJpDgbSTF32fLjMDRCS0ZMCH8rf8UKI_Dh-48zt";
+    await fetch(webhook, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        content: `hey @everyone, new feedback from ${email}!:\n\n${feedback}`,
+        username: `${username}`, // email of person uploading
+      }),
+    });
+  }
+
 
   function handleSubmit(event) {
     event.preventDefault();
     const feedbackRef = doc(db, "feedback", email + Date.parse(Date()));
+    discordWebhook();
     setDoc(feedbackRef, {
       feedback: feedback,
       email: email,
