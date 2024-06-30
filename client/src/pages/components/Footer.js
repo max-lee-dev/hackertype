@@ -7,7 +7,7 @@ import FeedbackModal from "./FeedbackModal";
 export default function Footer({config}) {
   const {isOpen: isChangeOpen, onClose: onChangeClose, onOpen: onChangeOpen} = useDisclosure();
   const {isOpen: isFeedbackOpen, onClose: onFeedbackClose, onOpen: onFeedbackOpen} = useDisclosure();
-  const lastUpdateTime = 1712374024000;
+  const lastUpdateTime = 1719720177000;
   // console.log(Date.parse(new Date()));
   const seenUpdate = localStorage.getItem("lastCheckedUpdate") > lastUpdateTime;
 
