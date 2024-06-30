@@ -40,6 +40,7 @@ import {
   useDisclosure
 } from "@chakra-ui/react";
 import StreakModal from "./StreakModal/StreakModal";
+import Banner from "./Banner/Banner";
 
 export default function Navbar({userData, updatedConfig}) {
   const [user, setUser] = useState(null);
@@ -70,6 +71,8 @@ export default function Navbar({userData, updatedConfig}) {
     <Box as={'nav'} bgColor={updatedConfig["themeBackground"]} width={['150vw', '100%', '100%', '100%']}
          className="nav"
     >
+      {/*<Banner/>*/}
+
       <Box display={'flex'} justifyContent={['initial', 'center', 'center', 'center']}>
         <Box display={'flex'} width={['70%', '90%', '90%', '70%']} justifyContent={'space-between'}>
 

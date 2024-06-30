@@ -9,6 +9,7 @@ import Profile from "./pages/components/Profile";
 import Settings from "./pages/Settings";
 import {Routes, Route} from "react-router-dom";
 import Footer from "./pages/components/Footer";
+import Banner from "./pages/components/Banner/Banner";
 
 import {db} from "./pages/components/firebase";
 import {collection, doc, getDocs, onSnapshot, query, updateDoc, where} from "firebase/firestore";
@@ -150,8 +151,10 @@ function App() {
         <ChakraProvider theme={theme}>
 
           <Box width={'100%'}>
+
             <NavBar userData={userData} gitLogin={gitLogin} updatedConfig={updatedConfig}/>
             <Box minHeight="90vh">
+
               <Routes>
                 <Route path="/" element={<Home user={user}/>}/>
                 <Route path="/about" element={<About updatedConfig={updatedConfig}/>}/>

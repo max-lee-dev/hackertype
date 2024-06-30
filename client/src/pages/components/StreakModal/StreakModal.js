@@ -23,6 +23,7 @@ import {
   Tooltip,
   Link,
 } from "@chakra-ui/react";
+import javaCode from "../codefiles/javaCode.json";
 
 import {query, collection, getDocs, orderBy, where, updateDoc, doc} from "firebase/firestore";
 import {db} from "../firebase";
@@ -97,9 +98,40 @@ export default function StreakModal({
         <ModalOverlay/>
         <ModalContent bgColor={bgcolor} minHeight={"400px"}>
           <ModalHeader>
-            <Text fontSize={'32px'} color={mainText} className={'mainFont'}>
-              streak leaderboard
-            </Text>
+            <HStack alignItems={'flex-start'} justifyContent={'space-between'}>
+              <Box>
+                <Text fontSize={'32px'} color={mainText} className={'mainFont'}>
+                  streak leaderboard
+                </Text>
+                <Text fontSize={'24px'} color={subtleText} fontWeight={500} className={'underline mainFont'}
+                      as={'a'} href={`/solutions/Java/${dailySolutions[dailyNum]}`}
+                >
+                  {javaCode[dailySolutions[dailyNum] - 1][0].id}
+                </Text>
+
+              </Box>
+              <Box textAlign={'right'}>
+                <HStack alignSelf={'flex-end'}>
+
+                  <Box pt={1} color={logoC} fontSize={'28px'}>
+                    <ion-icon name="flame"></ion-icon>
+                  </Box>
+                  <Text fontSize={'24px'} fontWeight={600} color={mainText} className={'mainFont'}>
+
+                    46
+                  </Text>
+                </HStack>
+
+                <Text fontSize={'16px'} color={subtleText} fontWeight={500} className={'mainFont'}>
+                  record by{" "}
+                  <Text as={'a'} href={'/profile/Tea314'} fontSize={'20px'} fontWeight={500}
+                        color={subtleText}
+                        className={'mainFont underline'}>
+                    Tea314
+                  </Text>
+                </Text>
+              </Box>
+            </HStack>
           </ModalHeader>
 
           <ModalBody>
@@ -140,7 +172,11 @@ export default function StreakModal({
             </Box>
           </ModalBody>
 
-          <ModalFooter></ModalFooter>
+          <ModalFooter>
+            <Text fontSize={'16px'} color={subtleText} className={'mainFont'}>
+              *daily solution updated at 12:00AM GMT
+            </Text>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </Center>
