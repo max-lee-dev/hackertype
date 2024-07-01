@@ -47,7 +47,7 @@ const Banner = () => {
           <Center width="60%">
             <HStack spacing={1}>
               <Text color={config["mainText"]}>
-                congrats to
+                🥹🎉congrats to
               </Text>
               <Box
                 onClick={() => {
@@ -68,7 +68,7 @@ const Banner = () => {
                 <Text as={'span'} color={config["logoColor"]} fontWeight={600}>
                   {" "} 1000{" "}
                 </Text>
-                submissions! 🥹🥹🥹 (please join the discord)
+                submissions! 🥹🎉
               </Text>
             </HStack>
           </Center>
