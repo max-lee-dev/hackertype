@@ -118,16 +118,16 @@ export default function StreakModal({
                   </Box>
                   <Text fontSize={'24px'} fontWeight={600} color={mainText} className={'mainFont'}>
 
-                    46
+                    47
                   </Text>
                 </HStack>
 
                 <Text fontSize={'16px'} color={subtleText} fontWeight={500} className={'mainFont'}>
                   record by{" "}
-                  <Text as={'a'} href={'/profile/Tea314'} fontSize={'20px'} fontWeight={500}
+                  <Text as={'a'} href={'/profile/dumbdumbjr'} fontSize={'20px'} fontWeight={500}
                         color={subtleText}
                         className={'mainFont underline'}>
-                    Tea314
+                    dumbdumbjr
                   </Text>
                 </Text>
               </Box>
