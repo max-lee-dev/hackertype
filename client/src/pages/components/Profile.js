@@ -26,6 +26,7 @@ export default function Profile({config}) {
   const {username} = useParams();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
+  const [days, setDays] = useState(365);
   const [recentSubmissions, setRecentSubmissions] = useState([]);
   const [allSubmissions, setAllSubmissions] = useState([]);
   const [bestSubmissions, setBestSubmissions] = useState([]);
@@ -97,7 +98,7 @@ export default function Profile({config}) {
                 <Box mt={5} className="mainFont font500" width={['100%', '100%', '100%', '50%']}>
                   <HStack spacing="-1">
                     {!loading && !profileUserData &&
-                      <Text fontSize="56px">User not found...</Text>}
+                      <Text fontSize="40px">User not found...</Text>}
                     <Text fontSize="2em" width={'90%'}>{profileUserData?.displayName}</Text>
                     {!loading && username === user?.displayName && (
                       <Tooltip label="Sign out" aria-label="A tooltip">
@@ -199,24 +200,77 @@ export default function Profile({config}) {
 
                         }}>
                           {!loading &&
-                            <LineChart q={allSubmissions}/>
+                            <LineChart q={allSubmissions} days={days}/>
                           }
                         </Box>
                       </Center>
 
-                      <Center>
+                      <Box display={'flex'} justifyContent={'space-between'} pt={[0, 0, 0, 0]}>
                         {!loading && (
                           <Text
-                            alignSelf="center"
+                            alignSelf="flex-start"
                             paddingLeft="20px"
                             color={config["subtleText"]}
                             fontSize="15px"
+                            pt={0.5}
                             className="mainFont"
                             fontWeight="200">
                             submission history
                           </Text>
                         )}
-                      </Center>
+                        {!loading && (
+                          <HStack pt={0} spacing={2}>
+                            <Button
+                              height={4}
+                              fontWeight={500}
+                              onClick={() => setDays(7)}
+                              color={days === 7 ? config["logoColor"] : config["subtleText"]}
+                              borderColor={days === 7 ? config["logoColor"] : "transparent"}
+                              p={1}
+                              _hover={{bgColor: "transparent", color: config["mainText"]}}
+                            >
+                              week
+                            </Button>
+                            <Button
+                              height={4}
+                              fontWeight={500}
+                              onClick={() => setDays(30)}
+                              color={days === 30 ? config["logoColor"] : config["subtleText"]}
+                              borderColor={days === 30 ? config["logoColor"] : "transparent"}
+                              p={1}
+
+                              _hover={{bgColor: "transparent", color: config["mainText"]}}
+                            >
+                              month
+                            </Button>
+                            <Button
+                              fontWeight={500}
+                              onClick={() => setDays(365)}
+                              color={days === 365 ? config["logoColor"] : config["subtleText"]}
+                              height={4}
+                              borderColor={days === 365 ? config["logoColor"] : "transparent"}
+                              p={1}
+                              _hover={{bgColor: "transparent", color: config["mainText"]}}
+                            >
+                              year
+                            </Button>
+
+                            <Button
+                              fontWeight={500}
+                              height={4}
+                              onClick={() => setDays(Number.MAX_SAFE_INTEGER)}
+                              color={days === Number.MAX_SAFE_INTEGER ? config["logoColor"] : config["subtleText"]}
+                              borderColor={days === Number.MAX_SAFE_INTEGER ? config["logoColor"] : "transparent"}
+                              p={1}
+                              _hover={{bgColor: "transparent", color: config["mainText"]}}
+                            >
+                              all
+                            </Button>
+
+
+                          </HStack>
+                        )}
+                      </Box>
                     </Box>
                   </Box>
                   <Box width="50%">

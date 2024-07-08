@@ -4,7 +4,7 @@ import {collection, getDocs, where, orderBy, query, limit} from "firebase/firest
 import {Chart as ChartJS} from "chart.js/auto";
 import {db} from "./firebase";
 
-export default function LineChart({q}) {
+export default function LineChart({q, days = 7}) {
   const [loading, setLoading] = useState(true);
   const [graphData, setGraphData] = useState({});
   const [solutionTitles, setSolutionTitles] = useState([]);
@@ -15,11 +15,21 @@ export default function LineChart({q}) {
   useEffect(() => {
     setLoading(true);
 
-    async function getGraphSubmissions() {
-      console.log(q[q.length - 1].solution_id);
+    async function getGraphSubmissions(days) {
       let tempArray = q;
       tempArray = tempArray.sort((a, b) => b.when - a.when);
       tempArray = tempArray.reverse();
+      // delete all the submissions that are older than one week
+      tempArray = tempArray.filter((data) => {
+        const date = new Date(data.when);
+        console.log(date)
+        const now = new Date();
+        const diffTime = Math.abs(now - date);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays <= days;
+      });
+
+
       const tempSolTitles = tempArray.map((data) => data.solution_id);
       setSolutionTitles(tempSolTitles);
       setGraphData({
@@ -47,8 +57,8 @@ export default function LineChart({q}) {
     ChartJS.defaults.borderColor = style.getPropertyValue("--subtleText");
     ChartJS.defaults.scale.grid.color = "transparent";
 
-    getGraphSubmissions().then(() => setLoading(false));
-  }, [q]);
+    getGraphSubmissions(days).then(() => setLoading(false));
+  }, [q, days]);
   const submissionsCollectionRef = collection(db, "submissions");
   if (!loading) {
     return (

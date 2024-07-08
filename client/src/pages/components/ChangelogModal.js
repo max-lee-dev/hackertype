@@ -48,10 +48,26 @@ export default function ChangelogModal({isChangeOpen, onChangeClose}) {
               <Box paddingBottom="30px">
                 <Text className="mainTextClass mainFont">
                   <Text fontSize="24px" fontWeight={600} color={mainText}>
-                    6/30/2024
+                    7/8/2024
                     <Badge marginBottom="3px" fontSize={"14px"} ml="2" colorScheme="green">
                       new
                     </Badge>
+                  </Text>
+
+                  <Box paddingTop={"15px"}>
+                    <Text color={subtleText}>added: </Text>
+                    <Text> - new time filters on submission graph for profiles! (halu had so many submissions I had to
+                      add it)</Text>
+                  </Box>
+
+                </Text>
+              </Box>
+              <Divider borderColor={subtleText}/>
+              <Box paddingBottom="30px">
+                <Text className="mainTextClass mainFont">
+                  <Text fontSize="24px" fontWeight={600} color={subtleText}>
+                    6/30/2024
+
                   </Text>
 
                   <Box paddingTop={"15px"}>
