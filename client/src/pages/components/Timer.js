@@ -101,7 +101,10 @@ function Timer({
     if (done) {
       getSubmissions().then((submissions) => {
         if (submissions) {
-          createSubmission(submissions);
+          if (newAcc >= 65) {
+            createSubmission(submissions);
+          }
+
 
         }
       });
@@ -153,6 +156,18 @@ function Timer({
                   <StarIcon fontSize="24px" paddingTop="10px"/>
                   <Text fontWeight={600} color={config["logoColor"]}>
                     NEW PR!
+                  </Text>
+                </Stack>
+              </Center>
+            </Box>
+          )}
+
+          {acc < 65 && (
+            <Box>
+              <Center>
+                <Stack direction="row">
+                  <Text fontWeight={600} color={config["logoColor"]}>
+                    Invalid test submission: accuracy too low
                   </Text>
                 </Stack>
               </Center>
