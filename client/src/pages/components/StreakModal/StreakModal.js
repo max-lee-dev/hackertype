@@ -118,7 +118,7 @@ export default function StreakModal({
                   </Box>
                   <Text fontSize={'24px'} fontWeight={600} color={mainText} className={'mainFont'}>
 
-                    64
+                    65
                   </Text>
                 </HStack>
 
