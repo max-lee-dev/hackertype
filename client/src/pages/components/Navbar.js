@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
-import {NavLink} from "react-router-dom";
-import {auth, db} from "./firebase";
+import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { auth, db } from "./firebase";
 import DailyButton from "./DailyButton";
 import logo from "./assets/favicon.ico";
 import javaCode from "./codefiles/javaCode.json"
@@ -42,9 +42,9 @@ import {
 import StreakModal from "./StreakModal/StreakModal";
 import Banner from "./Banner/Banner";
 
-export default function Navbar({userData, updatedConfig}) {
+export default function Navbar({ userData, updatedConfig }) {
   const [user, setUser] = useState(null);
-  const {isOpen: isStreakOpen, onClose: onStreakClose, onOpen: onStreakOpen} = useDisclosure();
+  const { isOpen: isStreakOpen, onClose: onStreakClose, onOpen: onStreakOpen } = useDisclosure();
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
@@ -69,9 +69,9 @@ export default function Navbar({userData, updatedConfig}) {
   //eslint-disable-next-line
   return (
     <Box as={'nav'} bgColor={updatedConfig["themeBackground"]} width={['150vw', '100%', '100%', '100%']}
-         className="nav"
+      className="nav"
     >
-      <Banner/>
+      <Banner />
 
       <Box display={'flex'} justifyContent={['initial', 'center', 'center', 'center']}>
         <Box display={'flex'} width={['70%', '90%', '90%', '70%']} justifyContent={'space-between'}>
@@ -98,7 +98,7 @@ export default function Navbar({userData, updatedConfig}) {
               </NavLink>
             </HStack>
 
-            <Divider marginLeft="10px" marginRight="10px"/>
+            <Divider marginLeft="10px" marginRight="10px" />
           </Box>
           <HStack fontWeight={"500"} display={["none", "none", "inline-block"]}>
             <ul>
@@ -106,19 +106,19 @@ export default function Navbar({userData, updatedConfig}) {
 
                 <li>
                   <Button pt={2} bg={'transparent'} onClick={onStreakOpen}
-                          color={updatedConfig["mainText"]}>
+                    color={updatedConfig["mainText"]}>
                     <Box color={updatedConfig["subtleText"]} fontSize="20px">
                       <ion-icon name="podium"></ion-icon>
                     </Box>
                   </Button>
-                  <StreakModal isStreakOpen={isStreakOpen} onStreakClose={onStreakClose}/>
+                  <StreakModal isStreakOpen={isStreakOpen} onStreakClose={onStreakClose} />
 
                 </li>
               </Tooltip>
 
               <li>
 
-                <DailyButton config={updatedConfig} user={userData}/>
+                <DailyButton config={updatedConfig} user={userData} />
               </li>
               <li>
                 <NavLink to={'/settings'}>
@@ -135,6 +135,10 @@ export default function Navbar({userData, updatedConfig}) {
               </li>
 
               <li>
+                <NavLink to="/themes">&lt;themes&gt;</NavLink>
+              </li>
+
+              <li>
                 <Stack direction="row">
                   {!user && (
                     <NavLink to="/login">
@@ -148,7 +152,7 @@ export default function Navbar({userData, updatedConfig}) {
                       <NavLink to={`/profile/${user.displayName}`}>
                         <li>
                           <Text marginTop="-3px" fontSize="16px" paddingRight="5px"
-                                textColor="">
+                            textColor="">
                             &lt;{user.displayName}&gt;
                           </Text>
                         </li>
@@ -174,38 +178,38 @@ export default function Navbar({userData, updatedConfig}) {
                 fontSize="27px"
                 fontWeight="400"
                 color={updatedConfig["mainText"]}
-                _hover={{color: "#5180c4"}}
+                _hover={{ color: "#5180c4" }}
                 cursor={"pointer"}
               >
                 &#9776;
               </MenuButton>
               <MenuList color={updatedConfig["mainText"]} zIndex="101"
-                        bg={updatedConfig["themeBackground"]}>
+                bg={updatedConfig["themeBackground"]}>
                 <MenuItem bg={updatedConfig["themeInactiveButton"]}>
                   <Box minW="100%" as="a" href="/">
                     home
                   </Box>
                 </MenuItem>
-                <MenuDivider/>
+                <MenuDivider />
                 <MenuItem bg={updatedConfig["themeInactiveButton"]}>
                   <Box minW="100%" as="a" href="/settings">
                     settings
                   </Box>
                 </MenuItem>
-                <MenuDivider/>
+                <MenuDivider />
 
                 <MenuItem bg={updatedConfig["themeInactiveButton"]}>
                   <Box minW="100%" as="a" href="/about">
                     about
                   </Box>
                 </MenuItem>
-                <MenuDivider/>
+                <MenuDivider />
                 <MenuItem bg={updatedConfig["themeInactiveButton"]}>
                   <Box minW="100%" as="a" href="/recent">
                     recent
                   </Box>
                 </MenuItem>
-                <MenuDivider/>
+                <MenuDivider />
                 <MenuItem bg={updatedConfig["themeInactiveButton"]}>
                   {!user && (
                     <Box minW="100%" as="a" href="/login">
