@@ -98,7 +98,7 @@ function countNumberOfLines(funcRawCode, codingLanguage) {
   return lineCount;
 }
 
-function App({user}) {
+function App({user, userData}) {
   const {isOpen: isWordsOpen, onClose: onWordsClose, onOpen: onWordsOpen} = useDisclosure();
   const {isOpen: isSearchOpen, onClose: onSearchClose, onOpen: onSearchOpen} = useDisclosure();
   const {
@@ -199,7 +199,6 @@ function App({user}) {
   const [finished, setFinished] = useState(false);
   const [last_daily, setLastDaily] = useState(undefined);
   const [showCustomCaret, setShowCustomCaret] = useState(false);
-  const [userData, setUserData] = useState({});
 
   // check if user missed the daily
   const ogDay = 1703662239000 - 27039000;
@@ -221,7 +220,6 @@ function App({user}) {
       if (e.keyCode === 9) {
         // console.log("testDASKJDALSJDAS")
         e.preventDefault();
-        var input = document.getElementById("textInput");
 
         Restart(language, wordLimit);
         // input.select();
@@ -254,64 +252,45 @@ function App({user}) {
   }, [startCounting]);
 
 
-  // useEffect(() => {
-  //   if (user && !finished) {
-  //     userData.submissions?.map((submission) => {
-  //       console.log("HEY")
-  //       if (submission.user !== user.displayName) return "";
-  //       if (submission.solution_id !== leetcodeTitle) return "";
-  //       if (submission.language !== language) return "";
-  //       if (!submission.isBestSubmission) return "";
-  //       setThisSolutionPR(submission.pm);
-  //     });
-  //   }
-  // }, [userData]);
-
-  // if given a solution id, load the pr
-
-  // RETRIEVE DATA
   useEffect(
     () => {
       setRetriveingData(true);
 
       async function getUserSettings() {
         let givenLineLimit = 0;
+        //
+        // const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
+        //   setLastDaily(doc.data().last_daily);
+        //   setUserData(doc.data());
+        //
+        // });
 
-        const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
-          setLastDaily(doc.data().last_daily);
-          setUserData(doc.data());
 
-        });
+        if (number) {
+          chosenID.current = number;
+          setId(number);
+          setRetrySame(true);
+        } else if (userData.lastId) {
+          chosenID.current = userData.lastId;
+          setId(userData.lastId);
+          setRetrySame(true);
+        }
 
-        const userDoc = doc(db, "users", user.uid);
-        await getDoc(userDoc).then((doc) => {
+        if (number && userData.lineLimit) {
+          setWordLimit(50000);
+        } else if (userData.lineLimit) {
+          solutionGenerationLineLimit.current = userData.lineLimit;
+          givenLineLimit = userData.lineLimit;
+          setWordLimit(userData.lineLimit);
+        }
 
-          if (number) {
-            chosenID.current = number;
-            setId(number);
-            setRetrySame(true);
-          } else if (doc.data().lastId) {
-            chosenID.current = doc.data().lastId;
-            setId(doc.data().lastId);
-            setRetrySame(true);
-          }
-
-          if (number && doc.data().lineLimit) {
-            setWordLimit(50000);
-          } else if (doc.data().lineLimit) {
-            solutionGenerationLineLimit.current = doc.data().lineLimit;
-            givenLineLimit = doc.data().lineLimit;
-            setWordLimit(doc.data().lineLimit);
-          }
-
-          if (!givenLanguage) {
-            setLanguage(config["language"]);
-            Restart(config["language"], givenLineLimit);
-          } else {
-            setLanguage(givenLanguage);
-            Restart(givenLanguage, givenLineLimit);
-          }
-        });
+        if (!givenLanguage) {
+          setLanguage(config["language"]);
+          Restart(config["language"], givenLineLimit);
+        } else {
+          setLanguage(givenLanguage);
+          Restart(givenLanguage, givenLineLimit);
+        }
       }
 
       if (user) getUserSettings().then(() => setRetriveingData(false));
