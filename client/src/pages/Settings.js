@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from "react";
-import {Text, Box, Center, Button, Input, background, HStack} from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
+import { Text, Box, Center, Button, Input, background, HStack } from "@chakra-ui/react";
 import Section from "./components/Section";
-import {SketchPicker} from "react-color";
-import {Sketch} from "react-color/lib/components/sketch/Sketch";
+import { SketchPicker } from "react-color";
+import { Sketch } from "react-color/lib/components/sketch/Sketch";
 
-export default function Settings({setUpdatedConfig, setThemeBackground}) {
+export default function Settings({ setUpdatedConfig, setThemeBackground }) {
   const [stateConfig, setStateConfig] = useState(() => getConfigValues());
   const [displaySample, setDisplaySample] = useState(true);
   const [lastTheme, setLastTheme] = useState(stateConfig["theme"]);
@@ -75,7 +75,7 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
       themeInactiveButton: "#303038",
     };
 
-    return {...defaultConfig, ...config};
+    return { ...defaultConfig, ...config };
   }
 
   useEffect(() => {
@@ -84,7 +84,7 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
   }, [stateConfig]);
 
   function handleChange(event, bool, font, settingName) {
-    let {name, value} = event.target;
+    let { name, value } = event.target;
     const parseBoolean = (value) => value === "true" || value === true;
 
     if (bool) value = !parseBoolean(stateConfig[name]);
@@ -250,7 +250,7 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
   return (
     <Section delay={0.1}>
       <Center>
-        <Box width="70%" className=" mainFont font500">
+        <Box width="70%" className=" mainFont font500" paddingTop="50px">
           <Center>
             <Box width="100%" paddingTop="50px" color={stateConfig["mainText"]}>
               <Box>
@@ -262,9 +262,9 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                       </Text>
                       <Box paddingLeft="1rem">
                         <Box paddingBottom="3rem" display="flex"
-                             justifyContent={"space-between"}>
+                          justifyContent={"space-between"}>
                           <Text fontSize="18px" color={stateConfig["subtleText"]}
-                                className=" font600">
+                            className=" font600">
                             <Text color={stateConfig["mainText"]} fontSize="40px">
                               font size
                             </Text>
@@ -283,9 +283,9 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                           </Box>
                         </Box>
                         <Box paddingBottom="3rem" display="flex"
-                             justifyContent={"space-between"}>
+                          justifyContent={"space-between"}>
                           <Text fontSize="18px" color={stateConfig["subtleText"]}
-                                className=" font600">
+                            className=" font600">
                             <Text color={stateConfig["mainText"]} fontSize="40px">
                               tab size
                             </Text>
@@ -303,9 +303,9 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                           </Box>
                         </Box>
                         <Box paddingBottom="3rem" display="flex"
-                             justifyContent={"space-between"}>
+                          justifyContent={"space-between"}>
                           <Text fontSize="18px" color={stateConfig["subtleText"]}
-                                className=" font600">
+                            className=" font600">
                             <Text color={stateConfig["mainText"]} fontSize="40px">
                               lines displayed
                             </Text>
@@ -326,7 +326,7 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                         <Box>
                           <Box display="flex" justifyContent={"space-between"}>
                             <Text fontSize="18px" color={stateConfig["subtleText"]}
-                                  className=" font600">
+                              className=" font600">
                               <Box display="flex" className="standardButton">
                                 <Text color={stateConfig["mainText"]} fontSize="40px">
                                   font family
@@ -344,14 +344,14 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                                   name="font"
                                   value="Inconsolata"
                                   onClick={(e) => handleChange(e, false, "Inconsolata", "font")}
-                                  _hover={{bgColor: stateConfig["themeActiveButton"]}}
+                                  _hover={{ bgColor: stateConfig["themeActiveButton"] }}
                                   bgColor={
                                     stateConfig["font"] === "Inconsolata"
                                       ? stateConfig["themeActiveButton"]
                                       : stateConfig["themeInactiveButton"]
                                   }>
                                   <Text fontSize="20px" paddingBottom="1px"
-                                        fontFamily="Inconsolata">
+                                    fontFamily="Inconsolata" color={stateConfig["logoColor"]}>
                                     Inconsolata
                                   </Text>
                                 </Button>
@@ -364,13 +364,13 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                                   name="font"
                                   value="Fira Code"
                                   onClick={(e) => handleChange(e, false, "Fira Code", "font")}
-                                  _hover={{bgColor: stateConfig["themeActiveButton"]}}
+                                  _hover={{ bgColor: stateConfig["themeActiveButton"] }}
                                   bgColor={
                                     stateConfig["font"] === "Fira Code"
                                       ? stateConfig["themeActiveButton"]
                                       : stateConfig["themeInactiveButton"]
                                   }>
-                                  <Text fontFamily="Fira Code"> Fira Code</Text>
+                                  <Text fontFamily="Fira Code" color={stateConfig["logoColor"]}> Fira Code</Text>
                                 </Button>
                               </Box>
                             </Box>
@@ -382,13 +382,13 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                                   name="font"
                                   value="IBM Plex Serif"
                                   onClick={(e) => handleChange(e, false, "IBM Plex Serif", "font")}
-                                  _hover={{bgColor: stateConfig["themeActiveButton"]}}
+                                  _hover={{ bgColor: stateConfig["themeActiveButton"] }}
                                   bgColor={
                                     stateConfig["font"] === "IBM Plex Serif"
                                       ? stateConfig["themeActiveButton"]
                                       : stateConfig["themeInactiveButton"]
                                   }>
-                                  <Text fontFamily="IBM Plex Serif"> IBM Plex
+                                  <Text fontFamily="IBM Plex Serif" color={stateConfig["logoColor"]}> IBM Plex
                                     Serif</Text>
                                 </Button>
                               </Box>
@@ -400,13 +400,13 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                                   name="font"
                                   value="Roboto"
                                   onClick={(e) => handleChange(e, false, "Roboto", "font")}
-                                  _hover={{bgColor: stateConfig["themeActiveButton"]}}
+                                  _hover={{ bgColor: stateConfig["themeActiveButton"] }}
                                   bgColor={
                                     stateConfig["font"] === "Roboto"
                                       ? stateConfig["themeActiveButton"]
                                       : stateConfig["themeInactiveButton"]
                                   }>
-                                  <Text fontFamily="Roboto"> Roboto</Text>
+                                  <Text fontFamily="Roboto" color={stateConfig["logoColor"]}> Roboto</Text>
                                 </Button>
                               </Box>
                             </Box>
@@ -417,13 +417,13 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                                   name="font"
                                   value="Poppins"
                                   onClick={(e) => handleChange(e, false, "Poppins", "font")}
-                                  _hover={{bgColor: stateConfig["themeActiveButton"]}}
+                                  _hover={{ bgColor: stateConfig["themeActiveButton"] }}
                                   bgColor={
                                     stateConfig["font"] === "Poppins"
                                       ? stateConfig["themeActiveButton"]
                                       : stateConfig["themeInactiveButton"]
                                   }>
-                                  <Text fontFamily="Poppins"> Poppins</Text>
+                                  <Text fontFamily="Poppins" color={stateConfig["logoColor"]}> Poppins</Text>
                                 </Button>
                               </Box>
                             </Box>
@@ -434,13 +434,13 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                                   name="font"
                                   value="Inter"
                                   onClick={(e) => handleChange(e, false, "Inter", "font")}
-                                  _hover={{bgColor: stateConfig["themeActiveButton"]}}
+                                  _hover={{ bgColor: stateConfig["themeActiveButton"] }}
                                   bgColor={
                                     stateConfig["font"] === "Inter"
                                       ? stateConfig["themeActiveButton"]
                                       : stateConfig["themeInactiveButton"]
                                   }>
-                                  <Text fontFamily="Inter"> Inter</Text>
+                                  <Text fontFamily="Inter" color={stateConfig["logoColor"]}> Inter</Text>
                                 </Button>
                               </Box>
                             </Box>
@@ -451,13 +451,13 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                                   name="font"
                                   value="Source Code Pro"
                                   onClick={(e) => handleChange(e, false, "Source Code Pro", "font")}
-                                  _hover={{bgColor: stateConfig["themeActiveButton"]}}
+                                  _hover={{ bgColor: stateConfig["themeActiveButton"] }}
                                   bgColor={
                                     stateConfig["font"] === "Source Code Pro"
                                       ? stateConfig["themeActiveButton"]
                                       : stateConfig["themeInactiveButton"]
                                   }>
-                                  <Text fontFamily="Source Code Pro"> Source Code
+                                  <Text fontFamily="Source Code Pro" color={stateConfig["logoColor"]}> Source Code
                                     Pro</Text>
                                 </Button>
                               </Box>
@@ -469,13 +469,13 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                                   name="font"
                                   value="Lexend Deca"
                                   onClick={(e) => handleChange(e, false, "Lexend Deca", "font")}
-                                  _hover={{bgColor: stateConfig["themeActiveButton"]}}
+                                  _hover={{ bgColor: stateConfig["themeActiveButton"] }}
                                   bgColor={
                                     stateConfig["font"] === "Lexend Deca"
                                       ? stateConfig["themeActiveButton"]
                                       : stateConfig["themeInactiveButton"]
                                   }>
-                                  <Text fontFamily="Lexend Deca"> Lexend Deca</Text>
+                                  <Text fontFamily="Lexend Deca" color={stateConfig["logoColor"]}> Lexend Deca</Text>
                                 </Button>
                               </Box>
                             </Box>
@@ -486,13 +486,13 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                                   name="font"
                                   value="Comic Neue"
                                   onClick={(e) => handleChange(e, false, "Comic Neue", "font")}
-                                  _hover={{bgColor: stateConfig["themeActiveButton"]}}
+                                  _hover={{ bgColor: stateConfig["themeActiveButton"] }}
                                   bgColor={
                                     stateConfig["font"] === "Comic Neue"
                                       ? stateConfig["themeActiveButton"]
                                       : stateConfig["themeInactiveButton"]
                                   }>
-                                  <Text fontFamily="Comic Neue"> Comic Neue</Text>
+                                  <Text fontFamily="Comic Neue" color={stateConfig["logoColor"]}> Comic Neue</Text>
                                 </Button>
                               </Box>
                             </Box>
@@ -502,22 +502,22 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                               <Text fontSize="16px" className=" font500">
                                 <HStack spacing={0}>
                                   <Text color={stateConfig["correctText"]}
-                                        fontFamily={stateConfig["font"]}>
+                                    fontFamily={stateConfig["font"]}>
                                     public class Solution {"{ "}
                                   </Text>
                                   <Text color={stateConfig["subtleText"]}
-                                        fontFamily={stateConfig["font"]} className={'behindCursor'}>
+                                    fontFamily={stateConfig["font"]} className={'behindCursor'}>
                                     tion public int[] twoSum(int[] nums, int
                                     target) {"{ "}
                                   </Text>
                                 </HStack>
 
                                 <Text color={stateConfig["subtleText"]}
-                                      fontFamily={stateConfig["font"]}>
+                                  fontFamily={stateConfig["font"]}>
                                   {"->, +, %, -, =, (, ), {, }, [, ], <, >, /, *, !, ~, ^, &, |, ? "}
                                 </Text>
                                 <Text color={stateConfig["subtleText"]}
-                                      fontFamily={stateConfig["font"]}>
+                                  fontFamily={stateConfig["font"]}>
                                   {"0, 1, 2, 3, 4, 5, 6, 7, 8, 9"}
                                 </Text>
                               </Text>
@@ -535,7 +535,7 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                   <Box paddingLeft="1rem">
                     <Box paddingBottom="3rem" display="flex" justifyContent={"space-between"}>
                       <Text fontSize="18px" color={stateConfig["subtleText"]}
-                            className=" font600">
+                        className=" font600">
                         <Text color={stateConfig["mainText"]} fontSize="40px">
                           live WPM display
                         </Text>
@@ -543,10 +543,11 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                       </Text>
                       <Box width="10%" fontSize="30px">
                         <Button
+                          color={stateConfig["logoColor"]}
                           width="6.5vw"
                           name="showLiveWPM"
                           onClick={(e) => handleChange(e, true)}
-                          _hover={{bgColor: stateConfig["themeActiveButton"]}}
+                          _hover={{ bgColor: stateConfig["themeActiveButton"] }}
                           bgColor={
                             stateConfig["showLiveWPM"]
                               ? stateConfig["themeActiveButton"]
@@ -558,7 +559,7 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                     </Box>
                     <Box paddingBottom="3rem" display="flex" justifyContent={"space-between"}>
                       <Text fontSize="18px" color={stateConfig["subtleText"]}
-                            className=" font600">
+                        className=" font600">
                         <Text color={stateConfig["mainText"]} fontSize="40px">
                           show lines left
                         </Text>
@@ -566,10 +567,11 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                       </Text>
                       <Box width="10%" fontSize="30px">
                         <Button
+                          color={stateConfig["logoColor"]}
                           width="6.5vw"
                           name="showLinesLeft"
                           onClick={(e) => handleChange(e, true)}
-                          _hover={{bgColor: stateConfig["themeActiveButton"]}}
+                          _hover={{ bgColor: stateConfig["themeActiveButton"] }}
                           bgColor={
                             stateConfig["showLinesLeft"]
                               ? stateConfig["themeActiveButton"]
@@ -577,118 +579,6 @@ export default function Settings({setUpdatedConfig, setThemeBackground}) {
                           }>
                           {stateConfig["showLinesLeft"] + ""}
                         </Button>
-                      </Box>
-                    </Box>
-                    <Box>
-                      <Box display="flex" justifyContent={"space-between"}>
-                        <Text fontSize="18px" color={stateConfig["subtleText"]}
-                              className=" font600">
-                          <Box display="flex" className="standardButton">
-                            <Text color={stateConfig["mainText"]} fontSize="40px">
-                              themes
-                            </Text>
-                          </Box>
-                          customize the colors for the website
-                        </Text>
-                      </Box>
-
-                      <Box width="100%" flexWrap={"wrap"} display="flex">
-                        <Box paddingRight="10px">
-                          <Box width="10%" fontSize="30px">
-                            <Button
-                              width="fit-content" name="theme"
-                              onMouseEnter={() => darkTheme("temp")}
-                              onMouseLeave={() => changeTheme(lastTheme)}
-                              onClick={() => darkTheme()}
-                              _hover={{bgColor: stateConfig["themeActiveButton"]}}
-                              bgColor={"#363636"}
-                              color="whiteAlpha.300"
-                              borderWidth={"5px"}
-                              borderColor={lastTheme === "dark" ? "white" : "transparent"}>
-                              <Text fontSize="20px" color="white" paddingBottom="1px"
-                                    fontFamily={stateConfig["font"]}>
-                                dark
-                              </Text>
-                            </Button>
-                          </Box>
-                        </Box>
-                        <Box paddingRight="10px">
-                          <Box width="10%" fontSize="30px">
-                            <Button
-                              width="fit-content" name="theme"
-                              onMouseEnter={() => lightTheme("temp")}
-                              onMouseLeave={() => changeTheme(lastTheme)}
-                              onClick={() => lightTheme()}
-                              _hover={{bgColor: stateConfig["themeActiveButton"]}}
-                              borderWidth={"5px"}
-                              borderColor={lastTheme === "light" ? "black" : "transparent"}
-                              bgColor={"#d1d1de"}>
-                              <Text fontSize="20px" color="black" fontFamily={stateConfig["font"]}>
-                                {" "}
-                                light{" "}
-                              </Text>
-                            </Button>
-                          </Box>
-                        </Box>
-                        <Box paddingRight="10px">
-                          <Box width="fit-content" fontSize="30px">
-                            <Button
-                              width="fit-content"
-                              name="theme"
-                              onMouseEnter={() => snoozeTheme("temp")}
-                              onMouseLeave={() => changeTheme(lastTheme)}
-                              onClick={() => snoozeTheme()}
-                              _hover={{bgColor: stateConfig["themeActiveButton"]}}
-                              borderWidth={"5px"}
-                              borderColor={lastTheme === "snooze" ? "#4ab5f7" : "transparent"}
-                              bgColor={"#d8edf2"}>
-                              <Text fontSize="20px" color="#4ab5f7"
-                                    fontFamily={stateConfig["font"]}>
-                                snooze
-                              </Text>
-                            </Button>
-                          </Box>
-                        </Box>
-                        <Box paddingRight="10px">
-                          <Box width="10%" fontSize="30px">
-                            <Button
-                              minWidth="6.5vw"
-                              name="theme"
-                              onMouseEnter={() => bubblegumTheme("temp")}
-                              onMouseLeave={() => changeTheme(lastTheme)}
-                              onClick={() => bubblegumTheme()}
-                              _hover={{bgColor: stateConfig["themeActiveButton"]}}
-                              borderWidth={"5px"}
-                              borderColor={lastTheme === "bubblegum" ? "#eb8fd5" : "transparent"}
-                              bgColor={"#ffadf1"}>
-                              <Text fontSize="20px" color="#eb8fd5"
-                                    fontFamily={stateConfig["font"]}>
-                                bubblegum
-                              </Text>
-                            </Button>
-                          </Box>
-                        </Box>
-                        <Box paddingRight="10px">
-                          <Box width="10%" fontSize="30px">
-                            <Button
-                              minWidth="6.5vw"
-                              name="theme"
-                              onMouseEnter={() => tangerineTheme("temp")}
-                              onMouseLeave={() => changeTheme(lastTheme)}
-                              onClick={() => tangerineTheme()}
-                              _hover={{bgColor: stateConfig["themeActiveButton"]}}
-                              borderWidth={"5px"}
-                              borderColor={lastTheme === "tangerine" ? "#f58100" : "transparent"}
-                              bgColor={"#ffdfc3"}>
-                              <Text fontSize="20px" color="#f58100"
-                                    fontFamily={stateConfig["font"]}>
-                                tangerine
-                              </Text>
-                            </Button>
-                          </Box>
-                        </Box>
-
-                        {/* <SketchPicker color={currentColor} onChangeComplete={handleOnChange} /> */}
                       </Box>
                     </Box>
                   </Box>
