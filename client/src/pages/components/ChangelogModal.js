@@ -10,7 +10,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalCloseButton,
-  Badge,
+  Badge, Image,
 } from "@chakra-ui/react";
 
 export default function ChangelogModal({isChangeOpen, onChangeClose}) {
@@ -48,10 +48,44 @@ export default function ChangelogModal({isChangeOpen, onChangeClose}) {
               <Box paddingBottom="30px">
                 <Text className="mainTextClass mainFont">
                   <Text fontSize="24px" fontWeight={600} color={mainText}>
-                    7/8/2024
+                    7/30/2024
                     <Badge marginBottom="3px" fontSize={"14px"} ml="2" colorScheme="green">
                       new
                     </Badge>
+                  </Text>
+
+                  <Box paddingTop={"15px"}>
+                    <Text color={subtleText}>added: </Text>
+                    <Text>
+                      - new themes page + 11 new themes!!
+
+                      THANK YOU{" "}
+
+                      <Text
+                        className={'underline'}
+
+                        as={"a"} href={"https://github.com/squireaa/"} color={logoColor}>
+                        @squireaa
+                      </Text>
+                      {" "}
+                      FOR CONTRIBUTING :DDD
+                    </Text>
+                  </Box>
+                  <Image
+                    borderRadius={10}
+                    src={"/themespreview.png"}
+                    alt="themes"
+                    style={{width: "50%", height: "auto"}}
+                  />
+
+
+                </Text>
+              </Box>
+              <Divider borderColor={subtleText}/>
+              <Box paddingBottom="30px">
+                <Text className="mainTextClass mainFont">
+                  <Text fontSize="24px" fontWeight={600} color={subtleText}>
+                    7/8/2024
                   </Text>
 
                   <Box paddingTop={"15px"}>
