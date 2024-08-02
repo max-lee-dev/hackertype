@@ -45,7 +45,7 @@ export default function SearchModal({isSearchOpen, onSearchClose}) {
   useEffect(() => {
     setLoading(true);
     setUserList([]);
-    if (!fullUserList) {
+    if (!fullUserList && isSearchOpen) {
       async function getUsers() {
         const usersRef = collection(db, "users");
         const usersSnapshot = await getDocs(usersRef);
@@ -54,6 +54,13 @@ export default function SearchModal({isSearchOpen, onSearchClose}) {
           tempArr.push(doc);
         });
         setFullUserList(tempArr);
+        // take only the first 5 users
+        const newArr = [];
+        tempArr.forEach((doc) => {
+          if (newArr.length > 4) return;
+          if (userInput === "") newArr.push(doc.data());
+        });
+        setUserList(newArr);
       }
 
       getUsers().then(() => setLoading(false));

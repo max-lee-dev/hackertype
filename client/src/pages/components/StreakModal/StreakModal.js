@@ -54,7 +54,7 @@ export default function StreakModal({
 
       const q = query(collection(db, "users"), where("streak", ">", 0), orderBy("streak", "desc"), limit(3));
       // , where("language", "==", selectedLanguage), where("solution_id", "==", givenSolName), orderBy("rank", "asc"), where("isBestSubmission", "==", true))
-
+      console.log("dailyNum", dailyNum);
       const querySnapshot = await getDocs(q);
 
       // sort both date arrs and temp arr

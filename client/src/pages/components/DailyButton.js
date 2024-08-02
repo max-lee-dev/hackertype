@@ -24,7 +24,6 @@ export default function DailyButton({config, user}) {
       userLastDaily++;
       while (dailyNum > userLastDaily) {
 
-        console.log(userLastDaily)
         streakArr.push({
           dailyNum: userLastDaily,
           streak: 0
@@ -33,7 +32,6 @@ export default function DailyButton({config, user}) {
       }
       if (dailyNum - user?.last_daily > 1) {
         // if they missed a day
-        console.log("Testasd")
 
         // FILL IN THE MISSING STREAKS
 
