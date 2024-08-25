@@ -70,7 +70,6 @@ export default function UserLogin({setGitLogin, config, user, setUser}) {
         account_created: new Date().toUTCString(),
         uid: uid,
       }).then(() => {
-        console.log("new user created");
         if (auth) updateProfile(auth.currentUser, {displayName: googleName}).catch((err) => console.log(err));
         window.location.replace(`/profile/${googleName}`);
       });
@@ -87,7 +86,6 @@ export default function UserLogin({setGitLogin, config, user, setUser}) {
         account_created: new Date().toUTCString(),
         uid: uid,
       });
-
       window.location.replace(`/profile/${username}`);
     }
     console.log("new user created");
@@ -212,7 +210,6 @@ export default function UserLogin({setGitLogin, config, user, setUser}) {
       const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
       await updateProfile(auth.currentUser, {displayName: username}).catch((err) => console.log(err));
 
-      console.log(auth.currentUser.uid);
       setRegisterErrorMessage("");
       createNewUser(auth.currentUser.uid);
     } catch (error) {
