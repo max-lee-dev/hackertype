@@ -101,7 +101,7 @@ function Timer({
     if (done) {
       getSubmissions().then((submissions) => {
         if (submissions) {
-          if (newAcc >= 65) {
+          if (newAcc >= 65 && finalWPM <= 190) {
             createSubmission(submissions);
           }
 
@@ -164,10 +164,17 @@ function Timer({
 
           {acc < 65 && (
             <Box>
+
+            </Box>
+          )}
+
+          {finalWPM > 190 && (
+            <Box>
               <Center>
                 <Stack direction="row">
                   <Text fontWeight={600} color={config["logoColor"]}>
-                    Invalid test submission: accuracy too low
+                    Invalid test submission: WPM too high. If you believe this is an error, please send a message by
+                    clicking the feedback button in the footer.
                   </Text>
                 </Stack>
               </Center>
