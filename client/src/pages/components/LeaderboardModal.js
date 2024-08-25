@@ -24,7 +24,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 
-import {query, collection, getDocs, orderBy, where} from "firebase/firestore";
+import {query, collection, getDocs, orderBy, where, doc, deleteDoc, updateDoc} from "firebase/firestore";
 import {db} from "./firebase";
 import Submission from "./Submission";
 import {getAuth} from "firebase/auth";
@@ -68,6 +68,7 @@ export default function LeaderboardModal({
   const ogDay = 1703662239000 - 27039000;
   const today = Date.parse(new Date());
   const dailyNum = Math.floor((today - ogDay) / (1000 * 60 * 60 * 24));
+  const admin = user?.displayName === "starin";
 
 
   useEffect(() => {
@@ -80,6 +81,26 @@ export default function LeaderboardModal({
     });
     //eslint-disable-next-line
   }, []);
+
+  async function deleteSubmission(id) {
+    await window.alert("Are you sure you want to delete this submission?");
+    const submissionRef = doc(db, givenSolName, id);
+    await deleteDoc(submissionRef);
+    // then update the leaderboard
+    const q = query(collection(db, givenSolName), where("language", "==", selectedLanguage), where("isBestSubmission", "==", true));
+    // , where("language", "==", selectedLanguage), where("solution_id", "==", givenSolName), orderBy("rank", "asc"), where("isBestSubmission", "==", true))
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      updateDoc(doc.ref, {
+        rank: doc.data().rank - 1,
+      }).then(() => {
+        console.log("updated");
+      });
+    })
+
+  }
+
   useEffect(() => {
     setLoading(true);
 
@@ -222,8 +243,14 @@ export default function LeaderboardModal({
                                   </Text>
                                 </Tooltip>
                               </Box>
+                              {admin && (
+                                <Button onClick={() => deleteSubmission(sol.id)}>
+                                  delete
+                                </Button>
+                              )}
                             </Box>
                           </Box>
+
                         ))}
                       </Box>
                     )}
