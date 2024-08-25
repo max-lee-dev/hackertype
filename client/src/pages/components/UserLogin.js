@@ -39,6 +39,21 @@ export default function UserLogin({setGitLogin, config, user, setUser}) {
     }
   });
 
+  async function discordWebhook(displayName) {
+    const webhook =
+      "https://discord.com/api/webhooks/1254165998416691302/6sZZ8pirBnK1bh5I4Q6G7L92SzX1sHJpDgbSTF32fLjMDRCS0ZMCH8rf8UKI_Dh-48zt";
+    await fetch(webhook, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        content: `hey @everyone, new user! ${displayName} just signed up!`,
+        username: `${displayName}`, // email of person uploading
+      }),
+    });
+  }
+
   async function createNewUser(uid, googleName, googleEmail) {
 
 
@@ -47,6 +62,8 @@ export default function UserLogin({setGitLogin, config, user, setUser}) {
       await setDoc(doc(db, "usermap", googleName), {
         uid: uid,
       });
+      discordWebhook(googleName);
+
       await setDoc(doc(db, "users", uid), {
         displayName: googleName,
         email: googleEmail,
@@ -62,6 +79,8 @@ export default function UserLogin({setGitLogin, config, user, setUser}) {
       await setDoc(doc(db, "usermap", username), {
         uid: uid,
       });
+      discordWebhook(username);
+
       await setDoc(doc(db, "users", uid), {
         displayName: username,
         email: registerEmail,
