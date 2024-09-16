@@ -470,6 +470,7 @@ function App({user}) {
   function Reset(codingLanguage, maxWords, id) {
     // solution range
     ////////////////////////// C++
+    
 
     let codeLang = cppCode;
     let cppSolutions = 0;
