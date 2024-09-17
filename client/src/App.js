@@ -1,6 +1,6 @@
 import "./App.css";
 import Home from "./pages/Home.js";
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import NavBar from "./pages/components/Navbar.js";
 import About from "./pages/About.js";
 import Themes from "./pages/Themes.js"
@@ -8,15 +8,15 @@ import Leaderboard from "./pages/Leaderboard.js";
 import UserLogin from "./pages/components/UserLogin";
 import Profile from "./pages/components/Profile";
 import Settings from "./pages/Settings";
-import { Routes, Route } from "react-router-dom";
+import {Routes, Route} from "react-router-dom";
 import Footer from "./pages/components/Footer";
 import Banner from "./pages/components/Banner/Banner";
 
-import { db } from "./pages/components/firebase";
-import { collection, doc, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-import { Analytics } from "@vercel/analytics/react";
-import { ChakraProvider, extendTheme, Box, useDisclosure, VStack } from "@chakra-ui/react";
+import {db} from "./pages/components/firebase";
+import {collection, doc, getDocs, onSnapshot, query, updateDoc, where} from "firebase/firestore";
+import {getAuth} from "firebase/auth";
+import {Analytics} from "@vercel/analytics/react";
+import {ChakraProvider, extendTheme, Box, useDisclosure, VStack} from "@chakra-ui/react";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -69,7 +69,7 @@ function App() {
       themeActiveButton: "#171721",
       themeInactiveButton: "#303038",
     };
-    return { ...defaultConfig, ...config };
+    return {...defaultConfig, ...config};
   }
 
   useEffect(() => {
@@ -106,7 +106,8 @@ function App() {
 
     async function getUserSettings() {
       const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
-        setUserData(doc.data());
+        if (doc.exists() && doc.data())
+          setUserData(doc.data());
       });
 
     }
@@ -153,39 +154,40 @@ function App() {
 
           <Box width={'100%'}>
 
-            <NavBar userData={userData} gitLogin={gitLogin} updatedConfig={updatedConfig} />
+            <NavBar userData={userData} gitLogin={gitLogin} updatedConfig={updatedConfig}/>
             <Box minHeight="90vh">
 
               <Routes>
-                <Route path="/" element={<Home user={user} />} />
-                <Route path="/about" element={<About updatedConfig={updatedConfig} />} />
+                <Route path="/" element={<Home user={user}/>}/>
+                <Route path="/about" element={<About updatedConfig={updatedConfig}/>}/>
                 <Route path="/themes" element={<Themes setUpdatedConfig={setUpdatedConfig}
-                  setThemeBackground={setThemeBackground} updatedConfig={updatedConfig} />} />
+                                                       setThemeBackground={setThemeBackground}
+                                                       updatedConfig={updatedConfig}/>}/>
 
                 <Route
                   path={'/recent'}
-                  element={<Leaderboard config={updatedConfig} />}
+                  element={<Leaderboard config={updatedConfig}/>}
                 />
                 <Route
                   path="/login"
                   element={<UserLogin setGitLogin={setGitLogin} config={updatedConfig} user={user}
-                    setUser={setUser} />}
+                                      setUser={setUser}/>}
                 />
-                <Route path="/profile/:username" element={<Profile setId={setId} config={updatedConfig} />} />
-                <Route path="/solutions/:givenLanguage/:number" element={<Home user={user} givenId={id} />} />
+                <Route path="/profile/:username" element={<Profile setId={setId} config={updatedConfig}/>}/>
+                <Route path="/solutions/:givenLanguage/:number" element={<Home user={user} givenId={id}/>}/>
                 <Route
                   path="/settings"
                   element={
                     <Settings setUpdatedConfig={setUpdatedConfig}
-                      setThemeBackground={setThemeBackground} />
+                              setThemeBackground={setThemeBackground}/>
                   }
                 />
               </Routes>
             </Box>
           </Box>
-          <Footer config={updatedConfig} />
+          <Footer config={updatedConfig}/>
         </ChakraProvider>
-        <Analytics />
+        <Analytics/>
       </Box>
     );
   }

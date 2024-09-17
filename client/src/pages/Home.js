@@ -275,41 +275,45 @@ function App({user}) {
       setRetriveingData(true);
 
       async function getUserSettings() {
+
         let givenLineLimit = 0;
 
         const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
-          setLastDaily(doc.data().last_daily);
-          setUserData(doc.data());
+          if (!doc.exists() && doc.data()) {
+            setLastDaily(doc.data().last_daily);
+            setUserData(doc.data());
+          }
 
         });
 
         const userDoc = doc(db, "users", user.uid);
         await getDoc(userDoc).then((doc) => {
+          if (!doc.exists() && doc.data()) {
+            if (number) {
+              chosenID.current = number;
+              setId(number);
+              setRetrySame(true);
+            } else if (doc.data().lastId) {
+              chosenID.current = doc.data().lastId;
+              setId(doc.data().lastId);
+              setRetrySame(true);
+            }
 
-          if (number) {
-            chosenID.current = number;
-            setId(number);
-            setRetrySame(true);
-          } else if (doc.data().lastId) {
-            chosenID.current = doc.data().lastId;
-            setId(doc.data().lastId);
-            setRetrySame(true);
-          }
+            if (number && doc.data().lineLimit) {
+              setWordLimit(50000);
+            } else if (doc.data().lineLimit) {
+              solutionGenerationLineLimit.current = doc.data().lineLimit;
+              givenLineLimit = doc.data().lineLimit;
+              setWordLimit(doc.data().lineLimit);
+            }
 
-          if (number && doc.data().lineLimit) {
-            setWordLimit(50000);
-          } else if (doc.data().lineLimit) {
-            solutionGenerationLineLimit.current = doc.data().lineLimit;
-            givenLineLimit = doc.data().lineLimit;
-            setWordLimit(doc.data().lineLimit);
-          }
-
-          if (!givenLanguage) {
-            setLanguage(config["language"]);
-            Restart(config["language"], givenLineLimit);
-          } else {
-            setLanguage(givenLanguage);
-            Restart(givenLanguage, givenLineLimit);
+            if (!givenLanguage) {
+              setLanguage(config["language"]);
+              Restart(config["language"], givenLineLimit);
+            } else {
+              setLanguage(givenLanguage);
+              Restart(givenLanguage, givenLineLimit);
+            }
           }
         });
       }
@@ -470,7 +474,7 @@ function App({user}) {
   function Reset(codingLanguage, maxWords, id) {
     // solution range
     ////////////////////////// C++
-    
+
 
     let codeLang = cppCode;
     let cppSolutions = 0;
