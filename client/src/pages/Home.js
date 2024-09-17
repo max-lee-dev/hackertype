@@ -1191,6 +1191,7 @@ function App({user}) {
                         pause={finished}
                         correctWords={correctWordArray.filter(Boolean).length}
                         totalWords={wordBank.length}
+                        userInput={userInput}
                         correctCharacterArray={correctCharsArray}
                         submitted={submitted}
                         leetcodeTitle={leetcodeTitle}

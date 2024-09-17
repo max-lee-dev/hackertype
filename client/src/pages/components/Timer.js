@@ -28,11 +28,11 @@ function Timer({
                  user,
                  leetcodeTitle,
                  submitted,
-                 setSubmitted,
                  correctWords,
                  startCounting,
                  pause,
                  totalWords,
+                 userInput,
                  last_daily,
                  correctCharacterArray,
                  wordLimit,
@@ -50,6 +50,7 @@ function Timer({
   const [newAcc, setNewAcc] = useState(0);
   const [rank, setRank] = useState(1);
   const [totalOpponents, setTotalOpponents] = useState(1);
+  const [startedTestTimestamp, setStartedTestTimestamp] = useState(0);
   const {
     isOpen: isLeaderboardOpen,
     onClose: onLeaderboardClose,
@@ -63,6 +64,42 @@ function Timer({
   let fakeCorrectWords = totalCorrectChars / 4.7;
   const wpm = (fakeCorrectWords / (timeElapsed / 60) || 0).toFixed(0);
   const [wpmGraph, setWPMGraph] = useState([]);
+  const [keystrokeData, setKeystrokeData] = useState([]);
+
+  useEffect(() => {
+
+    if (user && startCounting) {
+      const handleKeyDown = (e) => {
+        let actionType = "insert";
+        let key = e.key;
+        const time = Date.now();
+
+        if (e.key === "Backspace") {
+          actionType = "remove";
+          key = userInput[userInput.length - 1];
+        }
+
+
+        const thisKeystroke = {
+          action: actionType,
+          timestamp: time,
+          key: key,
+          id: user.uid + startedTestTimestamp,
+        };
+
+        // Use functional update to ensure you're working with the latest state
+        setKeystrokeData((prevKeystrokes) => [...prevKeystrokes, thisKeystroke]);
+      };
+
+      window.addEventListener("keydown", handleKeyDown);
+
+      // Cleanup the event listener on component unmount
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [user, startedTestTimestamp, userInput]);
+
 
   useEffect(() => {
     if (!pause) {
@@ -75,6 +112,7 @@ function Timer({
   useEffect(() => {
     let id;
     if (startCounting) {
+      setStartedTestTimestamp(Date.now());
       startedTest();
       id = setInterval(() => {
         setTimeElapsed((oldTime) => oldTime + 1);
@@ -557,6 +595,7 @@ function Timer({
         isBestSubmission: isBestSubmission,
         rank: myRank,
         totalOpponents: totalOppo,
+        keystrokeData: keystrokeData,
       });
       discordWebhook(user.displayName, `${user.displayName} - ${leetcodeTitle} - ${finalWPM} WPM\n${newAcc}% accuracy\nRank: ${myRank}/${totalOppo}\n\n[View Leaderboard](https://www.hackertype.dev/solutions/${language}/${parseInt(leetcodeTitle.split(".")[0])})`);
 
