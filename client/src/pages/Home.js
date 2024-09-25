@@ -277,9 +277,9 @@ function App({user}) {
       async function getUserSettings() {
 
         let givenLineLimit = 0;
-
         const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
-          if (!doc.exists() && doc.data()) {
+          console.log(doc.data())
+          if (doc.data()) {
             setLastDaily(doc.data().last_daily);
             setUserData(doc.data());
           }
@@ -455,7 +455,10 @@ function App({user}) {
     if (user) {
       let found = false;
       setFindingPR(true);
+      console.log("finding pr");
+      console.log(userData)
       userData.submissions?.map((submission) => {
+        console.log("finding: " + submission);
         if (submission.solution_id !== codeTitle) return "";
         if (submission.language !== codingLanguage) return "";
         if (!submission.isBestSubmission) return "";

@@ -136,15 +136,22 @@ function Timer({
       return tempSubmissions;
     }
 
+    async function getUserData() {
+      const userDoc = doc(db, "users", user?.uid);
+      const userSnap = await getDoc(userDoc);
+      return userSnap.data();
+    }
+
+
     if (done) {
       getSubmissions().then((submissions) => {
-        if (submissions) {
-          if (newAcc >= 65 && finalWPM <= 190) {
-            createSubmission(submissions);
+        getUserData().then((userData) => {
+          if (submissions) {
+            if (process.env.NODE_ENV !== "production" || (newAcc >= 65 && finalWPM <= 190)) {
+              createSubmission(submissions, userData);
+            }
           }
-
-
-        }
+        })
       });
     }
 
@@ -378,12 +385,12 @@ function Timer({
     return array;
   }
 
-  async function checkDaily() {
+  async function checkDaily(userData) {
     const ogDay = 1703662239000 - 27039000;
     const today = Date.parse(new Date());
     const dailyNum = Math.floor((today - ogDay) / (1000 * 60 * 60 * 24));
 
-    if (parseInt(leetcodeTitle.split(".")[0]) === dailySolutions[dailyNum] && parseInt(last_daily) !== parseInt(dailyNum)) {
+    if (parseInt(leetcodeTitle.split(".")[0]) === dailySolutions[dailyNum] && (parseInt(userData?.last_daily) ?? 0) !== parseInt(dailyNum)) {
       // this is the daily problem
 
       await updateDoc(doc(db, "users", user?.uid), {
@@ -394,14 +401,11 @@ function Timer({
     }
   }
 
-  async function createSubmission(submissions) {
+  async function createSubmission(submissions, userData) {
 
 
-    const userDoc = doc(db, "users", user?.uid);
-    const userSnap = await getDoc(userDoc);
-    const userData = userSnap.data();
     if (user) {
-      await checkDaily();
+      await checkDaily(userData);
       let totalWpm = parseInt(finalWPM); // database doesnt update during this func so start with the current wpm
       let testsCompleted = 1;
       let firstTime = true;
