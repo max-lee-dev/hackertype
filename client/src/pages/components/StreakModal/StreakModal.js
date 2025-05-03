@@ -44,31 +44,30 @@ export default function StreakModal({
   const dailyNum = Math.floor((today - ogDay) / (1000 * 60 * 60 * 24));
   const [loading, setLoading] = useState(true);
   const [userList, setUserList] = useState([]);
-  const [currentBest, setCurrentBest] = useState(0);
   const [highestRecord, setHighestRecord] = useState(0);
   const [recordHolder, setRecordHolder] = useState("dumbdumbjr");
-  
+
   async function updateHighestRecord(currentStreak, username) {
     try {
       // Get reference to stats document
       const statsRef = doc(db, "stats", "streakRecord");
-      
+
       // Get current stats
       const statsDoc = await getDoc(statsRef);
-      
+
       if (statsDoc.exists()) {
         // If stats document exists, check if current streak is higher
         const currentRecord = statsDoc.data().highestRecord || 0;
-        
+
         if (currentStreak > currentRecord) {
           // Update record if current streak is higher
           await updateDoc(statsRef, {
             highestRecord: currentStreak,
             recordHolder: username
           });
-          return { highestRecord: currentStreak, recordHolder: username };
+          return {highestRecord: currentStreak, recordHolder: username};
         } else {
-          return { highestRecord: currentRecord, recordHolder: statsDoc.data().recordHolder };
+          return {highestRecord: currentRecord, recordHolder: statsDoc.data().recordHolder};
         }
       } else {
         // If stats document doesn't exist, create it
@@ -76,14 +75,14 @@ export default function StreakModal({
           highestRecord: currentStreak,
           recordHolder: username
         });
-        return { highestRecord: currentStreak, recordHolder: username };
+        return {highestRecord: currentStreak, recordHolder: username};
       }
     } catch (error) {
       console.error("Error updating highest record:", error);
-      return { highestRecord: 0, recordHolder: "unknown" };
+      return {highestRecord: 0, recordHolder: "unknown"};
     }
   }
-  
+
   useEffect(() => {
     setLoading(true);
 
@@ -104,14 +103,13 @@ export default function StreakModal({
           tempArr.push(user.data());
         }
       });
-      
-      setCurrentBest(tempArr[0]?.streak || 0);
+
       setUserList(tempArr);
-      
+
       // Update highest record if necessary
       if (tempArr.length > 0 && tempArr[0]?.streak) {
-        const { highestRecord: newRecord, recordHolder: newHolder } = await updateHighestRecord(
-          tempArr[0].streak, 
+        const {highestRecord: newRecord, recordHolder: newHolder} = await updateHighestRecord(
+          tempArr[0].streak,
           tempArr[0].displayName
         );
         setHighestRecord(newRecord);
