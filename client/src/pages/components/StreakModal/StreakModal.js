@@ -25,7 +25,7 @@ import {
 } from "@chakra-ui/react";
 import javaCode from "../codefiles/javaCode.json";
 
-import {query, collection, getDocs, orderBy, where, updateDoc, doc} from "firebase/firestore";
+import {query, collection, getDocs, orderBy, where, updateDoc, doc, getDoc, setDoc} from "firebase/firestore";
 import {db} from "../firebase";
 import {limit} from "@firebase/firestore";
 import Rank1 from "./Rank1";
@@ -39,13 +39,51 @@ export default function StreakModal({
                                       onStreakClose,
                                     }) {
 
-
   const ogDay = 1703662239000 - 27039000;
   const today = Date.parse(new Date());
   const dailyNum = Math.floor((today - ogDay) / (1000 * 60 * 60 * 24));
   const [loading, setLoading] = useState(true);
   const [userList, setUserList] = useState([]);
-
+  const [currentBest, setCurrentBest] = useState(0);
+  const [highestRecord, setHighestRecord] = useState(0);
+  const [recordHolder, setRecordHolder] = useState("dumbdumbjr");
+  
+  async function updateHighestRecord(currentStreak, username) {
+    try {
+      // Get reference to stats document
+      const statsRef = doc(db, "stats", "streakRecord");
+      
+      // Get current stats
+      const statsDoc = await getDoc(statsRef);
+      
+      if (statsDoc.exists()) {
+        // If stats document exists, check if current streak is higher
+        const currentRecord = statsDoc.data().highestRecord || 0;
+        
+        if (currentStreak > currentRecord) {
+          // Update record if current streak is higher
+          await updateDoc(statsRef, {
+            highestRecord: currentStreak,
+            recordHolder: username
+          });
+          return { highestRecord: currentStreak, recordHolder: username };
+        } else {
+          return { highestRecord: currentRecord, recordHolder: statsDoc.data().recordHolder };
+        }
+      } else {
+        // If stats document doesn't exist, create it
+        await setDoc(statsRef, {
+          highestRecord: currentStreak,
+          recordHolder: username
+        });
+        return { highestRecord: currentStreak, recordHolder: username };
+      }
+    } catch (error) {
+      console.error("Error updating highest record:", error);
+      return { highestRecord: 0, recordHolder: "unknown" };
+    }
+  }
+  
   useEffect(() => {
     setLoading(true);
 
@@ -54,11 +92,7 @@ export default function StreakModal({
 
       const q = query(collection(db, "users"), where("streak", ">", 0), orderBy("streak", "desc"), limit(3));
       // , where("language", "==", selectedLanguage), where("solution_id", "==", givenSolName), orderBy("rank", "asc"), where("isBestSubmission", "==", true))
-      console.log("dailyNum", dailyNum);
       const querySnapshot = await getDocs(q);
-
-      // sort both date arrs and temp arr
-
 
       querySnapshot.forEach((user) => {
         if (dailyNum - user.data().last_daily > 1) {
@@ -69,17 +103,35 @@ export default function StreakModal({
         } else {
           tempArr.push(user.data());
         }
-
       });
-
-
+      
+      setCurrentBest(tempArr[0]?.streak || 0);
       setUserList(tempArr);
+      
+      // Update highest record if necessary
+      if (tempArr.length > 0 && tempArr[0]?.streak) {
+        const { highestRecord: newRecord, recordHolder: newHolder } = await updateHighestRecord(
+          tempArr[0].streak, 
+          tempArr[0].displayName
+        );
+        setHighestRecord(newRecord);
+        setRecordHolder(newHolder);
+      } else {
+        // Just get current record if no qualifying users
+        const statsRef = doc(db, "stats", "streakRecord");
+        const statsDoc = await getDoc(statsRef);
+        if (statsDoc.exists()) {
+          setHighestRecord(statsDoc.data().highestRecord || 0);
+          setRecordHolder(statsDoc.data().recordHolder || "unknown");
+        }
+      }
     }
 
     if (isStreakOpen) {
       getUserList().then(() => setLoading(false));
     }
-  }, [isStreakOpen]);
+
+  }, [isStreakOpen, dailyNum]);
 
 
   const css = document.querySelector(":root");
@@ -117,17 +169,16 @@ export default function StreakModal({
                     <ion-icon name="flame"></ion-icon>
                   </Box>
                   <Text fontSize={'24px'} fontWeight={600} color={mainText} className={'mainFont'}>
-
-                    70
+                    {highestRecord}
                   </Text>
                 </HStack>
 
                 <Text fontSize={'16px'} color={subtleText} fontWeight={500} className={'mainFont'}>
                   record by{" "}
-                  <Text as={'a'} href={'/profile/dumbdumbjr'} fontSize={'20px'} fontWeight={500}
+                  <Text as={'a'} href={`/profile/${recordHolder}`} fontSize={'20px'} fontWeight={500}
                         color={subtleText}
                         className={'mainFont underline'}>
-                    dumbdumbjr
+                    {recordHolder}
                   </Text>
                 </Text>
               </Box>
