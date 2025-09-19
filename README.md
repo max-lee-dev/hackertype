@@ -1,4 +1,4 @@
-# HackerType
+# HackerType (note this codebase was made in sophomore year and is very bad)
 
 ### Test your coding speed and accuracy by practicing with LeetCode solutions!
 
