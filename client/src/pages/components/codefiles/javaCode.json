@@ -518,7 +518,7 @@
   [
     {
       "id": "87. Scramble String",
-      "code": "class Solution {\n  public boolean isScramble(String s1, String s2) {\n    if (s1.equals(s2))\n      return true;\n    if (s1.length() != s2.length())\n      return false;\n    final String hashedKey = s1 + \"+\" + s2;\n    if (memo.containsKey(hashedKey))\n      return memo.get(hashedKey);\n\n    int[] count = new int[128];\n\n    for (int i = 0; i < s1.length(); ++i) {\n      ++count[s1.charAt(i)];\n      --count[s2.charAt(i)];\n    }\n\n    for (final int c : count)\n      if (c != 0) {\n        memo.put(hashedKey, false);\n        return false;\n      }\n\n    for (int i = 1; i < s1.length(); ++i) {\n      if (isScramble(s1.substring(0, i), s2.substring(0, i)) &&\n          isScramble(s1.substring(i), s2.substring(i))) {\n        memo.put(hashedKey, true);\n        return true;\n      }\n      if (isScramble(s1.substring(0, i), s2.substring(s2.length() - i)) &&\n          isScramble(s1.substring(i), s2.substring(0, s2.length() - i))) {\n        memo.put(hashedKey, true);\n        return true;\n      }\n    }\n\n    memo.put(hashedKey, false);\n    return false;\n  }\n\n  private Map<String, Boolean> memo = new HashMap<>();\n}\n"
+      "code": "class Solution {\n  public boolean isScramble(String s1, String s2) {\n    if (s1.equals(s2))\n      return true;\n    if (s1.length() != s2.length())\n      return false;\n    final String hashedKey = s1 + \"+\" + s2;\n    if (memo.containsKey(hashedKey))\n      return memo.get(hashedKey);\n\n    int[] count = new int[128];\n\n    for (int i = 0; i < s1.length(); ++i) {\n      ++count[s1.charAt(i)];\n      --count[s2.charAt(i)];\n    }\n\n    for (final int c : count)\n      if (c != 0) {\n        memo.put(hashedKey, false);\n        return false;\n      }\n\n    for (int i = 1; i < s1.length(); ++i) {\n      if (isScramble(s1.substring(0, i), s2.substring(0, i)) &&\n          isScramble(s1.substring(i), s2.substring(i))) {\n        memo.put(hashedKey, true);\n        return true;\n      }\n      if (isScramble(s1.substring(0, i), s2.substring(s2.length() - i)) &&\n          isScramble(s1.substring(i), s2.substring(0, s2.length() - i))) {\n        memo.put(hashedKey, true);\n        return true;\n      }\n    }\n\n    memo.put(hashedKey, false);\n    return false;\n  }\n\n  private Map<String, Boolean> memo = new HashMap<>();\n }\n"
     }
   ],
   [
@@ -824,7 +824,7 @@
   [
     {
       "id": "138. Copy List with Random Pointer",
-      "code": "class Solution {\n  public Node copyRandomList(Node head) {\n    if (head == null)\n      return null;\n    if (map.containsKey(head))\n      return map.get(head);\n\n    Node newNode = new Node(head.val);\n    map.put(head, newNode);\n    newNode.next = copyRandomList(head.next);\n    newNode.random = copyRandomList(head.random);\n    return newNode;\n  }\n\n  private Map<Node, Node> map = new HashMap<>();\n}\n"
+      "code": "class Solution {\n  public Node copyRandomList(Node head) {\n    if (head == null)\n      return null;\n    if (map.containsKey(head))\n      return map.get(head);\n\n    Node newNode = new Node(head.val);\n    map.put(head, newNode);\n    newNode.next = copyRandomList(head.next);\n    newNode.random = copyRandomList(head.random);\n    return newNode;\n  }\n\n  private Map<Node, Node> map = new HashMap<>();\n }\n"
     }
   ],
   [
@@ -872,7 +872,7 @@
   [
     {
       "id": "146. LRU Cache",
-      "code": "class Node {\n  public int key;\n  public int value;\n  public Node(int key, int value) {\n    this.key = key;\n    this.value = value;\n  }\n }\n\n class LRUCache {\n  public LRUCache(int capacity) {\n    this.capacity = capacity;\n  }\n\n  public int get(int key) {\n    if (!keyToNode.containsKey(key))\n      return -1;\n\n    Node node = keyToNode.get(key);\n    cache.remove(node);\n    cache.add(node);\n    return node.value;\n  }\n\n  public void put(int key, int value) {\n    if (keyToNode.containsKey(key)) {\n      keyToNode.get(key).value = value;\n      get(key);\n      return;\n    }\n\n    if (cache.size() == capacity) {\n      Node lastNode = cache.iterator().next();\n      cache.remove(lastNode);\n      keyToNode.remove(lastNode.key);\n    }\n\n    Node node = new Node(key, value);\n    cache.add(node);\n    keyToNode.put(key, node);\n  }\n\n  private int capacity;\n  private Set<Node> cache = new LinkedHashSet<>();\n  private Map<Integer, Node> keyToNode = new HashMap<>();\n}\n"
+      "code": "class Node {\n  public int key;\n  public int value;\n  public Node(int key, int value) {\n    this.key = key;\n    this.value = value;\n  }\n }\n\n class LRUCache {\n  public LRUCache(int capacity) {\n    this.capacity = capacity;\n  }\n\n  public int get(int key) {\n    if (!keyToNode.containsKey(key))\n      return -1;\n\n    Node node = keyToNode.get(key);\n    cache.remove(node);\n    cache.add(node);\n    return node.value;\n  }\n\n  public void put(int key, int value) {\n    if (keyToNode.containsKey(key)) {\n      keyToNode.get(key).value = value;\n      get(key);\n      return;\n    }\n\n    if (cache.size() == capacity) {\n      Node lastNode = cache.iterator().next();\n      cache.remove(lastNode);\n      keyToNode.remove(lastNode.key);\n    }\n\n    Node node = new Node(key, value);\n    cache.add(node);\n    keyToNode.put(key, node);\n  }\n\n  private int capacity;\n  private Set<Node> cache = new LinkedHashSet<>();\n  private Map<Integer, Node> keyToNode = new HashMap<>();\n }\n"
     }
   ],
   [
@@ -1241,7 +1241,7 @@
   [
     {
       "id": "225. Implement Stack using Queues",
-      "code": "class MyStack {\n  public void push(int x) {\n    q.offer(x);\n    for (int i = 0; i < q.size() - 1; ++i)\n      q.offer(q.poll());\n  }\n\n  public int pop() {\n    return q.poll();\n  }\n\n  public int top() {\n    return q.peek();\n  }\n\n  public boolean empty() {\n    return q.isEmpty();\n  }\n\n  private Queue<Integer> q = new ArrayDeque<>();\n}\n"
+      "code": "class MyStack {\n  public void push(int x) {\n    q.offer(x);\n    for (int i = 0; i < q.size() - 1; ++i)\n      q.offer(q.poll());\n  }\n\n  public int pop() {\n    return q.poll();\n  }\n\n  public int top() {\n    return q.peek();\n  }\n\n  public boolean empty() {\n    return q.isEmpty();\n  }\n\n  private Queue<Integer> q = new ArrayDeque<>();\n }\n"
     }
   ],
   [
@@ -1283,7 +1283,7 @@
   [
     {
       "id": "232. Implement Queue using Stacks",
-      "code": "class MyQueue {\n  public void push(int x) {\n    input.push(x);\n  }\n\n  public int pop() {\n    peek();\n    return output.pop();\n  }\n\n  public int peek() {\n    if (output.isEmpty())\n      while (!input.isEmpty())\n        output.push(input.pop());\n    return output.peek();\n  }\n\n  public boolean empty() {\n    return input.isEmpty() && output.isEmpty();\n  }\n\n  private Deque<Integer> input = new ArrayDeque<>();\n  private Deque<Integer> output = new ArrayDeque<>();\n}\n"
+      "code": "class MyQueue {\n  public void push(int x) {\n    input.push(x);\n  }\n\n  public int pop() {\n    peek();\n    return output.pop();\n  }\n\n  public int peek() {\n    if (output.isEmpty())\n      while (!input.isEmpty())\n        output.push(input.pop());\n    return output.peek();\n  }\n\n  public boolean empty() {\n    return input.isEmpty() && output.isEmpty();\n  }\n\n  private Deque<Integer> input = new ArrayDeque<>();\n  private Deque<Integer> output = new ArrayDeque<>();\n }\n"
     }
   ],
   [
@@ -1355,7 +1355,7 @@
   [
     {
       "id": "244. Shortest Word Distance II",
-      "code": "class WordDistance {\n  public WordDistance(String[] words) {\n    for (int i = 0; i < words.length; ++i) {\n      wordToIndices.putIfAbsent(words[i], new ArrayList<>());\n      wordToIndices.get(words[i]).add(i);\n    }\n  }\n\n  public int shortest(String word1, String word2) {\n    List<Integer> indices1 = wordToIndices.get(word1);\n    List<Integer> indices2 = wordToIndices.get(word2);\n    int ans = Integer.MAX_VALUE;\n\n    for (int i = 0, j = 0; i < indices1.size() && j < indices2.size();) {\n      ans = Math.min(ans, Math.abs(indices1.get(i) - indices2.get(j)));\n      if (indices1.get(i) < indices2.get(j))\n        ++i;\n      else\n        ++j;\n    }\n\n    return ans;\n  }\n\n  private Map<String, List<Integer>> wordToIndices = new HashMap<>();\n}\n"
+      "code": "class WordDistance {\n  public WordDistance(String[] words) {\n    for (int i = 0; i < words.length; ++i) {\n      wordToIndices.putIfAbsent(words[i], new ArrayList<>());\n      wordToIndices.get(words[i]).add(i);\n    }\n  }\n\n  public int shortest(String word1, String word2) {\n    List<Integer> indices1 = wordToIndices.get(word1);\n    List<Integer> indices2 = wordToIndices.get(word2);\n    int ans = Integer.MAX_VALUE;\n\n    for (int i = 0, j = 0; i < indices1.size() && j < indices2.size();) {\n      ans = Math.min(ans, Math.abs(indices1.get(i) - indices2.get(j)));\n      if (indices1.get(i) < indices2.get(j))\n        ++i;\n      else\n        ++j;\n    }\n\n    return ans;\n  }\n\n  private Map<String, List<Integer>> wordToIndices = new HashMap<>();\n }\n"
     }
   ],
   [
@@ -1397,7 +1397,7 @@
   [
     {
       "id": "251. Flatten 2D Vector",
-      "code": "class Vector2D {\n  public Vector2D(int[][] vec) {\n    for (int[] A : vec)\n      for (final int a : A)\n        this.vec.add(a);\n  }\n\n  public int next() {\n    return vec.get(i++);\n  }\n\n  public boolean hasNext() {\n    return i < vec.size();\n  }\n\n  private List<Integer> vec = new ArrayList<>();\n  private int i = 0;\n}\n"
+      "code": "class Vector2D {\n  public Vector2D(int[][] vec) {\n    for (int[] A : vec)\n      for (final int a : A)\n        this.vec.add(a);\n  }\n\n  public int next() {\n    return vec.get(i++);\n  }\n\n  public boolean hasNext() {\n    return i < vec.size();\n  }\n\n  private List<Integer> vec = new ArrayList<>();\n  private int i = 0;\n }\n"
     }
   ],
   [
@@ -1572,7 +1572,7 @@
   [
     {
       "id": "281. Zigzag Iterator",
-      "code": "public class ZigzagIterator {\n  public ZigzagIterator(List<Integer> v1, List<Integer> v2) {\n    if (!v1.isEmpty())\n      q.offer(v1.iterator());\n    if (!v2.isEmpty())\n      q.offer(v2.iterator());\n  }\n\n  public int next() {\n    final Iterator it = q.poll();\n    final int next = (int) it.next();\n    if (it.hasNext())\n      q.offer(it);\n    return next;\n  }\n\n  public boolean hasNext() {\n    return !q.isEmpty();\n  }\n\n  private Queue<Iterator> q = new ArrayDeque<>();\n}\n"
+      "code": "public class ZigzagIterator {\n  public ZigzagIterator(List<Integer> v1, List<Integer> v2) {\n    if (!v1.isEmpty())\n      q.offer(v1.iterator());\n    if (!v2.isEmpty())\n      q.offer(v2.iterator());\n  }\n\n  public int next() {\n    final Iterator it = q.poll();\n    final int next = (int) it.next();\n    if (it.hasNext())\n      q.offer(it);\n    return next;\n  }\n\n  public boolean hasNext() {\n    return !q.isEmpty();\n  }\n\n  private Queue<Iterator> q = new ArrayDeque<>();\n }\n"
     }
   ],
   [
@@ -1590,7 +1590,7 @@
   [
     {
       "id": "284. Peeking Iterator",
-      "code": "class PeekingIterator implements Iterator<Integer> {\n  public PeekingIterator(Iterator<Integer> iterator) {\n    this.iterator = iterator;\n    buffer = iterator.hasNext() ? iterator.next() : null;\n  }\n\n  // Returns the next element in the iteration without advancing the iterator.\n  public Integer peek() {\n    return buffer;\n  }\n\n  // hasNext() and next() should behave the same as in the Iterator interface.\n  // Override them if needed.\n  @Override\n  public Integer next() {\n    Integer next = buffer;\n    buffer = iterator.hasNext() ? iterator.next() : null;\n    return next;\n  }\n\n  @Override\n  public boolean hasNext() {\n    return buffer != null;\n  }\n\n  private Iterator<Integer> iterator;\n  private Integer buffer;\n}\n"
+      "code": "class PeekingIterator implements Iterator<Integer> {\n  public PeekingIterator(Iterator<Integer> iterator) {\n    this.iterator = iterator;\n    buffer = iterator.hasNext() ? iterator.next() : null;\n  }\n\n  // Returns the next element in the iteration without advancing the iterator.\n  public Integer peek() {\n    return buffer;\n  }\n\n  // hasNext() and next() should behave the same as in the Iterator interface.\n  // Override them if needed.\n  @Override\n  public Integer next() {\n    Integer next = buffer;\n    buffer = iterator.hasNext() ? iterator.next() : null;\n    return next;\n  }\n\n  @Override\n  public boolean hasNext() {\n    return buffer != null;\n  }\n\n  private Iterator<Integer> iterator;\n  private Integer buffer;\n }\n"
     }
   ],
   [
@@ -1650,13 +1650,13 @@
   [
     {
       "id": "294. Flip Game II",
-      "code": "class Solution {\n  public boolean canWin(String currentState) {\n    if (memo.containsKey(currentState))\n      memo.get(currentState);\n\n    // If any of currentState[i:i + 2] == \"++\" and your friend can't win after\n    // Changing currentState[i:i + 2] to \"--\" (or \"-\"), then you can win\n    for (int i = 0; i + 1 < currentState.length(); ++i)\n      if (currentState.charAt(i) == '+' && currentState.charAt(i + 1) == '+' &&\n          !canWin(currentState.substring(0, i) + \"-\" + currentState.substring(i + 2))) {\n        memo.put(currentState, true);\n        return true;\n      }\n\n    memo.put(currentState, false);\n    return false;\n  }\n\n  private Map<String, Boolean> memo = new HashMap<>();\n}\n"
+      "code": "class Solution {\n  public boolean canWin(String currentState) {\n    if (memo.containsKey(currentState))\n      memo.get(currentState);\n\n    // If any of currentState[i:i + 2] == \"++\" and your friend can't win after\n    // Changing currentState[i:i + 2] to \"--\" (or \"-\"), then you can win\n    for (int i = 0; i + 1 < currentState.length(); ++i)\n      if (currentState.charAt(i) == '+' && currentState.charAt(i + 1) == '+' &&\n          !canWin(currentState.substring(0, i) + \"-\" + currentState.substring(i + 2))) {\n        memo.put(currentState, true);\n        return true;\n      }\n\n    memo.put(currentState, false);\n    return false;\n  }\n\n  private Map<String, Boolean> memo = new HashMap<>();\n }\n"
     }
   ],
   [
     {
       "id": "295. Find Median from Data Stream",
-      "code": "class MedianFinder {\n  public void addNum(int num) {\n    if (maxHeap.isEmpty() || num <= maxHeap.peek())\n      maxHeap.offer(num);\n    else\n      minHeap.offer(num);\n\n    // Balance two heaps s.t.\n    // |maxHeap| >= |minHeap| and |maxHeap| - |minHeap| <= 1\n    if (maxHeap.size() < minHeap.size())\n      maxHeap.offer(minHeap.poll());\n    else if (maxHeap.size() - minHeap.size() > 1)\n      minHeap.offer(maxHeap.poll());\n  }\n\n  public double findMedian() {\n    if (maxHeap.size() == minHeap.size())\n      return (double) (maxHeap.peek() + minHeap.peek()) / 2.0;\n    return (double) maxHeap.peek();\n  }\n\n  private Queue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());\n  private Queue<Integer> minHeap = new PriorityQueue<>();\n}\n"
+      "code": "class MedianFinder {\n  public void addNum(int num) {\n    if (maxHeap.isEmpty() || num <= maxHeap.peek())\n      maxHeap.offer(num);\n    else\n      minHeap.offer(num);\n\n    // Balance two heaps s.t.\n    // |maxHeap| >= |minHeap| and |maxHeap| - |minHeap| <= 1\n    if (maxHeap.size() < minHeap.size())\n      maxHeap.offer(minHeap.poll());\n    else if (maxHeap.size() - minHeap.size() > 1)\n      minHeap.offer(maxHeap.poll());\n  }\n\n  public double findMedian() {\n    if (maxHeap.size() == minHeap.size())\n      return (double) (maxHeap.peek() + minHeap.peek()) / 2.0;\n    return (double) maxHeap.peek();\n  }\n\n  private Queue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());\n  private Queue<Integer> minHeap = new PriorityQueue<>();\n }\n"
     }
   ],
   [
@@ -1704,13 +1704,13 @@
   [
     {
       "id": "303. Range Sum Query - Immutable",
-      "code": "class NumArray {\n  public NumArray(int[] nums) {\n    prefix = new int[nums.length + 1];\n    for (int i = 0; i < nums.length; ++i)\n      prefix[i + 1] = nums[i] + prefix[i];\n  }\n\n  public int sumRange(int left, int right) {\n    return prefix[right + 1] - prefix[left];\n  }\n\n  private int[] prefix;\n}\n"
+      "code": "class NumArray {\n  public NumArray(int[] nums) {\n    prefix = new int[nums.length + 1];\n    for (int i = 0; i < nums.length; ++i)\n      prefix[i + 1] = nums[i] + prefix[i];\n  }\n\n  public int sumRange(int left, int right) {\n    return prefix[right + 1] - prefix[left];\n  }\n\n  private int[] prefix;\n }\n"
     }
   ],
   [
     {
       "id": "304. Range Sum Query 2D - Immutable",
-      "code": "class NumMatrix {\n  public NumMatrix(int[][] matrix) {\n    if (matrix.length == 0)\n      return;\n\n    final int m = matrix.length;\n    final int n = matrix[0].length;\n    // prefix[i][j] := sum of matrix[0..i)[0..j)\n    prefix = new int[m + 1][n + 1];\n\n    for (int i = 0; i < m; ++i)\n      for (int j = 0; j < n; ++j)\n        prefix[i + 1][j + 1] = matrix[i][j] + prefix[i][j + 1] + prefix[i + 1][j] - prefix[i][j];\n  }\n\n  public int sumRegion(int row1, int col1, int row2, int col2) {\n    return prefix[row2 + 1][col2 + 1] - prefix[row1][col2 + 1]\n         - prefix[row2 + 1][col1] + prefix[row1][col1];\n  }\n\n  private int[][] prefix;\n}\n"
+      "code": "class NumMatrix {\n  public NumMatrix(int[][] matrix) {\n    if (matrix.length == 0)\n      return;\n\n    final int m = matrix.length;\n    final int n = matrix[0].length;\n    // prefix[i][j] := sum of matrix[0..i)[0..j)\n    prefix = new int[m + 1][n + 1];\n\n    for (int i = 0; i < m; ++i)\n      for (int j = 0; j < n; ++j)\n        prefix[i + 1][j + 1] = matrix[i][j] + prefix[i][j + 1] + prefix[i + 1][j] - prefix[i][j];\n  }\n\n  public int sumRegion(int row1, int col1, int row2, int col2) {\n    return prefix[row2 + 1][col2 + 1] - prefix[row1][col2 + 1]\n         - prefix[row2 + 1][col1] + prefix[row1][col1];\n  }\n\n  private int[][] prefix;\n }\n"
     }
   ],
   [
@@ -1728,13 +1728,13 @@
   [
     {
       "id": "307. Range Sum Query - Mutable",
-      "code": "class FenwickTree {\n  public FenwickTree(int n) {\n    sums = new int[n + 1];\n  }\n\n  public void update(int i, int delta) {\n    while (i < sums.length) {\n      sums[i] += delta;\n      i += lowbit(i);\n    }\n  }\n\n  public int get(int i) {\n    int sum = 0;\n    while (i > 0) {\n      sum += sums[i];\n      i -= lowbit(i);\n    }\n    return sum;\n  }\n\n  private int[] sums;\n\n  private static int lowbit(int i) {\n    return i & -i;\n  }\n }\n\n class NumArray {\n  public NumArray(int[] nums) {\n    this.nums = nums;\n    tree = new FenwickTree(nums.length);\n    for (int i = 0; i < nums.length; ++i)\n      tree.update(i + 1, nums[i]);\n  }\n\n  public void update(int index, int val) {\n    tree.update(index + 1, val - nums[index]);\n    nums[index] = val;\n  }\n\n  public int sumRange(int left, int right) {\n    return tree.get(right + 1) - tree.get(left);\n  }\n\n  private int[] nums;\n  private FenwickTree tree;\n}\n"
+      "code": "class FenwickTree {\n  public FenwickTree(int n) {\n    sums = new int[n + 1];\n  }\n\n  public void update(int i, int delta) {\n    while (i < sums.length) {\n      sums[i] += delta;\n      i += lowbit(i);\n    }\n  }\n\n  public int get(int i) {\n    int sum = 0;\n    while (i > 0) {\n      sum += sums[i];\n      i -= lowbit(i);\n    }\n    return sum;\n  }\n\n  private int[] sums;\n\n  private static int lowbit(int i) {\n    return i & -i;\n  }\n }\n\n class NumArray {\n  public NumArray(int[] nums) {\n    this.nums = nums;\n    tree = new FenwickTree(nums.length);\n    for (int i = 0; i < nums.length; ++i)\n      tree.update(i + 1, nums[i]);\n  }\n\n  public void update(int index, int val) {\n    tree.update(index + 1, val - nums[index]);\n    nums[index] = val;\n  }\n\n  public int sumRange(int left, int right) {\n    return tree.get(right + 1) - tree.get(left);\n  }\n\n  private int[] nums;\n  private FenwickTree tree;\n }\n"
     }
   ],
   [
     {
       "id": "308. Range Sum Query 2D - Mutable",
-      "code": "class FenwickTree {\n  public FenwickTree(int m, int n) {\n    sums = new int[m + 1][n + 1];\n  }\n\n  public void update(int row, int col, int delta) {\n    for (int i = row; i < sums.length; i += i & -i)\n      for (int j = col; j < sums[0].length; j += j & -j)\n        sums[i][j] += delta;\n  }\n\n  public int get(int row, int col) {\n    int sum = 0;\n    for (int i = row; i > 0; i -= i & -i)\n      for (int j = col; j > 0; j -= j & -j)\n        sum += sums[i][j];\n    return sum;\n  }\n\n  private int[][] sums;\n}\n\n class NumMatrix {\n  public NumMatrix(int[][] matrix) {\n    this.matrix = matrix;\n    tree = new FenwickTree(matrix.length, matrix[0].length);\n    for (int i = 0; i < matrix.length; ++i)\n      for (int j = 0; j < matrix[0].length; ++j)\n        tree.update(i + 1, j + 1, matrix[i][j]);\n  }\n\n  public void update(int row, int col, int val) {\n    tree.update(row + 1, col + 1, val - matrix[row][col]);\n    matrix[row][col] = val;\n  }\n\n  public int sumRegion(int row1, int col1, int row2, int col2) {\n    return tree.get(row2 + 1, col2 + 1) - tree.get(row1, col2 + 1) - tree.get(row2 + 1, col1) +\n        tree.get(row1, col1);\n  }\n\n  private int[][] matrix;\n  private FenwickTree tree;\n}\n"
+      "code": "class FenwickTree {\n  public FenwickTree(int m, int n) {\n    sums = new int[m + 1][n + 1];\n  }\n\n  public void update(int row, int col, int delta) {\n    for (int i = row; i < sums.length; i += i & -i)\n      for (int j = col; j < sums[0].length; j += j & -j)\n        sums[i][j] += delta;\n  }\n\n  public int get(int row, int col) {\n    int sum = 0;\n    for (int i = row; i > 0; i -= i & -i)\n      for (int j = col; j > 0; j -= j & -j)\n        sum += sums[i][j];\n    return sum;\n  }\n\n  private int[][] sums;\n}\n\n class NumMatrix {\n  public NumMatrix(int[][] matrix) {\n    this.matrix = matrix;\n    tree = new FenwickTree(matrix.length, matrix[0].length);\n    for (int i = 0; i < matrix.length; ++i)\n      for (int j = 0; j < matrix[0].length; ++j)\n        tree.update(i + 1, j + 1, matrix[i][j]);\n  }\n\n  public void update(int row, int col, int val) {\n    tree.update(row + 1, col + 1, val - matrix[row][col]);\n    matrix[row][col] = val;\n  }\n\n  public int sumRegion(int row1, int col1, int row2, int col2) {\n    return tree.get(row2 + 1, col2 + 1) - tree.get(row1, col2 + 1) - tree.get(row2 + 1, col1) +\n        tree.get(row1, col1);\n  }\n\n  private int[][] matrix;\n  private FenwickTree tree;\n }\n"
     }
   ],
   [
@@ -1952,7 +1952,7 @@
   [
     {
       "id": "346. Moving Average from Data Stream",
-      "code": "class MovingAverage {\n  public MovingAverage(int size) {\n    this.size = size;\n  }\n\n  public double next(int val) {\n    if (q.size() == size)\n      sum -= q.poll();\n    sum += val;\n    q.offer(val);\n    return sum / q.size();\n  }\n\n  private int size = 0;\n  private double sum = 0;\n  private Queue<Integer> q = new ArrayDeque<>();\n}\n"
+      "code": "class MovingAverage {\n  public MovingAverage(int size) {\n    this.size = size;\n  }\n\n  public double next(int val) {\n    if (q.size() == size)\n      sum -= q.poll();\n    sum += val;\n    q.offer(val);\n    return sum / q.size();\n  }\n\n  private int size = 0;\n  private double sum = 0;\n  private Queue<Integer> q = new ArrayDeque<>();\n }\n"
     }
   ],
   [
@@ -1964,7 +1964,7 @@
   [
     {
       "id": "348. Design Tic-Tac-Toe",
-      "code": "class TicTacToe {\n  public TicTacToe(int n) {\n    this.n = n;\n    rows = new int[n];\n    cols = new int[n];\n  }\n\n  /**\n   * Player {player} makes a move at ({row}, {col}).\n   *\n   * @param row    The row of the board.\n   * @param col    The column of the board.\n   * @param player The player, can be either 1 or 2.\n   * @return The current winning condition, can be either:\n   *         0: No one wins.\n   *         1: Player 1 wins.\n   *         2: Player 2 wins.\n   */\n  public int move(int row, int col, int player) {\n    final int toAdd = player == 1 ? 1 : -1;\n    final int target = player == 1 ? n : -n;\n\n    if (row == col) {\n      diag += toAdd;\n      if (diag == target)\n        return player;\n    }\n\n    if (row + col == n - 1) {\n      antiDiag += toAdd;\n      if (antiDiag == target)\n        return player;\n    }\n\n    rows[row] += toAdd;\n    if (rows[row] == target)\n      return player;\n\n    cols[col] += toAdd;\n    if (cols[col] == target)\n      return player;\n\n    return 0;\n  }\n\n  private final int n;\n  // Record count('X') - count('O')\n  private int[] rows;\n  private int[] cols;\n  private int diag = 0;\n  private int antiDiag = 0;\n}\n"
+      "code": "class TicTacToe {\n  public TicTacToe(int n) {\n    this.n = n;\n    rows = new int[n];\n    cols = new int[n];\n  }\n\n  /**\n   * Player {player} makes a move at ({row}, {col}).\n   *\n   * @param row    The row of the board.\n   * @param col    The column of the board.\n   * @param player The player, can be either 1 or 2.\n   * @return The current winning condition, can be either:\n   *         0: No one wins.\n   *         1: Player 1 wins.\n   *         2: Player 2 wins.\n   */\n  public int move(int row, int col, int player) {\n    final int toAdd = player == 1 ? 1 : -1;\n    final int target = player == 1 ? n : -n;\n\n    if (row == col) {\n      diag += toAdd;\n      if (diag == target)\n        return player;\n    }\n\n    if (row + col == n - 1) {\n      antiDiag += toAdd;\n      if (antiDiag == target)\n        return player;\n    }\n\n    rows[row] += toAdd;\n    if (rows[row] == target)\n      return player;\n\n    cols[col] += toAdd;\n    if (cols[col] == target)\n      return player;\n\n    return 0;\n  }\n\n  private final int n;\n  // Record count('X') - count('O')\n  private int[] rows;\n  private int[] cols;\n  private int diag = 0;\n  private int antiDiag = 0;\n }\n"
     }
   ],
   [
@@ -1988,7 +1988,7 @@
   [
     {
       "id": "352. Data Stream as Disjoint Intervals",
-      "code": "class SummaryRanges {\n  public void addNum(int val) {\n    if (map.containsKey(val))\n      return;\n\n    final Integer lo = map.lowerKey(val);  // Maximum in map < key\n    final Integer hi = map.higherKey(val); // Minimum in map > key\n\n    // {lo, map.get(lo)[1]} + val + {hi, map.get(hi)[1]} = {lo, map.get(hi)[1]}\n    if (lo != null && hi != null && map.get(lo)[1] + 1 == val && val + 1 == hi) {\n      map.get(lo)[1] = map.get(hi)[1];\n      map.remove(hi);\n      // {lo, map.get(lo)[1]} + val = {lo, val}\n      // (prevent adding duplicate entry by using '>=' instead of '==')\n    } else if (lo != null && map.get(lo)[1] + 1 >= val) {\n      map.get(lo)[1] = Math.max(map.get(lo)[1], val);\n      // Val + {hi, map.get(hi)[1]} = {val, map.get(hi)[1]}\n    } else if (hi != null && val + 1 == hi) {\n      map.put(val, new int[] {val, map.get(hi)[1]});\n      map.remove(hi);\n    } else {\n      map.put(val, new int[] {val, val});\n    }\n  }\n\n  public int[][] getIntervals() {\n    return map.values().stream().toArray(int[][] ::new);\n  }\n\n  // {start: {start, end}}\n  private TreeMap<Integer, int[]> map = new TreeMap<>();\n}\n"
+      "code": "class SummaryRanges {\n  public void addNum(int val) {\n    if (map.containsKey(val))\n      return;\n\n    final Integer lo = map.lowerKey(val);  // Maximum in map < key\n    final Integer hi = map.higherKey(val); // Minimum in map > key\n\n    // {lo, map.get(lo)[1]} + val + {hi, map.get(hi)[1]} = {lo, map.get(hi)[1]}\n    if (lo != null && hi != null && map.get(lo)[1] + 1 == val && val + 1 == hi) {\n      map.get(lo)[1] = map.get(hi)[1];\n      map.remove(hi);\n      // {lo, map.get(lo)[1]} + val = {lo, val}\n      // (prevent adding duplicate entry by using '>=' instead of '==')\n    } else if (lo != null && map.get(lo)[1] + 1 >= val) {\n      map.get(lo)[1] = Math.max(map.get(lo)[1], val);\n      // Val + {hi, map.get(hi)[1]} = {val, map.get(hi)[1]}\n    } else if (hi != null && val + 1 == hi) {\n      map.put(val, new int[] {val, map.get(hi)[1]});\n      map.remove(hi);\n    } else {\n      map.put(val, new int[] {val, val});\n    }\n  }\n\n  public int[][] getIntervals() {\n    return map.values().stream().toArray(int[][] ::new);\n  }\n\n  // {start: {start, end}}\n  private TreeMap<Integer, int[]> map = new TreeMap<>();\n }\n"
     }
   ],
   null,
@@ -2025,7 +2025,7 @@
   [
     {
       "id": "359. Logger Rate Limiter",
-      "code": "class Logger {\n  public boolean shouldPrintMessage(int timestamp, String message) {\n    // Remove messages that are 10 secs from the current timestamp\n    while (!messageQueue.isEmpty()) {\n      Pair<Integer, String> head = messageQueue.peekFirst();\n      if (timestamp - head.getKey() < 10)\n        break;\n      messageQueue.pollFirst();\n      messageSet.remove(head.getValue());\n    }\n\n    if (messageSet.contains(message))\n      return false;\n\n    messageQueue.offerLast(new Pair<>(timestamp, message));\n    messageSet.add(message);\n    return true;\n  }\n\n  // [(timestamp, message)]\n  private Deque<Pair<Integer, String>> messageQueue = new ArrayDeque<>();\n  private Set<String> messageSet = new HashSet<>();\n}\n"
+      "code": "class Logger {\n  public boolean shouldPrintMessage(int timestamp, String message) {\n    // Remove messages that are 10 secs from the current timestamp\n    while (!messageQueue.isEmpty()) {\n      Pair<Integer, String> head = messageQueue.peekFirst();\n      if (timestamp - head.getKey() < 10)\n        break;\n      messageQueue.pollFirst();\n      messageSet.remove(head.getValue());\n    }\n\n    if (messageSet.contains(message))\n      return false;\n\n    messageQueue.offerLast(new Pair<>(timestamp, message));\n    messageSet.add(message);\n    return true;\n  }\n\n  // [(timestamp, message)]\n  private Deque<Pair<Integer, String>> messageQueue = new ArrayDeque<>();\n  private Set<String> messageSet = new HashSet<>();\n }\n"
     }
   ],
   null,
@@ -2038,7 +2038,7 @@
   [
     {
       "id": "362. Design Hit Counter",
-      "code": "class HitCounter {\n  public void hit(int timestamp) {\n    final int i = timestamp % 300;\n\n    if (timestamps[i] == timestamp) {\n      ++hits[i];\n    } else {\n      timestamps[i] = timestamp;\n      hits[i] = 1; // Reset hit count to 1\n    }\n  }\n\n  public int getHits(int timestamp) {\n    int countHits = 0;\n\n    for (int i = 0; i < 300; ++i)\n      if (timestamp - timestamps[i] < 300)\n        countHits += hits[i];\n\n    return countHits;\n  }\n\n  private int[] timestamps = new int[300];\n  private int[] hits = new int[300];\n}\n"
+      "code": "class HitCounter {\n  public void hit(int timestamp) {\n    final int i = timestamp % 300;\n\n    if (timestamps[i] == timestamp) {\n      ++hits[i];\n    } else {\n      timestamps[i] = timestamp;\n      hits[i] = 1; // Reset hit count to 1\n    }\n  }\n\n  public int getHits(int timestamp) {\n    int countHits = 0;\n\n    for (int i = 0; i < 300; ++i)\n      if (timestamp - timestamps[i] < 300)\n        countHits += hits[i];\n\n    return countHits;\n  }\n\n  private int[] timestamps = new int[300];\n  private int[] hits = new int[300];\n }\n"
     }
   ],
   [
@@ -2130,7 +2130,7 @@
   [
     {
       "id": "379. Design Phone Directory",
-      "code": "class PhoneDirectory {\n  /**\n   * Initialize your data structure here\n   *\n   * @param maxNumbers - The maximum numbers that can be stored in the phone\n   *                   directory.\n   */\n  public PhoneDirectory(int maxNumbers) {\n    next = new int[maxNumbers];\n    for (int i = 0; i < maxNumbers - 1; ++i)\n      next[i] = i + 1;\n    next[maxNumbers - 1] = 0;\n  }\n\n  /**\n   * Provide a number which is not assigned to anyone.\n   *\n   * @return - Return an available number. Return -1 if none is available.\n   */\n  public int get() {\n    if (next[number] == -1)\n      return -1;\n\n    final int availableNum = number;\n    number = next[number];\n    next[availableNum] = -1; // Mark as used\n    return ans;\n  }\n\n  /** Check if a number is available or not. */\n  public boolean check(int number) {\n    return next[number] != -1;\n  }\n\n  /** Recycle or release a number. */\n  public void release(int number) {\n    if (next[number] != -1)\n      return;\n\n    next[number] = this.number;\n    this.number = number;\n  }\n\n  private int number; // Current possible available number\n  private int[] next; // Next available number\n}\n"
+      "code": "class PhoneDirectory {\n  /**\n   * Initialize your data structure here\n   *\n   * @param maxNumbers - The maximum numbers that can be stored in the phone\n   *                   directory.\n   */\n  public PhoneDirectory(int maxNumbers) {\n    next = new int[maxNumbers];\n    for (int i = 0; i < maxNumbers - 1; ++i)\n      next[i] = i + 1;\n    next[maxNumbers - 1] = 0;\n  }\n\n  /**\n   * Provide a number which is not assigned to anyone.\n   *\n   * @return - Return an available number. Return -1 if none is available.\n   */\n  public int get() {\n    if (next[number] == -1)\n      return -1;\n\n    final int availableNum = number;\n    number = next[number];\n    next[availableNum] = -1; // Mark as used\n    return ans;\n  }\n\n  /** Check if a number is available or not. */\n  public boolean check(int number) {\n    return next[number] != -1;\n  }\n\n  /** Recycle or release a number. */\n  public void release(int number) {\n    if (next[number] != -1)\n      return;\n\n    next[number] = this.number;\n    this.number = number;\n  }\n\n  private int number; // Current possible available number\n  private int[] next; // Next available number\n }\n"
     }
   ],
   [
@@ -2148,7 +2148,7 @@
   [
     {
       "id": "382. Linked List Random Node",
-      "code": "class Solution {\n  /**\n   * @param head The linked list's head. Note that the head is guaranteed to be\n   *             not null, so it contains at least one node.\n   */\n  public Solution(ListNode head) {\n    this.head = head;\n  }\n\n  /** Returns a random node's value. */\n  public int getRandom() {\n    int ans = -1;\n    int i = 1;\n\n    for (ListNode curr = head; curr != null; curr = curr.next, ++i)\n      if (rand.nextInt(i) == i - 1)\n        ans = curr.val;\n\n    return ans;\n  }\n\n  private ListNode head;\n  private Random rand = new Random();\n}\n"
+      "code": "class Solution {\n  /**\n   * @param head The linked list's head. Note that the head is guaranteed to be\n   *             not null, so it contains at least one node.\n   */\n  public Solution(ListNode head) {\n    this.head = head;\n  }\n\n  /** Returns a random node's value. */\n  public int getRandom() {\n    int ans = -1;\n    int i = 1;\n\n    for (ListNode curr = head; curr != null; curr = curr.next, ++i)\n      if (rand.nextInt(i) == i - 1)\n        ans = curr.val;\n\n    return ans;\n  }\n\n  private ListNode head;\n  private Random rand = new Random();\n }\n"
     }
   ],
   [
@@ -2239,7 +2239,7 @@
   [
     {
       "id": "398. Random Pick Index",
-      "code": "class Solution {\n  public Solution(int[] nums) {\n    this.nums = nums;\n  }\n\n  public int pick(int target) {\n    int ans = -1;\n    int range = 0;\n\n    for (int i = 0; i < nums.length; ++i)\n      if (nums[i] == target && rand.nextInt(++range) == 0)\n        ans = i;\n\n    return ans;\n  }\n\n  private int[] nums;\n  private Random rand = new Random();\n}\n"
+      "code": "class Solution {\n  public Solution(int[] nums) {\n    this.nums = nums;\n  }\n\n  public int pick(int target) {\n    int ans = -1;\n    int range = 0;\n\n    for (int i = 0; i < nums.length; ++i)\n      if (nums[i] == target && rand.nextInt(++range) == 0)\n        ans = i;\n\n    return ans;\n  }\n\n  private int[] nums;\n  private Random rand = new Random();\n }\n"
     }
   ],
   [
@@ -2480,7 +2480,7 @@
   [
     {
       "id": "439. Ternary Expression Parser",
-      "code": "class Solution {\n  public String parseTernary(String expression) {\n    final char c = expression.charAt(i);\n\n    if (i + 1 == expression.length() || expression.charAt(i + 1) == ':') {\n      i += 2; // Skip ':'\n      return String.valueOf(c);\n    }\n\n    i += 2; // Skip '?'\n    final String first = parseTernary(expression);\n    final String second = parseTernary(expression);\n    return c == 'T' ? first : second;\n  }\n\n  private int i = 0;\n}\n"
+      "code": "class Solution {\n  public String parseTernary(String expression) {\n    final char c = expression.charAt(i);\n\n    if (i + 1 == expression.length() || expression.charAt(i + 1) == ':') {\n      i += 2; // Skip ':'\n      return String.valueOf(c);\n    }\n\n    i += 2; // Skip '?'\n    final String first = parseTernary(expression);\n    final String second = parseTernary(expression);\n    return c == 'T' ? first : second;\n  }\n\n  private int i = 0;\n }\n"
     }
   ],
   [
@@ -2704,7 +2704,7 @@
   [
     {
       "id": "478. Generate Random Point in a Circle",
-      "code": "class Solution {\n  public Solution(double radius, double x_center, double y_center) {\n    this.radius = radius;\n    this.x_center = x_center;\n    this.y_center = y_center;\n  }\n\n  public double[] randPoint() {\n    final double length = Math.sqrt(Math.random()) * radius;\n    final double degree = Math.random() * 2 * Math.PI;\n    final double x = x_center + length * Math.cos(degree);\n    final double y = y_center + length * Math.sin(degree);\n    return new double[] {x, y};\n  }\n\n  private double radius;\n  private double x_center;\n  private double y_center;\n}\n"
+      "code": "class Solution {\n  public Solution(double radius, double x_center, double y_center) {\n    this.radius = radius;\n    this.x_center = x_center;\n    this.y_center = y_center;\n  }\n\n  public double[] randPoint() {\n    final double length = Math.sqrt(Math.random()) * radius;\n    final double degree = Math.random() * 2 * Math.PI;\n    final double x = x_center + length * Math.cos(degree);\n    final double y = y_center + length * Math.sin(degree);\n    return new double[] {x, y};\n  }\n\n  private double radius;\n  private double x_center;\n  private double y_center;\n }\n"
     }
   ],
   [
