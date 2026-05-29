@@ -20,7 +20,7 @@
   [
     {
       "id": "4. Median of Two Sorted Arrays",
-      "code": "var findMedianSortedArrays = function(nums1, nums2) {\n  var len1 = nums1.length;\n  var len2 = nums2.length;\n  var total = len1 + len2;\n\n  if (total % 2) {\n    return findKthOfTwoSortedArrays(nums1, len1, nums2, len2, parseInt(total / 2 + 1));\n  } else {\n    return (findKthOfTwoSortedArrays(nums1, len1, nums2, len2, total / 2)\n        + findKthOfTwoSortedArrays(nums1, len1, nums2, len2, total / 2 + 1)) / 2;\n  }\n};\n\nfunction findKthOfTwoSortedArrays (p, m, q, n, k) {\n\n    if (m > n) {\n        return findKthOfTwoSortedArrays(q, n, p, m, k);\n    }\n\n    if (m === 0) {\n        return q[k - 1];\n    }\n\n    if (k === 1) {\n        return Math.min(p[0], q[0]);\n    }\n\n    var pa = Math.min(parseInt(k / 2), m);\n    var qa = k - pa;\n\n    if (p[pa - 1] < q[qa - 1]) {\n        return findKthOfTwoSortedArrays(p.slice(pa), m - pa, q, n, k - pa);\n    } else if (q[qa - 1] < p[pa - 1]) {\n        return findKthOfTwoSortedArrays(p, m, q.slice(qa), n - qa, k - qa);\n    } else {\n        return p[pa - 1];\n    }\n} \n"
+      "code": "var findMedianSortedArrays = function(nums1, nums2) {\n  var len1 = nums1.length;\n  var len2 = nums2.length;\n  var total = len1 + len2;\n\n  if (total % 2) {\n    return findKthOfTwoSortedArrays(nums1, len1, nums2, len2, parseInt(total / 2 + 1));\n  } else {\n    return (findKthOfTwoSortedArrays(nums1, len1, nums2, len2, total / 2)\n        + findKthOfTwoSortedArrays(nums1, len1, nums2, len2, total / 2 + 1)) / 2;\n  }\n};\n\nfunction findKthOfTwoSortedArrays (p, m, q, n, k) {\n\n    if (m > n) {\n        return findKthOfTwoSortedArrays(q, n, p, m, k);\n    }\n\n    if (m === 0) {\n        return q[k - 1];\n    }\n\n    if (k === 1) {\n        return Math.min(p[0], q[0]);\n    }\n\n    var pa = Math.min(parseInt(k / 2), m);\n    var qa = k - pa;\n\n    if (p[pa - 1] < q[qa - 1]) {\n        return findKthOfTwoSortedArrays(p.slice(pa), m - pa, q, n, k - pa);\n    } else if (q[qa - 1] < p[pa - 1]) {\n        return findKthOfTwoSortedArrays(p, m, q.slice(qa), n - qa, k - qa);\n    } else {\n        return p[pa - 1];\n    }\n }\n"
     }
   ],
   [
@@ -1136,7 +1136,7 @@
   [
     {
       "id": "215. Kth Largest Element in an Array",
-      "code": "var findKthLargest = function(nums, k) {\n  return quickSelect(nums, 0, nums.length - 1, k);\n};\n\nvar quickSelect = function (nums, left, right, k) {\n  var le = left;\n  var ri = right;\n  var mid = nums[right];\n  while (le < ri) {\n    if (nums[le++] > mid) swap(nums, --le, --ri);\n  }\n  swap(nums, le, right);\n  var len = right - le;\n  if (len === k - 1) return nums[le];\n  else if (len < k - 1) return quickSelect(nums, left, le - 1, k - len - 1);\n  else return quickSelect(nums, le + 1, right, k);\n};\n\nvar swap = function (nums, i, j) {\n  var tmp = nums[i];\n  nums[i] = nums[j];\n  nums[j] = tmp;\n} \n"
+      "code": "var findKthLargest = function(nums, k) {\n  return quickSelect(nums, 0, nums.length - 1, k);\n};\n\nvar quickSelect = function (nums, left, right, k) {\n  var le = left;\n  var ri = right;\n  var mid = nums[right];\n  while (le < ri) {\n    if (nums[le++] > mid) swap(nums, --le, --ri);\n  }\n  swap(nums, le, right);\n  var len = right - le;\n  if (len === k - 1) return nums[le];\n  else if (len < k - 1) return quickSelect(nums, left, le - 1, k - len - 1);\n  else return quickSelect(nums, le + 1, right, k);\n};\n\nvar swap = function (nums, i, j) {\n  var tmp = nums[i];\n  nums[i] = nums[j];\n  nums[j] = tmp;\n }\n"
     }
   ],
   null,
