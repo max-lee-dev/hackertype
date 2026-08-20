@@ -50,7 +50,7 @@ export default function DailyButton({config, user}) {
         // if their last streak is today
         setStreak(user.streak)
         const stillHasToday = dailyNum - user?.last_daily === 1;
-        const needsUpdate = !stillHasToday && (!user.streakArr || user.streakArr[user.streakArr.length - 1].dailyNum !== dailyNum || user.streakArr[user.streakArr.length - 1].streak === user.streak[user.streakArr.length - 2].streak);
+        const needsUpdate = !stillHasToday && (!user.streakArr || user.streakArr[user.streakArr.length - 1]?.dailyNum !== dailyNum || user.streakArr[user.streakArr.length - 1]?.streak === user.streakArr[user.streakArr.length - 2]?.streak);
         if (needsUpdate) { // if we already inputted the streak for today
           let streakArr = user.streakArr ? user.streakArr : [];
 
